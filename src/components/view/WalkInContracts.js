@@ -156,23 +156,23 @@ class WalkInContracts extends React.Component {
     }
 
     return (
-      <IfPermission perm="finc-config.metadata-sources.item.post">
-        <PaneMenu>
-          <FormattedMessage id="ui-idm-connect.form.create">
-            {ariaLabel => (
-              <Button
-                aria-label={ariaLabel}
-                buttonStyle="primary"
-                id="clickable-new-walk-in-contract"
-                marginBottom0
-                // to={`${urls.walkInContractCreate()}${this.props.searchString}`}
-              >
-                <FormattedMessage id="stripes-smart-components.new" />
-              </Button>
-            )}
-          </FormattedMessage>
-        </PaneMenu>
-      </IfPermission>
+      // <IfPermission perm="idm-connect.item.post">
+      <PaneMenu>
+        <FormattedMessage id="ui-idm-connect.form.create">
+          {ariaLabel => (
+            <Button
+              aria-label={ariaLabel}
+              buttonStyle="primary"
+              id="clickable-new-walk-in-contract"
+              marginBottom0
+              // to={`${urls.walkInContractCreate()}${this.props.searchString}`}
+            >
+              <FormattedMessage id="stripes-smart-components.new" />
+            </Button>
+          )}
+        </FormattedMessage>
+      </PaneMenu>
+      // </IfPermission>
     );
   }
 

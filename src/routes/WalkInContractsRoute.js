@@ -74,7 +74,7 @@ class WalkInContractsRoute extends React.Component {
     this.searchField = React.createRef();
 
     this.state = {
-      hasPerms: props.stripes.hasPerm('finc-config.metadata-sources.collection.get'),
+      hasPerms: props.stripes.hasPerm('idm-connect.collection.get'),
     };
   }
 
