@@ -14,7 +14,6 @@ import filterConfig from './filterConfigData';
 class WalkInContractsFilters extends React.Component {
   static propTypes = {
     activeFilters: PropTypes.object,
-    filterData: PropTypes.object,
     filterHandlers: PropTypes.object,
   };
 
@@ -35,13 +34,7 @@ class WalkInContractsFilters extends React.Component {
     filterConfig.forEach(filter => {
       const newValues = [];
       let values = {};
-      if (filter === 'contact') {
-        // get filter values from okapi
-        values = props.filterData[filter] || [];
-      } else {
-        // get filte values from filterConfig
-        values = filter.values;
-      }
+      values = filter.values;
 
       values.forEach((key) => {
         let newValue = {};

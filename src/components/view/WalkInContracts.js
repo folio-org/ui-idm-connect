@@ -20,7 +20,7 @@ import {
   Button,
   Icon,
   MultiColumnList,
-  NoValue,
+  // NoValue,
   Pane,
   PaneMenu,
   Paneset,
@@ -28,23 +28,20 @@ import {
 } from '@folio/stripes/components';
 import {
   AppIcon,
-  IfPermission,
+  // IfPermission,
 } from '@folio/stripes/core';
 
 // import urls from '../DisplayUtils/urls';
 import WalkInContractsFilters from './WalkInContractsFilters';
 
-const defaultFilter = { state: { status: ['active'] }, string: 'status.active' };
-const defaultSearchString = { query: '' };
+// const defaultFilter = { state: { status: ['active'] }, string: 'status.active' };
+// const defaultSearchString = { query: '' };
 
 class WalkInContracts extends React.Component {
   static propTypes = {
     children: PropTypes.object,
     contentData: PropTypes.arrayOf(PropTypes.object),
     disableRecordCreation: PropTypes.bool,
-    filterData: PropTypes.shape({
-      contacts: PropTypes.array,
-    }),
     history: PropTypes.shape({
       push: PropTypes.func.isRequired,
     }).isRequired,
@@ -62,7 +59,6 @@ class WalkInContracts extends React.Component {
 
   static defaultProps = {
     contentData: {},
-    filterData: {},
     searchString: '',
   }
 
@@ -194,7 +190,7 @@ class WalkInContracts extends React.Component {
   };
 
   render() {
-    const { intl, queryGetter, querySetter, onNeedMoreData, onSelectRow, selectedRecordId, source, filterData } = this.props;
+    const { intl, queryGetter, querySetter, onNeedMoreData, onSelectRow, selectedRecordId, source } = this.props;
     const count = source ? source.totalCount() : 0;
     const query = queryGetter() || {};
     const sortOrder = query.sort || '';
@@ -273,7 +269,6 @@ class WalkInContracts extends React.Component {
                         </Button>
                         <WalkInContractsFilters
                           activeFilters={activeFilters.state}
-                          filterData={filterData}
                           filterHandlers={getFilterHandlers()}
                         />
                       </form>
@@ -298,21 +293,7 @@ class WalkInContracts extends React.Component {
                         firstname: <FormattedMessage id="ui-idm-connect.firstname" />,
                         unilogin: <FormattedMessage id="ui-idm-connect.unilogin" />,
                       }}
-                      // contentData={this.props.contentData}
-                      contentData={[{
-                        id: 'e67924ee-aa00-454e-8fd0-c3f81339d20e',
-                        status: 'active',
-                        surname: 'Mustermann',
-                        firstname: 'Max',
-                        unilogin: 'log764',
-                      },
-                      {
-                        id: 'd67924ee-aa00-454e-8fd0-c3f81339d20d',
-                        status: 'conflict',
-                        surname: 'Smith',
-                        firstname: 'John',
-                        unilogin: 'log329',
-                      }]}
+                      contentData={this.props.contentData}
                       formatter={this.resultsFormatter}
                       id="list-walk-in-contracts"
                       isEmptyMessage={this.renderIsEmptyMessage(query, source)}
