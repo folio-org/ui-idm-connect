@@ -55,11 +55,13 @@ class WalkInContracts extends React.Component {
     searchString: PropTypes.string,
     selectedRecordId: PropTypes.string,
     source: PropTypes.object,
+    syncToLocationSearch: PropTypes.bool,
   };
 
   static defaultProps = {
     contentData: {},
     searchString: '',
+    syncToLocationSearch: true,
   }
 
   constructor(props) {
@@ -190,7 +192,7 @@ class WalkInContracts extends React.Component {
   };
 
   render() {
-    const { intl, queryGetter, querySetter, onNeedMoreData, onSelectRow, selectedRecordId, source } = this.props;
+    const { intl, queryGetter, querySetter, onNeedMoreData, onSelectRow, selectedRecordId, source, syncToLocationSearch } = this.props;
     const count = source ? source.totalCount() : 0;
     const query = queryGetter() || {};
     const sortOrder = query.sort || '';
@@ -199,11 +201,12 @@ class WalkInContracts extends React.Component {
       <div data-test-walk-in-contracts data-testid="walk-in-contracts">
         <SearchAndSortQuery
           // NEED FILTER: {"status":["active","implementation","request"]}
-          // initialFilterState={{ harvestingStatus: ['active'] }}
+          initialFilterState={{ status: ['active'] }}
           initialSearchState={{ query: '' }}
           initialSortState={{ sort: 'surname' }}
           queryGetter={queryGetter}
           querySetter={querySetter}
+          syncToLocationSearch={syncToLocationSearch}
         >
           {
             ({
@@ -259,7 +262,7 @@ class WalkInContracts extends React.Component {
                         </div>
                         <Button
                           buttonStyle="none"
-                          disabled={disableReset}
+                          disabled={disableReset()}
                           id="clickable-reset-all"
                           onClick={resetAll}
                         >

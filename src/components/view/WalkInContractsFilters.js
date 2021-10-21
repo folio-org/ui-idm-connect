@@ -34,6 +34,7 @@ class WalkInContractsFilters extends React.Component {
     filterConfig.forEach(filter => {
       const newValues = [];
       let values = {};
+      // get filte values from filterConfig
       values = filter.values;
 
       values.forEach((key) => {

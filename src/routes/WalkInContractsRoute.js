@@ -30,14 +30,15 @@ class WalkInContractsRoute extends React.Component {
         params: {
           query: makeQueryFunction(
             'cql.allRecords=1',
-            '(status="%{query.query}*" or surname="%{query.query}*" or firstname="%{query.query}*")',
+            '(surname="%{query.query}*" or firstname="%{query.query}*")',
             {
-              'status': 'status',
-              'surname': 'surname',
-              'firstname': 'firstname',
+              status: 'status',
+              surname: 'surname',
+              firstname: 'firstname',
+              unilogin: 'unilogin',
             },
             filterConfig,
-            2,
+            2
           ),
         },
         staticFallback: { params: {} },
@@ -60,7 +61,14 @@ class WalkInContractsRoute extends React.Component {
         id: PropTypes.string,
       }),
     }),
-    mutator: PropTypes.object,
+    mutator: PropTypes.shape({
+      walkInContracts: PropTypes.shape({
+        POST: PropTypes.func.isRequired
+      }),
+      query: PropTypes.shape({
+        update: PropTypes.func
+      }).isRequired
+    }).isRequired,
     resources: PropTypes.object,
     stripes: PropTypes.shape({
       hasPerm: PropTypes.func.isRequired,
