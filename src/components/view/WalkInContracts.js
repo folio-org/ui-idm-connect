@@ -74,9 +74,9 @@ class WalkInContracts extends React.Component {
 
   resultsFormatter = {
     status: source => source.status,
-    surname: source => source.surname,
-    firstname: source => source.firstname,
-    unilogin: source => source.unilogin,
+    lastName: source => source.lastName,
+    firstName: source => source.firstName,
+    uniLogin: source => source.uniLogin,
   };
 
   rowFormatter = (row) => {
@@ -203,7 +203,7 @@ class WalkInContracts extends React.Component {
           // NEED FILTER: {"status":["active","implementation","request"]}
           initialFilterState={{ status: ['active'] }}
           initialSearchState={{ query: '' }}
-          initialSortState={{ sort: 'surname' }}
+          initialSortState={{ sort: 'lastname' }}
           queryGetter={queryGetter}
           querySetter={querySetter}
           syncToLocationSearch={syncToLocationSearch}
@@ -292,9 +292,9 @@ class WalkInContracts extends React.Component {
                       autosize
                       columnMapping={{
                         status: <FormattedMessage id="ui-idm-connect.status" />,
-                        surname: <FormattedMessage id="ui-idm-connect.surname" />,
-                        firstname: <FormattedMessage id="ui-idm-connect.firstname" />,
-                        unilogin: <FormattedMessage id="ui-idm-connect.unilogin" />,
+                        lastName: <FormattedMessage id="ui-idm-connect.lastname" />,
+                        firstName: <FormattedMessage id="ui-idm-connect.firstname" />,
+                        uniLogin: <FormattedMessage id="ui-idm-connect.unilogin" />,
                       }}
                       contentData={this.props.contentData}
                       formatter={this.resultsFormatter}
@@ -311,7 +311,7 @@ class WalkInContracts extends React.Component {
                       sortOrder={sortOrder.replace(/^-/, '').replace(/,.*/, '')}
                       totalCount={count}
                       virtualize
-                      visibleColumns={['status', 'surname', 'firstname', 'unilogin']}
+                      visibleColumns={['status', 'lastName', 'firstName', 'uniLogin']}
                     />
                   </Pane>
                   {this.props.children}

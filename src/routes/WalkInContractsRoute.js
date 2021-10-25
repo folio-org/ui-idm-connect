@@ -30,12 +30,12 @@ class WalkInContractsRoute extends React.Component {
         params: {
           query: makeQueryFunction(
             'cql.allRecords=1',
-            '(surname="%{query.query}*" or firstname="%{query.query}*")',
+            '(lastName="%{query.query}*" or firstName="%{query.query}*")',
             {
               status: 'status',
-              surname: 'surname',
-              firstname: 'firstname',
-              unilogin: 'unilogin',
+              lastName: 'lastname',
+              firstName: 'firstname',
+              uniLogin: 'unilogin',
             },
             filterConfig,
             2
