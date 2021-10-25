@@ -2,7 +2,7 @@ buildNPM {
   publishModDescriptor = false
   npmDeploy = 'no'
   runLint = true
-  runSonarqube = false
+  runSonarqube = true
   runScripts = [
    ['formatjs-compile': ''],
    ['test':'--ci --coverage --colors'],
