@@ -1,11 +1,11 @@
 import React from 'react';
-import ReactRouterPropTypes from 'react-router-prop-types';
 import PropTypes from 'prop-types';
 import { Switch } from 'react-router-dom';
 
 import { Route } from '@folio/stripes/core';
 
 import WalkInContractsRoute from './routes/WalkInContractsRoute';
+import WalkInContractViewRoute from './routes/WalkInContractViewRoute';
 import Settings from './settings';
 
 class IdmConnect extends React.Component {
@@ -22,10 +22,10 @@ class IdmConnect extends React.Component {
     }
     return (
       <Switch>
-        {/* <Route path={`${path}/metadata-sources/create`} component={SourceCreateRoute} /> */}
-        {/* <Route path={`${path}/metadata-sources/:id/edit`} component={SourceEditRoute} /> */}
+        {/* <Route path={`${path}/walk-in-contracts/create`} component={SourceCreateRoute} /> */}
+        {/* <Route path={`${path}/walk-in-contracts/:id/edit`} component={SourceEditRoute} /> */}
         <Route path={`${path}`} component={WalkInContractsRoute}>
-          {/* <Route path={`${path}/metadata-sources/:id`} component={WalkInContractsRoute} /> */}
+          <Route path={`${path}/walk-in-contracts/:id`} component={WalkInContractViewRoute} />
         </Route>
       </Switch>
     );

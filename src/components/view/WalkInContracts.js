@@ -31,7 +31,7 @@ import {
   // IfPermission,
 } from '@folio/stripes/core';
 
-// import urls from '../DisplayUtils/urls';
+import urls from '../DisplayUtils/urls';
 import WalkInContractsFilters from './WalkInContractsFilters';
 
 // const defaultFilter = { state: { status: ['active'] }, string: 'status.active' };
@@ -87,7 +87,7 @@ class WalkInContracts extends React.Component {
       RowComponent = 'div';
     } else {
       RowComponent = Link;
-      // rowProps.to = this.rowURL(rowData.id);
+      rowProps.to = this.rowURL(rowData.id);
     }
 
     return (
@@ -107,10 +107,10 @@ class WalkInContracts extends React.Component {
   }
 
   // generate url for record-details
-  // rowURL = (id) => {
-  //   return `${urls.sourceView(id)}${this.props.searchString}`;
-  //   // NEED FILTER: "status.active,status.technical implementation,status.request,status.negotiation"
-  // }
+  rowURL = (id) => {
+    return `${urls.walkInContractView(id)}${this.props.searchString}`;
+    // NEED FILTER: "status.active,status.technical implementation,status.request,status.negotiation"
+  }
 
   // fade in/out of filter-pane
   toggleFilterPane = () => {
