@@ -13,7 +13,7 @@ class WalkInContractViewRoute extends React.Component {
     source: {
       // type: 'okapi',
       type: 'rest',
-      root: 'http://localhost:8080/idm-connect/walk-in-contracts/?id=:{id}',
+      root: 'http://localhost:8080/idm-connect/walk-in-contracts/',
       records: 'walkInContracts',
       // query: '',
     },
@@ -42,18 +42,36 @@ class WalkInContractViewRoute extends React.Component {
     this.props.history.push(`${urls.walkInContracts()}${location.search}`);
   }
 
-  handleEdit = () => {
-    const { location, match } = this.props;
-    // this.props.history.push(`${urls.sourceEdit(match.params.id)}${location.search}`);
-  }
-
-  getRecord = (id) => {
-    return _.get(this.props.resources, 'sources.records', [])
-      .find(i => i.id === id);
-  }
+  // handleEdit = () => {
+  //   const { location, match } = this.props;
+  //   this.props.history.push(`${urls.sourceEdit(match.params.id)}${location.search}`);
+  // }
 
   render() {
-    const { stripes } = this.props;
+    // const { stripes } = this.props;
+    const record = {
+      'id' : '7650c947-535c-43c7-97c8-4d3ad2aa7bd9',
+      'personal' : {
+        'firstName' : 'Heinz',
+        'lastName' : 'Wäscher',
+        'academicTitle' : 'Prof.',
+        'dateOfBirth' : '1968-04-01',
+        'address' : {
+          'addressLine1' : 'Sonnenallee 42',
+          'addressLine2' : 'Hinterhaus',
+          'zipCode' : '12045',
+          'city' : 'Berlin',
+          'country' : 'Germany'
+        },
+        'email' : 'heinz.waescher@yahoo.com'
+      },
+      'libraryCard' : '12345678',
+      'uniLogin' : 'wae01mai',
+      'status' : 'active',
+      'beginDate' : '2001-10-01',
+      'endDate' : '2022-09-31',
+      'comment' : 'A comment.'
+    };
 
     return (
       <WalkInContractView
@@ -63,7 +81,8 @@ class WalkInContractViewRoute extends React.Component {
           onEdit: this.handleEdit,
         }}
         isLoading={_.get(this.props.resources, 'source.isPending', true)}
-        record={_.get(this.props.resources, 'source.records', []).find(i => i.id === this.props.match.params.id)}
+        // record={_.get(this.props.resources, 'source.records', []).find(i => i.id === this.props.match.params.id)}
+        record={record}
         stripes={this.props.stripes}
       />
     );

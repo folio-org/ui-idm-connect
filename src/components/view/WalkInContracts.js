@@ -180,7 +180,7 @@ class WalkInContracts extends React.Component {
     }
 
     return (
-      <div data-test-udps-no-results-message>
+      <div>
         <NoResultsMessage
           source={source}
           searchTerm={query.query || ''}
@@ -198,7 +198,7 @@ class WalkInContracts extends React.Component {
     const sortOrder = query.sort || '';
 
     return (
-      <div data-test-walk-in-contracts data-testid="walk-in-contracts">
+      <div data-testid="walk-in-contracts">
         <SearchAndSortQuery
           // NEED FILTER: {"status":["active","implementation","request"]}
           initialFilterState={{ status: ['active'] }}
@@ -226,7 +226,6 @@ class WalkInContracts extends React.Component {
                 <Paneset>
                   {this.state.filterPaneIsVisible &&
                     <Pane
-                      data-test-walk-in-contract-pane-filter
                       defaultWidth="18%"
                       id="pane-walkInContract-filter"
                       lastMenu={
@@ -254,7 +253,7 @@ class WalkInContracts extends React.Component {
                             buttonStyle="primary"
                             disabled={!searchValue.query || searchValue.query === ''}
                             fullWidth
-                            id="clickable-search-udps"
+                            id="clickable-search-walkincontracts"
                             type="submit"
                           >
                             <FormattedMessage id="stripes-smart-components.search" />
@@ -279,7 +278,6 @@ class WalkInContracts extends React.Component {
                   }
                   <Pane
                     appIcon={<AppIcon app="idm-connect" />}
-                    data-test-walk-in-contract-pane-results
                     defaultWidth="fill"
                     firstMenu={this.renderResultsFirstMenu(activeFilters)}
                     id="pane-walkInContract-results"
@@ -294,7 +292,7 @@ class WalkInContracts extends React.Component {
                         status: <FormattedMessage id="ui-idm-connect.status" />,
                         lastName: <FormattedMessage id="ui-idm-connect.lastname" />,
                         firstName: <FormattedMessage id="ui-idm-connect.firstname" />,
-                        uniLogin: <FormattedMessage id="ui-idm-connect.unilogin" />,
+                        uniLogin: <FormattedMessage id="ui-idm-connect.uniLogin" />,
                       }}
                       contentData={this.props.contentData}
                       formatter={this.resultsFormatter}

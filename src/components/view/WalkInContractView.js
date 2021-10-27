@@ -4,16 +4,24 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import {
+  Accordion,
+  AccordionSet,
   Button,
+  Col,
+  ExpandAllButton,
+  Headline,
   Icon,
   Layout,
-  NoValue,
   Pane,
   PaneMenu,
+  Row,
 } from '@folio/stripes/components';
-import { ViewMetaData } from '@folio/stripes/smart-components';
 
-import WalkInContractInfoView from './WalkInContractInfo/WalkInContractInfoView';
+import WalkInContractHeaderView from './WalkInContractHeader/WalkInContractHeaderView';
+import WalkInContractPersonalView from './WalkInContractPersonal/WalkInContractPersonalView';
+import WalkInContractContractView from './WalkInContractContract/WalkInContractContractView';
+import WalkInContractContactView from './WalkInContractContact/WalkInContractContactView';
+import WalkInContractCommentView from './WalkInContractComment/WalkInContractCommentView';
 
 class WalkInContractView extends React.Component {
   static propTypes = {
@@ -31,6 +39,34 @@ class WalkInContractView extends React.Component {
     super(props);
 
     this.editButton = React.createRef();
+
+    this.state = {
+      accordions: {
+        personalAccordion: false,
+        contractAccordion: false,
+        contactAccordion: false,
+        commentAccordion: false,
+      },
+    };
+  }
+
+  handleExpandAll = (obj) => {
+    this.setState((curState) => {
+      const newState = _.cloneDeep(curState);
+
+      newState.accordions = obj;
+      return newState;
+    });
+  }
+
+  handleAccordionToggle = ({ id }) => {
+    this.setState((state) => {
+      const newState = _.cloneDeep(state);
+
+      if (!_.has(newState.accordions, id)) newState.accordions[id] = true;
+      newState.accordions[id] = !newState.accordions[id];
+      return newState;
+    });
   }
 
   renderEditPaneMenu = () => {
@@ -72,7 +108,7 @@ class WalkInContractView extends React.Component {
 
   render() {
     const { record, isLoading } = this.props;
-    const label = _.get(record, 'label', <NoValue />);
+    const fullName = `${_.get(record, 'personal.lastName')}, ${_.get(record, 'personal.firstName')}`;
 
     if (isLoading) return this.renderLoadingPane();
 
@@ -84,17 +120,84 @@ class WalkInContractView extends React.Component {
           id="pane-walkInContractDetails"
           lastMenu={this.renderEditPaneMenu()}
           onClose={this.props.handlers.onClose}
-          paneTitle={<span data-test-walkInContract-header-title>{label}</span>}
+          paneTitle={<span>{fullName}</span>}
         >
-          <ViewMetaData
-            metadata={_.get(record, 'metadata', {})}
-            stripes={this.props.stripes}
-          />
-          <WalkInContractInfoView
-            id="walkInContractInfo"
+          <WalkInContractHeaderView
+            id="walkInContractHeader"
             walkInContract={record}
             stripes={this.props.stripes}
           />
+          <Row>
+            <Col xs={12}>
+              <div>
+                <Headline
+                  size="xx-large"
+                  tag="h2"
+                >
+                  {fullName}
+                </Headline>
+              </div>
+            </Col>
+          </Row>
+          <AccordionSet>
+            <Row end="xs">
+              <Col xs>
+                <ExpandAllButton
+                  accordionStatus={this.state.accordions}
+                  onToggle={this.handleExpandAll}
+                  setStatus={null}
+                />
+              </Col>
+            </Row>
+            <Accordion
+              id="personalAccordion"
+              label={<FormattedMessage id="ui-idm-connect.accordion.personal" />}
+              onToggle={this.handleAccordionToggle}
+              open={this.state.accordions.personalAccordion}
+            >
+              <WalkInContractPersonalView
+                id="walkInContractPersonal"
+                walkInContract={record}
+                stripes={this.props.stripes}
+              />
+            </Accordion>
+            <Accordion
+              id="contractAccordion"
+              label={<FormattedMessage id="ui-idm-connect.accordion.contract" />}
+              onToggle={this.handleAccordionToggle}
+              open={this.state.accordions.contractAccordion}
+            >
+              <WalkInContractContractView
+                id="walkInContractContract"
+                walkInContract={record}
+                stripes={this.props.stripes}
+              />
+            </Accordion>
+            <Accordion
+              id="contactAccordion"
+              label={<FormattedMessage id="ui-idm-connect.accordion.contact" />}
+              onToggle={this.handleAccordionToggle}
+              open={this.state.accordions.contactAccordion}
+            >
+              <WalkInContractContactView
+                id="walkInContractContact"
+                walkInContract={record}
+                stripes={this.props.stripes}
+              />
+            </Accordion>
+            <Accordion
+              id="commentAccordion"
+              label={<FormattedMessage id="ui-idm-connect.accordion.comment" />}
+              onToggle={this.handleAccordionToggle}
+              open={this.state.accordions.commentAccordion}
+            >
+              <WalkInContractCommentView
+                id="walkInContractComment"
+                walkInContract={record}
+                stripes={this.props.stripes}
+              />
+            </Accordion>
+          </AccordionSet>
         </Pane>
       </>
     );
