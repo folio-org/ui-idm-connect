@@ -1,15 +1,15 @@
 {
-    "meta.title": "IDM connect",
-    "walk-in-contracts": "Walk in contracts",
+    "meta.title": "Conexão IDM",
+    "walk-in-contracts": "Contratos em curso",
     "status": "Status",
-    "lastname": "Lastname",
-    "firstname": "Firstname",
+    "lastname": "Sobrenome",
+    "firstname": "Nome",
     "unilogin": "Uni login",
-    "searchInputLabel": "Search",
-    "noSourceYet": "No source yet",
-    "form.create": "Create",
-    "dataOption.active": "Active",
-    "dataOption.notTransmitted": "Not transmitted",
-    "dataOption.inProgress": "In progress",
-    "dataOption.conflictCases": "Conflict cases"
+    "searchInputLabel": "Pesquisar",
+    "noSourceYet": "Nenhuma fonte ainda",
+    "form.create": "Criar",
+    "dataOption.active": "Ativo",
+    "dataOption.notTransmitted": "Não transmitido",
+    "dataOption.inProgress": "Em andamento",
+    "dataOption.conflictCases": "Casos de conflito"
 }
