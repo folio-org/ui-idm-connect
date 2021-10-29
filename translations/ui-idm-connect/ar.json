@@ -1,15 +1,15 @@
 {
-    "meta.title": "IDM connect",
+    "meta.title": "اتصال IDM",
     "walk-in-contracts": "Walk in contracts",
-    "status": "Status",
-    "lastname": "Lastname",
-    "firstname": "Firstname",
-    "unilogin": "Uni login",
-    "searchInputLabel": "Search",
-    "noSourceYet": "No source yet",
-    "form.create": "Create",
-    "dataOption.active": "Active",
-    "dataOption.notTransmitted": "Not transmitted",
-    "dataOption.inProgress": "In progress",
-    "dataOption.conflictCases": "Conflict cases"
+    "status": "الحالة",
+    "lastname": "اسم العائلة",
+    "firstname": "الاسم الأول",
+    "unilogin": "تسجيل دخول Uni",
+    "searchInputLabel": "بحث",
+    "noSourceYet": "لا يوجد مصدر بعد",
+    "form.create": "إنشاء",
+    "dataOption.active": "نشط",
+    "dataOption.notTransmitted": "غير مرسل",
+    "dataOption.inProgress": "قيد التقدم",
+    "dataOption.conflictCases": "حالات التناقض"
 }
