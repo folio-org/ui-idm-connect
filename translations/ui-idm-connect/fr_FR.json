@@ -1,0 +1,15 @@
+{
+    "meta.title": "IDM connect",
+    "walk-in-contracts": "Walk in contracts",
+    "status": "Statut",
+    "lastname": "Nom",
+    "firstname": "Prénom",
+    "unilogin": "Uni login",
+    "searchInputLabel": "Rechercher",
+    "noSourceYet": "No source yet",
+    "form.create": "Créer",
+    "dataOption.active": "Actif",
+    "dataOption.notTransmitted": "Not transmitted",
+    "dataOption.inProgress": "In progress",
+    "dataOption.conflictCases": "Conflict cases"
+}

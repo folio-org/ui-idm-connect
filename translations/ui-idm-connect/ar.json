@@ -1,0 +1,15 @@
+{
+    "meta.title": "اتصال IDM",
+    "walk-in-contracts": "Walk in contracts",
+    "status": "الحالة",
+    "lastname": "اسم العائلة",
+    "firstname": "الاسم الأول",
+    "unilogin": "تسجيل دخول Uni",
+    "searchInputLabel": "بحث",
+    "noSourceYet": "لا يوجد مصدر بعد",
+    "form.create": "إنشاء",
+    "dataOption.active": "نشط",
+    "dataOption.notTransmitted": "غير مرسل",
+    "dataOption.inProgress": "قيد التقدم",
+    "dataOption.conflictCases": "حالات التناقض"
+}

@@ -1,0 +1,15 @@
+{
+    "meta.title": "IDM连接",
+    "walk-in-contracts": "步入式合同",
+    "status": "状态",
+    "lastname": "姓",
+    "firstname": "名",
+    "unilogin": "统一登录",
+    "searchInputLabel": "搜索",
+    "noSourceYet": "尚无来源",
+    "form.create": "创建",
+    "dataOption.active": "激活",
+    "dataOption.notTransmitted": "未传送",
+    "dataOption.inProgress": "进行中",
+    "dataOption.conflictCases": "冲突案件"
+}

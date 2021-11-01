@@ -1,0 +1,15 @@
+{
+    "meta.title": "Conexão IDM",
+    "walk-in-contracts": "Contratos em curso",
+    "status": "Status",
+    "lastname": "Sobrenome",
+    "firstname": "Nome",
+    "unilogin": "Uni login",
+    "searchInputLabel": "Pesquisar",
+    "noSourceYet": "Nenhuma fonte ainda",
+    "form.create": "Criar",
+    "dataOption.active": "Ativo",
+    "dataOption.notTransmitted": "Não transmitido",
+    "dataOption.inProgress": "Em andamento",
+    "dataOption.conflictCases": "Casos de conflito"
+}
