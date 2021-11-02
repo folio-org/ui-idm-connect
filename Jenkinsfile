@@ -6,4 +6,5 @@ buildNPM {
   runScripts = [
    ['formatjs-compile': ''],
   ]
+  runTest = false
 }
