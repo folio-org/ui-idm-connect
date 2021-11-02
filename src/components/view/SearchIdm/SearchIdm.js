@@ -7,12 +7,14 @@ import { Field } from 'react-final-form';
 import {
   Button,
   Col,
+  Datepicker,
   Pane,
   PaneFooter,
   Paneset,
   Row,
   TextField,
 } from '@folio/stripes/components';
+import css from './SearchBtn.css';
 
 class SearchIdm extends React.Component {
   static propTypes = {
@@ -62,7 +64,7 @@ class SearchIdm extends React.Component {
           >
             <Row>
               <Col
-                xs={4}
+                xs={3}
               >
                 <Field
                   component={TextField}
@@ -72,7 +74,7 @@ class SearchIdm extends React.Component {
                 />
               </Col>
               <Col
-                xs={4}
+                xs={3}
               >
                 <Field
                   component={TextField}
@@ -82,14 +84,30 @@ class SearchIdm extends React.Component {
                 />
               </Col>
               <Col
-                xs={4}
+                xs={2}
+                md={1}
               >
                 <Field
-                  component={TextField}
+                  component={Datepicker}
                   label={<FormattedMessage id="ui-idm-connect.dateOfBirth" />}
                   name="dateOfBirth"
                   validateFields={[]}
                 />
+              </Col>
+              <Col
+                xs={3}
+              >
+                <div className={css.searchButton}>
+                  <Button
+                    aria-label={<FormattedMessage id="ui-idm-connect.searchInputLabel" />}
+                    buttonStyle="primary"
+                    id="clickable-search-searchIdm"
+                    marginBottom0
+                    // onClick={}
+                  >
+                    <FormattedMessage id="ui-idm-connect.searchInputLabel" />
+                  </Button>
+                </div>
               </Col>
             </Row>
           </Pane>

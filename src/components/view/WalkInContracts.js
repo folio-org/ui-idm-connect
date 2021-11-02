@@ -164,7 +164,7 @@ class WalkInContracts extends React.Component {
                   onToggle();
                 }}
               >
-                <FormattedMessage id="stripes-smart-components.new" />
+                <FormattedMessage id="ui-idm-connect.form.create" />
               </Button>
             )}
           </FormattedMessage>
