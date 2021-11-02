@@ -10,7 +10,7 @@ import {
   StripesConnectedSource
 } from '@folio/stripes/smart-components';
 
-// import urls from '../components/DisplayUtils/urls';
+import urls from '../components/DisplayUtils/urls';
 import WalkInContracts from '../components/view/WalkInContracts';
 import filterConfig from '../components/view/filterConfigData';
 
@@ -100,15 +100,15 @@ class WalkInContractsRoute extends React.Component {
     const newRecords = this.source.records();
 
     if (newCount === 1) {
-      // const { history, location } = this.props;
+      const { history, location } = this.props;
 
       const prevSource = new StripesConnectedSource(prevProps, this.logger, 'sources');
       const oldCount = prevSource.totalCount();
       const oldRecords = prevSource.records();
 
       if (oldCount !== 1 || (oldCount === 1 && oldRecords[0].id !== newRecords[0].id)) {
-        // const record = newRecords[0];
-        // history.push(`${urls.sourceView(record.id)}${location.search}`);
+        const record = newRecords[0];
+        history.push(`${urls.walkInContractView(record.id)}${location.search}`);
       }
     }
   }
