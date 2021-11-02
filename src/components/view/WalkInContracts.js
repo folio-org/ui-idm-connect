@@ -147,30 +147,30 @@ class WalkInContracts extends React.Component {
     return <FormattedMessage id="stripes-smart-components.searchCriteria" />;
   }
 
-  // button for creating a new record
-  renderResultsLastMenu() {
-    if (this.props.disableRecordCreation) {
-      return null;
-    }
-
+  getActionMenu = () => ({ onToggle }) => {
     return (
-      // <IfPermission perm="idm-connect.item.post">
-      <PaneMenu>
-        <FormattedMessage id="ui-idm-connect.form.create">
-          {ariaLabel => (
-            <Button
-              aria-label={ariaLabel}
-              buttonStyle="primary"
-              id="clickable-new-walk-in-contract"
-              marginBottom0
-              // to={`${urls.walkInContractCreate()}${this.props.searchString}`}
-            >
-              <FormattedMessage id="stripes-smart-components.new" />
-            </Button>
-          )}
-        </FormattedMessage>
-      </PaneMenu>
-      // </IfPermission>
+      <>
+        {/* <IfPermission perm="users.item.post,login.item.post,perms.users.item.post"> */}
+        <PaneMenu>
+          <FormattedMessage id="ui-idm-connect.form.create">
+            {ariaLabel => (
+              <Button
+                aria-label={ariaLabel}
+                buttonStyle="dropdownItem"
+                id="clickable-new-walk-in-contract"
+                marginBottom0
+                onClick={() => {
+                  this.props.history.push(`${urls.searchIdm()}`);
+                  onToggle();
+                }}
+              >
+                <FormattedMessage id="stripes-smart-components.new" />
+              </Button>
+            )}
+          </FormattedMessage>
+        </PaneMenu>
+        {/* </IfPermission> */}
+      </>
     );
   }
 
@@ -277,14 +277,15 @@ class WalkInContracts extends React.Component {
                     </Pane>
                   }
                   <Pane
+                    actionMenu={this.getActionMenu()}
                     appIcon={<AppIcon app="idm-connect" />}
                     defaultWidth="fill"
                     firstMenu={this.renderResultsFirstMenu(activeFilters)}
                     id="pane-walkInContract-results"
-                    lastMenu={this.renderResultsLastMenu()}
                     padContent={false}
                     paneTitle={<FormattedMessage id="ui-idm-connect.walk-in-contracts" />}
                     paneSub={this.renderResultsPaneSubtitle(source)}
+                    noOverflow
                   >
                     <MultiColumnList
                       autosize

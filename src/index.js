@@ -6,6 +6,7 @@ import { Route } from '@folio/stripes/core';
 
 import WalkInContractsRoute from './routes/WalkInContractsRoute';
 import WalkInContractViewRoute from './routes/WalkInContractViewRoute';
+import SearchIdmRoute from './routes/SearchIdmRoute';
 import Settings from './settings';
 
 class IdmConnect extends React.Component {
@@ -22,11 +23,16 @@ class IdmConnect extends React.Component {
     }
     return (
       <Switch>
-        {/* <Route path={`${path}/walk-in-contracts/create`} component={WalkInContractCreateRoute} /> */}
-        {/* <Route path={`${path}/walk-in-contracts/:id/edit`} component={WalkInContractEditRoute} /> */}
+        <Route path={`${path}/search-idm`} component={SearchIdmRoute} />
         <Route path={`${path}`} component={WalkInContractsRoute}>
           <Route path={`${path}/walk-in-contracts/:id`} component={WalkInContractViewRoute} />
         </Route>
+        {/* <Route
+          path={`${path}/search-idm`}
+          render={(
+            <SearchIdmRoute {...this.props} />
+          )}
+        /> */}
       </Switch>
     );
   }

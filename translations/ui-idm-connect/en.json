@@ -27,5 +27,6 @@
   "accordion.personal": "Personal data",
   "accordion.contract": "Contract data",
   "accordion.contact": "Contact data",
-  "accordion.comment": "Comment"
+  "accordion.comment": "Comment",
+  "searchIdm.title": "IDM Search"
 }
