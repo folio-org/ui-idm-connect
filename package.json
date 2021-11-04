@@ -88,7 +88,7 @@
         "visible": true
       },
       {
-        "permissionName": "ui-idm-connect.view ",
+        "permissionName": "ui-idm-connect.view",
         "displayName": "IDM connect: Can view idm connect",
         "description": "Can view idm connect",
         "subPermissions": [

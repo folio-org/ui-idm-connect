@@ -1,10 +1,10 @@
 import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import { stripesConnect } from '@folio/stripes/core';
-// import { Layout } from '@folio/stripes/components';
+import { Layout } from '@folio/stripes/components';
 import {
   makeQueryFunction,
   StripesConnectedSource
@@ -81,9 +81,9 @@ class WalkInContractsRoute extends React.Component {
     this.logger = props.stripes.logger;
     this.searchField = React.createRef();
 
-    // this.state = {
-    //   hasPerms: props.stripes.hasPerm('idm-connect.collection.get'),
-    // };
+    this.state = {
+      hasPerms: props.stripes.hasPerm('idmconnect.contract.get'),
+    };
   }
 
   componentDidMount() {
@@ -133,14 +133,14 @@ class WalkInContractsRoute extends React.Component {
       this.source.update(this.props, 'sources');
     }
 
-    // if (!this.state.hasPerms) {
-    //   return (
-    //     <Layout className="textCentered">
-    //       <h2><FormattedMessage id="stripes-smart-components.permissionError" /></h2>
-    //       <p><FormattedMessage id="stripes-smart-components.permissionsDoNotAllowAccess" /></p>
-    //     </Layout>
-    //   );
-    // }
+    if (!this.state.hasPerms) {
+      return (
+        <Layout className="textCentered">
+          <h2><FormattedMessage id="stripes-smart-components.permissionError" /></h2>
+          <p><FormattedMessage id="stripes-smart-components.permissionsDoNotAllowAccess" /></p>
+        </Layout>
+      );
+    }
 
     return (
       <WalkInContracts
