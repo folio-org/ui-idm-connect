@@ -20,17 +20,16 @@ const RESULT_COUNT_INCREMENT = 30;
 class WalkInContractsRoute extends React.Component {
   static manifest = Object.freeze({
     sources: {
-      type: 'rest',
-      root: 'http://localhost:8080/idm-connect',
-      records: 'walkInContracts',
-      path: 'walk-in-contracts',
+      type: 'okapi',
+      records: 'contracts',
       recordsRequired: '%{resultCount}',
       perRequest: 30,
+      path: 'idm-connect/contract',
       GET: {
         params: {
           query: makeQueryFunction(
             'cql.allRecords=1',
-            '(lastName="%{query.query}*" or firstName="%{query.query}*")',
+            '(personal.lastName="%{query.query}*" or personal.firstName="%{query.query}*")',
             {
               status: 'status',
               lastName: 'lastname',
@@ -38,7 +37,7 @@ class WalkInContractsRoute extends React.Component {
               uniLogin: 'unilogin',
             },
             filterConfig,
-            2
+            2,
           ),
         },
         staticFallback: { params: {} },
