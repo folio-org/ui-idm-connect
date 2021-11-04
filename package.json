@@ -37,6 +37,7 @@
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.6.3",
     "chai": "^4.2.0",
+    "coa": "^2.0.1",
     "core-js": "^3.6.4",
     "eslint": "^6.2.1",
     "inflected": "^2.0.4",
