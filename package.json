@@ -82,17 +82,19 @@
         "permissionName": "settings.idm-connect.enabled",
         "displayName": "Settings (idm-connect): display list of settings pages",
         "subPermissions": [
+          "module.idm-connect.enabled",
           "settings.enabled"
         ],
         "visible": true
       },
       {
-        "permissionName": "ui-idm-connect.view ",
+        "permissionName": "ui-idm-connect.view",
         "displayName": "IDM connect: Can view idm connect",
         "description": "Can view idm connect",
         "subPermissions": [
           "module.idm-connect.enabled",
-          "settings.idm-connect.enabled"
+          "settings.idm-connect.enabled",
+          "idmconnect.contract.get"
         ],
         "visible": true
       }

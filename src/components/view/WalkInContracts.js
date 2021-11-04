@@ -20,7 +20,7 @@ import {
   Button,
   Icon,
   MultiColumnList,
-  // NoValue,
+  NoValue,
   Pane,
   PaneMenu,
   Paneset,
@@ -33,9 +33,6 @@ import {
 
 import urls from '../DisplayUtils/urls';
 import WalkInContractsFilters from './WalkInContractsFilters';
-
-// const defaultFilter = { state: { status: ['active'] }, string: 'status.active' };
-// const defaultSearchString = { query: '' };
 
 class WalkInContracts extends React.Component {
   static propTypes = {
@@ -72,10 +69,18 @@ class WalkInContracts extends React.Component {
     };
   }
 
+  getDataLable(fieldValue) {
+    if (fieldValue !== '') {
+      return <FormattedMessage id={`ui-idm-connect.dataOption.${fieldValue}`} />;
+    } else {
+      return <NoValue />;
+    }
+  }
+
   resultsFormatter = {
-    status: source => source.status,
-    lastName: source => source.lastName,
-    firstName: source => source.firstName,
+    status: source => this.getDataLable(_.get(source, 'status', '')),
+    lastName: source => source.personal.lastName,
+    firstName: source => source.personal.firstName,
     uniLogin: source => source.uniLogin,
   };
 
@@ -200,10 +205,9 @@ class WalkInContracts extends React.Component {
     return (
       <div data-testid="walk-in-contracts">
         <SearchAndSortQuery
-          // NEED FILTER: {"status":["active","implementation","request"]}
-          initialFilterState={{ status: ['active'] }}
+          initialFilterState={{ status: ['activated'] }}
           initialSearchState={{ query: '' }}
-          initialSortState={{ sort: 'lastname' }}
+          initialSortState={{ sort: 'lastName' }}
           queryGetter={queryGetter}
           querySetter={querySetter}
           syncToLocationSearch={syncToLocationSearch}

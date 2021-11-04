@@ -1,10 +1,10 @@
 import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import { stripesConnect } from '@folio/stripes/core';
-// import { Layout } from '@folio/stripes/components';
+import { Layout } from '@folio/stripes/components';
 import {
   makeQueryFunction,
   StripesConnectedSource
@@ -20,17 +20,16 @@ const RESULT_COUNT_INCREMENT = 30;
 class WalkInContractsRoute extends React.Component {
   static manifest = Object.freeze({
     sources: {
-      type: 'rest',
-      root: 'http://localhost:8080/idm-connect',
-      records: 'walkInContracts',
-      path: 'walk-in-contracts',
+      type: 'okapi',
+      records: 'contracts',
       recordsRequired: '%{resultCount}',
       perRequest: 30,
+      path: 'idm-connect/contract',
       GET: {
         params: {
           query: makeQueryFunction(
             'cql.allRecords=1',
-            '(lastName="%{query.query}*" or firstName="%{query.query}*")',
+            '(personal.lastName="%{query.query}*" or personal.firstName="%{query.query}*")',
             {
               status: 'status',
               lastName: 'lastname',
@@ -38,7 +37,7 @@ class WalkInContractsRoute extends React.Component {
               uniLogin: 'unilogin',
             },
             filterConfig,
-            2
+            2,
           ),
         },
         staticFallback: { params: {} },
@@ -62,14 +61,18 @@ class WalkInContractsRoute extends React.Component {
       }),
     }),
     mutator: PropTypes.shape({
-      walkInContracts: PropTypes.shape({
+      sources: PropTypes.shape({
         POST: PropTypes.func.isRequired
       }),
       query: PropTypes.shape({
         update: PropTypes.func
       }).isRequired
     }).isRequired,
-    resources: PropTypes.object,
+    resources: PropTypes.shape({
+      sources: PropTypes.shape({
+        records: PropTypes.arrayOf(PropTypes.object)
+      })
+    }).isRequired,
     stripes: PropTypes.shape({
       hasPerm: PropTypes.func.isRequired,
       logger: PropTypes.object,
@@ -82,9 +85,9 @@ class WalkInContractsRoute extends React.Component {
     this.logger = props.stripes.logger;
     this.searchField = React.createRef();
 
-    // this.state = {
-    //   hasPerms: props.stripes.hasPerm('idm-connect.collection.get'),
-    // };
+    this.state = {
+      hasPerms: props.stripes.hasPerm('idmconnect.contract.get'),
+    };
   }
 
   componentDidMount() {
@@ -134,14 +137,14 @@ class WalkInContractsRoute extends React.Component {
       this.source.update(this.props, 'sources');
     }
 
-    // if (!this.state.hasPerms) {
-    //   return (
-    //     <Layout className="textCentered">
-    //       <h2><FormattedMessage id="stripes-smart-components.permissionError" /></h2>
-    //       <p><FormattedMessage id="stripes-smart-components.permissionsDoNotAllowAccess" /></p>
-    //     </Layout>
-    //   );
-    // }
+    if (!this.state.hasPerms) {
+      return (
+        <Layout className="textCentered">
+          <h2><FormattedMessage id="stripes-smart-components.permissionError" /></h2>
+          <p><FormattedMessage id="stripes-smart-components.permissionsDoNotAllowAccess" /></p>
+        </Layout>
+      );
+    }
 
     return (
       <WalkInContracts

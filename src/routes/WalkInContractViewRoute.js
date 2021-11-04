@@ -11,11 +11,8 @@ import WalkInContractView from '../components/view/WalkInContractView';
 class WalkInContractViewRoute extends React.Component {
   static manifest = Object.freeze({
     source: {
-      // type: 'okapi',
-      type: 'rest',
-      root: 'http://localhost:8080/idm-connect/walk-in-contracts/',
-      records: 'walkInContracts',
-      // query: '',
+      type: 'okapi',
+      path: 'idm-connect/contract/:{id}',
     },
     query: {},
   });
@@ -49,29 +46,6 @@ class WalkInContractViewRoute extends React.Component {
 
   render() {
     // const { stripes } = this.props;
-    const record = {
-      'id' : '7650c947-535c-43c7-97c8-4d3ad2aa7bd9',
-      'personal' : {
-        'firstName' : 'Heinz',
-        'lastName' : 'Wäscher',
-        'academicTitle' : 'Prof.',
-        'dateOfBirth' : '1968-04-01',
-        'address' : {
-          'addressLine1' : 'Sonnenallee 42',
-          'addressLine2' : 'Hinterhaus',
-          'zipCode' : '12045',
-          'city' : 'Berlin',
-          'country' : 'Germany'
-        },
-        'email' : 'heinz.waescher@yahoo.com'
-      },
-      'libraryCard' : '12345678',
-      'uniLogin' : 'wae01mai',
-      'status' : 'active',
-      'beginDate' : '2001-10-01',
-      'endDate' : '2022-09-31',
-      'comment' : 'A comment.'
-    };
 
     return (
       <WalkInContractView
@@ -81,8 +55,7 @@ class WalkInContractViewRoute extends React.Component {
           onEdit: this.handleEdit,
         }}
         isLoading={_.get(this.props.resources, 'source.isPending', true)}
-        // record={_.get(this.props.resources, 'source.records', []).find(i => i.id === this.props.match.params.id)}
-        record={record}
+        record={_.get(this.props.resources, 'source.records', []).find(i => i.id === this.props.match.params.id)}
         stripes={this.props.stripes}
       />
     );

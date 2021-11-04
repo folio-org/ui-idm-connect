@@ -7,10 +7,10 @@ const filterConfig = [
     name: 'status',
     cql: 'status',
     values: [
-      { name: <FormattedMessage id="ui-idm-connect.dataOption.active" />, cql: 'active' },
-      { name: <FormattedMessage id="ui-idm-connect.dataOption.notTransmitted" />, cql: 'notTransmitted' },
-      { name: <FormattedMessage id="ui-idm-connect.dataOption.inProgress" />, cql: 'inProgress' },
-      { name: <FormattedMessage id="ui-idm-connect.dataOption.conflictCases" />, cql: 'conflictCases' },
+      { name: <FormattedMessage id="ui-idm-connect.dataOption.activated" />, cql: 'activated' },
+      { name: <FormattedMessage id="ui-idm-connect.dataOption.created" />, cql: 'created' },
+      { name: <FormattedMessage id="ui-idm-connect.dataOption.pending" />, cql: 'pending' },
+      { name: <FormattedMessage id="ui-idm-connect.dataOption.conflict" />, cql: 'conflict' },
     ],
   }
 ];

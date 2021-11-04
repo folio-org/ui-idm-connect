@@ -19,12 +19,8 @@ class WalkInContractHeaderView extends React.Component {
   };
 
   getDataLable(field) {
-    const fieldValue = _.get(this.props.walkInContract, field, '');
-    if (fieldValue !== 'pending') {
-      return <FormattedMessage id={`ui-idm-connect.dataOption.${fieldValue}`} />;
-    } else {
-      return <NoValue />;
-    }
+    const fieldValue = _.get(this.props.walkInContract, field, <NoValue />);
+    return <FormattedMessage id={`ui-idm-connect.dataOption.${fieldValue}`} />;
   }
 
   render() {
