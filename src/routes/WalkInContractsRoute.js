@@ -29,7 +29,7 @@ class WalkInContractsRoute extends React.Component {
         params: {
           query: makeQueryFunction(
             'cql.allRecords=1',
-            '(personal.lastName="%{query.query}*" or personal.firstName="%{query.query}*")',
+            '(personal.lastName="%{query.query}*")',
             {
               status: 'status',
               lastName: 'lastname',
