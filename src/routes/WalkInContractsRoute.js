@@ -61,7 +61,7 @@ class WalkInContractsRoute extends React.Component {
       }),
     }),
     mutator: PropTypes.shape({
-      walkInContracts: PropTypes.shape({
+      sources: PropTypes.shape({
         POST: PropTypes.func.isRequired
       }),
       query: PropTypes.shape({
