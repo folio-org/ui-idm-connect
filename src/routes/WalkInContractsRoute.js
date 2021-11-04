@@ -68,7 +68,11 @@ class WalkInContractsRoute extends React.Component {
         update: PropTypes.func
       }).isRequired
     }).isRequired,
-    resources: PropTypes.object,
+    resources: PropTypes.shape({
+      sources: PropTypes.shape({
+        records: PropTypes.arrayOf(PropTypes.object)
+      })
+    }).isRequired,
     stripes: PropTypes.shape({
       hasPerm: PropTypes.func.isRequired,
       logger: PropTypes.object,
