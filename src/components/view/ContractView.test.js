@@ -43,6 +43,14 @@ describe('ContractView', () => {
     expect(screen.getByText('Lastname')).toBeVisible();
   });
 
+  it('should display the full name twice', () => {
+    expect(screen.getAllByText('Führer, Lienhardt').length).toEqual(2);
+  });
+
+  it('should render contract header', () => {
+    expect(document.querySelector('#contractHeader')).toBeInTheDocument();
+  });
+
   it('should render accordions', () => {
     expect(document.querySelector('#personalAccordion')).toBeInTheDocument();
     expect(document.querySelector('#contractAccordion')).toBeInTheDocument();
