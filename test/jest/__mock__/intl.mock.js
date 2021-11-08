@@ -1,27 +1,33 @@
 import React from 'react';
+import { IntlProvider } from 'react-intl';
 
-jest.mock('react-intl', () => {
-  const intl = {
-    formatMessage: ({ id }) => id,
-  };
+import componentsTranslations from '@folio/stripes-components/translations/stripes-components/en';
+import smartComponentsTranslations from '@folio/stripes-smart-components/translations/stripes-smart-components/en';
+import stripesCoreTranslations from '@folio/stripes-core/translations/stripes-core/en';
+import ermUsageTranslations from '../../../translations/ui-idm-connect/en';
 
-  return {
-    ...jest.requireActual('react-intl'),
-    FormattedMessage: jest.fn(({ id, children }) => {
-      if (children) {
-        return children([id]);
-      }
-
-      return id;
+const prefixKeys = (translations, prefix) => {
+  return Object.keys(translations).reduce(
+    (acc, key) => ({
+      ...acc,
+      [`${prefix}.${key}`]: translations[key],
     }),
-    FormattedTime: jest.fn(({ value, children }) => {
-      if (children) {
-        return children([value]);
-      }
+    {}
+  );
+};
 
-      return value;
-    }),
-    useIntl: () => intl,
-    injectIntl: (Component) => (props) => <Component {...props} intl={intl} />,
-  };
-});
+const translations = {
+  ...prefixKeys(ermUsageTranslations, 'ui-idm-connect'),
+  ...prefixKeys(componentsTranslations, 'stripes-components'),
+  ...prefixKeys(smartComponentsTranslations, 'stripes-smart-components'),
+  ...prefixKeys(stripesCoreTranslations, 'stripes-core'),
+};
+
+// eslint-disable-next-line react/prop-types
+const Intl = ({ children }) => (
+  <IntlProvider locale="en" messages={translations}>
+    {children}
+  </IntlProvider>
+);
+
+export default Intl;
