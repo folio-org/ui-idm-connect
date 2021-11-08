@@ -166,7 +166,7 @@ class Contracts extends React.Component {
             <Button
               aria-label={ariaLabel}
               buttonStyle="primary"
-              id="clickable-new-walk-in-contract"
+              id="clickable-new-contract"
               marginBottom0
               // to={`${urls.contractCreate()}${this.props.searchString}`}
             >
@@ -203,7 +203,7 @@ class Contracts extends React.Component {
     const sortOrder = query.sort || '';
 
     return (
-      <div data-testid="walk-in-contracts">
+      <div data-testid="contracts">
         <SearchAndSortQuery
           initialFilterState={{ status: ['activated'] }}
           initialSearchState={{ query: '' }}
@@ -287,7 +287,7 @@ class Contracts extends React.Component {
                     id="pane-contract-results"
                     lastMenu={this.renderResultsLastMenu()}
                     padContent={false}
-                    paneTitle={<FormattedMessage id="ui-idm-connect.walk-in-contracts" />}
+                    paneTitle={<FormattedMessage id="ui-idm-connect.contracts" />}
                     paneSub={this.renderResultsPaneSubtitle(source)}
                   >
                     <MultiColumnList
@@ -300,7 +300,7 @@ class Contracts extends React.Component {
                       }}
                       contentData={this.props.contentData}
                       formatter={this.resultsFormatter}
-                      id="list-walk-in-contracts"
+                      id="list-contracts"
                       isEmptyMessage={this.renderIsEmptyMessage(query, source)}
                       isSelected={({ item }) => item.id === selectedRecordId}
                       onHeaderClick={onSort}

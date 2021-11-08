@@ -22,8 +22,8 @@ class IdmConnect extends React.Component {
     }
     return (
       <Switch>
-        {/* <Route path={`${path}/walk-in-contracts/create`} component={ContractCreateRoute} /> */}
-        {/* <Route path={`${path}/walk-in-contracts/:id/edit`} component={ContractEditRoute} /> */}
+        {/* <Route path={`${path}/contracts/create`} component={ContractCreateRoute} /> */}
+        {/* <Route path={`${path}/contracts/:id/edit`} component={ContractEditRoute} /> */}
         <Route path={`${path}`} component={ContractsRoute}>
           <Route path={`${path}/view/:id`} component={ContractViewRoute} />
         </Route>
