@@ -10,14 +10,14 @@ import {
   Row,
 } from '@folio/stripes/components';
 
-class WalkInContractContractView extends React.Component {
+class ContractContractView extends React.Component {
   static propTypes = {
     id: PropTypes.string,
-    walkInContract: PropTypes.object,
+    contract: PropTypes.object,
   };
 
   render() {
-    const { walkInContract, id } = this.props;
+    const { contract, id } = this.props;
 
     return (
       <>
@@ -26,13 +26,13 @@ class WalkInContractContractView extends React.Component {
             <Col xs={4}>
               <KeyValue
                 label={<FormattedMessage id="ui-idm-connect.beginDate" />}
-                value={_.get(walkInContract, 'beginDate', <NoValue />)}
+                value={_.get(contract, 'beginDate', <NoValue />)}
               />
             </Col>
             <Col xs={4}>
               <KeyValue
                 label={<FormattedMessage id="ui-idm-connect.endDate" />}
-                value={_.get(walkInContract, 'endDate', <NoValue />)}
+                value={_.get(contract, 'endDate', <NoValue />)}
               />
             </Col>
           </Row>
@@ -42,4 +42,4 @@ class WalkInContractContractView extends React.Component {
   }
 }
 
-export default WalkInContractContractView;
+export default ContractContractView;

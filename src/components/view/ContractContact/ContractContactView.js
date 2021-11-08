@@ -10,14 +10,14 @@ import {
   Row,
 } from '@folio/stripes/components';
 
-class WalkInContractContactView extends React.Component {
+class ContractContactView extends React.Component {
   static propTypes = {
     id: PropTypes.string,
-    walkInContract: PropTypes.object,
+    contract: PropTypes.object,
   };
 
   render() {
-    const { walkInContract, id } = this.props;
+    const { contract, id } = this.props;
 
     return (
       <>
@@ -25,7 +25,7 @@ class WalkInContractContactView extends React.Component {
           <Row>
             <KeyValue
               label={<FormattedMessage id="ui-idm-connect.email" />}
-              value={_.get(walkInContract, 'personal.email', <NoValue />)}
+              value={_.get(contract, 'personal.email', <NoValue />)}
             />
           </Row>
           <Row><FormattedMessage id="ui-idm-connect.address" /></Row>
@@ -33,13 +33,13 @@ class WalkInContractContactView extends React.Component {
             <Col xs={4}>
               <KeyValue
                 label={<FormattedMessage id="ui-idm-connect.street" />}
-                value={_.get(walkInContract, 'personal.address.addressLine1', <NoValue />)}
+                value={_.get(contract, 'personal.address.addressLine1', <NoValue />)}
               />
             </Col>
             <Col xs={4}>
               <KeyValue
                 label={<FormattedMessage id="ui-idm-connect.addition" />}
-                value={_.get(walkInContract, 'personal.address.addressLine2', <NoValue />)}
+                value={_.get(contract, 'personal.address.addressLine2', <NoValue />)}
               />
             </Col>
           </Row>
@@ -47,19 +47,19 @@ class WalkInContractContactView extends React.Component {
             <Col xs={4}>
               <KeyValue
                 label={<FormattedMessage id="ui-idm-connect.zipCode" />}
-                value={_.get(walkInContract, 'personal.address.zipCode', <NoValue />)}
+                value={_.get(contract, 'personal.address.zipCode', <NoValue />)}
               />
             </Col>
             <Col xs={4}>
               <KeyValue
                 label={<FormattedMessage id="ui-idm-connect.city" />}
-                value={_.get(walkInContract, 'personal.address.city', <NoValue />)}
+                value={_.get(contract, 'personal.address.city', <NoValue />)}
               />
             </Col>
             <Col xs={4}>
               <KeyValue
                 label={<FormattedMessage id="ui-idm-connect.country" />}
-                value={_.get(walkInContract, 'personal.address.country', <NoValue />)}
+                value={_.get(contract, 'personal.address.country', <NoValue />)}
               />
             </Col>
           </Row>
@@ -69,4 +69,4 @@ class WalkInContractContactView extends React.Component {
   }
 }
 
-export default WalkInContractContactView;
+export default ContractContactView;

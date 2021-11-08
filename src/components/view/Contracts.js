@@ -32,9 +32,9 @@ import {
 } from '@folio/stripes/core';
 
 import urls from '../DisplayUtils/urls';
-import WalkInContractsFilters from './WalkInContractsFilters';
+import ContractsFilters from './ContractsFilters';
 
-class WalkInContracts extends React.Component {
+class Contracts extends React.Component {
   static propTypes = {
     children: PropTypes.object,
     contentData: PropTypes.arrayOf(PropTypes.object),
@@ -113,7 +113,7 @@ class WalkInContracts extends React.Component {
 
   // generate url for record-details
   rowURL = (id) => {
-    return `${urls.walkInContractView(id)}${this.props.searchString}`;
+    return `${urls.contractView(id)}${this.props.searchString}`;
     // NEED FILTER: "status.active,status.technical implementation,status.request,status.negotiation"
   }
 
@@ -168,7 +168,7 @@ class WalkInContracts extends React.Component {
               buttonStyle="primary"
               id="clickable-new-walk-in-contract"
               marginBottom0
-              // to={`${urls.walkInContractCreate()}${this.props.searchString}`}
+              // to={`${urls.contractCreate()}${this.props.searchString}`}
             >
               <FormattedMessage id="stripes-smart-components.new" />
             </Button>
@@ -231,7 +231,7 @@ class WalkInContracts extends React.Component {
                   {this.state.filterPaneIsVisible &&
                     <Pane
                       defaultWidth="18%"
-                      id="pane-walkInContract-filter"
+                      id="pane-contract-filter"
                       lastMenu={
                         <PaneMenu>
                           <CollapseFilterPaneButton
@@ -246,7 +246,7 @@ class WalkInContracts extends React.Component {
                           <SearchField
                             ariaLabel={intl.formatMessage({ id: 'ui-idm-connect.searchInputLabel' })}
                             autoFocus
-                            id="walkInContractSearchField"
+                            id="contractSearchField"
                             inputRef={this.searchField}
                             name="query"
                             onChange={getSearchHandlers().query}
@@ -257,7 +257,7 @@ class WalkInContracts extends React.Component {
                             buttonStyle="primary"
                             disabled={!searchValue.query || searchValue.query === ''}
                             fullWidth
-                            id="clickable-search-walkincontracts"
+                            id="clickable-search-contracts"
                             type="submit"
                           >
                             <FormattedMessage id="stripes-smart-components.search" />
@@ -273,7 +273,7 @@ class WalkInContracts extends React.Component {
                             <FormattedMessage id="stripes-smart-components.resetAll" />
                           </Icon>
                         </Button>
-                        <WalkInContractsFilters
+                        <ContractsFilters
                           activeFilters={activeFilters.state}
                           filterHandlers={getFilterHandlers()}
                         />
@@ -284,7 +284,7 @@ class WalkInContracts extends React.Component {
                     appIcon={<AppIcon app="idm-connect" />}
                     defaultWidth="fill"
                     firstMenu={this.renderResultsFirstMenu(activeFilters)}
-                    id="pane-walkInContract-results"
+                    id="pane-contract-results"
                     lastMenu={this.renderResultsLastMenu()}
                     padContent={false}
                     paneTitle={<FormattedMessage id="ui-idm-connect.walk-in-contracts" />}
@@ -327,4 +327,4 @@ class WalkInContracts extends React.Component {
   }
 }
 
-export default injectIntl(withRouter(WalkInContracts));
+export default injectIntl(withRouter(Contracts));

@@ -1,7 +1,7 @@
 
 @import '@folio/stripes-components/lib/variables.css';
 
-.walkInContractHeader {
+.contractHeader {
   position: sticky;
   top: 0;
   background: var(--bg);

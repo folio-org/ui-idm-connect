@@ -12,14 +12,14 @@ import {
 
 import css from './Header.css';
 
-class WalkInContractHeaderView extends React.Component {
+class ContractHeaderView extends React.Component {
   static propTypes = {
     id: PropTypes.string,
-    walkInContract: PropTypes.object,
+    contract: PropTypes.object,
   };
 
   getDataLable(field) {
-    const fieldValue = _.get(this.props.walkInContract, field, '');
+    const fieldValue = _.get(this.props.contract, field, '');
     if (fieldValue !== '') {
       return <FormattedMessage id={`ui-idm-connect.dataOption.${fieldValue}`} />;
     } else {
@@ -28,13 +28,13 @@ class WalkInContractHeaderView extends React.Component {
   }
 
   render() {
-    const { walkInContract, id } = this.props;
+    const { contract, id } = this.props;
     const statusLabel = this.getDataLable('status');
 
     return (
       <>
         <div id={id}>
-          <Row className={css.walkInContractHeader}>
+          <Row className={css.contractHeader}>
             <Col xs={4}>
               <KeyValue
                 label={<FormattedMessage id="ui-idm-connect.status" />}
@@ -44,13 +44,13 @@ class WalkInContractHeaderView extends React.Component {
             <Col xs={4}>
               <KeyValue
                 label={<FormattedMessage id="ui-idm-connect.uniLogin" />}
-                value={_.get(walkInContract, 'uniLogin', <NoValue />)}
+                value={_.get(contract, 'uniLogin', <NoValue />)}
               />
             </Col>
             <Col xs={4}>
               <KeyValue
                 label={<FormattedMessage id="ui-idm-connect.libraryCard" />}
-                value={_.get(walkInContract, 'libraryCard', <NoValue />)}
+                value={_.get(contract, 'libraryCard', <NoValue />)}
               />
             </Col>
           </Row>
@@ -60,4 +60,4 @@ class WalkInContractHeaderView extends React.Component {
   }
 }
 
-export default WalkInContractHeaderView;
+export default ContractHeaderView;

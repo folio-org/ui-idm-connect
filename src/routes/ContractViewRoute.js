@@ -6,9 +6,9 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { stripesConnect } from '@folio/stripes/core';
 
 import urls from '../components/DisplayUtils/urls';
-import WalkInContractView from '../components/view/WalkInContractView';
+import ContractView from '../components/view/ContractView';
 
-class WalkInContractViewRoute extends React.Component {
+class ContractViewRoute extends React.Component {
   static manifest = Object.freeze({
     source: {
       type: 'okapi',
@@ -36,7 +36,7 @@ class WalkInContractViewRoute extends React.Component {
 
   handleClose = () => {
     const { location } = this.props;
-    this.props.history.push(`${urls.walkInContracts()}${location.search}`);
+    this.props.history.push(`${urls.contracts()}${location.search}`);
   }
 
   // handleEdit = () => {
@@ -48,7 +48,7 @@ class WalkInContractViewRoute extends React.Component {
     // const { stripes } = this.props;
 
     return (
-      <WalkInContractView
+      <ContractView
         // canEdit={stripes.hasPerm('ui-idm-connect.item.put')}
         handlers={{
           onClose: this.handleClose,
@@ -62,4 +62,4 @@ class WalkInContractViewRoute extends React.Component {
   }
 }
 
-export default stripesConnect(WalkInContractViewRoute);
+export default stripesConnect(ContractViewRoute);
