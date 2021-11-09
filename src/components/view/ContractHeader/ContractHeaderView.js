@@ -14,8 +14,8 @@ import css from './Header.css';
 
 class ContractHeaderView extends React.Component {
   static propTypes = {
-    id: PropTypes.string,
     contract: PropTypes.object,
+    id: PropTypes.string,
   };
 
   getDataLable(field) {

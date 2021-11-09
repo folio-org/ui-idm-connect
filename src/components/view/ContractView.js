@@ -123,8 +123,8 @@ class ContractView extends React.Component {
           paneTitle={<span>{fullName}</span>}
         >
           <ContractHeaderView
-            id="contractHeader"
             contract={record}
+            id="contractHeader"
             stripes={this.props.stripes}
           />
           <Row>
@@ -156,8 +156,8 @@ class ContractView extends React.Component {
               open={this.state.accordions.personalAccordion}
             >
               <ContractPersonalView
-                id="contractPersonal"
                 contract={record}
+                id="contractPersonal"
                 stripes={this.props.stripes}
               />
             </Accordion>
@@ -168,8 +168,8 @@ class ContractView extends React.Component {
               open={this.state.accordions.contractAccordion}
             >
               <ContractContractView
-                id="contractContract"
                 contract={record}
+                id="contractContract"
                 stripes={this.props.stripes}
               />
             </Accordion>
@@ -180,8 +180,8 @@ class ContractView extends React.Component {
               open={this.state.accordions.contactAccordion}
             >
               <ContractContactView
-                id="contractContact"
                 contract={record}
+                id="contractContact"
                 stripes={this.props.stripes}
               />
             </Accordion>
@@ -192,8 +192,8 @@ class ContractView extends React.Component {
               open={this.state.accordions.commentAccordion}
             >
               <ContractCommentView
-                id="contractComment"
                 contract={record}
+                id="contractComment"
                 stripes={this.props.stripes}
               />
             </Accordion>

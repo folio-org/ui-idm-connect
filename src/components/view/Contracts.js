@@ -7,7 +7,7 @@ import {
 import PropTypes from 'prop-types';
 import {
   injectIntl,
-  FormattedMessage
+  FormattedMessage,
 } from 'react-intl';
 
 import {
@@ -197,7 +197,16 @@ class Contracts extends React.Component {
   };
 
   render() {
-    const { intl, queryGetter, querySetter, onNeedMoreData, onSelectRow, selectedRecordId, source, syncToLocationSearch } = this.props;
+    const {
+      intl,
+      queryGetter,
+      querySetter,
+      onNeedMoreData,
+      onSelectRow,
+      selectedRecordId,
+      source,
+      syncToLocationSearch
+    } = this.props;
     const count = source ? source.totalCount() : 0;
     const query = queryGetter() || {};
     const sortOrder = query.sort || '';
@@ -220,9 +229,9 @@ class Contracts extends React.Component {
               getSearchHandlers,
               onSort,
               onSubmitSearch,
+              resetAll,
               searchChanged,
               searchValue,
-              resetAll,
             }) => {
               const disableReset = () => !filterChanged && !searchChanged;
 
@@ -287,8 +296,8 @@ class Contracts extends React.Component {
                     id="pane-contract-results"
                     lastMenu={this.renderResultsLastMenu()}
                     padContent={false}
-                    paneTitle={<FormattedMessage id="ui-idm-connect.contracts" />}
                     paneSub={this.renderResultsPaneSubtitle(source)}
+                    paneTitle={<FormattedMessage id="ui-idm-connect.contracts" />}
                   >
                     <MultiColumnList
                       autosize
@@ -307,9 +316,7 @@ class Contracts extends React.Component {
                       onNeedMoreData={onNeedMoreData}
                       onRowClick={onSelectRow}
                       rowFormatter={this.rowFormatter}
-                      sortDirection={
-                        sortOrder.startsWith('-') ? 'descending' : 'ascending'
-                      }
+                      sortDirection={sortOrder.startsWith('-') ? 'descending' : 'ascending'}
                       sortOrder={sortOrder.replace(/^-/, '').replace(/,.*/, '')}
                       totalCount={count}
                       virtualize

@@ -7,7 +7,7 @@ import { stripesConnect } from '@folio/stripes/core';
 import { Layout } from '@folio/stripes/components';
 import {
   makeQueryFunction,
-  StripesConnectedSource
+  StripesConnectedSource,
 } from '@folio/stripes/smart-components';
 
 import urls from '../components/DisplayUtils/urls';

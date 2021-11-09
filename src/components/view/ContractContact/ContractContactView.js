@@ -12,8 +12,8 @@ import {
 
 class ContractContactView extends React.Component {
   static propTypes = {
-    id: PropTypes.string,
     contract: PropTypes.object,
+    id: PropTypes.string,
   };
 
   render() {
