@@ -1,6 +1,8 @@
+@Library ('folio_jenkins_shared_libs') _
+
 buildNPM {
-  publishModDescriptor = false
-  npmDeploy = 'no'
+  publishModDescriptor = true
+  npmDeploy = 'yes'
   runLint = true
   runSonarqube = true
   runScripts = [
