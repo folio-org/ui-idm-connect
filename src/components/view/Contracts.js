@@ -144,7 +144,7 @@ class Contracts extends React.Component {
 
   // counting records of result list
   renderResultsPaneSubtitle = (source) => {
-    if (source) {
+    if (source && source.loaded()) {
       const count = source ? source.totalCount() : 0;
       return <FormattedMessage id="stripes-smart-components.searchResultsCountHeader" values={{ count }} />;
     }
