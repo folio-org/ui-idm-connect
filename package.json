@@ -72,6 +72,7 @@
     "displayName": "ui-idm-connect.meta.title",
     "route": "/idm-connect",
     "home": "/idm-connect",
+    "queryResource": "query",
     "okapiInterfaces": {},
     "permissionSets": [
       {
