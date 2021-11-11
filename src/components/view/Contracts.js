@@ -7,7 +7,7 @@ import {
 import PropTypes from 'prop-types';
 import {
   injectIntl,
-  FormattedMessage
+  FormattedMessage,
 } from 'react-intl';
 
 import {
@@ -32,9 +32,9 @@ import {
 } from '@folio/stripes/core';
 
 import urls from '../DisplayUtils/urls';
-import WalkInContractsFilters from './WalkInContractsFilters';
+import ContractsFilters from './ContractsFilters';
 
-class WalkInContracts extends React.Component {
+class Contracts extends React.Component {
   static propTypes = {
     children: PropTypes.object,
     contentData: PropTypes.arrayOf(PropTypes.object),
@@ -47,8 +47,8 @@ class WalkInContracts extends React.Component {
     }),
     onNeedMoreData: PropTypes.func,
     onSelectRow: PropTypes.func,
-    queryGetter: PropTypes.func,
-    querySetter: PropTypes.func,
+    queryGetter: PropTypes.func.isRequired,
+    querySetter: PropTypes.func.isRequired,
     searchString: PropTypes.string,
     selectedRecordId: PropTypes.string,
     source: PropTypes.object,
@@ -113,7 +113,7 @@ class WalkInContracts extends React.Component {
 
   // generate url for record-details
   rowURL = (id) => {
-    return `${urls.walkInContractView(id)}${this.props.searchString}`;
+    return `${urls.contractView(id)}${this.props.searchString}`;
     // NEED FILTER: "status.active,status.technical implementation,status.request,status.negotiation"
   }
 
@@ -144,7 +144,7 @@ class WalkInContracts extends React.Component {
 
   // counting records of result list
   renderResultsPaneSubtitle = (source) => {
-    if (source) {
+    if (source && source.loaded()) {
       const count = source ? source.totalCount() : 0;
       return <FormattedMessage id="stripes-smart-components.searchResultsCountHeader" values={{ count }} />;
     }
@@ -166,9 +166,9 @@ class WalkInContracts extends React.Component {
             <Button
               aria-label={ariaLabel}
               buttonStyle="primary"
-              id="clickable-new-walk-in-contract"
+              id="clickable-new-contract"
               marginBottom0
-              // to={`${urls.walkInContractCreate()}${this.props.searchString}`}
+              // to={`${urls.contractCreate()}${this.props.searchString}`}
             >
               <FormattedMessage id="stripes-smart-components.new" />
             </Button>
@@ -197,13 +197,22 @@ class WalkInContracts extends React.Component {
   };
 
   render() {
-    const { intl, queryGetter, querySetter, onNeedMoreData, onSelectRow, selectedRecordId, source, syncToLocationSearch } = this.props;
+    const {
+      intl,
+      queryGetter,
+      querySetter,
+      onNeedMoreData,
+      onSelectRow,
+      selectedRecordId,
+      source,
+      syncToLocationSearch
+    } = this.props;
     const count = source ? source.totalCount() : 0;
     const query = queryGetter() || {};
     const sortOrder = query.sort || '';
 
     return (
-      <div data-testid="walk-in-contracts">
+      <div data-testid="contracts">
         <SearchAndSortQuery
           initialFilterState={{ status: ['activated'] }}
           initialSearchState={{ query: '' }}
@@ -220,9 +229,9 @@ class WalkInContracts extends React.Component {
               getSearchHandlers,
               onSort,
               onSubmitSearch,
+              resetAll,
               searchChanged,
               searchValue,
-              resetAll,
             }) => {
               const disableReset = () => !filterChanged && !searchChanged;
 
@@ -231,7 +240,7 @@ class WalkInContracts extends React.Component {
                   {this.state.filterPaneIsVisible &&
                     <Pane
                       defaultWidth="18%"
-                      id="pane-walkInContract-filter"
+                      id="pane-contract-filter"
                       lastMenu={
                         <PaneMenu>
                           <CollapseFilterPaneButton
@@ -246,7 +255,7 @@ class WalkInContracts extends React.Component {
                           <SearchField
                             ariaLabel={intl.formatMessage({ id: 'ui-idm-connect.searchInputLabel' })}
                             autoFocus
-                            id="walkInContractSearchField"
+                            id="contractSearchField"
                             inputRef={this.searchField}
                             name="query"
                             onChange={getSearchHandlers().query}
@@ -257,7 +266,7 @@ class WalkInContracts extends React.Component {
                             buttonStyle="primary"
                             disabled={!searchValue.query || searchValue.query === ''}
                             fullWidth
-                            id="clickable-search-walkincontracts"
+                            id="clickable-search-contracts"
                             type="submit"
                           >
                             <FormattedMessage id="stripes-smart-components.search" />
@@ -273,7 +282,7 @@ class WalkInContracts extends React.Component {
                             <FormattedMessage id="stripes-smart-components.resetAll" />
                           </Icon>
                         </Button>
-                        <WalkInContractsFilters
+                        <ContractsFilters
                           activeFilters={activeFilters.state}
                           filterHandlers={getFilterHandlers()}
                         />
@@ -284,11 +293,11 @@ class WalkInContracts extends React.Component {
                     appIcon={<AppIcon app="idm-connect" />}
                     defaultWidth="fill"
                     firstMenu={this.renderResultsFirstMenu(activeFilters)}
-                    id="pane-walkInContract-results"
+                    id="pane-contract-results"
                     lastMenu={this.renderResultsLastMenu()}
                     padContent={false}
-                    paneTitle={<FormattedMessage id="ui-idm-connect.walk-in-contracts" />}
                     paneSub={this.renderResultsPaneSubtitle(source)}
+                    paneTitle={<FormattedMessage id="ui-idm-connect.contracts" />}
                   >
                     <MultiColumnList
                       autosize
@@ -300,16 +309,14 @@ class WalkInContracts extends React.Component {
                       }}
                       contentData={this.props.contentData}
                       formatter={this.resultsFormatter}
-                      id="list-walk-in-contracts"
+                      id="list-contracts"
                       isEmptyMessage={this.renderIsEmptyMessage(query, source)}
                       isSelected={({ item }) => item.id === selectedRecordId}
                       onHeaderClick={onSort}
                       onNeedMoreData={onNeedMoreData}
                       onRowClick={onSelectRow}
                       rowFormatter={this.rowFormatter}
-                      sortDirection={
-                        sortOrder.startsWith('-') ? 'descending' : 'ascending'
-                      }
+                      sortDirection={sortOrder.startsWith('-') ? 'descending' : 'ascending'}
                       sortOrder={sortOrder.replace(/^-/, '').replace(/,.*/, '')}
                       totalCount={count}
                       virtualize
@@ -327,4 +334,4 @@ class WalkInContracts extends React.Component {
   }
 }
 
-export default injectIntl(withRouter(WalkInContracts));
+export default injectIntl(withRouter(Contracts));

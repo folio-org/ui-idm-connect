@@ -17,13 +17,13 @@ import {
   Row,
 } from '@folio/stripes/components';
 
-import WalkInContractHeaderView from './WalkInContractHeader/WalkInContractHeaderView';
-import WalkInContractPersonalView from './WalkInContractPersonal/WalkInContractPersonalView';
-import WalkInContractContractView from './WalkInContractContract/WalkInContractContractView';
-import WalkInContractContactView from './WalkInContractContact/WalkInContractContactView';
-import WalkInContractCommentView from './WalkInContractComment/WalkInContractCommentView';
+import ContractHeaderView from './ContractHeader/ContractHeaderView';
+import ContractPersonalView from './ContractPersonal/ContractPersonalView';
+import ContractContractView from './ContractContract/ContractContractView';
+import ContractContactView from './ContractContact/ContractContactView';
+import ContractCommentView from './ContractComment/ContractCommentView';
 
-class WalkInContractView extends React.Component {
+class ContractView extends React.Component {
   static propTypes = {
     canEdit: PropTypes.bool,
     handlers: PropTypes.shape({
@@ -79,7 +79,7 @@ class WalkInContractView extends React.Component {
             aria-label={<FormattedMessage id="ui-idm-connect.edit" />}
             buttonRef={this.editButton}
             buttonStyle="primary"
-            id="clickable-edit-walkInContract"
+            id="clickable-edit-contract"
             marginBottom0
             onClick={handlers.onEdit}
           >
@@ -95,7 +95,7 @@ class WalkInContractView extends React.Component {
       <Pane
         defaultWidth="40%"
         dismissible
-        id="pane-walkInContractDetails"
+        id="pane-contractDetails"
         onClose={this.props.handlers.onClose}
         paneTitle={<span>loading</span>}
       >
@@ -117,14 +117,14 @@ class WalkInContractView extends React.Component {
         <Pane
           defaultWidth="40%"
           dismissible
-          id="pane-walkInContractDetails"
+          id="pane-contractDetails"
           lastMenu={this.renderEditPaneMenu()}
           onClose={this.props.handlers.onClose}
           paneTitle={<span>{fullName}</span>}
         >
-          <WalkInContractHeaderView
-            id="walkInContractHeader"
-            walkInContract={record}
+          <ContractHeaderView
+            contract={record}
+            id="contractHeader"
             stripes={this.props.stripes}
           />
           <Row>
@@ -155,9 +155,9 @@ class WalkInContractView extends React.Component {
               onToggle={this.handleAccordionToggle}
               open={this.state.accordions.personalAccordion}
             >
-              <WalkInContractPersonalView
-                id="walkInContractPersonal"
-                walkInContract={record}
+              <ContractPersonalView
+                contract={record}
+                id="contractPersonal"
                 stripes={this.props.stripes}
               />
             </Accordion>
@@ -167,9 +167,9 @@ class WalkInContractView extends React.Component {
               onToggle={this.handleAccordionToggle}
               open={this.state.accordions.contractAccordion}
             >
-              <WalkInContractContractView
-                id="walkInContractContract"
-                walkInContract={record}
+              <ContractContractView
+                contract={record}
+                id="contractContract"
                 stripes={this.props.stripes}
               />
             </Accordion>
@@ -179,9 +179,9 @@ class WalkInContractView extends React.Component {
               onToggle={this.handleAccordionToggle}
               open={this.state.accordions.contactAccordion}
             >
-              <WalkInContractContactView
-                id="walkInContractContact"
-                walkInContract={record}
+              <ContractContactView
+                contract={record}
+                id="contractContact"
                 stripes={this.props.stripes}
               />
             </Accordion>
@@ -191,9 +191,9 @@ class WalkInContractView extends React.Component {
               onToggle={this.handleAccordionToggle}
               open={this.state.accordions.commentAccordion}
             >
-              <WalkInContractCommentView
-                id="walkInContractComment"
-                walkInContract={record}
+              <ContractCommentView
+                contract={record}
+                id="contractComment"
                 stripes={this.props.stripes}
               />
             </Accordion>
@@ -205,4 +205,4 @@ class WalkInContractView extends React.Component {
 }
 
 
-export default WalkInContractView;
+export default ContractView;

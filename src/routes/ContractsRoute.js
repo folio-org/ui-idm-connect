@@ -7,17 +7,17 @@ import { stripesConnect } from '@folio/stripes/core';
 import { Layout } from '@folio/stripes/components';
 import {
   makeQueryFunction,
-  StripesConnectedSource
+  StripesConnectedSource,
 } from '@folio/stripes/smart-components';
 
 import urls from '../components/DisplayUtils/urls';
-import WalkInContracts from '../components/view/WalkInContracts';
+import Contracts from '../components/view/Contracts';
 import filterConfig from '../components/view/filterConfigData';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
 
-class WalkInContractsRoute extends React.Component {
+class ContractsRoute extends React.Component {
   static manifest = Object.freeze({
     sources: {
       type: 'okapi',
@@ -111,7 +111,7 @@ class WalkInContractsRoute extends React.Component {
 
       if (oldCount !== 1 || (oldCount === 1 && oldRecords[0].id !== newRecords[0].id)) {
         const record = newRecords[0];
-        history.push(`${urls.walkInContractView(record.id)}${location.search}`);
+        history.push(`${urls.contractView(record.id)}${location.search}`);
       }
     }
   }
@@ -147,7 +147,7 @@ class WalkInContractsRoute extends React.Component {
     }
 
     return (
-      <WalkInContracts
+      <Contracts
         contentData={_.get(this.props.resources, 'sources.records', [])}
         onNeedMoreData={this.handleNeedMoreData}
         queryGetter={this.queryGetter}
@@ -157,9 +157,9 @@ class WalkInContractsRoute extends React.Component {
         source={this.source}
       >
         {children}
-      </WalkInContracts>
+      </Contracts>
     );
   }
 }
 
-export default stripesConnect(WalkInContractsRoute);
+export default stripesConnect(ContractsRoute);
