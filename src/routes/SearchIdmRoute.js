@@ -13,10 +13,9 @@ const INITIAL_RESULT_COUNT = 30;
 class SearchIdmRoute extends React.Component {
   static manifest = Object.freeze({
     sources: {
-      type: 'rest',
-      root: 'http://localhost:8080/idm-connect',
-      records: 'walkInContracts',
-      path: 'walk-in-contracts',
+      type: 'okapi',
+      // records: 'xxx',
+      path: 'idm-connect/searchidm',
       recordsRequired: '%{resultCount}',
       perRequest: 30,
       GET: {
@@ -41,7 +40,14 @@ class SearchIdmRoute extends React.Component {
   });
 
   handleSubmit = () => {
-    console.log('submit');
+    const { stripes: { okapi } } = this.props;
+
+    fetch(`${okapi.url}/idm-connect/searchidm`, {
+      headers: {
+        'X-Okapi-Tenant': okapi.tenant,
+        'X-Okapi-Token': okapi.token,
+      },
+    });
   }
 
   handleClose = () => {
@@ -63,7 +69,6 @@ class SearchIdmRoute extends React.Component {
     return (
       <SearchIdm
         onSubmit={() => { this.handleSubmit(); }}
-        // onCancel={() => { this.handleClose(); }}
         handlers={{
           onClose: this.handleClose,
         }}
@@ -81,7 +86,11 @@ SearchIdmRoute.propTypes = {
   }).isRequired,
   stripes: PropTypes.shape({
     hasPerm: PropTypes.func.isRequired,
-    okapi: PropTypes.object.isRequired,
+    okapi: PropTypes.shape({
+      tenant: PropTypes.string.isRequired,
+      token: PropTypes.string.isRequired,
+      url: PropTypes.string,
+    }),
     store: PropTypes.object.isRequired,
   }).isRequired,
 };

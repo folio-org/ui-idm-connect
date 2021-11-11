@@ -103,7 +103,7 @@ class SearchIdm extends React.Component {
                     buttonStyle="primary"
                     id="clickable-search-searchIdm"
                     marginBottom0
-                    // onClick={}
+                    onClick={handleSubmit}
                   >
                     <FormattedMessage id="ui-idm-connect.searchInputLabel" />
                   </Button>

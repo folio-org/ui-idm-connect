@@ -99,6 +99,16 @@
           "idmconnect.contract.get"
         ],
         "visible": true
+      },
+      {
+        "permissionName": "ui-idm-connect.searchidm.view",
+        "displayName": "IDM connect: Can view search idm",
+        "description": "Can view results of external search idm",
+        "subPermissions": [
+          "ui-idm-connect.view",
+          "idmconnect.searchidm.get"
+        ],
+        "visible": true
       }
     ],
     "icons": [
