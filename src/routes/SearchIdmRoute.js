@@ -46,7 +46,7 @@ class SearchIdmRoute extends React.Component {
 
   handleClose = () => {
     const { location } = this.props;
-    this.props.history.push(`${urls.walkInContracts()}${location.search}`);
+    this.props.history.push(`${urls.contracts()}${location.search}`);
   }
 
 

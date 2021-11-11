@@ -157,36 +157,19 @@ class Contracts extends React.Component {
       <>
         {/* <IfPermission perm="users.item.post,login.item.post,perms.users.item.post"> */}
         <PaneMenu>
-          <FormattedMessage id="ui-idm-connect.form.create">
+          <FormattedMessage id="ui-idm-connect.searchIdm">
             {ariaLabel => (
               <Button
                 aria-label={ariaLabel}
                 buttonStyle="dropdownItem"
-                id="clickable-new-walk-in-contract"
+                id="clickable-new-contract"
                 marginBottom0
                 onClick={() => {
                   this.props.history.push(`${urls.searchIdm()}`);
                   onToggle();
                 }}
               >
-                <FormattedMessage id="ui-idm-connect.form.create" />
-              </Button>
-            )}
-          </FormattedMessage>
-        </PaneMenu>
-        {/* </IfPermission> */}
-        {/* <IfPermission perm="idm-connect.item.post"> */}
-        <PaneMenu>
-          <FormattedMessage id="ui-idm-connect.form.create">
-            {ariaLabel => (
-              <Button
-                aria-label={ariaLabel}
-                buttonStyle="primary"
-                id="clickable-new-contract"
-                marginBottom0
-                // to={`${urls.contractCreate()}${this.props.searchString}`}
-              >
-                <FormattedMessage id="stripes-smart-components.new" />
+                <FormattedMessage id="ui-idm-connect.searchIdm" />
               </Button>
             )}
           </FormattedMessage>
@@ -312,7 +295,7 @@ class Contracts extends React.Component {
                     defaultWidth="fill"
                     firstMenu={this.renderResultsFirstMenu(activeFilters)}
                     id="pane-contract-results"
-                    lastMenu={this.renderResultsLastMenu()}
+                    // lastMenu={this.renderResultsLastMenu()}
                     padContent={false}
                     paneSub={this.renderResultsPaneSubtitle(source)}
                     noOverflow
