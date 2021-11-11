@@ -9,14 +9,14 @@ import {
   Row,
 } from '@folio/stripes/components';
 
-class WalkInContractCommentView extends React.Component {
+class ContractCommentView extends React.Component {
   static propTypes = {
+    contract: PropTypes.object,
     id: PropTypes.string,
-    walkInContract: PropTypes.object,
   };
 
   render() {
-    const { walkInContract, id } = this.props;
+    const { contract, id } = this.props;
 
     return (
       <>
@@ -24,7 +24,7 @@ class WalkInContractCommentView extends React.Component {
           <Row>
             <KeyValue
               label={<FormattedMessage id="ui-idm-connect.comment" />}
-              value={_.get(walkInContract, 'comment', <NoValue />)}
+              value={_.get(contract, 'comment', <NoValue />)}
             />
           </Row>
         </div>
@@ -33,4 +33,4 @@ class WalkInContractCommentView extends React.Component {
   }
 }
 
-export default WalkInContractCommentView;
+export default ContractCommentView;

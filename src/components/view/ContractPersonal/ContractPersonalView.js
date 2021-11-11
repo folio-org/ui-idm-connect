@@ -10,14 +10,14 @@ import {
   Row,
 } from '@folio/stripes/components';
 
-class WalkInContractPersonalView extends React.Component {
+class ContractPersonalView extends React.Component {
   static propTypes = {
+    contract: PropTypes.object,
     id: PropTypes.string,
-    walkInContract: PropTypes.object,
   };
 
   render() {
-    const { walkInContract, id } = this.props;
+    const { contract, id } = this.props;
 
     return (
       <>
@@ -26,19 +26,19 @@ class WalkInContractPersonalView extends React.Component {
             <Col xs={4}>
               <KeyValue
                 label={<FormattedMessage id="ui-idm-connect.lastname" />}
-                value={_.get(walkInContract, 'personal.lastName', <NoValue />)}
+                value={_.get(contract, 'personal.lastName', <NoValue />)}
               />
             </Col>
             <Col xs={4}>
               <KeyValue
                 label={<FormattedMessage id="ui-idm-connect.firstname" />}
-                value={_.get(walkInContract, 'personal.firstName', <NoValue />)}
+                value={_.get(contract, 'personal.firstName', <NoValue />)}
               />
             </Col>
             <Col xs={4}>
               <KeyValue
                 label={<FormattedMessage id="ui-idm-connect.dateOfBirth" />}
-                value={_.get(walkInContract, 'personal.dateOfBirth', <NoValue />)}
+                value={_.get(contract, 'personal.dateOfBirth', <NoValue />)}
               />
             </Col>
           </Row>
@@ -48,4 +48,4 @@ class WalkInContractPersonalView extends React.Component {
   }
 }
 
-export default WalkInContractPersonalView;
+export default ContractPersonalView;

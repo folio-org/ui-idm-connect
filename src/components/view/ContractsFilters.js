@@ -11,7 +11,7 @@ import { CheckboxFilter } from '@folio/stripes/smart-components';
 
 import filterConfig from './filterConfigData';
 
-class WalkInContractsFilters extends React.Component {
+class ContractsFilters extends React.Component {
   static propTypes = {
     activeFilters: PropTypes.object,
     filterHandlers: PropTypes.object,
@@ -91,4 +91,4 @@ class WalkInContractsFilters extends React.Component {
   }
 }
 
-export default WalkInContractsFilters;
+export default ContractsFilters;

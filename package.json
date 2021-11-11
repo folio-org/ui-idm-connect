@@ -39,6 +39,7 @@
     "chai": "^4.2.0",
     "core-js": "^3.6.4",
     "eslint": "^6.2.1",
+    "identity-obj-proxy": "^3.0.0",
     "inflected": "^2.0.4",
     "jest": "^26.6.3",
     "jest-canvas-mock": "^2.3.0",
@@ -71,6 +72,7 @@
     "displayName": "ui-idm-connect.meta.title",
     "route": "/idm-connect",
     "home": "/idm-connect",
+    "queryResource": "query",
     "okapiInterfaces": {},
     "permissionSets": [
       {
@@ -82,17 +84,19 @@
         "permissionName": "settings.idm-connect.enabled",
         "displayName": "Settings (idm-connect): display list of settings pages",
         "subPermissions": [
+          "module.idm-connect.enabled",
           "settings.enabled"
         ],
         "visible": true
       },
       {
-        "permissionName": "ui-idm-connect.view ",
+        "permissionName": "ui-idm-connect.view",
         "displayName": "IDM connect: Can view idm connect",
         "description": "Can view idm connect",
         "subPermissions": [
           "module.idm-connect.enabled",
-          "settings.idm-connect.enabled"
+          "settings.idm-connect.enabled",
+          "idmconnect.contract.get"
         ],
         "visible": true
       }

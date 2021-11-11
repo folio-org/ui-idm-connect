@@ -1,36 +1,35 @@
 import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import { stripesConnect } from '@folio/stripes/core';
-// import { Layout } from '@folio/stripes/components';
+import { Layout } from '@folio/stripes/components';
 import {
   makeQueryFunction,
-  StripesConnectedSource
+  StripesConnectedSource,
 } from '@folio/stripes/smart-components';
 
 import urls from '../components/DisplayUtils/urls';
-import WalkInContracts from '../components/view/WalkInContracts';
+import Contracts from '../components/view/Contracts';
 import filterConfig from '../components/view/filterConfigData';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
 
-class WalkInContractsRoute extends React.Component {
+class ContractsRoute extends React.Component {
   static manifest = Object.freeze({
     sources: {
-      type: 'rest',
-      root: 'http://localhost:8080/idm-connect',
-      records: 'walkInContracts',
-      path: 'walk-in-contracts',
+      type: 'okapi',
+      records: 'contracts',
       recordsRequired: '%{resultCount}',
       perRequest: 30,
+      path: 'idm-connect/contract',
       GET: {
         params: {
           query: makeQueryFunction(
             'cql.allRecords=1',
-            '(lastName="%{query.query}*" or firstName="%{query.query}*")',
+            '(personal.lastName="%{query.query}*")',
             {
               status: 'status',
               lastName: 'lastname',
@@ -38,7 +37,7 @@ class WalkInContractsRoute extends React.Component {
               uniLogin: 'unilogin',
             },
             filterConfig,
-            2
+            2,
           ),
         },
         staticFallback: { params: {} },
@@ -62,14 +61,18 @@ class WalkInContractsRoute extends React.Component {
       }),
     }),
     mutator: PropTypes.shape({
-      walkInContracts: PropTypes.shape({
+      sources: PropTypes.shape({
         POST: PropTypes.func.isRequired
       }),
       query: PropTypes.shape({
         update: PropTypes.func
       }).isRequired
     }).isRequired,
-    resources: PropTypes.object,
+    resources: PropTypes.shape({
+      sources: PropTypes.shape({
+        records: PropTypes.arrayOf(PropTypes.object)
+      })
+    }).isRequired,
     stripes: PropTypes.shape({
       hasPerm: PropTypes.func.isRequired,
       logger: PropTypes.object,
@@ -82,9 +85,9 @@ class WalkInContractsRoute extends React.Component {
     this.logger = props.stripes.logger;
     this.searchField = React.createRef();
 
-    // this.state = {
-    //   hasPerms: props.stripes.hasPerm('idm-connect.collection.get'),
-    // };
+    this.state = {
+      hasPerms: props.stripes.hasPerm('idmconnect.contract.get'),
+    };
   }
 
   componentDidMount() {
@@ -108,7 +111,7 @@ class WalkInContractsRoute extends React.Component {
 
       if (oldCount !== 1 || (oldCount === 1 && oldRecords[0].id !== newRecords[0].id)) {
         const record = newRecords[0];
-        history.push(`${urls.walkInContractView(record.id)}${location.search}`);
+        history.push(`${urls.contractView(record.id)}${location.search}`);
       }
     }
   }
@@ -134,17 +137,17 @@ class WalkInContractsRoute extends React.Component {
       this.source.update(this.props, 'sources');
     }
 
-    // if (!this.state.hasPerms) {
-    //   return (
-    //     <Layout className="textCentered">
-    //       <h2><FormattedMessage id="stripes-smart-components.permissionError" /></h2>
-    //       <p><FormattedMessage id="stripes-smart-components.permissionsDoNotAllowAccess" /></p>
-    //     </Layout>
-    //   );
-    // }
+    if (!this.state.hasPerms) {
+      return (
+        <Layout className="textCentered">
+          <h2><FormattedMessage id="stripes-smart-components.permissionError" /></h2>
+          <p><FormattedMessage id="stripes-smart-components.permissionsDoNotAllowAccess" /></p>
+        </Layout>
+      );
+    }
 
     return (
-      <WalkInContracts
+      <Contracts
         contentData={_.get(this.props.resources, 'sources.records', [])}
         onNeedMoreData={this.handleNeedMoreData}
         queryGetter={this.queryGetter}
@@ -154,9 +157,9 @@ class WalkInContractsRoute extends React.Component {
         source={this.source}
       >
         {children}
-      </WalkInContracts>
+      </Contracts>
     );
   }
 }
 
-export default stripesConnect(WalkInContractsRoute);
+export default stripesConnect(ContractsRoute);

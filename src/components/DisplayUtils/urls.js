@@ -1,9 +1,8 @@
 const urls = {
-  walkInContracts: () => '/idm-connect/walk-in-contracts',
-  walkInContractView: id => `/idm-connect/walk-in-contracts/${id}`,
-  walkInContractEdit: id => `/idm-connect/walk-in-contracts/${id}/edit`,
-  walkInContractCreate: () => '/idm-connect/walk-in-contracts/create',
-  searchIdm: () => '/idm-connect/search-idm',
+  contracts: () => '/idm-connect',
+  contractView: id => `/idm-connect/view/${id}`,
+  contractEdit: id => `/idm-connect/${id}/edit`,
+  contractCreate: () => '/idm-connect/create',
 };
 
 export default urls;

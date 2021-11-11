@@ -4,9 +4,8 @@ import { Switch } from 'react-router-dom';
 
 import { Route } from '@folio/stripes/core';
 
-import WalkInContractsRoute from './routes/WalkInContractsRoute';
-import WalkInContractViewRoute from './routes/WalkInContractViewRoute';
-import SearchIdmRoute from './routes/SearchIdmRoute';
+import ContractsRoute from './routes/ContractsRoute';
+import ContractViewRoute from './routes/ContractViewRoute';
 import Settings from './settings';
 
 class IdmConnect extends React.Component {
@@ -23,9 +22,10 @@ class IdmConnect extends React.Component {
     }
     return (
       <Switch>
-        <Route path={`${path}/search-idm`} component={SearchIdmRoute} />
-        <Route path={`${path}`} component={WalkInContractsRoute}>
-          <Route path={`${path}/walk-in-contracts/:id`} component={WalkInContractViewRoute} />
+        {/* <Route path={`${path}/contracts/create`} component={ContractCreateRoute} /> */}
+        {/* <Route path={`${path}/contracts/:id/edit`} component={ContractEditRoute} /> */}
+        <Route path={`${path}`} component={ContractsRoute}>
+          <Route path={`${path}/view/:id`} component={ContractViewRoute} />
         </Route>
         {/* <Route
           path={`${path}/search-idm`}
