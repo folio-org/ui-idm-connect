@@ -154,7 +154,6 @@ class Contracts extends React.Component {
 
   getActionMenu = () => ({ onToggle }) => {
     return (
-<<<<<<< HEAD:src/components/view/WalkInContracts.js
       <>
         {/* <IfPermission perm="users.item.post,login.item.post,perms.users.item.post"> */}
         <PaneMenu>
@@ -176,26 +175,24 @@ class Contracts extends React.Component {
           </FormattedMessage>
         </PaneMenu>
         {/* </IfPermission> */}
+        {/* <IfPermission perm="idm-connect.item.post"> */}
+        <PaneMenu>
+          <FormattedMessage id="ui-idm-connect.form.create">
+            {ariaLabel => (
+              <Button
+                aria-label={ariaLabel}
+                buttonStyle="primary"
+                id="clickable-new-contract"
+                marginBottom0
+                // to={`${urls.contractCreate()}${this.props.searchString}`}
+              >
+                <FormattedMessage id="stripes-smart-components.new" />
+              </Button>
+            )}
+          </FormattedMessage>
+        </PaneMenu>
+        {/* </IfPermission> */}
       </>
-=======
-      // <IfPermission perm="idm-connect.item.post">
-      <PaneMenu>
-        <FormattedMessage id="ui-idm-connect.form.create">
-          {ariaLabel => (
-            <Button
-              aria-label={ariaLabel}
-              buttonStyle="primary"
-              id="clickable-new-contract"
-              marginBottom0
-              // to={`${urls.contractCreate()}${this.props.searchString}`}
-            >
-              <FormattedMessage id="stripes-smart-components.new" />
-            </Button>
-          )}
-        </FormattedMessage>
-      </PaneMenu>
-      // </IfPermission>
->>>>>>> master:src/components/view/Contracts.js
     );
   }
 
@@ -314,19 +311,12 @@ class Contracts extends React.Component {
                     appIcon={<AppIcon app="idm-connect" />}
                     defaultWidth="fill"
                     firstMenu={this.renderResultsFirstMenu(activeFilters)}
-<<<<<<< HEAD:src/components/view/WalkInContracts.js
-                    id="pane-walkInContract-results"
-=======
                     id="pane-contract-results"
                     lastMenu={this.renderResultsLastMenu()}
->>>>>>> master:src/components/view/Contracts.js
                     padContent={false}
                     paneSub={this.renderResultsPaneSubtitle(source)}
-<<<<<<< HEAD:src/components/view/WalkInContracts.js
                     noOverflow
-=======
                     paneTitle={<FormattedMessage id="ui-idm-connect.contracts" />}
->>>>>>> master:src/components/view/Contracts.js
                   >
                     <MultiColumnList
                       autosize
