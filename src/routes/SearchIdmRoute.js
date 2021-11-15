@@ -1,28 +1,39 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { getFormValues } from 'redux-form';
 
 import { stripesConnect } from '@folio/stripes/core';
-import { getFormValues } from 'redux-form';
 
 import urls from '../components/DisplayUtils/urls';
 import SearchIdm from '../components/view/SearchIdm/SearchIdm';
 
 class SearchIdmRoute extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      users: [],
+    };
+  }
+
   handleSubmit = () => {
     const { stripes: { okapi } } = this.props;
-
     const formValues = getFormValues('myForm')(this.props.stripes.store.getState()) || {};
-    // console.log('formValues');
-    // console.log(formValues);
-    // console.log('my date');
-    // console.log(moment(formValues.dateOfBirth).format('YYYY-MM-DD'));
 
     fetch(`${okapi.url}/idm-connect/searchidm?firstName=${formValues.firstname}&lastName=${formValues.lastname}&dateOfBirth=${moment(formValues.dateOfBirth).format('YYYY-MM-DD')}`, {
       headers: {
         'X-Okapi-Tenant': okapi.tenant,
         'X-Okapi-Token': okapi.token,
       },
+    }).then((response) => {
+      if (response.ok) {
+        response.json().then((json) => {
+          this.setState(() => ({ users: json }));
+        });
+      } else {
+        // handle error
+      }
     });
   }
 
@@ -30,7 +41,6 @@ class SearchIdmRoute extends React.Component {
     const { location } = this.props;
     this.props.history.push(`${urls.contracts()}${location.search}`);
   }
-
 
   render() {
     // if (!this.state.hasPerms) {
@@ -48,6 +58,7 @@ class SearchIdmRoute extends React.Component {
         handlers={{
           onClose: this.handleClose,
         }}
+        users={this.state.users}
       />
     );
   }

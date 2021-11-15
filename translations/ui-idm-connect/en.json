@@ -29,5 +29,6 @@
   "accordion.contact": "Contact data",
   "accordion.comment": "Comment",
   "searchIdm.title": "IDM Search",
-  "form.validate.required": "Required!"
+  "form.validate.required": "Required!",
+  "form.cancel": "Cancel"
 }

@@ -8,6 +8,7 @@ import {
   Button,
   Col,
   Datepicker,
+  MultiColumnList,
   Pane,
   PaneFooter,
   Paneset,
@@ -30,9 +31,10 @@ class SearchIdm extends React.Component {
       formatMessage: PropTypes.func.isRequired,
     }),
     invalid: PropTypes.bool,
+    onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
-    onSubmit: PropTypes.func.isRequired,
+    users: PropTypes.arrayOf(PropTypes.object),
   };
 
   renderPaneFooter() {
@@ -42,15 +44,53 @@ class SearchIdm extends React.Component {
       <Button
         data-test-udp-form-cancel-button
         marginBottom0
-        id="clickable-close-udp-form"
+        id="clickable-close-form"
         buttonStyle="default mega"
         onClick={onClose}
       >
-        <FormattedMessage id="ui-erm-usage.udp.form.cancel" />
+        <FormattedMessage id="ui-idm-connect.form.cancel" />
       </Button>
     );
 
     return <PaneFooter renderStart={startButton} />;
+  }
+
+  columnMapping = {
+    givenname: <FormattedMessage id="ui-idm-connect.lastname" />,
+    surname: <FormattedMessage id="ui-idm-connect.firstname" />,
+    unilogin: <FormattedMessage id="ui-idm-connect.uniLogin" />,
+  };
+
+  resultsFormatter = {
+    givenname: users => users.givenname,
+    surname: users => users.surname,
+    unilogin: users => users.unilogin,
+  };
+
+  renderResults() {
+    if (this.props.users.length > 0) {
+      return (
+        <MultiColumnList
+          autosize
+          columnMapping={this.columnMapping}
+          contentData={this.props.users}
+          formatter={this.resultsFormatter}
+          // id="list-users"
+          // onHeaderClick={onSort}
+          // rowFormatter={this.rowFormatter}
+          // sortDirection={
+          //   sortOrder.startsWith('-') ? 'descending' : 'ascending'
+          // }
+          // sortOrder={sortOrder.replace(/^-/, '').replace(/,.*/, '')}
+          // totalCount={count}
+          visibleColumns={['givenname', 'surname', 'unilogin']}
+        />
+      );
+    } else {
+      return (
+        <div>nothing</div>
+      );
+    }
   }
 
   render() {
@@ -63,72 +103,77 @@ class SearchIdm extends React.Component {
     } = this.props;
 
     return (
-      <form onSubmit={onSubmit}>
-        <Paneset>
-          <Pane
-            defaultWidth="fill"
-            dismissible
-            id="pane-search-idm-form"
-            onClose={onClose}
-            footer={this.renderPaneFooter()}
-            paneTitle={<FormattedMessage id="ui-idm-connect.searchIdm.title" />}
-          >
-            <Row>
-              <Col
-                xs={3}
-              >
-                <Field
-                  component={TextField}
-                  label={<FormattedMessage id="ui-idm-connect.lastname" />}
-                  name="lastname"
-                  required
-                  validate={Required}
-                />
-              </Col>
-              <Col
-                xs={3}
-              >
-                <Field
-                  component={TextField}
-                  label={<FormattedMessage id="ui-idm-connect.firstname" />}
-                  name="firstname"
-                  required
-                  validate={Required}
-                />
-              </Col>
-              <Col
-                xs={2}
-                md={1}
-              >
-                <Field
-                  component={Datepicker}
-                  dateFormat="DDMMYYYY"
-                  label={<FormattedMessage id="ui-idm-connect.dateOfBirth" />}
-                  name="dateOfBirth"
-                  required
-                  validate={Required}
-                />
-              </Col>
-              <Col
-                xs={3}
-              >
-                <div className={css.searchButton}>
-                  <Button
-                    aria-label={<FormattedMessage id="ui-idm-connect.searchInputLabel" />}
-                    buttonStyle="primary"
-                    disabled={pristine || submitting || invalid}
-                    id="clickable-search-searchIdm"
-                    marginBottom0
-                    onClick={onSubmit}
-                  >
-                    <FormattedMessage id="ui-idm-connect.searchInputLabel" />
-                  </Button>
-                </div>
-              </Col>
-            </Row>
-          </Pane>
-        </Paneset>
-      </form>
+      <>
+        <form onSubmit={onSubmit}>
+          <Paneset>
+            <Pane
+              defaultWidth="fill"
+              dismissible
+              id="pane-search-idm-form"
+              onClose={onClose}
+              footer={this.renderPaneFooter()}
+              paneTitle={<FormattedMessage id="ui-idm-connect.searchIdm.title" />}
+            >
+              <Row>
+                <Col
+                  xs={3}
+                >
+                  <Field
+                    component={TextField}
+                    label={<FormattedMessage id="ui-idm-connect.lastname" />}
+                    name="lastname"
+                    required
+                    validate={Required}
+                  />
+                </Col>
+                <Col
+                  xs={3}
+                >
+                  <Field
+                    component={TextField}
+                    label={<FormattedMessage id="ui-idm-connect.firstname" />}
+                    name="firstname"
+                    required
+                    validate={Required}
+                  />
+                </Col>
+                <Col
+                  xs={2}
+                  md={1}
+                >
+                  <Field
+                    component={Datepicker}
+                    dateFormat="DDMMYYYY"
+                    label={<FormattedMessage id="ui-idm-connect.dateOfBirth" />}
+                    name="dateOfBirth"
+                    required
+                    validate={Required}
+                  />
+                </Col>
+                <Col
+                  xs={3}
+                >
+                  <div className={css.searchButton}>
+                    <Button
+                      aria-label={<FormattedMessage id="ui-idm-connect.searchInputLabel" />}
+                      buttonStyle="primary"
+                      disabled={pristine || submitting || invalid}
+                      id="clickable-search-searchIdm"
+                      marginBottom0
+                      onClick={onSubmit}
+                    >
+                      <FormattedMessage id="ui-idm-connect.searchInputLabel" />
+                    </Button>
+                  </div>
+                </Col>
+              </Row>
+              <>
+                {this.renderResults()}
+              </>
+            </Pane>
+          </Paneset>
+        </form>
+      </>
     );
   }
 }
