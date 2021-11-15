@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import stripesFinalForm from '@folio/stripes/final-form';
-import { Field } from 'react-final-form';
+import stripesForm from '@folio/stripes/form';
+import { Field } from 'redux-form';
 import {
   Button,
   Col,
@@ -18,10 +18,12 @@ import css from './SearchBtn.css';
 
 class SearchIdm extends React.Component {
   static propTypes = {
+    // formValues: PropTypes.object,
     handlers: PropTypes.shape({
       onClose: PropTypes.func.isRequired,
     }),
     handleSubmit: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
     history: PropTypes.shape({
       push: PropTypes.func.isRequired,
     }).isRequired,
@@ -49,10 +51,11 @@ class SearchIdm extends React.Component {
   }
 
   render() {
-    const { handleSubmit, handlers: { onClose } } = this.props;
+    const { onSubmit, handlers: { onClose } } = this.props;
 
     return (
-      <form onSubmit={handleSubmit}>
+      // <form onSubmit={handleSubmit()}>
+      <form onSubmit={onSubmit}>
         <Paneset>
           <Pane
             defaultWidth="fill"
@@ -70,7 +73,6 @@ class SearchIdm extends React.Component {
                   component={TextField}
                   label={<FormattedMessage id="ui-idm-connect.lastname" />}
                   name="lastname"
-                  validateFields={[]}
                 />
               </Col>
               <Col
@@ -80,7 +82,6 @@ class SearchIdm extends React.Component {
                   component={TextField}
                   label={<FormattedMessage id="ui-idm-connect.firstname" />}
                   name="firstname"
-                  validateFields={[]}
                 />
               </Col>
               <Col
@@ -91,7 +92,6 @@ class SearchIdm extends React.Component {
                   component={Datepicker}
                   label={<FormattedMessage id="ui-idm-connect.dateOfBirth" />}
                   name="dateOfBirth"
-                  validateFields={[]}
                 />
               </Col>
               <Col
@@ -103,7 +103,8 @@ class SearchIdm extends React.Component {
                     buttonStyle="primary"
                     id="clickable-search-searchIdm"
                     marginBottom0
-                    onClick={handleSubmit}
+                    // onClick={handleSubmit}
+                    onClick={onSubmit}
                   >
                     <FormattedMessage id="ui-idm-connect.searchInputLabel" />
                   </Button>
@@ -117,6 +118,8 @@ class SearchIdm extends React.Component {
   }
 }
 
-export default stripesFinalForm({
+export default stripesForm({
+  form: 'myForm',
   navigationCheck: true,
+  enableReinitialize: true,
 })(SearchIdm);

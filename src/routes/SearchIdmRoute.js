@@ -2,45 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { stripesConnect } from '@folio/stripes/core';
-import { makeQueryFunction } from '@folio/stripes/smart-components';
+import { getFormValues } from 'redux-form';
 
 import urls from '../components/DisplayUtils/urls';
 import SearchIdm from '../components/view/SearchIdm/SearchIdm';
-import filterConfig from '../components/view/filterConfigData';
-
-const INITIAL_RESULT_COUNT = 30;
 
 class SearchIdmRoute extends React.Component {
-  static manifest = Object.freeze({
-    sources: {
-      type: 'okapi',
-      // records: 'xxx',
-      path: 'idm-connect/searchidm',
-      recordsRequired: '%{resultCount}',
-      perRequest: 30,
-      GET: {
-        params: {
-          query: makeQueryFunction(
-            'cql.allRecords=1',
-            '(lastName="%{query.query}*" or firstName="%{query.query}*" or dateOfBirth="%{query.query}*")',
-            {
-              lastName: 'lastname',
-              firstName: 'firstname',
-              dateOfBirth: 'dateofbirth',
-            },
-            filterConfig,
-            2
-          ),
-        },
-        staticFallback: { params: {} },
-      },
-    },
-    query: { initialValue: {} },
-    resultCount: { initialValue: INITIAL_RESULT_COUNT },
-  });
-
-  handleSubmit = () => {
+  handleSubmit = (values) => {
     const { stripes: { okapi } } = this.props;
+
+    // console.log('values');
+    // console.log(values);
+
+    const formValues = getFormValues('myForm')(this.props.stripes.store.getState()) || {};
+    console.log('formValues');
+    console.log(formValues);
 
     fetch(`${okapi.url}/idm-connect/searchidm`, {
       headers: {
@@ -68,7 +44,7 @@ class SearchIdmRoute extends React.Component {
 
     return (
       <SearchIdm
-        onSubmit={() => { this.handleSubmit(); }}
+        onSubmit={this.handleSubmit}
         handlers={{
           onClose: this.handleClose,
         }}
@@ -91,7 +67,9 @@ SearchIdmRoute.propTypes = {
       token: PropTypes.string.isRequired,
       url: PropTypes.string,
     }),
-    store: PropTypes.object.isRequired,
+    store: PropTypes.shape({
+      getState: PropTypes.func.isRequired,
+    }),
   }).isRequired,
 };
 
