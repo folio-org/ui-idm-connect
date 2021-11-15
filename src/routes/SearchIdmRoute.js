@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 
 import { stripesConnect } from '@folio/stripes/core';
 import { getFormValues } from 'redux-form';
@@ -8,17 +9,16 @@ import urls from '../components/DisplayUtils/urls';
 import SearchIdm from '../components/view/SearchIdm/SearchIdm';
 
 class SearchIdmRoute extends React.Component {
-  handleSubmit = (values) => {
+  handleSubmit = () => {
     const { stripes: { okapi } } = this.props;
 
-    // console.log('values');
-    // console.log(values);
-
     const formValues = getFormValues('myForm')(this.props.stripes.store.getState()) || {};
-    console.log('formValues');
-    console.log(formValues);
+    // console.log('formValues');
+    // console.log(formValues);
+    // console.log('my date');
+    // console.log(moment(formValues.dateOfBirth).format('YYYY-MM-DD'));
 
-    fetch(`${okapi.url}/idm-connect/searchidm`, {
+    fetch(`${okapi.url}/idm-connect/searchidm?firstName=${formValues.firstname}&lastName=${formValues.lastname}&dateOfBirth=${moment(formValues.dateOfBirth).format('YYYY-MM-DD')}`, {
       headers: {
         'X-Okapi-Tenant': okapi.tenant,
         'X-Okapi-Token': okapi.token,

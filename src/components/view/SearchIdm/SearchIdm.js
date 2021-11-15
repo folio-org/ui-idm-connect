@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import { Field } from 'redux-form';
 
 import stripesForm from '@folio/stripes/form';
-import { Field } from 'redux-form';
 import {
   Button,
   Col,
@@ -18,18 +18,16 @@ import css from './SearchBtn.css';
 
 class SearchIdm extends React.Component {
   static propTypes = {
-    // formValues: PropTypes.object,
     handlers: PropTypes.shape({
       onClose: PropTypes.func.isRequired,
     }),
-    handleSubmit: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired,
     history: PropTypes.shape({
       push: PropTypes.func.isRequired,
     }).isRequired,
     intl: PropTypes.shape({
       formatMessage: PropTypes.func.isRequired,
     }),
+    onSubmit: PropTypes.func.isRequired,
   };
 
   renderPaneFooter() {
@@ -54,7 +52,6 @@ class SearchIdm extends React.Component {
     const { onSubmit, handlers: { onClose } } = this.props;
 
     return (
-      // <form onSubmit={handleSubmit()}>
       <form onSubmit={onSubmit}>
         <Paneset>
           <Pane
@@ -90,6 +87,7 @@ class SearchIdm extends React.Component {
               >
                 <Field
                   component={Datepicker}
+                  dateFormat="DD-MM-YYYY"
                   label={<FormattedMessage id="ui-idm-connect.dateOfBirth" />}
                   name="dateOfBirth"
                 />
