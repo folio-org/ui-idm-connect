@@ -14,6 +14,8 @@ import {
   Row,
   TextField,
 } from '@folio/stripes/components';
+
+import Required from '../../DisplayUtils/Validate';
 import css from './SearchBtn.css';
 
 class SearchIdm extends React.Component {
@@ -27,6 +29,9 @@ class SearchIdm extends React.Component {
     intl: PropTypes.shape({
       formatMessage: PropTypes.func.isRequired,
     }),
+    invalid: PropTypes.bool,
+    pristine: PropTypes.bool,
+    submitting: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
   };
 
@@ -49,7 +54,13 @@ class SearchIdm extends React.Component {
   }
 
   render() {
-    const { onSubmit, handlers: { onClose } } = this.props;
+    const {
+      handlers: { onClose },
+      invalid,
+      onSubmit,
+      pristine,
+      submitting,
+    } = this.props;
 
     return (
       <form onSubmit={onSubmit}>
@@ -70,6 +81,8 @@ class SearchIdm extends React.Component {
                   component={TextField}
                   label={<FormattedMessage id="ui-idm-connect.lastname" />}
                   name="lastname"
+                  required
+                  validate={Required}
                 />
               </Col>
               <Col
@@ -79,6 +92,8 @@ class SearchIdm extends React.Component {
                   component={TextField}
                   label={<FormattedMessage id="ui-idm-connect.firstname" />}
                   name="firstname"
+                  required
+                  validate={Required}
                 />
               </Col>
               <Col
@@ -87,9 +102,11 @@ class SearchIdm extends React.Component {
               >
                 <Field
                   component={Datepicker}
-                  dateFormat="DD-MM-YYYY"
+                  dateFormat="DDMMYYYY"
                   label={<FormattedMessage id="ui-idm-connect.dateOfBirth" />}
                   name="dateOfBirth"
+                  required
+                  validate={Required}
                 />
               </Col>
               <Col
@@ -99,9 +116,9 @@ class SearchIdm extends React.Component {
                   <Button
                     aria-label={<FormattedMessage id="ui-idm-connect.searchInputLabel" />}
                     buttonStyle="primary"
+                    disabled={pristine || submitting || invalid}
                     id="clickable-search-searchIdm"
                     marginBottom0
-                    // onClick={handleSubmit}
                     onClick={onSubmit}
                   >
                     <FormattedMessage id="ui-idm-connect.searchInputLabel" />

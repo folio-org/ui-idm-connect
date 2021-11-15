@@ -28,5 +28,6 @@
   "accordion.contract": "Contract data",
   "accordion.contact": "Contact data",
   "accordion.comment": "Comment",
-  "searchIdm.title": "IDM Search"
+  "searchIdm.title": "IDM Search",
+  "form.validate.required": "Required!"
 }
