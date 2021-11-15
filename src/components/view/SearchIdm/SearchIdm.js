@@ -71,7 +71,7 @@ class SearchIdm extends React.Component {
     if (this.props.users.length > 0) {
       return (
         <MultiColumnList
-          autosize
+          defaultWidth="90%"
           columnMapping={this.columnMapping}
           contentData={this.props.users}
           formatter={this.resultsFormatter}
@@ -107,12 +107,13 @@ class SearchIdm extends React.Component {
         <form onSubmit={onSubmit}>
           <Paneset>
             <Pane
-              defaultWidth="fill"
+              defaultWidth="90%"
               dismissible
               id="pane-search-idm-form"
               onClose={onClose}
               footer={this.renderPaneFooter()}
               paneTitle={<FormattedMessage id="ui-idm-connect.searchIdm.title" />}
+              style={{ paddingLeft: '20px', paddingRight: '20px' }}
             >
               <Row>
                 <Col
