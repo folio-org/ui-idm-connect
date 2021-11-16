@@ -159,6 +159,10 @@ class SearchIdm extends React.Component {
                   <Field
                     component={Datepicker}
                     dateFormat="DDMMYYYY"
+                    // backendDateStandard="DDMMYYYY"
+                    // dateFormat="YYYY-MM-DD"
+                    // dateFormat="DD.MM.YYYY"
+                    // backendDateStandard="DDMMYYYY"
                     label={<FormattedMessage id="ui-idm-connect.dateOfBirth" />}
                     name="dateOfBirth"
                     required
@@ -196,6 +200,5 @@ class SearchIdm extends React.Component {
 
 export default stripesForm({
   form: 'myForm',
-  navigationCheck: true,
-  enableReinitialize: true,
+  // enableReinitialize: true,
 })(SearchIdm);
