@@ -5,6 +5,8 @@
   "lastname": "Lastname",
   "firstname": "Firstname",
   "uniLogin": "Uni login",
+  "accountState": "Account state",
+  "ULAffiliation": "UL Affiliation",
   "libraryCard": "Library card",
   "dateOfBirth": "Date of birth",
   "beginDate": "Start date",

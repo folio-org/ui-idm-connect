@@ -56,15 +56,21 @@ class SearchIdm extends React.Component {
   }
 
   columnMapping = {
-    givenname: <FormattedMessage id="ui-idm-connect.lastname" />,
-    surname: <FormattedMessage id="ui-idm-connect.firstname" />,
     unilogin: <FormattedMessage id="ui-idm-connect.uniLogin" />,
+    accountState: <FormattedMessage id="ui-idm-connect.accountState" />,
+    surname: <FormattedMessage id="ui-idm-connect.lastname" />,
+    givenname: <FormattedMessage id="ui-idm-connect.firstname" />,
+    dateOfBirth: <FormattedMessage id="ui-idm-connect.dateOfBirth" />,
+    ULAffiliation: <FormattedMessage id="ui-idm-connect.ULAffiliation" />,
   };
 
   resultsFormatter = {
-    givenname: users => users.givenname,
-    surname: users => users.surname,
     unilogin: users => users.unilogin,
+    accountState: users => users.accountState,
+    surname: users => users.surname,
+    givenname: users => users.givenname,
+    dateOfBirth: users => users.dateOfBirth,
+    ULAffiliation: users => users.ULAffiliation,
   };
 
   renderResults() {
@@ -83,7 +89,7 @@ class SearchIdm extends React.Component {
           // }
           // sortOrder={sortOrder.replace(/^-/, '').replace(/,.*/, '')}
           // totalCount={count}
-          visibleColumns={['givenname', 'surname', 'unilogin']}
+          visibleColumns={['unilogin', 'accountState', 'surname', 'givenname', 'dateOfBirth', 'ULAffiliation']}
         />
       );
     } else {
