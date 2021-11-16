@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
@@ -66,44 +67,49 @@ class SearchIdm extends React.Component {
     ULAffiliation: <FormattedMessage id="ui-idm-connect.ULAffiliation" />,
   };
 
+  getDateOfBirth = (user) => {
+    if (_.get(user, 'dateOfBirth', '') !== '') {
+      return moment(user.dateOfBirth).format('YYYY-MM-DD');
+    } else {
+      return null;
+    }
+  }
+
   resultsFormatter = {
     unilogin: users => users.unilogin,
     accountState: users => users.accountState,
     surname: users => users.surname,
     givenname: users => users.givenname,
-    dateOfBirth: users => moment(users.dateOfBirth).format('YYYY-MM-DD'),
+    dateOfBirth: users => this.getDateOfBirth(users),
     ULAffiliation: users => users.ULAffiliation,
   };
 
   renderResults() {
-    if (this.props.users.length > 0) {
+    if ((this.props.users.length > 0) && (_.get(this.props.users[0], 'msg', '') === '')) {
       return (
         <Card
-          id="my-card"
-          headerClass="my-card-header"
-          headerStart={<span className="my-card-header">Result</span>}
+          id="search-idm-results-card"
+          headerStart={<span>Result</span>}
           style={{ marginTop: '60px' }}
         >
           <MultiColumnList
-            // defaultWidth="90%"
+            defaultWidth="90%"
             columnMapping={this.columnMapping}
             contentData={this.props.users}
             formatter={this.resultsFormatter}
-            // id="list-users"
-            // onHeaderClick={onSort}
-            // rowFormatter={this.rowFormatter}
-            // sortDirection={
-            //   sortOrder.startsWith('-') ? 'descending' : 'ascending'
-            // }
-            // sortOrder={sortOrder.replace(/^-/, '').replace(/,.*/, '')}
-            // totalCount={count}
+            id="search-idm-list-users"
             visibleColumns={['unilogin', 'accountState', 'surname', 'givenname', 'dateOfBirth', 'ULAffiliation']}
           />
         </Card>
       );
     } else {
       return (
-        <div>No result</div>
+        <div
+          id="search-idm-no-results"
+          style={{ marginTop: '60px' }}
+        >
+          <span>No result</span>
+        </div>
       );
     }
   }
@@ -131,9 +137,7 @@ class SearchIdm extends React.Component {
               // style={{ paddingLeft: '20px', paddingRight: '20px' }}
             >
               <Row>
-                <Col
-                  xs={3}
-                >
+                <Col xs={3}>
                   <Field
                     component={TextField}
                     label={<FormattedMessage id="ui-idm-connect.lastname" />}
@@ -142,9 +146,7 @@ class SearchIdm extends React.Component {
                     validate={Required}
                   />
                 </Col>
-                <Col
-                  xs={3}
-                >
+                <Col xs={3}>
                   <Field
                     component={TextField}
                     label={<FormattedMessage id="ui-idm-connect.firstname" />}
@@ -170,9 +172,7 @@ class SearchIdm extends React.Component {
                     validate={Required}
                   />
                 </Col>
-                <Col
-                  xs={3}
-                >
+                <Col xs={3}>
                   <div className={css.searchButton}>
                     <Button
                       aria-label={<FormattedMessage id="ui-idm-connect.searchInputLabel" />}
