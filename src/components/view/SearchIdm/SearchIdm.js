@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Field } from 'redux-form';
+import moment from 'moment';
 
 import stripesForm from '@folio/stripes/form';
 import {
@@ -70,7 +71,7 @@ class SearchIdm extends React.Component {
     accountState: users => users.accountState,
     surname: users => users.surname,
     givenname: users => users.givenname,
-    dateOfBirth: users => users.dateOfBirth,
+    dateOfBirth: users => moment(users.dateOfBirth).format('YYYY-MM-DD'),
     ULAffiliation: users => users.ULAffiliation,
   };
 
@@ -200,5 +201,4 @@ class SearchIdm extends React.Component {
 
 export default stripesForm({
   form: 'myForm',
-  // enableReinitialize: true,
 })(SearchIdm);
