@@ -17,9 +17,11 @@ class SearchIdmRoute extends React.Component {
     };
   }
 
-  handleSubmit = () => {
+  handleSubmit = (e) => {
     const { stripes: { okapi } } = this.props;
     const formValues = getFormValues('myForm')(this.props.stripes.store.getState()) || {};
+
+    e.preventDefault();
 
     fetch(`${okapi.url}/idm-connect/searchidm?firstName=${formValues.firstname}&lastName=${formValues.lastname}&dateOfBirth=${moment(formValues.dateOfBirth).format('YYYY-MM-DD')}`, {
       headers: {

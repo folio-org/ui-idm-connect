@@ -6,6 +6,7 @@ import { Field } from 'redux-form';
 import stripesForm from '@folio/stripes/form';
 import {
   Button,
+  Card,
   Col,
   Datepicker,
   MultiColumnList,
@@ -76,25 +77,32 @@ class SearchIdm extends React.Component {
   renderResults() {
     if (this.props.users.length > 0) {
       return (
-        <MultiColumnList
-          defaultWidth="90%"
-          columnMapping={this.columnMapping}
-          contentData={this.props.users}
-          formatter={this.resultsFormatter}
-          // id="list-users"
-          // onHeaderClick={onSort}
-          // rowFormatter={this.rowFormatter}
-          // sortDirection={
-          //   sortOrder.startsWith('-') ? 'descending' : 'ascending'
-          // }
-          // sortOrder={sortOrder.replace(/^-/, '').replace(/,.*/, '')}
-          // totalCount={count}
-          visibleColumns={['unilogin', 'accountState', 'surname', 'givenname', 'dateOfBirth', 'ULAffiliation']}
-        />
+        <Card
+          id="my-card"
+          headerClass="my-card-header"
+          headerStart={<span className="my-card-header">Result</span>}
+          style={{ marginTop: '60px' }}
+        >
+          <MultiColumnList
+            // defaultWidth="90%"
+            columnMapping={this.columnMapping}
+            contentData={this.props.users}
+            formatter={this.resultsFormatter}
+            // id="list-users"
+            // onHeaderClick={onSort}
+            // rowFormatter={this.rowFormatter}
+            // sortDirection={
+            //   sortOrder.startsWith('-') ? 'descending' : 'ascending'
+            // }
+            // sortOrder={sortOrder.replace(/^-/, '').replace(/,.*/, '')}
+            // totalCount={count}
+            visibleColumns={['unilogin', 'accountState', 'surname', 'givenname', 'dateOfBirth', 'ULAffiliation']}
+          />
+        </Card>
       );
     } else {
       return (
-        <div>nothing</div>
+        <div>No result</div>
       );
     }
   }
@@ -110,16 +118,16 @@ class SearchIdm extends React.Component {
 
     return (
       <>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={(e) => onSubmit(e)}>
           <Paneset>
             <Pane
-              defaultWidth="90%"
+              defaultWidth="100%"
               dismissible
               id="pane-search-idm-form"
               onClose={onClose}
               footer={this.renderPaneFooter()}
               paneTitle={<FormattedMessage id="ui-idm-connect.searchIdm.title" />}
-              style={{ paddingLeft: '20px', paddingRight: '20px' }}
+              // style={{ paddingLeft: '20px', paddingRight: '20px' }}
             >
               <Row>
                 <Col
@@ -167,7 +175,8 @@ class SearchIdm extends React.Component {
                       disabled={pristine || submitting || invalid}
                       id="clickable-search-searchIdm"
                       marginBottom0
-                      onClick={onSubmit}
+                      // onClick={onSubmit}
+                      type="submit"
                     >
                       <FormattedMessage id="ui-idm-connect.searchInputLabel" />
                     </Button>
