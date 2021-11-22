@@ -26,7 +26,7 @@ const sourceLoaded = { source: { pending: jest.fn(() => false), totalCount: jest
 const renderContracts = (stripes, props = {}, contractsData, rerender) => renderWithIntl(
   <MemoryRouter>
     <StripesContext.Provider value={stripes}>
-      <ModuleHierarchyProvider module="@folio/erm-usage">
+      <ModuleHierarchyProvider module="@folio/idm-connect">
         <Contracts
           contentData={contractsData}
           selectedRecordId=""
