@@ -40,6 +40,14 @@ class SearchIdm extends React.Component {
     users: PropTypes.arrayOf(PropTypes.object),
   };
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      dateOfBirth: '',
+    };
+  }
+
   renderPaneFooter() {
     const { handlers: { onClose } } = this.props;
 
@@ -114,6 +122,13 @@ class SearchIdm extends React.Component {
     }
   }
 
+  handleDateChange = (e) => {
+    const newDate = e.target.value;
+    this.setState({
+      dateOfBirth: newDate,
+    });
+  };
+
   render() {
     const {
       handlers: { onClose },
@@ -160,19 +175,18 @@ class SearchIdm extends React.Component {
                   md={1}
                 >
                   <Field
+                    backendDateStandard="YYYYMMDD"
                     component={Datepicker}
-                    dateFormat="DDMMYYYY"
-                    // backendDateStandard="DDMMYYYY"
-                    // dateFormat="YYYY-MM-DD"
-                    // dateFormat="DD.MM.YYYY"
-                    // backendDateStandard="DDMMYYYY"
+                    dateFormat="YYYY-MM-DD"
                     label={<FormattedMessage id="ui-idm-connect.dateOfBirth" />}
                     name="dateOfBirth"
+                    onChange={this.handleDateChange}
                     required
                     validate={Required}
+                    value={this.state.dateOfBirth}
                   />
                 </Col>
-                <Col xs={3}>
+                <Col xs={4}>
                   <div className={css.searchButton}>
                     <Button
                       aria-label={<FormattedMessage id="ui-idm-connect.searchInputLabel" />}
