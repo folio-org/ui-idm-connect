@@ -199,17 +199,21 @@ class SearchIdm extends React.Component {
                 </Col>
                 <Col xs={4}>
                   <div className={css.searchButton}>
-                    <Button
-                      aria-label={<FormattedMessage id="ui-idm-connect.searchInputLabel" />}
-                      buttonStyle="primary"
-                      disabled={pristine || submitting || invalid}
-                      id="clickable-search-searchIdm"
-                      marginBottom0
-                      // onClick={onSubmit}
-                      type="submit"
-                    >
-                      <FormattedMessage id="ui-idm-connect.searchInputLabel" />
-                    </Button>
+                    <FormattedMessage id="ui-idm-connect.searchInputLabel">
+                      { ([ariaLabel]) => (
+                        <Button
+                          aria-label={ariaLabel}
+                          buttonStyle="primary"
+                          disabled={pristine || submitting || invalid}
+                          id="clickable-search-searchIdm"
+                          marginBottom0
+                          // onClick={onSubmit}
+                          type="submit"
+                        >
+                          <FormattedMessage id="ui-idm-connect.searchInputLabel" />
+                        </Button>
+                      )}
+                    </FormattedMessage>
                   </div>
                 </Col>
               </Row>

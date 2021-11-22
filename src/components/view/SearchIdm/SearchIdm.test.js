@@ -38,7 +38,15 @@ describe('Search IDM - without results', () => {
     renderUsers({});
   });
 
-  it('should show results', () => {
+  it('should show input fields', () => {
+    expect(screen.getByRole('textbox', { name: 'Lastname' })).toBeInTheDocument();
+    expect(screen.getByRole('textbox', { name: 'Firstname' })).toBeInTheDocument();
+    expect(screen.getByRole('textbox', { name: 'Date of birth' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Search' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Cancel' })).toBeInTheDocument();
+  });
+
+  it('should not show results', () => {
     expect(screen.getByText('No results in IDM')).toBeVisible();
   });
 });
@@ -48,7 +56,16 @@ describe('Search IDM - with results', () => {
     renderUsers(usersFixtures);
   });
 
-  it('should not show results', () => {
+  it('should show results', () => {
     expect(screen.getByText('2 Results in IDM')).toBeVisible();
+  });
+
+  it('should show all columns of MCL', () => {
+    expect(screen.getByText('Uni login')).toBeVisible();
+    expect(screen.getByText('Account state')).toBeVisible();
+    expect(document.querySelector('#list-column-surname')).toBeInTheDocument();
+    expect(document.querySelector('#list-column-givenname')).toBeInTheDocument();
+    expect(document.querySelector('#list-column-dateofbirth')).toBeInTheDocument();
+    expect(screen.getByText('UL Affiliation')).toBeVisible();
   });
 });
