@@ -8,7 +8,7 @@ const users = [
   },
   {
     givenname: 'Lienhardt',
-    surname: 'Mann',
+    surname: 'Max',
     dateOfBirth: '18740612',
     unilogin: 'edb76lyz',
     ULAffiliation: 'affiliate',

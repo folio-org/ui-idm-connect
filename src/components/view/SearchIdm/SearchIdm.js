@@ -166,6 +166,7 @@ class SearchIdm extends React.Component {
                 <Col xs={3}>
                   <Field
                     component={TextField}
+                    id="searchIdm_lastname"
                     label={<FormattedMessage id="ui-idm-connect.lastname" />}
                     name="lastname"
                     required
@@ -175,6 +176,7 @@ class SearchIdm extends React.Component {
                 <Col xs={3}>
                   <Field
                     component={TextField}
+                    id="searchIdm_firstname"
                     label={<FormattedMessage id="ui-idm-connect.firstname" />}
                     name="firstname"
                     required
@@ -189,6 +191,7 @@ class SearchIdm extends React.Component {
                     backendDateStandard="YYYYMMDD"
                     component={Datepicker}
                     dateFormat="YYYY-MM-DD"
+                    id="searchIdm_dateOfBirth"
                     label={<FormattedMessage id="ui-idm-connect.dateOfBirth" />}
                     name="dateOfBirth"
                     onChange={this.handleDateChange}

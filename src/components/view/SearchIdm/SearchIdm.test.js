@@ -1,5 +1,6 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import { createStore, combineReducers } from 'redux';
@@ -67,5 +68,29 @@ describe('Search IDM - with results', () => {
     expect(document.querySelector('#list-column-givenname')).toBeInTheDocument();
     expect(document.querySelector('#list-column-dateofbirth')).toBeInTheDocument();
     expect(screen.getByText('UL Affiliation')).toBeVisible();
+  });
+});
+
+describe('Search IDM - without results', () => {
+  beforeEach(() => {
+    renderUsers(usersFixtures);
+  });
+
+  test('enter lastname, firstname and date of birth and click search button', () => {
+    const lastnameInput = document.querySelector('#searchIdm_lastname');
+    const firstnameInput = document.querySelector('#searchIdm_firstname');
+    const dateOfBirthInput = document.querySelector('#searchIdm_dateOfBirth');
+    const searchButton = screen.getByRole('button', { name: 'Search' });
+
+    expect(searchButton).toHaveAttribute('disabled');
+
+    userEvent.type(lastnameInput, 'Hausmann');
+    userEvent.type(firstnameInput, 'Lienhardt');
+    userEvent.type(dateOfBirthInput, '1874-06-12');
+    userEvent.click(searchButton);
+
+    expect(searchButton).not.toHaveAttribute('disabled');
+    // expect(screen.getByText('1 Result in IDM')).toBeVisible();
+    // expect(screen.getByText('2 Results in IDM')).toBeVisible();
   });
 });
