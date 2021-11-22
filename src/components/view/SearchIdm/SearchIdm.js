@@ -36,6 +36,7 @@ class SearchIdm extends React.Component {
     invalid: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
+    readyToRender: PropTypes.bool,
     submitting: PropTypes.bool,
     users: PropTypes.arrayOf(PropTypes.object),
   };
@@ -213,7 +214,9 @@ class SearchIdm extends React.Component {
                 </Col>
               </Row>
               <>
-                {this.renderResults()}
+                {this.props.readyToRender &&
+                  this.renderResults()
+                }
               </>
             </Pane>
           </Paneset>

@@ -14,6 +14,7 @@ class SearchIdmRoute extends React.Component {
 
     this.state = {
       users: [],
+      readyToRender: false,
     };
   }
 
@@ -31,7 +32,10 @@ class SearchIdmRoute extends React.Component {
     }).then((response) => {
       if (response.ok) {
         response.json().then((json) => {
-          this.setState(() => ({ users: json }));
+          this.setState(() => ({
+            users: json,
+            readyToRender: true,
+          }));
         });
       } else {
         // handle error
@@ -61,6 +65,7 @@ class SearchIdmRoute extends React.Component {
           onClose: this.handleClose,
         }}
         users={this.state.users}
+        readyToRender={this.state.readyToRender}
       />
     );
   }
