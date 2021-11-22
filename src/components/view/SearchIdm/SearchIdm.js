@@ -93,11 +93,19 @@ class SearchIdm extends React.Component {
   };
 
   renderResults() {
-    if ((this.props.users.length > 0) && (_.get(this.props.users[0], 'msg', '') === '')) {
+    const count = this.props.users.length;
+    if ((count > 0) && (_.get(this.props.users[0], 'msg', '') === '')) {
       return (
         <Card
           id="search-idm-results-card"
-          headerStart={<span>Result</span>}
+          headerStart={
+            <span>
+              <FormattedMessage
+                id="ui-idm-connect.searchIdm.resultCount"
+                values={{ count }}
+              />
+            </span>
+          }
           style={{ marginTop: '60px' }}
         >
           <MultiColumnList
@@ -116,7 +124,9 @@ class SearchIdm extends React.Component {
           id="search-idm-no-results"
           style={{ marginTop: '60px' }}
         >
-          <span>No result</span>
+          <span>
+            <FormattedMessage id="ui-idm-connect.searchIdm.noResults" />
+          </span>
         </div>
       );
     }
