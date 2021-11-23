@@ -234,5 +234,5 @@ class SearchIdm extends React.Component {
 }
 
 export default stripesForm({
-  form: 'myForm',
+  form: 'SearchIdmForm',
 })(SearchIdm);

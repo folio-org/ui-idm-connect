@@ -2,13 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { getFormValues } from 'redux-form';
+import { FormattedMessage } from 'react-intl';
 
-import { stripesConnect } from '@folio/stripes/core';
+import {
+  CalloutContext,
+  stripesConnect,
+} from '@folio/stripes/core';
 
 import urls from '../components/DisplayUtils/urls';
 import SearchIdm from '../components/view/SearchIdm/SearchIdm';
 
 class SearchIdmRoute extends React.Component {
+  static contextType = CalloutContext;
+
   constructor(props) {
     super(props);
 
@@ -18,9 +24,16 @@ class SearchIdmRoute extends React.Component {
     };
   }
 
+  sendCallout = (type, msg) => {
+    this.context.sendCallout({
+      type,
+      message: (<FormattedMessage id="ui-idm-connect.searchIdm.error" values={{ msg }} />),
+    });
+  };
+
   handleSubmit = (e) => {
     const { stripes: { okapi } } = this.props;
-    const formValues = getFormValues('myForm')(this.props.stripes.store.getState()) || {};
+    const formValues = getFormValues('SearchIdmForm')(this.props.stripes.store.getState()) || {};
 
     e.preventDefault();
 
@@ -31,6 +44,7 @@ class SearchIdmRoute extends React.Component {
       },
     }).then((response) => {
       if (response.ok) {
+        this.sendCallout('error', 'test');
         response.json().then((json) => {
           this.setState(() => ({
             users: json,
@@ -38,8 +52,10 @@ class SearchIdmRoute extends React.Component {
           }));
         });
       } else {
-        // handle error
+        this.sendCallout('error', '');
       }
+    }).catch((err) => {
+      this.sendCallout('error', err);
     });
   }
 

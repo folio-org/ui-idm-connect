@@ -33,6 +33,7 @@
   "searchIdm.title": "IDM Search",
   "searchIdm.resultCount": "{count, number} {count, plural, one {Result in IDM} other {Results in IDM}}",
   "searchIdm.noResults": "No results in IDM",
+  "searchIdm.error": "Error fetch IDM {msg}",
   "form.validate.required": "Required!",
   "form.cancel": "Cancel"
 }
