@@ -44,7 +44,6 @@ class SearchIdmRoute extends React.Component {
       },
     }).then((response) => {
       if (response.ok) {
-        this.sendCallout('error', 'test');
         response.json().then((json) => {
           this.setState(() => ({
             users: json,
