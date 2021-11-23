@@ -38,7 +38,6 @@ class Contracts extends React.Component {
   static propTypes = {
     children: PropTypes.object,
     contentData: PropTypes.arrayOf(PropTypes.object),
-    disableRecordCreation: PropTypes.bool,
     history: PropTypes.shape({
       push: PropTypes.func.isRequired,
     }).isRequired,
@@ -162,7 +161,7 @@ class Contracts extends React.Component {
                 <Button
                   aria-label={ariaLabel}
                   buttonStyle="dropdownItem"
-                  id="clickable-new-contract"
+                  id="clickable-searchIdm"
                   marginBottom0
                   onClick={() => {
                     this.props.history.push(`${urls.searchIdm()}`);
@@ -295,7 +294,6 @@ class Contracts extends React.Component {
                     defaultWidth="fill"
                     firstMenu={this.renderResultsFirstMenu(activeFilters)}
                     id="pane-contract-results"
-                    // lastMenu={this.renderResultsLastMenu()}
                     padContent={false}
                     paneSub={this.renderResultsPaneSubtitle(source)}
                     noOverflow

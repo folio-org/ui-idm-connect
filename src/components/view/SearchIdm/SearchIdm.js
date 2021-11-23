@@ -27,12 +27,6 @@ class SearchIdm extends React.Component {
     handlers: PropTypes.shape({
       onClose: PropTypes.func.isRequired,
     }),
-    history: PropTypes.shape({
-      push: PropTypes.func.isRequired,
-    }).isRequired,
-    intl: PropTypes.shape({
-      formatMessage: PropTypes.func.isRequired,
-    }),
     invalid: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
@@ -54,7 +48,6 @@ class SearchIdm extends React.Component {
 
     const startButton = (
       <Button
-        data-test-udp-form-cancel-button
         marginBottom0
         id="clickable-close-form"
         buttonStyle="default mega"
@@ -160,7 +153,6 @@ class SearchIdm extends React.Component {
               onClose={onClose}
               footer={this.renderPaneFooter()}
               paneTitle={<FormattedMessage id="ui-idm-connect.searchIdm.title" />}
-              // style={{ paddingLeft: '20px', paddingRight: '20px' }}
             >
               <Row>
                 <Col xs={3}>
@@ -210,7 +202,6 @@ class SearchIdm extends React.Component {
                           disabled={pristine || submitting || invalid}
                           id="clickable-search-searchIdm"
                           marginBottom0
-                          // onClick={onSubmit}
                           type="submit"
                         >
                           <FormattedMessage id="ui-idm-connect.searchInputLabel" />

@@ -64,21 +64,10 @@ class SearchIdmRoute extends React.Component {
   }
 
   render() {
-    // if (!this.state.hasPerms) {
-    //   return (
-    //     <Layout className="textCentered">
-    //       <h2><FormattedMessage id="stripes-smart-components.permissionError" /></h2>
-    //       <p><FormattedMessage id="stripes-smart-components.permissionsDoNotAllowAccess" /></p>
-    //     </Layout>
-    //   );
-    // }
-
     return (
       <SearchIdm
         onSubmit={this.handleSubmit}
-        handlers={{
-          onClose: this.handleClose,
-        }}
+        handlers={{ onClose: this.handleClose }}
         users={this.state.users}
         readyToRender={this.state.readyToRender}
       />
@@ -94,7 +83,6 @@ SearchIdmRoute.propTypes = {
     search: PropTypes.string.isRequired,
   }).isRequired,
   stripes: PropTypes.shape({
-    hasPerm: PropTypes.func.isRequired,
     okapi: PropTypes.shape({
       tenant: PropTypes.string.isRequired,
       token: PropTypes.string.isRequired,
