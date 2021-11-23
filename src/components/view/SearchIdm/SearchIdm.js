@@ -103,11 +103,11 @@ class SearchIdm extends React.Component {
           style={{ marginTop: '60px' }}
         >
           <MultiColumnList
-            defaultWidth="90%"
             columnMapping={this.columnMapping}
             contentData={this.props.users}
             formatter={this.resultsFormatter}
             id="search-idm-list-users"
+            interactive={false}
             visibleColumns={['unilogin', 'accountState', 'surname', 'givenname', 'dateOfBirth', 'ULAffiliation']}
           />
         </Card>
@@ -149,9 +149,9 @@ class SearchIdm extends React.Component {
             <Pane
               defaultWidth="100%"
               dismissible
+              footer={this.renderPaneFooter()}
               id="pane-search-idm-form"
               onClose={onClose}
-              footer={this.renderPaneFooter()}
               paneTitle={<FormattedMessage id="ui-idm-connect.searchIdm.title" />}
             >
               <Row>
@@ -175,10 +175,7 @@ class SearchIdm extends React.Component {
                     validate={Required}
                   />
                 </Col>
-                <Col
-                  xs={2}
-                  md={1}
-                >
+                <Col xs={3} md={2}>
                   <Field
                     backendDateStandard="YYYYMMDD"
                     component={Datepicker}
@@ -192,7 +189,7 @@ class SearchIdm extends React.Component {
                     value={this.state.dateOfBirth}
                   />
                 </Col>
-                <Col xs={4}>
+                <Col xs={3}>
                   <div className={css.searchButton}>
                     <FormattedMessage id="ui-idm-connect.searchInputLabel">
                       { ([ariaLabel]) => (
