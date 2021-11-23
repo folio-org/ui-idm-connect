@@ -9,6 +9,7 @@ import { reducer as formReducer } from 'redux-form';
 import '../../../../test/jest/__mock__';
 import renderWithIntl from '../../../../test/jest/helpers/renderWithIntl';
 import usersFixtures from '../../../../test/jest/fixtures/users';
+import userFixtures from '../../../../test/jest/fixtures/user';
 import SearchIdm from './SearchIdm';
 
 const reducers = {
@@ -19,7 +20,9 @@ const reducer = combineReducers(reducers);
 
 const store = createStore(reducer);
 
-const renderUsers = (USERS) => renderWithIntl(
+let renderWithIntlResult = {};
+
+const renderUsers = (USERS, rerender) => renderWithIntl(
   <Provider store={store}>
     <MemoryRouter>
       <SearchIdm
@@ -31,12 +34,17 @@ const renderUsers = (USERS) => renderWithIntl(
         readyToRender
       />
     </MemoryRouter>
-  </Provider>
+  </Provider>,
+  rerender
 );
 
 describe('Search IDM - without results', () => {
   beforeEach(() => {
     renderUsers({});
+  });
+
+  it('should show pane title', () => {
+    expect(screen.getByText('IDM Search')).toBeInTheDocument();
   });
 
   it('should show input fields', () => {
@@ -73,10 +81,10 @@ describe('Search IDM - with results', () => {
 
 describe('Search IDM - without results', () => {
   beforeEach(() => {
-    renderUsers(usersFixtures);
+    renderWithIntlResult = renderUsers(usersFixtures);
   });
 
-  test('enter lastname, firstname and date of birth and click search button', () => {
+  test('enter lastname, firstname and date of birth and click search button', async () => {
     const lastnameInput = document.querySelector('#searchIdm_lastname');
     const firstnameInput = document.querySelector('#searchIdm_firstname');
     const dateOfBirthInput = document.querySelector('#searchIdm_dateOfBirth');
@@ -89,8 +97,9 @@ describe('Search IDM - without results', () => {
     userEvent.type(dateOfBirthInput, '1874-06-12');
     userEvent.click(searchButton);
 
+    renderUsers(userFixtures, renderWithIntlResult.rerender);
+
     expect(searchButton).not.toHaveAttribute('disabled');
-    // expect(screen.getByText('1 Result in IDM')).toBeVisible();
-    // expect(screen.getByText('2 Results in IDM')).toBeVisible();
+    expect(screen.getByText('1 Result in IDM')).toBeVisible();
   });
 });
