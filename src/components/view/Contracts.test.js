@@ -2,6 +2,7 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
+// import { Button, Modal } from '@folio/stripes-testing';
 
 import { StripesContext } from '@folio/stripes-core/src/StripesContext';
 import { ModuleHierarchyProvider } from '@folio/stripes-core/src/components/ModuleHierarchy';
@@ -38,6 +39,7 @@ const renderContracts = (stripes, props = {}, contractsData, rerender) => render
           history={history}
           onSearchComplete={onSearchComplete}
           {...props}
+          // stripes={{ hasPerm: () => true }}
         />
       </ModuleHierarchyProvider>
     </StripesContext.Provider>
@@ -104,6 +106,13 @@ describe('Contracts SASQ View - rerender result list', () => {
       expect(screen.queryByText('Lastname')).toBeInTheDocument();
       expect(screen.queryByText('Firstname')).toBeInTheDocument();
       expect(screen.queryByText('Uni login')).toBeInTheDocument();
+    });
+
+    it('should be present the actions menu', () => {
+      const actionButton = document.querySelector('[data-test-pane-header-actions-button]');
+      expect(actionButton).toBeVisible();
+      userEvent.click(actionButton);
+      expect(screen.getByRole('button', { name: 'Search IDM' })).toBeInTheDocument();
     });
 
     test('trigger search should return results', () => {
