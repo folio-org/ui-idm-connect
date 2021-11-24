@@ -1,5 +1,6 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
@@ -17,16 +18,17 @@ const reducer = combineReducers(reducers);
 
 const store = createStore(reducer);
 
+const historyPushMock = jest.fn();
+
 const renderUsers = (USERS, rerender) => renderWithIntl(
   <Provider store={store}>
     <MemoryRouter>
       <SearchIdm
         onSubmit={jest.fn()}
-        handlers={{
-          onClose: jest.fn(),
-        }}
         users={USERS}
         readyToRender
+        history={{ push: historyPushMock }}
+        location={{ search: '' }}
       />
     </MemoryRouter>
   </Provider>,
@@ -39,8 +41,12 @@ describe('SearchIdm', () => {
       renderUsers({});
     });
 
-    test('renders the Search IDM component', () => {
+    test('renders the Search IDM component', async () => {
+      const cancelButton = screen.getByRole('button', { name: 'Cancel' });
       expect(screen.getByText('IDM Search')).toBeInTheDocument();
+      expect(cancelButton).toBeInTheDocument();
+      await userEvent.click(cancelButton);
+      expect(historyPushMock).toHaveBeenCalled();
     });
   });
 });
