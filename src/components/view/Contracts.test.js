@@ -75,6 +75,15 @@ describe('Contracts SASQ View', () => {
     it('submit button should be present', () => {
       expect(document.querySelector('#clickable-search-contracts')).toBeInTheDocument();
     });
+
+    it('should close filter pane', () => {
+      const collapseFilterButton = document.querySelector('[data-test-collapse-filter-pane-button]');
+      expect(collapseFilterButton).toBeVisible();
+      expect(document.querySelector('#pane-contract-filter')).toBeInTheDocument();
+
+      userEvent.click(collapseFilterButton);
+      expect(document.querySelector('#pane-contract-filter')).not.toBeInTheDocument();
+    });
   });
 });
 
