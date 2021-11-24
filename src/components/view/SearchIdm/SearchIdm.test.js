@@ -22,14 +22,15 @@ const store = createStore(reducer);
 
 let renderWithIntlResult = {};
 
+const onClose = jest.fn();
+const onSubmit = jest.fn();
+
 const renderUsers = (USERS, rerender) => renderWithIntl(
   <Provider store={store}>
     <MemoryRouter>
       <SearchIdm
-        onSubmit={jest.fn()}
-        handlers={{
-          onClose: jest.fn(),
-        }}
+        onSubmit={onSubmit}
+        handlers={{ onClose }}
         users={USERS}
         readyToRender
       />
@@ -89,6 +90,7 @@ describe('Search IDM - without results', () => {
     const firstnameInput = document.querySelector('#searchIdm_firstname');
     const dateOfBirthInput = document.querySelector('#searchIdm_dateOfBirth');
     const searchButton = screen.getByRole('button', { name: 'Search' });
+    const cancelButton = screen.getByRole('button', { name: 'Cancel' });
 
     expect(searchButton).toHaveAttribute('disabled');
 
@@ -99,7 +101,12 @@ describe('Search IDM - without results', () => {
 
     renderUsers(userFixtures, renderWithIntlResult.rerender);
 
+    expect(onSubmit).toHaveBeenCalled();
     expect(searchButton).not.toHaveAttribute('disabled');
     expect(screen.getByText('1 Result in IDM')).toBeVisible();
+
+    expect(cancelButton).toBeInTheDocument();
+    userEvent.click(cancelButton);
+    expect(onClose).toHaveBeenCalled();
   });
 });
