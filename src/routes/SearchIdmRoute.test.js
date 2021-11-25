@@ -8,7 +8,7 @@ import { reducer as formReducer } from 'redux-form';
 
 import '../../test/jest/__mock__';
 import renderWithIntl from '../../test/jest/helpers/renderWithIntl';
-import SearchIdm from './SearchIdmRoute';
+import SearchIdmRoute from './SearchIdmRoute';
 
 const reducers = {
   form: formReducer,
@@ -23,7 +23,7 @@ const historyPushMock = jest.fn();
 const renderUsers = (USERS, rerender) => renderWithIntl(
   <Provider store={store}>
     <MemoryRouter>
-      <SearchIdm
+      <SearchIdmRoute
         onSubmit={jest.fn()}
         users={USERS}
         readyToRender
