@@ -86,7 +86,7 @@ class ContractsRoute extends React.Component {
     this.searchField = React.createRef();
 
     this.state = {
-      hasPerms: props.stripes.hasPerm('idmconnect.contract.get'),
+      hasPerms: props.stripes.hasPerm('ui-idm-connect.view'),
     };
   }
 

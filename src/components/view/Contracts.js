@@ -25,10 +25,7 @@ import {
   Paneset,
   SearchField,
 } from '@folio/stripes/components';
-import {
-  AppIcon,
-  IfPermission,
-} from '@folio/stripes/core';
+import { AppIcon } from '@folio/stripes/core';
 
 import urls from '../DisplayUtils/urls';
 import ContractsFilters from './ContractsFilters';
@@ -145,26 +142,24 @@ class Contracts extends React.Component {
   getActionMenu = () => ({ onToggle }) => {
     return (
       <>
-        <IfPermission perm="idmconnect.searchidm.get">
-          <PaneMenu>
-            <FormattedMessage id="ui-idm-connect.searchIdm">
-              {ariaLabel => (
-                <Button
-                  aria-label={ariaLabel}
-                  buttonStyle="dropdownItem"
-                  id="clickable-searchIdm"
-                  marginBottom0
-                  onClick={() => {
-                    this.props.history.push(`${urls.searchIdm()}`);
-                    onToggle();
-                  }}
-                >
-                  <FormattedMessage id="ui-idm-connect.searchIdm" />
-                </Button>
-              )}
-            </FormattedMessage>
-          </PaneMenu>
-        </IfPermission>
+        <PaneMenu>
+          <FormattedMessage id="ui-idm-connect.searchIdm">
+            {ariaLabel => (
+              <Button
+                aria-label={ariaLabel}
+                buttonStyle="dropdownItem"
+                id="clickable-searchIdm"
+                marginBottom0
+                onClick={() => {
+                  this.props.history.push(`${urls.searchIdm()}`);
+                  onToggle();
+                }}
+              >
+                <FormattedMessage id="ui-idm-connect.searchIdm" />
+              </Button>
+            )}
+          </FormattedMessage>
+        </PaneMenu>
       </>
     );
   }
