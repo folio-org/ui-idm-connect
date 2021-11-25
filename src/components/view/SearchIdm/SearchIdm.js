@@ -9,6 +9,7 @@ import stripesForm from '@folio/stripes/form';
 import {
   Button,
   Card,
+  Checkbox,
   Col,
   Datepicker,
   MultiColumnList,
@@ -24,6 +25,7 @@ import css from './SearchBtn.css';
 
 class SearchIdm extends React.Component {
   static propTypes = {
+    createNewUser: PropTypes.bool,
     handlers: PropTypes.shape({
       onClose: PropTypes.func.isRequired,
     }),
@@ -40,11 +42,32 @@ class SearchIdm extends React.Component {
 
     this.state = {
       dateOfBirth: '',
+      checkedMap: {},
     };
   }
 
+  toggleRecord = toggledRecord => {
+    const { unilogin } = toggledRecord;
+
+    this.setState((state) => {
+      // const { contentData } = props;
+      const wasChecked = Boolean(state.checkedMap[unilogin]);
+      const checkedMap = { ...state.checkedMap };
+
+      if (wasChecked) {
+        delete checkedMap[unilogin];
+      } else {
+        checkedMap[unilogin] = toggledRecord;
+      }
+
+      return {
+        checkedMap,
+      };
+    });
+  }
+
   renderPaneFooter() {
-    const { handlers: { onClose } } = this.props;
+    const { createNewUser, handlers: { onClose } } = this.props;
 
     const startButton = (
       <Button
@@ -57,7 +80,18 @@ class SearchIdm extends React.Component {
       </Button>
     );
 
-    return <PaneFooter renderStart={startButton} />;
+    const endButton = (
+      <Button
+        marginBottom0
+        id="clickable-takeContinue-form"
+        buttonStyle="default mega"
+        onClick={onClose}
+      >
+        <FormattedMessage id="ui-idm-connect.searchIdm.takeContinue" />
+      </Button>
+    );
+
+    return <PaneFooter renderStart={startButton} renderEnd={createNewUser ? endButton : ''} />;
   }
 
   columnMapping = {
@@ -67,6 +101,7 @@ class SearchIdm extends React.Component {
     givenname: <FormattedMessage id="ui-idm-connect.firstname" />,
     dateOfBirth: <FormattedMessage id="ui-idm-connect.dateOfBirth" />,
     ULAffiliation: <FormattedMessage id="ui-idm-connect.ULAffiliation" />,
+    isChecked: '',
   };
 
   resultsFormatter = {
@@ -76,10 +111,19 @@ class SearchIdm extends React.Component {
     givenname: users => users.givenname,
     dateOfBirth: users => moment(users.dateOfBirth).format('YYYY-MM-DD'),
     ULAffiliation: users => users.ULAffiliation,
+    isChecked: users => (
+      <Checkbox
+        checked={Boolean(this.state.checkedMap[users.unilogin])}
+        onChange={this.props.createNewUser ? () => this.toggleRecord(users) : undefined}
+        type="checkbox"
+      />
+    ),
   };
 
   renderResults() {
-    const count = this.props.users.length;
+    const { createNewUser, users } = this.props;
+    const count = users.length;
+
     if ((count > 0) && (_.get(this.props.users[0], 'msg', '') === '')) {
       return (
         <Card
@@ -100,7 +144,7 @@ class SearchIdm extends React.Component {
             formatter={this.resultsFormatter}
             id="search-idm-list-users"
             interactive={false}
-            visibleColumns={['unilogin', 'accountState', 'surname', 'givenname', 'dateOfBirth', 'ULAffiliation']}
+            visibleColumns={createNewUser ? ['unilogin', 'accountState', 'surname', 'givenname', 'dateOfBirth', 'ULAffiliation', 'isChecked'] : ['unilogin', 'accountState', 'surname', 'givenname', 'dateOfBirth', 'ULAffiliation']}
           />
         </Card>
       );

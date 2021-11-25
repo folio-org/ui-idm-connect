@@ -142,24 +142,44 @@ class Contracts extends React.Component {
   getActionMenu = () => ({ onToggle }) => {
     return (
       <>
-        <PaneMenu>
-          <FormattedMessage id="ui-idm-connect.searchIdm">
-            {ariaLabel => (
-              <Button
-                aria-label={ariaLabel}
-                buttonStyle="dropdownItem"
-                id="clickable-searchIdm"
-                marginBottom0
-                onClick={() => {
-                  this.props.history.push(`${urls.searchIdm()}`);
-                  onToggle();
-                }}
-              >
-                <FormattedMessage id="ui-idm-connect.searchIdm" />
-              </Button>
-            )}
-          </FormattedMessage>
-        </PaneMenu>
+        <FormattedMessage id="ui-idm-connect.searchIdm">
+          {ariaLabel => (
+            <Button
+              aria-label={ariaLabel}
+              buttonStyle="dropdownItem"
+              id="clickable-searchIdm"
+              marginBottom0
+              onClick={() => {
+                this.props.history.push({
+                  pathname: `${urls.searchIdm()}`,
+                  state: 'search'
+                });
+                onToggle();
+              }}
+            >
+              <FormattedMessage id="ui-idm-connect.searchIdm" />
+            </Button>
+          )}
+        </FormattedMessage>
+        <FormattedMessage id="ui-idm-connect.new">
+          {ariaLabel => (
+            <Button
+              aria-label={ariaLabel}
+              buttonStyle="dropdownItem"
+              id="clickable-new"
+              marginBottom0
+              onClick={() => {
+                this.props.history.push({
+                  pathname: `${urls.searchIdm()}`,
+                  state: 'new'
+                });
+                onToggle();
+              }}
+            >
+              <FormattedMessage id="ui-idm-connect.new" />
+            </Button>
+          )}
+        </FormattedMessage>
       </>
     );
   }

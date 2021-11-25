@@ -64,12 +64,15 @@ class SearchIdmRoute extends React.Component {
   }
 
   render() {
+    const createNewUser = this.props.location.state === 'new';
+
     return (
       <SearchIdm
         onSubmit={this.handleSubmit}
         handlers={{ onClose: this.handleClose }}
         users={this.state.users}
         readyToRender={this.state.readyToRender}
+        createNewUser={createNewUser}
       />
     );
   }
@@ -81,6 +84,7 @@ SearchIdmRoute.propTypes = {
   }).isRequired,
   location: PropTypes.shape({
     search: PropTypes.string.isRequired,
+    state: PropTypes.string.isRequired,
   }).isRequired,
   stripes: PropTypes.shape({
     okapi: PropTypes.shape({
