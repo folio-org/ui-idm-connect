@@ -69,20 +69,12 @@ class SearchIdm extends React.Component {
     ULAffiliation: <FormattedMessage id="ui-idm-connect.ULAffiliation" />,
   };
 
-  getDateOfBirth = (user) => {
-    if (_.get(user, 'dateOfBirth', '') !== '') {
-      return moment(user.dateOfBirth).format('YYYY-MM-DD');
-    } else {
-      return null;
-    }
-  }
-
   resultsFormatter = {
     unilogin: users => users.unilogin,
     accountState: users => users.accountState,
     surname: users => users.surname,
     givenname: users => users.givenname,
-    dateOfBirth: users => this.getDateOfBirth(users),
+    dateOfBirth: users => moment(users.dateOfBirth).format('YYYY-MM-DD'),
     ULAffiliation: users => users.ULAffiliation,
   };
 
