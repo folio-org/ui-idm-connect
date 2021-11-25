@@ -6,6 +6,7 @@ import { Route } from '@folio/stripes/core';
 
 import ContractsRoute from './routes/ContractsRoute';
 import ContractViewRoute from './routes/ContractViewRoute';
+import SearchIdmRoute from './routes/SearchIdmRoute';
 import Settings from './settings';
 
 class IdmConnect extends React.Component {
@@ -22,6 +23,7 @@ class IdmConnect extends React.Component {
     }
     return (
       <Switch>
+        <Route path={`${path}/search-idm`} component={SearchIdmRoute} />
         {/* <Route path={`${path}/contracts/create`} component={ContractCreateRoute} /> */}
         {/* <Route path={`${path}/contracts/:id/edit`} component={ContractEditRoute} /> */}
         <Route path={`${path}`} component={ContractsRoute}>

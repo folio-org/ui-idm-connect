@@ -2,6 +2,7 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
+// import { Button, Modal } from '@folio/stripes-testing';
 
 import { StripesContext } from '@folio/stripes-core/src/StripesContext';
 import { ModuleHierarchyProvider } from '@folio/stripes-core/src/components/ModuleHierarchy';
@@ -26,7 +27,7 @@ const sourceLoaded = { source: { pending: jest.fn(() => false), totalCount: jest
 const renderContracts = (stripes, props = {}, contractsData, rerender) => renderWithIntl(
   <MemoryRouter>
     <StripesContext.Provider value={stripes}>
-      <ModuleHierarchyProvider module="@folio/erm-usage">
+      <ModuleHierarchyProvider module="@folio/idm-connect">
         <Contracts
           contentData={contractsData}
           selectedRecordId=""
@@ -38,6 +39,7 @@ const renderContracts = (stripes, props = {}, contractsData, rerender) => render
           history={history}
           onSearchComplete={onSearchComplete}
           {...props}
+          // stripes={{ hasPerm: () => true }}
         />
       </ModuleHierarchyProvider>
     </StripesContext.Provider>
@@ -49,20 +51,6 @@ describe('Contracts SASQ View', () => {
   let stripes;
   beforeEach(() => {
     stripes = useStripes();
-
-    Object.defineProperty(window, 'matchMedia', {
-      writable: true,
-      value: jest.fn().mockImplementation((query) => ({
-        matches: false,
-        media: query,
-        onchange: null,
-        addListener: jest.fn(),
-        removeListener: jest.fn(),
-        addEventListener: jest.fn(),
-        removeEventListener: jest.fn(),
-        dispatchEvent: jest.fn(),
-      })),
-    });
 
     renderContracts(stripes, sourceLoaded, contracts);
   });
@@ -86,6 +74,15 @@ describe('Contracts SASQ View', () => {
 
     it('submit button should be present', () => {
       expect(document.querySelector('#clickable-search-contracts')).toBeInTheDocument();
+    });
+
+    it('should close filter pane', () => {
+      const collapseFilterButton = document.querySelector('[data-test-collapse-filter-pane-button]');
+      expect(collapseFilterButton).toBeVisible();
+      expect(document.querySelector('#pane-contract-filter')).toBeInTheDocument();
+
+      userEvent.click(collapseFilterButton);
+      expect(document.querySelector('#pane-contract-filter')).not.toBeInTheDocument();
     });
   });
 });
@@ -120,6 +117,13 @@ describe('Contracts SASQ View - rerender result list', () => {
       expect(screen.queryByText('Uni login')).toBeInTheDocument();
     });
 
+    it('should be present the actions menu', () => {
+      const actionButton = document.querySelector('[data-test-pane-header-actions-button]');
+      expect(actionButton).toBeVisible();
+      userEvent.click(actionButton);
+      expect(screen.getByRole('button', { name: 'Search IDM' })).toBeInTheDocument();
+    });
+
     test('trigger search should return results', () => {
       const searchFieldInput = document.querySelector('#contractSearchField');
       userEvent.type(searchFieldInput, 'Hausmann');
@@ -145,20 +149,6 @@ describe('Contracts SASQ View - without results', () => {
   let stripes;
   beforeEach(() => {
     stripes = useStripes();
-
-    Object.defineProperty(window, 'matchMedia', {
-      writable: true,
-      value: jest.fn().mockImplementation((query) => ({
-        matches: false,
-        media: query,
-        onchange: null,
-        addListener: jest.fn(),
-        removeListener: jest.fn(),
-        addEventListener: jest.fn(),
-        removeEventListener: jest.fn(),
-        dispatchEvent: jest.fn(),
-      })),
-    });
 
     renderContracts(stripes, {}, []);
   });

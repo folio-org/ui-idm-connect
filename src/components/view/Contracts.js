@@ -20,16 +20,12 @@ import {
   Button,
   Icon,
   MultiColumnList,
-  NoValue,
   Pane,
   PaneMenu,
   Paneset,
   SearchField,
 } from '@folio/stripes/components';
-import {
-  AppIcon,
-  // IfPermission,
-} from '@folio/stripes/core';
+import { AppIcon } from '@folio/stripes/core';
 
 import urls from '../DisplayUtils/urls';
 import ContractsFilters from './ContractsFilters';
@@ -38,7 +34,6 @@ class Contracts extends React.Component {
   static propTypes = {
     children: PropTypes.object,
     contentData: PropTypes.arrayOf(PropTypes.object),
-    disableRecordCreation: PropTypes.bool,
     history: PropTypes.shape({
       push: PropTypes.func.isRequired,
     }).isRequired,
@@ -69,16 +64,8 @@ class Contracts extends React.Component {
     };
   }
 
-  getDataLable(fieldValue) {
-    if (fieldValue !== '') {
-      return <FormattedMessage id={`ui-idm-connect.dataOption.${fieldValue}`} />;
-    } else {
-      return <NoValue />;
-    }
-  }
-
   resultsFormatter = {
-    status: source => this.getDataLable(_.get(source, 'status', '')),
+    status: source => <FormattedMessage id={`ui-idm-connect.dataOption.${source.status}`} />,
     lastName: source => source.personal.lastName,
     firstName: source => source.personal.firstName,
     uniLogin: source => source.uniLogin,
@@ -152,30 +139,28 @@ class Contracts extends React.Component {
     return <FormattedMessage id="stripes-smart-components.searchCriteria" />;
   }
 
-  // button for creating a new record
-  renderResultsLastMenu() {
-    if (this.props.disableRecordCreation) {
-      return null;
-    }
-
+  getActionMenu = () => ({ onToggle }) => {
     return (
-      // <IfPermission perm="idm-connect.item.post">
-      <PaneMenu>
-        <FormattedMessage id="ui-idm-connect.form.create">
-          {ariaLabel => (
-            <Button
-              aria-label={ariaLabel}
-              buttonStyle="primary"
-              id="clickable-new-contract"
-              marginBottom0
-              // to={`${urls.contractCreate()}${this.props.searchString}`}
-            >
-              <FormattedMessage id="stripes-smart-components.new" />
-            </Button>
-          )}
-        </FormattedMessage>
-      </PaneMenu>
-      // </IfPermission>
+      <>
+        <PaneMenu>
+          <FormattedMessage id="ui-idm-connect.searchIdm">
+            {ariaLabel => (
+              <Button
+                aria-label={ariaLabel}
+                buttonStyle="dropdownItem"
+                id="clickable-searchIdm"
+                marginBottom0
+                onClick={() => {
+                  this.props.history.push(`${urls.searchIdm()}`);
+                  onToggle();
+                }}
+              >
+                <FormattedMessage id="ui-idm-connect.searchIdm" />
+              </Button>
+            )}
+          </FormattedMessage>
+        </PaneMenu>
+      </>
     );
   }
 
@@ -290,13 +275,14 @@ class Contracts extends React.Component {
                     </Pane>
                   }
                   <Pane
+                    actionMenu={this.getActionMenu()}
                     appIcon={<AppIcon app="idm-connect" />}
                     defaultWidth="fill"
                     firstMenu={this.renderResultsFirstMenu(activeFilters)}
                     id="pane-contract-results"
-                    lastMenu={this.renderResultsLastMenu()}
                     padContent={false}
                     paneSub={this.renderResultsPaneSubtitle(source)}
+                    noOverflow
                     paneTitle={<FormattedMessage id="ui-idm-connect.contracts" />}
                   >
                     <MultiColumnList

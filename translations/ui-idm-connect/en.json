@@ -5,6 +5,8 @@
   "lastname": "Lastname",
   "firstname": "Firstname",
   "uniLogin": "Uni login",
+  "accountState": "Account state",
+  "ULAffiliation": "UL Affiliation",
   "libraryCard": "Library card",
   "dateOfBirth": "Date of birth",
   "beginDate": "Start date",
@@ -19,7 +21,7 @@
   "comment": "Comment",
   "searchInputLabel": "Search",
   "noSourceYet": "No source yet",
-  "form.create": "Create",
+  "searchIdm": "Search IDM",
   "dataOption.activated": "Activated",
   "dataOption.created": "Created",
   "dataOption.pending": "Pending",
@@ -27,5 +29,11 @@
   "accordion.personal": "Personal data",
   "accordion.contract": "Contract data",
   "accordion.contact": "Contact data",
-  "accordion.comment": "Comment"
+  "accordion.comment": "Comment",
+  "searchIdm.title": "IDM Search",
+  "searchIdm.resultCount": "{count, number} {count, plural, one {Result in IDM} other {Results in IDM}}",
+  "searchIdm.noResults": "No results in IDM",
+  "searchIdm.error": "Error fetch IDM {msg}",
+  "form.validate.required": "Required!",
+  "form.cancel": "Cancel"
 }

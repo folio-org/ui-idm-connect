@@ -96,7 +96,8 @@
         "subPermissions": [
           "module.idm-connect.enabled",
           "settings.idm-connect.enabled",
-          "idmconnect.contract.get"
+          "idmconnect.contract.get",
+          "idmconnect.searchidm.get"
         ],
         "visible": true
       }
