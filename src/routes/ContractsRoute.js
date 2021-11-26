@@ -32,9 +32,9 @@ class ContractsRoute extends React.Component {
             '(personal.lastName="%{query.query}*")',
             {
               status: 'status',
-              lastName: 'lastname',
-              firstName: 'firstname',
-              uniLogin: 'unilogin',
+              lastName: 'personal.lastName',
+              firstName: 'personal.firstName',
+              uniLogin: 'uniLogin',
             },
             filterConfig,
             2,
