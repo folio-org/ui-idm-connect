@@ -64,6 +64,7 @@ class SearchIdmRoute extends React.Component {
   }
 
   render() {
+    const { location } = this.props;
     const createNewUser = this.props.location.state === 'new';
 
     return (
@@ -72,6 +73,7 @@ class SearchIdmRoute extends React.Component {
         handlers={{ onClose: this.handleClose }}
         users={this.state.users}
         readyToRender={this.state.readyToRender}
+        searchString={location.search}
         createNewUser={createNewUser}
       />
     );

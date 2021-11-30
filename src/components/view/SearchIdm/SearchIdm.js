@@ -9,18 +9,20 @@ import stripesForm from '@folio/stripes/form';
 import {
   Button,
   Card,
-  Checkbox,
+  // Checkbox,
   Col,
   Datepicker,
   MultiColumnList,
   Pane,
   PaneFooter,
   Paneset,
+  // RadioButton,
   Row,
   TextField,
 } from '@folio/stripes/components';
 
 import Required from '../../DisplayUtils/Validate';
+import urls from '../../DisplayUtils/urls';
 import css from './SearchBtn.css';
 
 class SearchIdm extends React.Component {
@@ -33,6 +35,7 @@ class SearchIdm extends React.Component {
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
     readyToRender: PropTypes.bool,
+    searchString: PropTypes.string,
     submitting: PropTypes.bool,
     users: PropTypes.arrayOf(PropTypes.object),
   };
@@ -40,30 +43,60 @@ class SearchIdm extends React.Component {
   constructor(props) {
     super(props);
 
+    this.getSelectedButtonLable(false);
+
     this.state = {
       dateOfBirth: '',
-      checkedMap: {},
+      // checkedUser: {},
+      selectedLabel: <FormattedMessage id="ui-idm-connect.searchIdm.choose" />,
     };
   }
 
+  getSelectedButtonLable(selected) {
+    if (selected) {
+      // return <FormattedMessage id="ui-idm-connect.searchIdm.selected" />;
+      this.setState({
+        selectedLabel: <FormattedMessage id="ui-idm-connect.searchIdm.selected" />,
+      });
+    } else {
+      // return <FormattedMessage id="ui-idm-connect.searchIdm.choose" />;
+      this.setState({
+        selectedLabel: <FormattedMessage id="ui-idm-connect.searchIdm.choose" />,
+      });
+    }
+  }
+
   toggleRecord = toggledRecord => {
-    const { unilogin } = toggledRecord;
+    // const { unilogin } = toggledRecord;
 
-    this.setState((state) => {
-      // const { contentData } = props;
-      const wasChecked = Boolean(state.checkedMap[unilogin]);
-      const checkedMap = { ...state.checkedMap };
+    console.log('toggledRecord');
+    console.log(toggledRecord);
+    // this.getSelectedButtonLable(true);
+    // this.setState({
+    //   checkedUser: toggledRecord,
+    // });
 
-      if (wasChecked) {
-        delete checkedMap[unilogin];
-      } else {
-        checkedMap[unilogin] = toggledRecord;
-      }
+    // this.state = {
+    //   selectedLabel: this.getSelectedButtonLable(true)
+    // };
 
-      return {
-        checkedMap,
-      };
-    });
+    this.getSelectedButtonLable(true);
+    // this.setState((state) => {
+    // const { contentData } = props;
+
+    // const wasChecked = Boolean(state.checkedUser[unilogin]);
+    // const checkedMap = { ...state.checkedUser };
+
+    // if (wasChecked) {
+    //   delete checkedMap[unilogin];
+    // } else {
+    //   checkedMap[unilogin] = toggledRecord;
+    // }
+
+    // return {
+    //   checkedMap,
+    // };
+    // });
   }
 
   renderPaneFooter() {
@@ -85,7 +118,7 @@ class SearchIdm extends React.Component {
         marginBottom0
         id="clickable-takeContinue-form"
         buttonStyle="default mega"
-        onClick={onClose}
+        to={`${urls.contractCreate()}${this.props.searchString}`}
       >
         <FormattedMessage id="ui-idm-connect.searchIdm.takeContinue" />
       </Button>
@@ -111,12 +144,27 @@ class SearchIdm extends React.Component {
     givenname: users => users.givenname,
     dateOfBirth: users => moment(users.dateOfBirth).format('YYYY-MM-DD'),
     ULAffiliation: users => users.ULAffiliation,
+    // isChecked: users => (
+    //   <Checkbox
+    //     checked={Boolean(this.state.checkedMap[users.unilogin])}
+    //     onChange={this.props.createNewUser ? () => this.toggleRecord(users) : undefined}
+    //     type="checkbox"
+    //   />
+    // ),
+    // isChecked: (users) => (
+    //   <RadioButton
+    //     checked={Boolean(this.state.checkedMap[users.unilogin])}
+    //     onChange={this.props.createNewUser ? () => this.toggleRecord(users) : undefined}
+    //   />
+    // ),
     isChecked: users => (
-      <Checkbox
-        checked={Boolean(this.state.checkedMap[users.unilogin])}
-        onChange={this.props.createNewUser ? () => this.toggleRecord(users) : undefined}
-        type="checkbox"
-      />
+      <Button
+        buttonStyle="default"
+        onClick={this.props.createNewUser ? () => this.toggleRecord(users) : undefined}
+      >
+        {/* <FormattedMessage id="ui-idm-connect.searchIdm.choose" /> */}
+        {this.state.selectedLabel}
+      </Button>
     ),
   };
 
@@ -126,27 +174,35 @@ class SearchIdm extends React.Component {
 
     if ((count > 0) && (_.get(this.props.users[0], 'msg', '') === '')) {
       return (
-        <Card
-          id="search-idm-results-card"
-          headerStart={
-            <span>
-              <FormattedMessage
-                id="ui-idm-connect.searchIdm.resultCount"
-                values={{ count }}
-              />
-            </span>
-          }
-          style={{ marginTop: '60px' }}
-        >
-          <MultiColumnList
-            columnMapping={this.columnMapping}
-            contentData={this.props.users}
-            formatter={this.resultsFormatter}
-            id="search-idm-list-users"
-            interactive={false}
-            visibleColumns={createNewUser ? ['unilogin', 'accountState', 'surname', 'givenname', 'dateOfBirth', 'ULAffiliation', 'isChecked'] : ['unilogin', 'accountState', 'surname', 'givenname', 'dateOfBirth', 'ULAffiliation']}
-          />
-        </Card>
+        <>
+          <Card
+            id="search-idm-results-card"
+            headerStart={
+              <span>
+                <FormattedMessage
+                  id="ui-idm-connect.searchIdm.resultCount"
+                  values={{ count }}
+                />
+              </span>
+            }
+            style={{ marginTop: '60px' }}
+          >
+            <MultiColumnList
+              columnMapping={this.columnMapping}
+              contentData={this.props.users}
+              formatter={this.resultsFormatter}
+              id="search-idm-list-users"
+              interactive={false}
+              visibleColumns={createNewUser ? ['unilogin', 'accountState', 'surname', 'givenname', 'dateOfBirth', 'ULAffiliation', 'isChecked'] : ['unilogin', 'accountState', 'surname', 'givenname', 'dateOfBirth', 'ULAffiliation']}
+            />
+          </Card>
+          <Button
+            buttonStyle="default"
+            onClick={this.props.createNewUser ? () => this.toggleRecord({}) : undefined}
+          >
+            <FormattedMessage id="ui-idm-connect.searchIdm.noMatch" />
+          </Button>
+        </>
       );
     } else {
       return (

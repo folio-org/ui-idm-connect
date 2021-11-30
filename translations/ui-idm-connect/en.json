@@ -35,7 +35,13 @@
   "searchIdm.noResults": "No results in IDM",
   "searchIdm.takeContinue": "Take and continue",
   "searchIdm.error": "Error fetch IDM {msg}",
+  "searchIdm.choose": "Choose",
+  "searchIdm.selected": "Selected",
+  "searchIdm.noMatch": "No match",
   "form.validate.required": "Required!",
   "form.cancel": "Cancel",
-  "new": "New"
+  "form.saveAndClose": "Save & close",
+  "form.create": "Create",
+  "new": "New",
+  "noPermission": "No permission"
 }
