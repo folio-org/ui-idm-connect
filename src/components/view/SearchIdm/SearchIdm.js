@@ -95,9 +95,9 @@ class SearchIdm extends React.Component {
 
     const startButton = (
       <Button
-        marginBottom0
-        id="clickable-close-form"
         buttonStyle="default mega"
+        id="clickable-close-form"
+        marginBottom0
         onClick={onClose}
       >
         <FormattedMessage id="ui-idm-connect.form.cancel" />
@@ -106,10 +106,11 @@ class SearchIdm extends React.Component {
 
     const endButton = (
       <Button
-        marginBottom0
-        id="clickable-takeContinue-form"
         buttonStyle="default mega"
+        // TODO: adapt disabled; not working when closing and search again
         disabled={disableTakeContinue}
+        id="clickable-takeContinue-form"
+        marginBottom0
         to={`${urls.contractCreate()}${this.props.searchString}`}
       >
         <FormattedMessage id="ui-idm-connect.searchIdm.takeContinue" />
