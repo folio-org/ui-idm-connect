@@ -25,6 +25,8 @@ import Required from '../../DisplayUtils/Validate';
 import urls from '../../DisplayUtils/urls';
 import css from './SearchBtn.css';
 
+let newContractInitialValues = {};
+
 class SearchIdm extends React.Component {
   static propTypes = {
     createNewUser: PropTypes.bool,
@@ -43,44 +45,24 @@ class SearchIdm extends React.Component {
   constructor(props) {
     super(props);
 
-    this.getSelectedButtonLable(false);
+    // this.toggleRecord = this.toggleRecord.bind(this);
 
     this.state = {
       dateOfBirth: '',
-      // checkedUser: {},
-      selectedLabel: <FormattedMessage id="ui-idm-connect.searchIdm.choose" />,
+      selected: false,
     };
-  }
-
-  getSelectedButtonLable(selected) {
-    if (selected) {
-      // return <FormattedMessage id="ui-idm-connect.searchIdm.selected" />;
-      this.setState({
-        selectedLabel: <FormattedMessage id="ui-idm-connect.searchIdm.selected" />,
-      });
-    } else {
-      // return <FormattedMessage id="ui-idm-connect.searchIdm.choose" />;
-      this.setState({
-        selectedLabel: <FormattedMessage id="ui-idm-connect.searchIdm.choose" />,
-      });
-    }
   }
 
   toggleRecord = toggledRecord => {
     // const { unilogin } = toggledRecord;
 
-    console.log('toggledRecord');
-    console.log(toggledRecord);
-    // this.getSelectedButtonLable(true);
-    // this.setState({
-    //   checkedUser: toggledRecord,
-    // });
+    newContractInitialValues = toggledRecord;
+    this.setState(prevState => ({
+      selected: !prevState.selected,
+    }));
 
-    // this.state = {
-    //   selectedLabel: this.getSelectedButtonLable(true)
-    // };
+    localStorage.setItem('idmConnectNewContractInitialValues', JSON.stringify(newContractInitialValues));
 
-    this.getSelectedButtonLable(true);
     // this.setState((state) => {
     // const { contentData } = props;
 
@@ -162,8 +144,7 @@ class SearchIdm extends React.Component {
         buttonStyle="default"
         onClick={this.props.createNewUser ? () => this.toggleRecord(users) : undefined}
       >
-        {/* <FormattedMessage id="ui-idm-connect.searchIdm.choose" /> */}
-        {this.state.selectedLabel}
+        {this.state.selected ? <FormattedMessage id="ui-idm-connect.searchIdm.selected" /> : <FormattedMessage id="ui-idm-connect.searchIdm.choose" />}
       </Button>
     ),
   };

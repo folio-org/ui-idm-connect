@@ -7,7 +7,7 @@ import {
   Accordion,
   Col,
   Row,
-  TextField,
+  TextArea,
 } from '@folio/stripes/components';
 
 class ContractCommentForm extends React.Component {
@@ -22,14 +22,13 @@ class ContractCommentForm extends React.Component {
         open={expanded}
       >
         <Row>
-          <Col xs={8}>
+          <Col xs={10}>
             <Field
-              component={TextField}
+              component={TextArea}
               fullWidth
               id="addcontract_comment"
               label={<FormattedMessage id="ui-idm-connect.comment" />}
               name="comment"
-              required
             />
           </Col>
         </Row>

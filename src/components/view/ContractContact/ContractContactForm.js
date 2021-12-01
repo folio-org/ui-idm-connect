@@ -6,11 +6,13 @@ import { FormattedMessage } from 'react-intl';
 import {
   Accordion,
   Col,
+  Label,
   Row,
   TextField,
 } from '@folio/stripes/components';
 
-// import { Required } from '../../DisplayUtils/Validate';
+import Required from '../../DisplayUtils/Validate';
+import BasicCss from '../BasicStyle.css';
 
 class ContractContactForm extends React.Component {
   render() {
@@ -24,31 +26,34 @@ class ContractContactForm extends React.Component {
         open={expanded}
       >
         <Row>
-          <Col xs={8}>
+          <Col xs={3}>
             <Field
               component={TextField}
-              fullWidth
               id="addcontract_email"
               label={<FormattedMessage id="ui-idm-connect.email" />}
               name="personal.email"
               required
-              // validate={Required}
+              validate={Required}
             />
           </Col>
         </Row>
         <Row>
-          <Col xs={8}>
+          <Label className={BasicCss.styleForFormLabel}>
+            <FormattedMessage id="ui-idm-connect.address" />
+          </Label>
+        </Row>
+        <Row>
+          <Col xs={3}>
             <Field
               component={TextField}
-              fullWidth
               id="addcontract_street"
               label={<FormattedMessage id="ui-idm-connect.street" />}
               name="personal.address.addressLine1"
+              required
+              validate={Required}
             />
           </Col>
-        </Row>
-        <Row>
-          <Col xs={8}>
+          <Col xs={3}>
             <Field
               component={TextField}
               fullWidth
@@ -59,35 +64,37 @@ class ContractContactForm extends React.Component {
           </Col>
         </Row>
         <Row>
-          <Col xs={8}>
+          <Col xs={2}>
             <Field
               component={TextField}
               fullWidth
               id="addcontract_zipCode"
               label={<FormattedMessage id="ui-idm-connect.zipCode" />}
               name="personal.address.zipCode"
+              required
+              validate={Required}
             />
           </Col>
-        </Row>
-        <Row>
-          <Col xs={8}>
+          <Col xs={3}>
             <Field
               component={TextField}
               fullWidth
               id="addcontract_city"
               label={<FormattedMessage id="ui-idm-connect.city" />}
               name="personal.address.city"
+              required
+              validate={Required}
             />
           </Col>
-        </Row>
-        <Row>
-          <Col xs={8}>
+          <Col xs={3}>
             <Field
               component={TextField}
               fullWidth
               id="addcontract_country"
               label={<FormattedMessage id="ui-idm-connect.country" />}
               name="personal.address.country"
+              required
+              validate={Required}
             />
           </Col>
         </Row>

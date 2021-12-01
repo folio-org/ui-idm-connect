@@ -6,11 +6,12 @@ import { FormattedMessage } from 'react-intl';
 import {
   Accordion,
   Col,
+  Datepicker,
   Row,
   TextField,
 } from '@folio/stripes/components';
 
-// import { Required } from '../../DisplayUtils/Validate';
+import Required from '../../DisplayUtils/Validate';
 
 class ContractContractForm extends React.Component {
   render() {
@@ -24,26 +25,30 @@ class ContractContractForm extends React.Component {
         open={expanded}
       >
         <Row>
-          <Col xs={8}>
+          <Col xs={2}>
             <Field
-              component={TextField}
-              fullWidth
-              id="addcontract_beginDate"
-              label={<FormattedMessage id="ui-idm-connect.beginDate" />}
-              name="beginDate"
-              required
-              // validate={Required}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={8}>
-            <Field
-              component={TextField}
-              fullWidth
+              component={Datepicker}
               id="addcontract_endDate"
               label={<FormattedMessage id="ui-idm-connect.endDate" />}
               name="endDate"
+              required
+              validate={Required}
+            />
+          </Col>
+          <Col xs={3}>
+            <Field
+              component={TextField}
+              id="addcontract_libraryCard"
+              label={<FormattedMessage id="ui-idm-connect.libraryCard" />}
+              name="libraryCard"
+            />
+          </Col>
+          <Col xs={3}>
+            <Field
+              component={TextField}
+              id="addcontract_uniLogin"
+              label={<FormattedMessage id="ui-idm-connect.uniLogin" />}
+              name="uniLogin"
             />
           </Col>
         </Row>

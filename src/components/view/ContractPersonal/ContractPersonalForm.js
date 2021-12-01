@@ -6,11 +6,12 @@ import { FormattedMessage } from 'react-intl';
 import {
   Accordion,
   Col,
+  Datepicker,
   Row,
   TextField,
 } from '@folio/stripes/components';
 
-// import { Required } from '../../DisplayUtils/Validate';
+import Required from '../../DisplayUtils/Validate';
 
 class ContractPersonalForm extends React.Component {
   render() {
@@ -24,37 +25,42 @@ class ContractPersonalForm extends React.Component {
         open={expanded}
       >
         <Row>
-          <Col xs={8}>
+          <Col xs={2}>
             <Field
               component={TextField}
-              fullWidth
               id="addcontract_lastname"
               label={<FormattedMessage id="ui-idm-connect.lastname" />}
               name="lastname"
               required
-              // validate={Required}
+              validate={Required}
             />
           </Col>
-        </Row>
-        <Row>
-          <Col xs={8}>
+          <Col xs={4}>
             <Field
               component={TextField}
-              fullWidth
               id="addcontract_firstname"
               label={<FormattedMessage id="ui-idm-connect.firstname" />}
               name="firstname"
+              required
+              validate={Required}
             />
           </Col>
-        </Row>
-        <Row>
-          <Col xs={8}>
+          <Col xs={2}>
             <Field
               component={TextField}
-              fullWidth
+              id="addcontract_academicTitle"
+              label={<FormattedMessage id="ui-idm-connect.academicTitle" />}
+              name="academicTitle"
+            />
+          </Col>
+          <Col xs={2}>
+            <Field
+              component={Datepicker}
               id="addcontract_dateOfBirth"
               label={<FormattedMessage id="ui-idm-connect.dateOfBirth" />}
               name="dateOfBirth"
+              required
+              validate={Required}
             />
           </Col>
         </Row>
