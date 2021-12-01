@@ -30,7 +30,7 @@ class ContractPersonalForm extends React.Component {
               component={TextField}
               id="addcontract_lastname"
               label={<FormattedMessage id="ui-idm-connect.lastname" />}
-              name="lastname"
+              name="personal.lastName"
               required
               validate={Required}
             />
@@ -40,7 +40,7 @@ class ContractPersonalForm extends React.Component {
               component={TextField}
               id="addcontract_firstname"
               label={<FormattedMessage id="ui-idm-connect.firstname" />}
-              name="firstname"
+              name="personal.firstName"
               required
               validate={Required}
             />
@@ -50,7 +50,7 @@ class ContractPersonalForm extends React.Component {
               component={TextField}
               id="addcontract_academicTitle"
               label={<FormattedMessage id="ui-idm-connect.academicTitle" />}
-              name="academicTitle"
+              name="personal.academicTitle"
             />
           </Col>
           <Col xs={2}>
@@ -58,7 +58,7 @@ class ContractPersonalForm extends React.Component {
               component={Datepicker}
               id="addcontract_dateOfBirth"
               label={<FormattedMessage id="ui-idm-connect.dateOfBirth" />}
-              name="dateOfBirth"
+              name="personal.dateOfBirth"
               required
               validate={Required}
             />

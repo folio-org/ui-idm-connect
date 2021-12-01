@@ -68,12 +68,21 @@ class ContractsRoute extends React.Component {
   render() {
     // if (!this.state.hasPerms) return <div><FormattedMessage id="ui-idm-connect.noPermission" /></div>;
 
-    const initData = localStorage.getItem('idmConnectNewContractInitialValues');
-    console.log(JSON.parse(initData));
+    const initialValues = JSON.parse(localStorage.getItem('idmConnectNewContractInitialValues'));
+
+    const adaptinitialValues = {
+      uniLogin: initialValues.unilogin,
+      personal: {
+        lastName: initialValues.surname,
+        firstName: initialValues.givenname,
+        dateOfBirth: initialValues.dateOfBirth,
+      }
+    };
 
     return (
       <ContractsForm
         handlers={{ onClose: this.handleClose }}
+        initialValues={adaptinitialValues}
         onSubmit={this.handleSubmit}
       />
     );

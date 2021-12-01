@@ -17,7 +17,7 @@ import {
   Paneset,
   Row,
 } from '@folio/stripes/components';
-import { IfPermission } from '@folio/stripes/core';
+// import { IfPermission } from '@folio/stripes/core';
 import stripesFinalForm from '@folio/stripes/final-form';
 
 import ContractPersonalForm from './ContractPersonal/ContractPersonalForm';
@@ -47,7 +47,7 @@ class ContractsForm extends React.Component {
     super(props);
 
     this.state = {
-      confirmDelete: false,
+      // confirmDelete: false,
       accordions: {
         editPersonalAccordion: true,
         editContractAccordion: true,
@@ -59,19 +59,19 @@ class ContractsForm extends React.Component {
     this.handleExpandAll = this.handleExpandAll.bind(this);
   }
 
-  beginDelete = () => {
-    this.setState({
-      confirmDelete: true,
-    });
-  }
+  // beginDelete = () => {
+  //   this.setState({
+  //     confirmDelete: true,
+  //   });
+  // }
 
-  confirmDelete = (confirmation) => {
-    if (confirmation) {
-      this.deleteContract();
-    } else {
-      this.setState({ confirmDelete: false });
-    }
-  }
+  // confirmDelete = (confirmation) => {
+  //   if (confirmation) {
+  //     this.deleteContract();
+  //   } else {
+  //     this.setState({ confirmDelete: false });
+  //   }
+  // }
 
   getFirstMenu() {
     return (
@@ -90,30 +90,30 @@ class ContractsForm extends React.Component {
     );
   }
 
-  getLastMenu() {
-    const { initialValues } = this.props;
-    const { confirmDelete } = this.state;
-    const isEditing = initialValues && initialValues.id;
+  // getLastMenu() {
+  //   const { initialValues } = this.props;
+  //   const { confirmDelete } = this.state;
+  //   const isEditing = initialValues && initialValues.unilogin;
 
-    return (
-      <PaneMenu>
-        {isEditing && (
-          <IfPermission perm="idm-connect.contracts.item.delete">
-            <Button
-              buttonStyle="danger"
-              disabled={confirmDelete}
-              id="clickable-delete-contract"
-              marginBottom0
-              onClick={this.beginDelete}
-              title="delete"
-            >
-              <FormattedMessage id="ui-idm-connect.form.delete" />
-            </Button>
-          </IfPermission>
-        )}
-      </PaneMenu>
-    );
-  }
+  //   return (
+  //     <PaneMenu>
+  //       {isEditing && (
+  //         <IfPermission perm="idm-connect.contracts.item.delete">
+  //           <Button
+  //             buttonStyle="danger"
+  //             disabled={confirmDelete}
+  //             id="clickable-delete-contract"
+  //             marginBottom0
+  //             onClick={this.beginDelete}
+  //             title="delete"
+  //           >
+  //             <FormattedMessage id="ui-idm-connect.form.delete" />
+  //           </Button>
+  //         </IfPermission>
+  //       )}
+  //     </PaneMenu>
+  //   );
+  // }
 
   getPaneFooter() {
     const {
@@ -171,9 +171,9 @@ class ContractsForm extends React.Component {
   render() {
     const { initialValues, isLoading, handleSubmit } = this.props;
     const { accordions } = this.state;
-    const paneTitle = initialValues.id ? initialValues.label : <FormattedMessage id="ui-idm-connect.form.create" />;
+    const paneTitle = initialValues.uniLogin ? `${initialValues.personal.lastName}, ${initialValues.personal.firstName}` : <FormattedMessage id="ui-idm-connect.form.create" />;
     const firstMenu = this.getFirstMenu();
-    const lastMenu = this.getLastMenu();
+    // const lastMenu = this.getLastMenu();
     const footer = this.getPaneFooter();
 
     if (isLoading) return <Icon icon="spinner-ellipsis" width="10px" />;
@@ -189,7 +189,7 @@ class ContractsForm extends React.Component {
             defaultWidth="100%"
             firstMenu={firstMenu}
             footer={footer}
-            lastMenu={lastMenu}
+            // lastMenu={lastMenu}
             paneTitle={paneTitle}
           >
             <div>
