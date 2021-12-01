@@ -55,7 +55,9 @@ class ContractPersonalForm extends React.Component {
           </Col>
           <Col xs={2}>
             <Field
+              backendDateStandard="YYYYMMDD"
               component={Datepicker}
+              dateFormat="YYYY-MM-DD"
               id="addcontract_dateOfBirth"
               label={<FormattedMessage id="ui-idm-connect.dateOfBirth" />}
               name="personal.dateOfBirth"
