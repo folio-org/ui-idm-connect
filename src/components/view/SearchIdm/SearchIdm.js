@@ -25,7 +25,7 @@ import Required from '../../DisplayUtils/Validate';
 import urls from '../../DisplayUtils/urls';
 import css from './SearchBtn.css';
 
-let newContractInitialValues = {};
+let newContractInitialValues = '';
 
 class SearchIdm extends React.Component {
   static propTypes = {
@@ -81,8 +81,17 @@ class SearchIdm extends React.Component {
     // });
   }
 
+  getDisableTakeContinue() {
+    if (newContractInitialValues === '') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   renderPaneFooter() {
     const { createNewUser, handlers: { onClose } } = this.props;
+    const disableTakeContinue = this.getDisableTakeContinue();
 
     const startButton = (
       <Button
@@ -100,6 +109,7 @@ class SearchIdm extends React.Component {
         marginBottom0
         id="clickable-takeContinue-form"
         buttonStyle="default mega"
+        disabled={disableTakeContinue}
         to={`${urls.contractCreate()}${this.props.searchString}`}
       >
         <FormattedMessage id="ui-idm-connect.searchIdm.takeContinue" />
@@ -107,6 +117,17 @@ class SearchIdm extends React.Component {
     );
 
     return <PaneFooter renderStart={startButton} renderEnd={createNewUser ? endButton : ''} />;
+  }
+
+  renderNoMatchButton() {
+    return (
+      <Button
+        buttonStyle="default"
+        onClick={this.props.createNewUser ? () => this.toggleRecord({}) : undefined}
+      >
+        <FormattedMessage id="ui-idm-connect.searchIdm.noMatch" />
+      </Button>
+    );
   }
 
   columnMapping = {
@@ -142,6 +163,7 @@ class SearchIdm extends React.Component {
     isChecked: users => (
       <Button
         buttonStyle="default"
+        marginBottom0
         onClick={this.props.createNewUser ? () => this.toggleRecord(users) : undefined}
       >
         {this.state.selected ? <FormattedMessage id="ui-idm-connect.searchIdm.selected" /> : <FormattedMessage id="ui-idm-connect.searchIdm.choose" />}
@@ -177,12 +199,7 @@ class SearchIdm extends React.Component {
               visibleColumns={createNewUser ? ['unilogin', 'accountState', 'surname', 'givenname', 'dateOfBirth', 'ULAffiliation', 'isChecked'] : ['unilogin', 'accountState', 'surname', 'givenname', 'dateOfBirth', 'ULAffiliation']}
             />
           </Card>
-          <Button
-            buttonStyle="default"
-            onClick={this.props.createNewUser ? () => this.toggleRecord({}) : undefined}
-          >
-            <FormattedMessage id="ui-idm-connect.searchIdm.noMatch" />
-          </Button>
+          {createNewUser ? this.renderNoMatchButton() : '' }
         </>
       );
     } else {
