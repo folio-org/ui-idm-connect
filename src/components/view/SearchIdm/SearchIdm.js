@@ -9,14 +9,12 @@ import stripesForm from '@folio/stripes/form';
 import {
   Button,
   Card,
-  // Checkbox,
   Col,
   Datepicker,
   MultiColumnList,
   Pane,
   PaneFooter,
   Paneset,
-  // RadioButton,
   Row,
   TextField,
 } from '@folio/stripes/components';
@@ -48,40 +46,49 @@ class SearchIdm extends React.Component {
     // this.toggleRecord = this.toggleRecord.bind(this);
     this.state = {
       dateOfBirth: '',
-      // selected: false,
       checkedUnilogin: '',
+      noMatchButtonSelected: false,
     };
   }
 
-  toggleRecord = toggledRecord => {
+  toggleRecord = (toggledRecord, noMatch) => {
     newContractInitialValues = toggledRecord;
-    // this.setState(prevState => ({
-    //   selected: !prevState.selected,
-    // }));
 
     localStorage.setItem('idmConnectNewContractInitialValues', JSON.stringify(newContractInitialValues));
 
     this.setState({
       checkedUnilogin: toggledRecord.unilogin,
-      // userButtonState: this.props.users.map(user => (
-      //   (user.unilogin === toggledRecord.unilogin) ?
-      //     {
-      //       id: user.unilogin,
-      //       value: true,
-      //     } : {
-      //       id: user.unilogin,
-      //       value: false,
-      //     })),
+      noMatchButtonSelected: noMatch,
     });
   }
 
   getDisableTakeContinue() {
-    if (newContractInitialValues === '') {
-      return true;
-    } else {
-      return false;
-    }
+    return this.state.checkedUnilogin === '' && !this.state.noMatchButtonSelected;
   }
+
+  isButtonSelected = (user) => {
+    return user.unilogin === this.state.checkedUnilogin;
+  }
+
+  renderNoMatchButton() {
+    const buttonStyle = this.state.noMatchButtonSelected ? 'primary' : 'default';
+
+    return (
+      <Button
+        buttonStyle={buttonStyle}
+        onClick={this.props.createNewUser ? () => this.toggleRecord({}, true) : undefined}
+      >
+        <FormattedMessage id="ui-idm-connect.searchIdm.noMatch" />
+      </Button>
+    );
+  }
+
+  handleDateChange = (e) => {
+    const newDate = e.target.value;
+    this.setState({
+      dateOfBirth: newDate,
+    });
+  };
 
   renderPaneFooter() {
     const { createNewUser, handlers: { onClose } } = this.props;
@@ -101,7 +108,6 @@ class SearchIdm extends React.Component {
     const endButton = (
       <Button
         buttonStyle="default mega"
-        // TODO: adapt disabled; not working when closing and search again
         disabled={disableTakeContinue}
         id="clickable-takeContinue-form"
         marginBottom0
@@ -114,17 +120,6 @@ class SearchIdm extends React.Component {
     return <PaneFooter renderStart={startButton} renderEnd={createNewUser ? endButton : ''} />;
   }
 
-  renderNoMatchButton() {
-    return (
-      <Button
-        buttonStyle="default"
-        onClick={this.props.createNewUser ? () => this.toggleRecord({}) : undefined}
-      >
-        <FormattedMessage id="ui-idm-connect.searchIdm.noMatch" />
-      </Button>
-    );
-  }
-
   columnMapping = {
     unilogin: <FormattedMessage id="ui-idm-connect.uniLogin" />,
     accountState: <FormattedMessage id="ui-idm-connect.accountState" />,
@@ -134,10 +129,6 @@ class SearchIdm extends React.Component {
     ULAffiliation: <FormattedMessage id="ui-idm-connect.ULAffiliation" />,
     isChecked: '',
   };
-
-  isButtonSelected = (user) => {
-    return user.unilogin === this.state.checkedUnilogin;
-  }
 
   resultsFormatter = {
     unilogin: users => users.unilogin,
@@ -154,22 +145,12 @@ class SearchIdm extends React.Component {
         <Button
           buttonStyle={buttonStyle}
           marginBottom0
-          onClick={this.props.createNewUser ? () => this.toggleRecord(users) : undefined}
+          onClick={this.props.createNewUser ? () => this.toggleRecord(users, false) : undefined}
         >
           {buttonLabel}
         </Button>
       );
     },
-
-    // isChecked: users => (
-    //   <Button
-    //     buttonStyle="default"
-    //     marginBottom0
-    //     onClick={this.props.createNewUser ? () => this.toggleRecord(users) : undefined}
-    //   >
-    //     {this.state.selected ? <FormattedMessage id="ui-idm-connect.searchIdm.selected" /> : <FormattedMessage id="ui-idm-connect.searchIdm.choose" />}
-    //   </Button>
-    // ),
   };
 
   renderResults() {
@@ -217,13 +198,6 @@ class SearchIdm extends React.Component {
     }
   }
 
-  handleDateChange = (e) => {
-    const newDate = e.target.value;
-    this.setState({
-      dateOfBirth: newDate,
-    });
-  };
-
   render() {
     const {
       handlers: { onClose },
@@ -232,9 +206,6 @@ class SearchIdm extends React.Component {
       pristine,
       submitting,
     } = this.props;
-
-    // console.log('result state.userButtonState:');
-    // console.log(this.state.userButtonState);
 
     return (
       <>
