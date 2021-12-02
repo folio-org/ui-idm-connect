@@ -48,36 +48,21 @@ class SearchIdm extends React.Component {
     // this.toggleRecord = this.toggleRecord.bind(this);
     this.state = {
       dateOfBirth: '',
-      selected: false,
-      checkedMap: '',
-      // userButtonState: [],
+      // selected: false,
+      checkedUnilogin: '',
     };
   }
 
   toggleRecord = toggledRecord => {
-    // const { unilogin } = toggledRecord;
-
     newContractInitialValues = toggledRecord;
-    this.setState(prevState => ({
-      selected: !prevState.selected,
-    }));
+    // this.setState(prevState => ({
+    //   selected: !prevState.selected,
+    // }));
 
     localStorage.setItem('idmConnectNewContractInitialValues', JSON.stringify(newContractInitialValues));
 
-    // this.setState({
-    //   // userButtonState: this.props.users.map(user => user.unilogin)
-    //   // initial array of buttons state with user unilogin and false:
-    //   userButtonState: this.props.users.map(user => ({
-    //     id: user.unilogin,
-    //     value: false,
-    //   })),
-    // });
-
-    // console.log('toggledRecord');
-    // console.log(toggledRecord);
-
     this.setState({
-      checkedMap: toggledRecord.unilogin,
+      checkedUnilogin: toggledRecord.unilogin,
       // userButtonState: this.props.users.map(user => (
       //   (user.unilogin === toggledRecord.unilogin) ?
       //     {
@@ -150,12 +135,8 @@ class SearchIdm extends React.Component {
     isChecked: '',
   };
 
-  getButtonLabel = (user) => {
-    if (user.unilogin === this.state.checkedMap) {
-      return <FormattedMessage id="ui-idm-connect.searchIdm.selected" />;
-    } else {
-      return <FormattedMessage id="ui-idm-connect.searchIdm.choose" />;
-    }
+  isButtonSelected = (user) => {
+    return user.unilogin === this.state.checkedUnilogin;
   }
 
   resultsFormatter = {
@@ -165,27 +146,13 @@ class SearchIdm extends React.Component {
     givenname: users => users.givenname,
     dateOfBirth: users => moment(users.dateOfBirth).format('YYYY-MM-DD'),
     ULAffiliation: users => users.ULAffiliation,
-    // isChecked: users => (
-    //   <Checkbox
-    //     checked={Boolean(this.state.checkedMap[users.unilogin])}
-    //     onChange={this.props.createNewUser ? () => this.toggleRecord(users) : undefined}
-    //     type="checkbox"
-    //   />
-    // ),
-    // isChecked: (users) => (
-    //   <RadioButton
-    //     checked={Boolean(this.state.checkedMap[users.unilogin])}
-    //     onChange={this.props.createNewUser ? () => this.toggleRecord(users) : undefined}
-    //   />
-    // ),
-
-    // TODO: try to get the right button label !!!!!!
     isChecked: users => {
-      const buttonLabel = this.getButtonLabel(users);
+      const buttonLabel = this.isButtonSelected(users) ? <FormattedMessage id="ui-idm-connect.searchIdm.selected" /> : <FormattedMessage id="ui-idm-connect.searchIdm.choose" />;
+      const buttonStyle = this.isButtonSelected(users) ? 'primary' : 'default';
 
       return (
         <Button
-          buttonStyle="default"
+          buttonStyle={buttonStyle}
           marginBottom0
           onClick={this.props.createNewUser ? () => this.toggleRecord(users) : undefined}
         >
