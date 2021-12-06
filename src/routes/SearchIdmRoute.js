@@ -20,7 +20,7 @@ class SearchIdmRoute extends React.Component {
 
     this.state = {
       users: [],
-      readyToRender: false,
+      renderListOfResults: false,
     };
   }
 
@@ -47,7 +47,7 @@ class SearchIdmRoute extends React.Component {
         response.json().then((json) => {
           this.setState(() => ({
             users: json,
-            readyToRender: true,
+            renderListOfResults: true,
           }));
         });
       } else {
@@ -72,7 +72,7 @@ class SearchIdmRoute extends React.Component {
         onSubmit={this.handleSubmit}
         handlers={{ onClose: this.handleClose }}
         users={this.state.users}
-        readyToRender={this.state.readyToRender}
+        renderListOfResults={this.state.renderListOfResults}
         searchString={location.search}
         createNewUser={createNewUser}
       />

@@ -33,7 +33,7 @@ const renderUsers = (USERS, newUser, rerender) => renderWithIntl(
         onSubmit={onSubmit}
         handlers={{ onClose }}
         users={USERS}
-        readyToRender
+        renderListOfResults
       />
     </MemoryRouter>
   </Provider>,
