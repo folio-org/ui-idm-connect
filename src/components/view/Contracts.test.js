@@ -122,6 +122,7 @@ describe('Contracts SASQ View - rerender result list', () => {
       expect(actionButton).toBeVisible();
       userEvent.click(actionButton);
       expect(screen.getByRole('button', { name: 'Search IDM' })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: 'New' })).toBeInTheDocument();
     });
 
     test('trigger search should return results', () => {
