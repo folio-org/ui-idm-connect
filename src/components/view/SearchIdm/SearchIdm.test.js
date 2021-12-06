@@ -150,5 +150,9 @@ describe('Search IDM - Create new user', () => {
 
     userEvent.click(noMatchButton);
     expect(takeAndContinueButton).not.toHaveAttribute('disabled');
+
+    // userEvent.click(takeAndContinueButton);
+    // expect(screen.getByText('Create')).toBeVisible();
+    // expect(document.querySelector('#form-contract')).toBeInTheDocument();
   });
 });
