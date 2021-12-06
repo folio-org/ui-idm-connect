@@ -1,0 +1,10 @@
+.searchButton {
+    margin-top: 1.75rem;
+    margin-bottom: 0.25rem;
+  }
+
+.noMatchButton {
+  float: right;
+  margin-right: 15em;
+  width: 150px;
+}

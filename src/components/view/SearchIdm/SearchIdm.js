@@ -21,7 +21,7 @@ import {
 
 import Required from '../../DisplayUtils/Validate';
 import urls from '../../DisplayUtils/urls';
-import css from './SearchBtn.css';
+import css from './Styles.css';
 
 let newContractInitialValues = '';
 
@@ -73,12 +73,15 @@ class SearchIdm extends React.Component {
     const buttonStyle = this.state.noMatchButtonSelected ? 'primary' : 'default';
 
     return (
-      <Button
-        buttonStyle={buttonStyle}
-        onClick={this.props.createNewUser ? () => this.toggleRecord({}, true) : undefined}
-      >
-        <FormattedMessage id="ui-idm-connect.searchIdm.noMatch" />
-      </Button>
+      <div>
+        <Button
+          buttonStyle={buttonStyle}
+          onClick={this.props.createNewUser ? () => this.toggleRecord({}, true) : undefined}
+          style={{ float: 'right', marginRight: '20em' }}
+        >
+          <FormattedMessage id="ui-idm-connect.searchIdm.noMatch" />
+        </Button>
+      </div>
     );
   }
 
@@ -129,6 +132,16 @@ class SearchIdm extends React.Component {
     isChecked: '',
   };
 
+  columnWidths = {
+    unilogin: 150,
+    accountState: 300,
+    surname: 250,
+    givenname: 250,
+    dateOfBirth: 150,
+    ULAffiliation: 150,
+    isChecked: 50,
+  };
+
   resultsFormatter = {
     unilogin: users => users.unilogin,
     accountState: users => users.accountState,
@@ -173,6 +186,7 @@ class SearchIdm extends React.Component {
           >
             <MultiColumnList
               columnMapping={this.columnMapping}
+              columnWidths={this.columnWidths}
               contentData={this.props.users}
               formatter={this.resultsFormatter}
               id="search-idm-list-users"
