@@ -7,7 +7,6 @@ import {
   AccordionSet,
   Button,
   Col,
-  // ConfirmationModal,
   ExpandAllButton,
   Icon,
   IconButton,
@@ -17,7 +16,6 @@ import {
   Paneset,
   Row,
 } from '@folio/stripes/components';
-// import { IfPermission } from '@folio/stripes/core';
 import stripesFinalForm from '@folio/stripes/final-form';
 
 import ContractPersonalForm from './ContractPersonal/ContractPersonalForm';
@@ -34,7 +32,6 @@ class ContractsForm extends React.Component {
     initialValues: PropTypes.object,
     invalid: PropTypes.bool,
     isLoading: PropTypes.bool,
-    // onDelete: PropTypes.func,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
   };
@@ -47,7 +44,6 @@ class ContractsForm extends React.Component {
     super(props);
 
     this.state = {
-      // confirmDelete: false,
       accordions: {
         editPersonalAccordion: true,
         editContractAccordion: true,
@@ -58,20 +54,6 @@ class ContractsForm extends React.Component {
 
     this.handleExpandAll = this.handleExpandAll.bind(this);
   }
-
-  // beginDelete = () => {
-  //   this.setState({
-  //     confirmDelete: true,
-  //   });
-  // }
-
-  // confirmDelete = (confirmation) => {
-  //   if (confirmation) {
-  //     this.deleteContract();
-  //   } else {
-  //     this.setState({ confirmDelete: false });
-  //   }
-  // }
 
   getFirstMenu() {
     return (
@@ -89,31 +71,6 @@ class ContractsForm extends React.Component {
       </PaneMenu>
     );
   }
-
-  // getLastMenu() {
-  //   const { initialValues } = this.props;
-  //   const { confirmDelete } = this.state;
-  //   const isEditing = initialValues && initialValues.unilogin;
-
-  //   return (
-  //     <PaneMenu>
-  //       {isEditing && (
-  //         <IfPermission perm="idm-connect.contracts.item.delete">
-  //           <Button
-  //             buttonStyle="danger"
-  //             disabled={confirmDelete}
-  //             id="clickable-delete-contract"
-  //             marginBottom0
-  //             onClick={this.beginDelete}
-  //             title="delete"
-  //           >
-  //             <FormattedMessage id="ui-idm-connect.form.delete" />
-  //           </Button>
-  //         </IfPermission>
-  //       )}
-  //     </PaneMenu>
-  //   );
-  // }
 
   getPaneFooter() {
     const {
@@ -173,7 +130,6 @@ class ContractsForm extends React.Component {
     const { accordions } = this.state;
     const paneTitle = initialValues.uniLogin ? `${initialValues.personal.lastName}, ${initialValues.personal.firstName}` : <FormattedMessage id="ui-idm-connect.form.create" />;
     const firstMenu = this.getFirstMenu();
-    // const lastMenu = this.getLastMenu();
     const footer = this.getPaneFooter();
 
     if (isLoading) return <Icon icon="spinner-ellipsis" width="10px" />;
@@ -189,7 +145,6 @@ class ContractsForm extends React.Component {
             defaultWidth="100%"
             firstMenu={firstMenu}
             footer={footer}
-            // lastMenu={lastMenu}
             paneTitle={paneTitle}
           >
             <div>
@@ -225,17 +180,6 @@ class ContractsForm extends React.Component {
                   onToggle={this.handleSectionToggle}
                 />
               </AccordionSet>
-              {/* <ConfirmationModal
-                heading={<FormattedMessage id="ui-idm-connect.form.delete" />}
-                id="delete-contract-confirmation"
-                message={<FormattedMessage
-                  id="ui-idm-connect.form.delete.confirm.message"
-                  values={{ name }}
-                />}
-                onCancel={() => { this.confirmDelete(false); }}
-                onConfirm={() => onDelete()}
-                open={confirmDelete}
-              /> */}
             </div>
           </Pane>
         </Paneset>
@@ -250,19 +194,4 @@ export default stripesFinalForm({
   enableReinitialize: true,
   // set navigationCheck true for confirming changes
   navigationCheck: true,
-  // mutators: {
-  //   setSource: (args, state, tools) => {
-  //     tools.changeValue(state, 'mdSource', () => args[0]);
-  //   },
-  //   clearPermittedFor: (_args, state, tools) => {
-  //     tools.changeValue(state, 'permittedFor', () => []);
-  //   },
-  //   setUsageRestricted: (args, state, tools) => {
-  //     tools.changeValue(state, 'usageRestricted', () => args[1]);
-  //   }
-  // },
-  // necessary for permittedFor logic
-  // subscription: {
-  //   values: true
-  // },
 })(ContractsForm);

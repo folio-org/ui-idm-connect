@@ -1,27 +1,3 @@
-.addMarginBottom {
-  margin-bottom: 2em;
-}
-
-.addMarginBottomAndTop {
-  margin-bottom: 1em;
-  margin-top: 1em;
-}
-
-.styleForViewHeadline {
-  margin-bottom: 0;
-  margin-left: 0.1em;
-}
-
 .styleForFormLabel {
   margin-left: 0.5em;
-}
-
-.styleForFormRoot {
-  height: 100%;
-  overflow: auto;
-}
-
-.styleForFormContent {
-  margin: 0 auto;
-  max-width: 50em;
 }

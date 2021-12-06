@@ -25,7 +25,6 @@ class ContractCommentForm extends React.Component {
           <Col xs={10}>
             <Field
               component={TextArea}
-              fullWidth
               id="addcontract_comment"
               label={<FormattedMessage id="ui-idm-connect.comment" />}
               name="comment"

@@ -56,7 +56,6 @@ class ContractContactForm extends React.Component {
           <Col xs={3}>
             <Field
               component={TextField}
-              fullWidth
               id="addcontract_addition"
               label={<FormattedMessage id="ui-idm-connect.addition" />}
               name="personal.address.addressLine2"
@@ -67,7 +66,6 @@ class ContractContactForm extends React.Component {
           <Col xs={2}>
             <Field
               component={TextField}
-              fullWidth
               id="addcontract_zipCode"
               label={<FormattedMessage id="ui-idm-connect.zipCode" />}
               name="personal.address.zipCode"
@@ -78,7 +76,6 @@ class ContractContactForm extends React.Component {
           <Col xs={3}>
             <Field
               component={TextField}
-              fullWidth
               id="addcontract_city"
               label={<FormattedMessage id="ui-idm-connect.city" />}
               name="personal.address.city"
@@ -89,7 +86,6 @@ class ContractContactForm extends React.Component {
           <Col xs={3}>
             <Field
               component={TextField}
-              fullWidth
               id="addcontract_country"
               label={<FormattedMessage id="ui-idm-connect.country" />}
               name="personal.address.country"

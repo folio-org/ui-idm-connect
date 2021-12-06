@@ -43,7 +43,6 @@ class SearchIdm extends React.Component {
   constructor(props) {
     super(props);
 
-    // this.toggleRecord = this.toggleRecord.bind(this);
     this.state = {
       dateOfBirth: '',
       checkedUnilogin: '',
