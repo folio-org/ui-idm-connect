@@ -1,6 +1,6 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
-// import userEvent from '@testing-library/user-event';
+import userEvent from '@testing-library/user-event';
 import { Form } from 'react-final-form';
 import { MemoryRouter } from 'react-router-dom';
 
@@ -66,6 +66,25 @@ describe('Create new contract - without initial values', () => {
     expect(screen.getByRole('textbox', { name: 'City' })).toBeRequired();
     expect(screen.getByRole('textbox', { name: 'Country' })).toBeRequired();
     expect(screen.getByRole('textbox', { name: 'Comment' })).not.toBeRequired();
+  });
+
+  test('fill required fields should enable Save & close button', async () => {
+    const saveAndCloseButton = screen.getByRole('button', { name: 'Save & close' });
+    expect(saveAndCloseButton).toHaveAttribute('disabled');
+
+    userEvent.type(screen.getByRole('textbox', { name: 'Lastname' }), 'Führer');
+    userEvent.type(screen.getByRole('textbox', { name: 'Firstname' }), 'Lienhardt');
+    userEvent.type(screen.getByRole('textbox', { name: 'Date of birth' }), '1994-04-22');
+    userEvent.type(screen.getByRole('textbox', { name: 'End date' }), '2020-01-12');
+    userEvent.type(screen.getByRole('textbox', { name: 'External email' }), 'lienhardtfuehrer@aol.com');
+    userEvent.type(screen.getByRole('textbox', { name: 'Street' }), 'Peter-Schmitter-Straße 83');
+    userEvent.type(screen.getByRole('textbox', { name: 'ZIP code' }), '88453');
+    userEvent.type(screen.getByRole('textbox', { name: 'City' }), 'Erolzheim');
+    userEvent.type(screen.getByRole('textbox', { name: 'Country' }), 'Germany');
+
+    expect(saveAndCloseButton).not.toHaveAttribute('disabled');
+    userEvent.click(saveAndCloseButton);
+    expect(onSubmit).toHaveBeenCalled();
   });
 });
 
