@@ -21,7 +21,7 @@ import {
 
 import Required from '../../DisplayUtils/Validate';
 import urls from '../../DisplayUtils/urls';
-import css from './Styles.css';
+import css from './SearchIdmStyles.css';
 
 let newContractInitialValues = '';
 
@@ -73,11 +73,10 @@ class SearchIdm extends React.Component {
     const buttonStyle = this.state.noMatchButtonSelected ? 'primary' : 'default';
 
     return (
-      <div>
+      <div className={css.noMatchButton}>
         <Button
           buttonStyle={buttonStyle}
           onClick={this.props.createNewUser ? () => this.toggleRecord({}, true) : undefined}
-          style={{ float: 'right', marginRight: '20em' }}
         >
           <FormattedMessage id="ui-idm-connect.searchIdm.noMatch" />
         </Button>
@@ -134,12 +133,12 @@ class SearchIdm extends React.Component {
 
   columnWidths = {
     unilogin: 150,
-    accountState: 300,
-    surname: 250,
-    givenname: 250,
+    accountState: 270,
+    surname: 240,
+    givenname: 240,
     dateOfBirth: 150,
     ULAffiliation: 150,
-    isChecked: 50,
+    isChecked: 100,
   };
 
   resultsFormatter = {
