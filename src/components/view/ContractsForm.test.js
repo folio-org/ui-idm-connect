@@ -1,5 +1,6 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
+// import userEvent from '@testing-library/user-event';
 import { Form } from 'react-final-form';
 import { MemoryRouter } from 'react-router-dom';
 
@@ -48,6 +49,23 @@ describe('Create new contract - without initial values', () => {
     expect(document.querySelector('#editContractAccordion')).toBeInTheDocument();
     expect(document.querySelector('#editContactAccordion')).toBeInTheDocument();
     expect(document.querySelector('#editCommentAccordion')).toBeInTheDocument();
+  });
+
+  test('required fields', async () => {
+    expect(screen.getByRole('textbox', { name: 'Lastname' })).toBeRequired();
+    expect(screen.getByRole('textbox', { name: 'Firstname' })).toBeRequired();
+    expect(screen.getByRole('textbox', { name: 'Academic title' })).not.toBeRequired();
+    expect(screen.getByRole('textbox', { name: 'Date of birth' })).toBeRequired();
+    expect(screen.getByRole('textbox', { name: 'End date' })).toBeRequired();
+    expect(screen.getByRole('textbox', { name: 'Library card' })).not.toBeRequired();
+    expect(screen.getByRole('textbox', { name: 'Uni login' })).not.toBeRequired();
+    expect(screen.getByRole('textbox', { name: 'External email' })).toBeRequired();
+    expect(screen.getByRole('textbox', { name: 'Street' })).toBeRequired();
+    expect(screen.getByRole('textbox', { name: 'Addition to address' })).not.toBeRequired();
+    expect(screen.getByRole('textbox', { name: 'ZIP code' })).toBeRequired();
+    expect(screen.getByRole('textbox', { name: 'City' })).toBeRequired();
+    expect(screen.getByRole('textbox', { name: 'Country' })).toBeRequired();
+    expect(screen.getByRole('textbox', { name: 'Comment' })).not.toBeRequired();
   });
 });
 
