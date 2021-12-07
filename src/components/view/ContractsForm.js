@@ -1,5 +1,5 @@
 import React from 'react';
-import { cloneDeep, isEqual } from 'lodash';
+import { cloneDeep } from 'lodash';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
@@ -189,9 +189,12 @@ class ContractsForm extends React.Component {
 }
 
 export default stripesFinalForm({
-  initialValuesEqual: (a, b) => isEqual(a, b),
   // the form will reinitialize every time the initialValues prop changes
   enableReinitialize: true,
   // set navigationCheck true for confirming changes
   navigationCheck: true,
+  subscription: {
+    values: true,
+    invalid: true,
+  },
 })(ContractsForm);
