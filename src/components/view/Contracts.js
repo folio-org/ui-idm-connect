@@ -25,7 +25,10 @@ import {
   Paneset,
   SearchField,
 } from '@folio/stripes/components';
-import { AppIcon } from '@folio/stripes/core';
+import {
+  AppIcon,
+  IfPermission,
+} from '@folio/stripes/core';
 
 import urls from '../DisplayUtils/urls';
 import ContractsFilters from './ContractsFilters';
@@ -161,25 +164,27 @@ class Contracts extends React.Component {
             </Button>
           )}
         </FormattedMessage>
-        <FormattedMessage id="ui-idm-connect.new">
-          {ariaLabel => (
-            <Button
-              aria-label={ariaLabel}
-              buttonStyle="dropdownItem"
-              id="clickable-new"
-              marginBottom0
-              onClick={() => {
-                this.props.history.push({
-                  pathname: `${urls.searchIdm()}`,
-                  state: 'new'
-                });
-                onToggle();
-              }}
-            >
-              <FormattedMessage id="ui-idm-connect.new" />
-            </Button>
-          )}
-        </FormattedMessage>
+        <IfPermission perm="ui-idm-connect.create-edit">
+          <FormattedMessage id="ui-idm-connect.new">
+            {ariaLabel => (
+              <Button
+                aria-label={ariaLabel}
+                buttonStyle="dropdownItem"
+                id="clickable-new"
+                marginBottom0
+                onClick={() => {
+                  this.props.history.push({
+                    pathname: `${urls.searchIdm()}`,
+                    state: 'new'
+                  });
+                  onToggle();
+                }}
+              >
+                <FormattedMessage id="ui-idm-connect.new" />
+              </Button>
+            )}
+          </FormattedMessage>
+        </IfPermission>
       </>
     );
   }
