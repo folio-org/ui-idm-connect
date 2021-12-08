@@ -16,9 +16,9 @@ const RequiredMail = value => {
   return undefined;
 };
 
-const RequiredNoDollarBackslash = value => {
-  const dollarBackslashRegex = /\$|\\/;
+const dollarBackslashRegex = /\$|\\/;
 
+const RequiredNoDollarBackslash = value => {
   if (!value || dollarBackslashRegex.test(value)) {
     return <FormattedMessage id="ui-idm-connect.form.validate.noDollarBackslashRequired" />;
   }
@@ -27,8 +27,6 @@ const RequiredNoDollarBackslash = value => {
 };
 
 const NoDollarBackslash = value => {
-  const dollarBackslashRegex = /\$|\\/;
-
   if (dollarBackslashRegex.test(value)) {
     return <FormattedMessage id="ui-idm-connect.form.validate.noDollarBackslash" />;
   }

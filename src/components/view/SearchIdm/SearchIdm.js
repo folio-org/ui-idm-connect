@@ -167,6 +167,8 @@ class SearchIdm extends React.Component {
   renderResults() {
     const { createNewUser, users } = this.props;
     const count = users.length;
+    const columns = ['unilogin', 'accountState', 'surname', 'givenname', 'dateOfBirth', 'ULAffiliation'];
+    const columnsWithIsChecked = [...columns, 'isChecked'];
 
     if ((count > 0) && (_.get(this.props.users[0], 'msg', '') === '')) {
       return (
@@ -190,7 +192,7 @@ class SearchIdm extends React.Component {
               formatter={this.resultsFormatter}
               id="search-idm-list-users"
               interactive={false}
-              visibleColumns={createNewUser ? ['unilogin', 'accountState', 'surname', 'givenname', 'dateOfBirth', 'ULAffiliation', 'isChecked'] : ['unilogin', 'accountState', 'surname', 'givenname', 'dateOfBirth', 'ULAffiliation']}
+              visibleColumns={createNewUser ? columnsWithIsChecked : columns}
             />
           </Card>
           {createNewUser ? this.renderNoMatchButton() : '' }
