@@ -41,6 +41,8 @@
   "searchIdm.noMatch": "No match",
   "form.validate.required": "Required!",
   "form.validate.validMailRequired": "Valid email address required!",
+  "form.validate.noDollarBackslashRequired": "Required! No $ or \\ allowed!",
+  "form.validate.noDollarBackslash": "No $ or \\ allowed!",
   "form.cancel": "Cancel",
   "form.saveAndClose": "Save & close",
   "form.create": "Create",

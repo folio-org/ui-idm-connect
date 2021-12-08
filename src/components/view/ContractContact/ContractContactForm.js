@@ -11,7 +11,11 @@ import {
   TextField,
 } from '@folio/stripes/components';
 
-import { Required, RequiredMail } from '../../DisplayUtils/Validate';
+import {
+  NoDollarBackslash,
+  RequiredMail,
+  RequiredNoDollarBackslash,
+} from '../../DisplayUtils/Validate';
 import BasicCss from '../BasicStyle.css';
 
 class ContractContactForm extends React.Component {
@@ -50,7 +54,7 @@ class ContractContactForm extends React.Component {
               label={<FormattedMessage id="ui-idm-connect.street" />}
               name="personal.address.addressLine1"
               required
-              validate={Required}
+              validate={RequiredNoDollarBackslash}
             />
           </Col>
           <Col xs={3}>
@@ -59,6 +63,7 @@ class ContractContactForm extends React.Component {
               id="addcontract_addition"
               label={<FormattedMessage id="ui-idm-connect.addition" />}
               name="personal.address.addressLine2"
+              validate={NoDollarBackslash}
             />
           </Col>
         </Row>
@@ -70,7 +75,7 @@ class ContractContactForm extends React.Component {
               label={<FormattedMessage id="ui-idm-connect.zipCode" />}
               name="personal.address.zipCode"
               required
-              validate={Required}
+              validate={RequiredNoDollarBackslash}
             />
           </Col>
           <Col xs={3}>
@@ -80,7 +85,7 @@ class ContractContactForm extends React.Component {
               label={<FormattedMessage id="ui-idm-connect.city" />}
               name="personal.address.city"
               required
-              validate={Required}
+              validate={RequiredNoDollarBackslash}
             />
           </Col>
           <Col xs={3}>
@@ -90,7 +95,7 @@ class ContractContactForm extends React.Component {
               label={<FormattedMessage id="ui-idm-connect.country" />}
               name="personal.address.country"
               required
-              validate={Required}
+              validate={RequiredNoDollarBackslash}
             />
           </Col>
         </Row>

@@ -16,4 +16,30 @@ const RequiredMail = value => {
   return undefined;
 };
 
-export { Required, RequiredMail };
+const RequiredNoDollarBackslash = value => {
+  const dollarBackslashRegex = /\$|\\/;
+
+  if (!value || dollarBackslashRegex.test(value)) {
+    return <FormattedMessage id="ui-idm-connect.form.validate.noDollarBackslashRequired" />;
+  }
+
+  return undefined;
+};
+
+const NoDollarBackslash = value => {
+  const dollarBackslashRegex = /\$|\\/;
+
+  if (dollarBackslashRegex.test(value)) {
+    return <FormattedMessage id="ui-idm-connect.form.validate.noDollarBackslash" />;
+  }
+
+  return undefined;
+};
+
+
+export {
+  Required,
+  RequiredMail,
+  RequiredNoDollarBackslash,
+  NoDollarBackslash,
+};
