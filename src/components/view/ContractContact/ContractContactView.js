@@ -6,6 +6,7 @@ import { FormattedMessage } from 'react-intl';
 import {
   Col,
   KeyValue,
+  Label,
   NoValue,
   Row,
 } from '@folio/stripes/components';
@@ -28,7 +29,11 @@ class ContractContactView extends React.Component {
               value={_.get(contract, 'personal.email', <NoValue />)}
             />
           </Row>
-          <Row><FormattedMessage id="ui-idm-connect.address" /></Row>
+          <Row>
+            <Label>
+              <FormattedMessage id="ui-idm-connect.address" />
+            </Label>
+          </Row>
           <Row>
             <Col xs={4}>
               <KeyValue

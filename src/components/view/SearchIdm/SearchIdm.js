@@ -19,7 +19,7 @@ import {
   TextField,
 } from '@folio/stripes/components';
 
-import Required from '../../DisplayUtils/Validate';
+import { Required } from '../../DisplayUtils/Validate';
 import urls from '../../DisplayUtils/urls';
 import css from './SearchIdmStyles.css';
 

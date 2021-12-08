@@ -11,7 +11,7 @@ import {
   TextField,
 } from '@folio/stripes/components';
 
-import Required from '../../DisplayUtils/Validate';
+import { Required } from '../../DisplayUtils/Validate';
 
 class ContractPersonalForm extends React.Component {
   render() {

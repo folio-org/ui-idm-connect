@@ -40,6 +40,7 @@
   "searchIdm.selected": "Selected",
   "searchIdm.noMatch": "No match",
   "form.validate.required": "Required!",
+  "form.validate.validMailRequired": "Valid email address required!",
   "form.cancel": "Cancel",
   "form.saveAndClose": "Save & close",
   "form.create": "Create",

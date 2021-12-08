@@ -11,7 +11,7 @@ import {
   TextField,
 } from '@folio/stripes/components';
 
-import Required from '../../DisplayUtils/Validate';
+import { Required, RequiredMail } from '../../DisplayUtils/Validate';
 import BasicCss from '../BasicStyle.css';
 
 class ContractContactForm extends React.Component {
@@ -33,7 +33,7 @@ class ContractContactForm extends React.Component {
               label={<FormattedMessage id="ui-idm-connect.email" />}
               name="personal.email"
               required
-              validate={Required}
+              validate={RequiredMail}
             />
           </Col>
         </Row>
