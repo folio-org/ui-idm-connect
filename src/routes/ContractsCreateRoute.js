@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { FormattedMessage } from 'react-intl';
 
 import { stripesConnect } from '@folio/stripes/core';
 
@@ -38,17 +37,7 @@ class ContractsRoute extends React.Component {
     }).isRequired,
   }
 
-  // constructor(props) {
-  //   super(props);
-
-  //   this.state = {
-  //     hasPerms: props.stripes.hasPerm('idm-connect.contract.item.post'),
-  //   };
-  // }
-
   handleClose = () => {
-    // const { location } = this.props;
-
     this.props.history.push({
       pathname: `${urls.searchIdm()}`,
       state: 'new'
@@ -66,12 +55,15 @@ class ContractsRoute extends React.Component {
   }
 
   render() {
-    // if (!this.state.hasPerms) return <div><FormattedMessage id="ui-idm-connect.noPermission" /></div>;
-
     const initialValues = JSON.parse(localStorage.getItem('idmConnectNewContractInitialValues'));
+    const today = new Date();
+    const todayDate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
 
-    const adaptinitialValues = {
+    const adaptedInitialValues = {
       uniLogin: initialValues.unilogin,
+      // TODO: status
+      // status: initialValues.accountState,
+      beginDate: todayDate,
       personal: {
         lastName: initialValues.surname,
         firstName: initialValues.givenname,
@@ -82,7 +74,7 @@ class ContractsRoute extends React.Component {
     return (
       <ContractsForm
         handlers={{ onClose: this.handleClose }}
-        initialValues={adaptinitialValues}
+        initialValues={adaptedInitialValues}
         onSubmit={this.handleSubmit}
       />
     );
