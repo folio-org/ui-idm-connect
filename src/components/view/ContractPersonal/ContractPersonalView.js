@@ -40,7 +40,7 @@ class ContractPersonalView extends React.Component {
             <Col xs={4}>
               <KeyValue
                 label={<FormattedMessage id="ui-idm-connect.dateOfBirth" />}
-                value={FormatDate(contract, 'personal.dateOfBirth')}
+                value={FormatDate(_.get(contract, 'personal.dateOfBirth', ''))}
               />
             </Col>
           </Row>

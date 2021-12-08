@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
@@ -26,13 +27,13 @@ class ContractContractView extends React.Component {
             <Col xs={4}>
               <KeyValue
                 label={<FormattedMessage id="ui-idm-connect.beginDate" />}
-                value={FormatDate(contract, 'beginDate')}
+                value={FormatDate(_.get(contract, 'beginDate', ''))}
               />
             </Col>
             <Col xs={4}>
               <KeyValue
                 label={<FormattedMessage id="ui-idm-connect.endDate" />}
-                value={FormatDate(contract, 'endDate')}
+                value={FormatDate(_.get(contract, 'endDate', ''))}
               />
             </Col>
           </Row>

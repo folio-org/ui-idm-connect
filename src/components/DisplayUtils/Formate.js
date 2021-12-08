@@ -1,11 +1,9 @@
-import _ from 'lodash';
 import React from 'react';
 import moment from 'moment';
 
 import { NoValue } from '@folio/stripes/components';
 
-const FormatDate = (contract, dateField) => {
-  const dateVal = _.get(contract, dateField, '');
+const FormatDate = (dateVal) => {
   if (dateVal === '') {
     return <NoValue />;
   } else {

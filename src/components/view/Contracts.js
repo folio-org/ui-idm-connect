@@ -20,6 +20,7 @@ import {
   Button,
   Icon,
   MultiColumnList,
+  NoValue,
   Pane,
   PaneMenu,
   Paneset,
@@ -67,8 +68,16 @@ class Contracts extends React.Component {
     };
   }
 
+  getDataLable(fieldValue) {
+    if (fieldValue !== '') {
+      return <FormattedMessage id={`ui-idm-connect.dataOption.${fieldValue}`} />;
+    } else {
+      return <NoValue />;
+    }
+  }
+
   resultsFormatter = {
-    status: source => <FormattedMessage id={`ui-idm-connect.dataOption.${source.status}`} />,
+    status: source => this.getDataLable(_.get(source, 'status', '')),
     lastName: source => source.personal.lastName,
     firstName: source => source.personal.firstName,
     uniLogin: source => source.uniLogin,
