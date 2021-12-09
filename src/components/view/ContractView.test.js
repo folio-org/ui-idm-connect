@@ -4,8 +4,8 @@ import userEvent from '@testing-library/user-event';
 import { useStripes } from '@folio/stripes/core';
 import { StripesContext } from '@folio/stripes-core/src/StripesContext';
 import { MemoryRouter } from 'react-router-dom';
-import renderWithIntl from '../../../test/jest/helpers/renderWithIntl';
 
+import renderWithIntl from '../../../test/jest/helpers/renderWithIntl';
 import ContractView from './ContractView';
 import contract from '../../../test/jest/fixtures/contract';
 
@@ -56,5 +56,10 @@ describe('ContractView', () => {
     expect(document.querySelector('#contractAccordion')).toBeInTheDocument();
     expect(document.querySelector('#contactAccordion')).toBeInTheDocument();
     expect(document.querySelector('#commentAccordion')).toBeInTheDocument();
+  });
+
+  it('should render expand all button', () => {
+    const expandAll = screen.getByRole('button', { name: 'Expand all' });
+    expect(expandAll).toBeInTheDocument();
   });
 });
