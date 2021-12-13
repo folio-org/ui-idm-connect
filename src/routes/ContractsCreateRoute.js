@@ -57,7 +57,7 @@ class ContractsCreateRoute extends React.Component {
   checkInitialValues = (initialValues) => {
     const today = new Date();
     const todayDate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-    if (initialValues.length === 0) {
+    if (initialValues.length !== 0) {
       return {
         uniLogin: initialValues.unilogin,
         // TODO: status
