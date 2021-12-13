@@ -55,10 +55,10 @@ class ContractsCreateRoute extends React.Component {
   }
 
   checkInitialValues = (initialValues) => {
+    const today = new Date();
+    const todayDate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
     if (initialValues.length === 0) {
-      const today = new Date();
-      const todayDate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-      const adaptedInitialValues = {
+      return {
         uniLogin: initialValues.unilogin,
         // TODO: status
         // status: initialValues.accountState,
@@ -69,9 +69,8 @@ class ContractsCreateRoute extends React.Component {
           dateOfBirth: initialValues.dateOfBirth,
         }
       };
-      return adaptedInitialValues;
     } else {
-      return {};
+      return { beginDate: todayDate };
     }
   }
 
