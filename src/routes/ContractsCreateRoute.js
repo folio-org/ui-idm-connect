@@ -6,7 +6,7 @@ import { stripesConnect } from '@folio/stripes/core';
 import ContractsForm from '../components/view/ContractsForm';
 import urls from '../components/DisplayUtils/urls';
 
-class ContractsRoute extends React.Component {
+class ContractsCreateRoute extends React.Component {
   static manifest = Object.freeze({
     contracts: {
       type: 'okapi',
@@ -54,22 +54,30 @@ class ContractsRoute extends React.Component {
       });
   }
 
+  checkInitialValues = (initialValues) => {
+    if (initialValues.length === 0) {
+      const today = new Date();
+      const todayDate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+      const adaptedInitialValues = {
+        uniLogin: initialValues.unilogin,
+        // TODO: status
+        // status: initialValues.accountState,
+        beginDate: todayDate,
+        personal: {
+          lastName: initialValues.surname,
+          firstName: initialValues.givenname,
+          dateOfBirth: initialValues.dateOfBirth,
+        }
+      };
+      return adaptedInitialValues;
+    } else {
+      return {};
+    }
+  }
+
   render() {
     const initialValues = JSON.parse(localStorage.getItem('idmConnectNewContractInitialValues'));
-    const today = new Date();
-    const todayDate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-
-    const adaptedInitialValues = {
-      uniLogin: initialValues.unilogin,
-      // TODO: status
-      // status: initialValues.accountState,
-      beginDate: todayDate,
-      personal: {
-        lastName: initialValues.surname,
-        firstName: initialValues.givenname,
-        dateOfBirth: initialValues.dateOfBirth,
-      }
-    };
+    const adaptedInitialValues = this.checkInitialValues(initialValues);
 
     return (
       <ContractsForm
@@ -81,4 +89,4 @@ class ContractsRoute extends React.Component {
   }
 }
 
-export default stripesConnect(ContractsRoute);
+export default stripesConnect(ContractsCreateRoute);
