@@ -172,3 +172,13 @@ describe('Contracts SASQ View - without results', () => {
     expect(document.querySelectorAll('#list-contracts .mclRowContainer > [role=row]').length).toEqual(0);
   });
 });
+
+describe('Contracts SASQ View - without permission', () => {
+  beforeEach(() => {
+    renderContracts({ hasPerm: () => false }, sourceLoaded, contracts);
+  });
+  it('should not display the new button', () => {
+    expect(document.querySelector('#clickable-searchIdm')).toBeInTheDocument();
+    expect(document.querySelector('#clickable-new')).not.toBeInTheDocument();
+  });
+});
