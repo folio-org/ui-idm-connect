@@ -76,6 +76,10 @@ describe('Contracts SASQ View', () => {
       expect(document.querySelector('#clickable-search-contracts')).toBeInTheDocument();
     });
 
+    it('should translate the status of the two results', () => {
+      expect(screen.queryAllByText('Created').length).toEqual(2);
+    });
+
     it('should close filter pane', () => {
       const collapseFilterButton = document.querySelector('[data-test-collapse-filter-pane-button]');
       expect(collapseFilterButton).toBeVisible();
