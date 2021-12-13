@@ -80,6 +80,15 @@ describe('Contracts SASQ View', () => {
       expect(screen.queryAllByText('Created').length).toEqual(2);
     });
 
+    it('should sort the results', () => {
+      const columnHeaderLastname = document.querySelector('#list-column-lastname');
+      expect(columnHeaderLastname).toBeInTheDocument();
+      expect(window.location.href.includes('sort=lastName')).toBeFalsy();
+
+      userEvent.click(columnHeaderLastname);
+      expect(window.location.href.includes('sort=-lastName')).toBeFalsy();
+    });
+
     it('should close filter pane', () => {
       const collapseFilterButton = document.querySelector('[data-test-collapse-filter-pane-button]');
       expect(collapseFilterButton).toBeVisible();
