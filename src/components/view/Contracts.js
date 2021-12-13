@@ -85,14 +85,8 @@ class Contracts extends React.Component {
 
   rowFormatter = (row) => {
     const { rowClass, rowData, rowIndex, rowProps = {}, cells } = row;
-    let RowComponent;
-
-    if (this.props.onSelectRow) {
-      RowComponent = 'div';
-    } else {
-      RowComponent = Link;
-      rowProps.to = this.rowURL(rowData.id);
-    }
+    const RowComponent = Link;
+    rowProps.to = this.rowURL(rowData.id);
 
     return (
       <RowComponent
