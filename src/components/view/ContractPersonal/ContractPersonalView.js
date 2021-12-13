@@ -10,7 +10,7 @@ import {
   Row,
 } from '@folio/stripes/components';
 
-import FormatDate from '../../DisplayUtils/FormatDate';
+import { FormatDate } from '../../DisplayUtils/Format';
 
 class ContractPersonalView extends React.Component {
   static propTypes = {

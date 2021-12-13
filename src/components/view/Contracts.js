@@ -20,7 +20,6 @@ import {
   Button,
   Icon,
   MultiColumnList,
-  NoValue,
   Pane,
   PaneMenu,
   Paneset,
@@ -33,6 +32,7 @@ import {
 
 import urls from '../DisplayUtils/urls';
 import ContractsFilters from './ContractsFilters';
+import { DataLable } from '../DisplayUtils/Format';
 
 class Contracts extends React.Component {
   static propTypes = {
@@ -68,16 +68,8 @@ class Contracts extends React.Component {
     };
   }
 
-  getDataLable(fieldValue) {
-    if (fieldValue !== '') {
-      return <FormattedMessage id={`ui-idm-connect.dataOption.${fieldValue}`} />;
-    } else {
-      return <NoValue />;
-    }
-  }
-
   resultsFormatter = {
-    status: source => this.getDataLable(_.get(source, 'status', '')),
+    status: source => DataLable(_.get(source, 'status', '')),
     lastName: source => source.personal.lastName,
     firstName: source => source.personal.firstName,
     uniLogin: source => source.uniLogin,

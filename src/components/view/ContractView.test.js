@@ -64,7 +64,7 @@ describe('ContractView', () => {
   });
 });
 
-describe('ContractView - with empty date', () => {
+describe('ContractView - with empty date and status', () => {
   let stripes;
   const contractWithoutDate = {
     id: '465ce0b3-10cd-4da2-8848-db85b63a0a32',
@@ -84,7 +84,7 @@ describe('ContractView - with empty date', () => {
     },
     libraryCard: '79254581',
     uniLogin: 'mhb76lxa',
-    status: 'created',
+    status: '',
     beginDate: '',
     endDate: '',
     comment: 'A comment.',
@@ -99,7 +99,7 @@ describe('ContractView - with empty date', () => {
     renderContract(stripes, contractWithoutDate);
   });
 
-  it('should render - for empty dates', () => {
-    expect(screen.getAllByText('-').length).toEqual(3);
+  it('should render hyphen for 3 empty dates and one empty status', () => {
+    expect(screen.getAllByText('-').length).toEqual(4);
   });
 });
