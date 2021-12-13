@@ -86,5 +86,32 @@ describe('Create new contract - without initial values', () => {
     userEvent.click(saveAndCloseButton);
     expect(onSubmit).toHaveBeenCalled();
   });
+
+  test('close and open accordions', () => {
+    const expandCollapseAllButton = document.querySelector('#clickable-expand-all');
+    const accordionPersonal = document.querySelector('#accordion-toggle-button-editPersonalAccordion');
+    const accordionContract = document.querySelector('#accordion-toggle-button-editContractAccordion');
+    const accordionContact = document.querySelector('#accordion-toggle-button-editContactAccordion');
+    const accordionComment = document.querySelector('#accordion-toggle-button-editCommentAccordion');
+    expect(accordionPersonal).toBeInTheDocument();
+    expect(accordionPersonal).toHaveAttribute('aria-expanded', 'true');
+
+    userEvent.click(accordionPersonal);
+    expect(accordionPersonal).toHaveAttribute('aria-expanded', 'false');
+
+    userEvent.click(expandCollapseAllButton);
+    expect(accordionPersonal).toHaveAttribute('aria-expanded', 'false');
+    expect(accordionContract).toHaveAttribute('aria-expanded', 'false');
+    expect(accordionContact).toHaveAttribute('aria-expanded', 'false');
+    expect(accordionComment).toHaveAttribute('aria-expanded', 'false');
+    expect(screen.getByRole('button', { name: 'Expand all' })).toBeInTheDocument();
+
+    userEvent.click(expandCollapseAllButton);
+    expect(accordionPersonal).toHaveAttribute('aria-expanded', 'true');
+    expect(accordionContract).toHaveAttribute('aria-expanded', 'true');
+    expect(accordionContact).toHaveAttribute('aria-expanded', 'true');
+    expect(accordionComment).toHaveAttribute('aria-expanded', 'true');
+    expect(screen.getByRole('button', { name: 'Collapse all' })).toBeInTheDocument();
+  });
 });
 
