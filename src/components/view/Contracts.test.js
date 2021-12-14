@@ -76,6 +76,19 @@ describe('Contracts SASQ View', () => {
       expect(document.querySelector('#clickable-search-contracts')).toBeInTheDocument();
     });
 
+    it('should translate the status of the two results', () => {
+      expect(screen.queryAllByText('Created').length).toEqual(2);
+    });
+
+    it('should sort the results', () => {
+      const columnHeaderLastname = document.querySelector('#list-column-lastname');
+      expect(columnHeaderLastname).toBeInTheDocument();
+      expect(window.location.href.includes('sort=lastName')).toBeFalsy();
+
+      userEvent.click(columnHeaderLastname);
+      expect(window.location.href.includes('sort=-lastName')).toBeFalsy();
+    });
+
     it('should close filter pane', () => {
       const collapseFilterButton = document.querySelector('[data-test-collapse-filter-pane-button]');
       expect(collapseFilterButton).toBeVisible();
@@ -122,6 +135,7 @@ describe('Contracts SASQ View - rerender result list', () => {
       expect(actionButton).toBeVisible();
       userEvent.click(actionButton);
       expect(screen.getByRole('button', { name: 'Search IDM' })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: 'New' })).toBeInTheDocument();
     });
 
     test('trigger search should return results', () => {
@@ -156,5 +170,15 @@ describe('Contracts SASQ View - without results', () => {
   it('should no results be visible', async () => {
     expect(screen.getByText('Walk in contracts')).toBeVisible();
     expect(document.querySelectorAll('#list-contracts .mclRowContainer > [role=row]').length).toEqual(0);
+  });
+});
+
+describe('Contracts SASQ View - without permission', () => {
+  beforeEach(() => {
+    renderContracts({ hasPerm: () => false }, sourceLoaded, contracts);
+  });
+  it('should not display the new button', () => {
+    expect(document.querySelector('#clickable-searchIdm')).toBeInTheDocument();
+    expect(document.querySelector('#clickable-new')).not.toBeInTheDocument();
   });
 });

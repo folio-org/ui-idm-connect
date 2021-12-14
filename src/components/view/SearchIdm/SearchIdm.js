@@ -19,18 +19,23 @@ import {
   TextField,
 } from '@folio/stripes/components';
 
-import Required from '../../DisplayUtils/Validate';
-import css from './SearchBtn.css';
+import { Required } from '../../DisplayUtils/Validate';
+import urls from '../../DisplayUtils/urls';
+import css from './SearchIdmStyles.css';
+
+let newContractInitialValues = '';
 
 class SearchIdm extends React.Component {
   static propTypes = {
+    createNewUser: PropTypes.bool,
     handlers: PropTypes.shape({
       onClose: PropTypes.func.isRequired,
     }),
     invalid: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
-    readyToRender: PropTypes.bool,
+    renderListOfResults: PropTypes.bool,
+    searchString: PropTypes.string,
     submitting: PropTypes.bool,
     users: PropTypes.arrayOf(PropTypes.object),
   };
@@ -40,24 +45,80 @@ class SearchIdm extends React.Component {
 
     this.state = {
       dateOfBirth: '',
+      checkedUnilogin: '',
+      noMatchButtonSelected: false,
     };
   }
 
+  toggleRecord = (toggledRecord, noMatch) => {
+    newContractInitialValues = toggledRecord;
+
+    localStorage.setItem('idmConnectNewContractInitialValues', JSON.stringify(newContractInitialValues));
+
+    this.setState({
+      checkedUnilogin: toggledRecord.unilogin,
+      noMatchButtonSelected: noMatch,
+    });
+  }
+
+  getDisableTakeContinue() {
+    return this.state.checkedUnilogin === '' && !this.state.noMatchButtonSelected;
+  }
+
+  isButtonSelected = (user) => {
+    return user.unilogin === this.state.checkedUnilogin;
+  }
+
+  renderNoMatchButton() {
+    const buttonStyle = this.state.noMatchButtonSelected ? 'primary' : 'default';
+
+    return (
+      <div className={css.noMatchButton}>
+        <Button
+          buttonStyle={buttonStyle}
+          onClick={this.props.createNewUser ? () => this.toggleRecord({}, true) : undefined}
+        >
+          <FormattedMessage id="ui-idm-connect.searchIdm.noMatch" />
+        </Button>
+      </div>
+    );
+  }
+
+  handleDateChange = (e) => {
+    const newDate = e.target.value;
+    this.setState({
+      dateOfBirth: newDate,
+    });
+  };
+
   renderPaneFooter() {
-    const { handlers: { onClose } } = this.props;
+    const { createNewUser, handlers: { onClose } } = this.props;
+    const disableTakeContinue = this.getDisableTakeContinue();
 
     const startButton = (
       <Button
-        marginBottom0
-        id="clickable-close-form"
         buttonStyle="default mega"
+        id="clickable-close-form"
+        marginBottom0
         onClick={onClose}
       >
         <FormattedMessage id="ui-idm-connect.form.cancel" />
       </Button>
     );
 
-    return <PaneFooter renderStart={startButton} />;
+    const endButton = (
+      <Button
+        buttonStyle="default mega"
+        disabled={disableTakeContinue}
+        id="clickable-takeContinue-form"
+        marginBottom0
+        to={`${urls.contractCreate()}${this.props.searchString}`}
+      >
+        <FormattedMessage id="ui-idm-connect.searchIdm.takeContinue" />
+      </Button>
+    );
+
+    return <PaneFooter renderStart={startButton} renderEnd={createNewUser ? endButton : ''} />;
   }
 
   columnMapping = {
@@ -67,6 +128,17 @@ class SearchIdm extends React.Component {
     givenname: <FormattedMessage id="ui-idm-connect.firstname" />,
     dateOfBirth: <FormattedMessage id="ui-idm-connect.dateOfBirth" />,
     ULAffiliation: <FormattedMessage id="ui-idm-connect.ULAffiliation" />,
+    isChecked: '',
+  };
+
+  columnWidths = {
+    unilogin: 150,
+    accountState: 270,
+    surname: 240,
+    givenname: 240,
+    dateOfBirth: 150,
+    ULAffiliation: 150,
+    isChecked: 100,
   };
 
   resultsFormatter = {
@@ -76,33 +148,55 @@ class SearchIdm extends React.Component {
     givenname: users => users.givenname,
     dateOfBirth: users => moment(users.dateOfBirth).format('YYYY-MM-DD'),
     ULAffiliation: users => users.ULAffiliation,
+    isChecked: users => {
+      const buttonLabel = this.isButtonSelected(users) ? <FormattedMessage id="ui-idm-connect.searchIdm.selected" /> : <FormattedMessage id="ui-idm-connect.searchIdm.choose" />;
+      const buttonStyle = this.isButtonSelected(users) ? 'primary' : 'default';
+
+      return (
+        <Button
+          buttonStyle={buttonStyle}
+          marginBottom0
+          onClick={this.props.createNewUser ? () => this.toggleRecord(users, false) : undefined}
+        >
+          {buttonLabel}
+        </Button>
+      );
+    },
   };
 
   renderResults() {
-    const count = this.props.users.length;
+    const { createNewUser, users } = this.props;
+    const count = users.length;
+    const columns = ['unilogin', 'accountState', 'surname', 'givenname', 'dateOfBirth', 'ULAffiliation'];
+    const columnsWithIsChecked = [...columns, 'isChecked'];
+
     if ((count > 0) && (_.get(this.props.users[0], 'msg', '') === '')) {
       return (
-        <Card
-          id="search-idm-results-card"
-          headerStart={
-            <span>
-              <FormattedMessage
-                id="ui-idm-connect.searchIdm.resultCount"
-                values={{ count }}
-              />
-            </span>
-          }
-          style={{ marginTop: '60px' }}
-        >
-          <MultiColumnList
-            columnMapping={this.columnMapping}
-            contentData={this.props.users}
-            formatter={this.resultsFormatter}
-            id="search-idm-list-users"
-            interactive={false}
-            visibleColumns={['unilogin', 'accountState', 'surname', 'givenname', 'dateOfBirth', 'ULAffiliation']}
-          />
-        </Card>
+        <>
+          <Card
+            id="search-idm-results-card"
+            headerStart={
+              <span>
+                <FormattedMessage
+                  id="ui-idm-connect.searchIdm.resultCount"
+                  values={{ count }}
+                />
+              </span>
+            }
+            style={{ marginTop: '60px' }}
+          >
+            <MultiColumnList
+              columnMapping={this.columnMapping}
+              columnWidths={this.columnWidths}
+              contentData={this.props.users}
+              formatter={this.resultsFormatter}
+              id="search-idm-list-users"
+              interactive={false}
+              visibleColumns={createNewUser ? columnsWithIsChecked : columns}
+            />
+          </Card>
+          {createNewUser ? this.renderNoMatchButton() : '' }
+        </>
       );
     } else {
       return (
@@ -117,13 +211,6 @@ class SearchIdm extends React.Component {
       );
     }
   }
-
-  handleDateChange = (e) => {
-    const newDate = e.target.value;
-    this.setState({
-      dateOfBirth: newDate,
-    });
-  };
 
   render() {
     const {
@@ -201,7 +288,7 @@ class SearchIdm extends React.Component {
                 </Col>
               </Row>
               <>
-                {this.props.readyToRender &&
+                {this.props.renderListOfResults &&
                   this.renderResults()
                 }
               </>

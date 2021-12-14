@@ -25,10 +25,14 @@ import {
   Paneset,
   SearchField,
 } from '@folio/stripes/components';
-import { AppIcon } from '@folio/stripes/core';
+import {
+  AppIcon,
+  IfPermission,
+} from '@folio/stripes/core';
 
 import urls from '../DisplayUtils/urls';
 import ContractsFilters from './ContractsFilters';
+import { DataLable } from '../DisplayUtils/Format';
 
 class Contracts extends React.Component {
   static propTypes = {
@@ -65,7 +69,7 @@ class Contracts extends React.Component {
   }
 
   resultsFormatter = {
-    status: source => <FormattedMessage id={`ui-idm-connect.dataOption.${source.status}`} />,
+    status: source => DataLable(_.get(source, 'status', '')),
     lastName: source => source.personal.lastName,
     firstName: source => source.personal.firstName,
     uniLogin: source => source.uniLogin,
@@ -73,14 +77,8 @@ class Contracts extends React.Component {
 
   rowFormatter = (row) => {
     const { rowClass, rowData, rowIndex, rowProps = {}, cells } = row;
-    let RowComponent;
-
-    if (this.props.onSelectRow) {
-      RowComponent = 'div';
-    } else {
-      RowComponent = Link;
-      rowProps.to = this.rowURL(rowData.id);
-    }
+    const RowComponent = Link;
+    rowProps.to = this.rowURL(rowData.id);
 
     return (
       <RowComponent
@@ -142,24 +140,46 @@ class Contracts extends React.Component {
   getActionMenu = () => ({ onToggle }) => {
     return (
       <>
-        <PaneMenu>
-          <FormattedMessage id="ui-idm-connect.searchIdm">
+        <FormattedMessage id="ui-idm-connect.searchIdm">
+          {ariaLabel => (
+            <Button
+              aria-label={ariaLabel}
+              buttonStyle="dropdownItem"
+              id="clickable-searchIdm"
+              marginBottom0
+              onClick={() => {
+                this.props.history.push({
+                  pathname: `${urls.searchIdm()}`,
+                  state: 'search'
+                });
+                onToggle();
+              }}
+            >
+              <FormattedMessage id="ui-idm-connect.searchIdm" />
+            </Button>
+          )}
+        </FormattedMessage>
+        <IfPermission perm="ui-idm-connect.create-edit">
+          <FormattedMessage id="ui-idm-connect.new">
             {ariaLabel => (
               <Button
                 aria-label={ariaLabel}
                 buttonStyle="dropdownItem"
-                id="clickable-searchIdm"
+                id="clickable-new"
                 marginBottom0
                 onClick={() => {
-                  this.props.history.push(`${urls.searchIdm()}`);
+                  this.props.history.push({
+                    pathname: `${urls.searchIdm()}`,
+                    state: 'new'
+                  });
                   onToggle();
                 }}
               >
-                <FormattedMessage id="ui-idm-connect.searchIdm" />
+                <FormattedMessage id="ui-idm-connect.new" />
               </Button>
             )}
           </FormattedMessage>
-        </PaneMenu>
+        </IfPermission>
       </>
     );
   }

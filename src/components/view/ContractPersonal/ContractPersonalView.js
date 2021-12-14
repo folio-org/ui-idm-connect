@@ -10,6 +10,8 @@ import {
   Row,
 } from '@folio/stripes/components';
 
+import { FormatDate } from '../../DisplayUtils/Format';
+
 class ContractPersonalView extends React.Component {
   static propTypes = {
     contract: PropTypes.object,
@@ -38,7 +40,7 @@ class ContractPersonalView extends React.Component {
             <Col xs={4}>
               <KeyValue
                 label={<FormattedMessage id="ui-idm-connect.dateOfBirth" />}
-                value={_.get(contract, 'personal.dateOfBirth', <NoValue />)}
+                value={FormatDate(_.get(contract, 'personal.dateOfBirth', ''))}
               />
             </Col>
           </Row>

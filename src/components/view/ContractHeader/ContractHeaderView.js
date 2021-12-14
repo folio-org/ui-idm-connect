@@ -11,6 +11,7 @@ import {
 } from '@folio/stripes/components';
 
 import css from './Header.css';
+import { DataLable } from '../../DisplayUtils/Format';
 
 class ContractHeaderView extends React.Component {
   static propTypes = {
@@ -18,18 +19,9 @@ class ContractHeaderView extends React.Component {
     id: PropTypes.string,
   };
 
-  getDataLable(field) {
-    const fieldValue = _.get(this.props.contract, field, '');
-    if (fieldValue !== '') {
-      return <FormattedMessage id={`ui-idm-connect.dataOption.${fieldValue}`} />;
-    } else {
-      return <NoValue />;
-    }
-  }
-
   render() {
     const { contract, id } = this.props;
-    const statusLabel = this.getDataLable('status');
+    const statusLabel = DataLable(_.get(this.props.contract, 'status', ''));
 
     return (
       <>

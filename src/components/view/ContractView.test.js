@@ -4,17 +4,17 @@ import userEvent from '@testing-library/user-event';
 import { useStripes } from '@folio/stripes/core';
 import { StripesContext } from '@folio/stripes-core/src/StripesContext';
 import { MemoryRouter } from 'react-router-dom';
-import renderWithIntl from '../../../test/jest/helpers/renderWithIntl';
 
+import renderWithIntl from '../../../test/jest/helpers/renderWithIntl';
 import ContractView from './ContractView';
-import contract from '../../../test/jest/fixtures/contract';
+import contractFixtures from '../../../test/jest/fixtures/contract';
 
 const handlers = {
   onClose: jest.fn,
   onEdit: jest.fn,
 };
 
-const renderContract = (stripes) => {
+const renderContract = (stripes, contract) => {
   return renderWithIntl(
     <StripesContext.Provider value={stripes}>
       <MemoryRouter>
@@ -34,7 +34,7 @@ describe('ContractView', () => {
 
   beforeEach(() => {
     stripes = useStripes();
-    renderContract(stripes);
+    renderContract(stripes, contractFixtures);
   });
 
   it('should render contract', async () => {
@@ -56,5 +56,50 @@ describe('ContractView', () => {
     expect(document.querySelector('#contractAccordion')).toBeInTheDocument();
     expect(document.querySelector('#contactAccordion')).toBeInTheDocument();
     expect(document.querySelector('#commentAccordion')).toBeInTheDocument();
+  });
+
+  it('should render expand all button', () => {
+    const expandAll = screen.getByRole('button', { name: 'Expand all' });
+    expect(expandAll).toBeInTheDocument();
+  });
+});
+
+describe('ContractView - with empty date and status', () => {
+  let stripes;
+  const contractWithoutDate = {
+    id: '465ce0b3-10cd-4da2-8848-db85b63a0a32',
+    personal: {
+      firstName: 'Lienhardt',
+      lastName: 'Führer',
+      academicTitle: 'Dr.',
+      dateOfBirth: '',
+      address: {
+        addressLine1: 'Peter-Schmitter-Straße 83',
+        addressLine2: 'F/8',
+        zipCode: '88453',
+        city: 'Erolzheim',
+        country: 'Germany'
+      },
+      email: 'lienhardtfuehrer@aol.com'
+    },
+    libraryCard: '79254581',
+    uniLogin: 'mhb76lxa',
+    status: '',
+    beginDate: '',
+    endDate: '',
+    comment: 'A comment.',
+    metadata: {
+      createdDate: '2021-11-01T17:39:12.364+00:00',
+      updatedDate: '2021-11-01T17:39:12.364+00:00'
+    }
+  };
+
+  beforeEach(() => {
+    stripes = useStripes();
+    renderContract(stripes, contractWithoutDate);
+  });
+
+  it('should render hyphen for 3 empty dates and one empty status', () => {
+    expect(screen.getAllByText('-').length).toEqual(4);
   });
 });

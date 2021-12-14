@@ -26,7 +26,7 @@ const renderUsers = (USERS, rerender) => renderWithIntl(
       <SearchIdmRoute
         onSubmit={jest.fn()}
         users={USERS}
-        readyToRender
+        renderListOfResults
         history={{ push: historyPushMock }}
         location={{ search: '' }}
       />

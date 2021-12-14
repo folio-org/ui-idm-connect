@@ -100,6 +100,17 @@
           "idmconnect.searchidm.get"
         ],
         "visible": true
+      },
+      {
+        "permissionName": "ui-idm-connect.create-edit",
+        "displayName": "IDM connect: Can create and edit idm connect",
+        "description": "Can create and edit idm connect",
+        "subPermissions": [
+          "ui-idm-connect.view",
+          "idmconnect.contract.post",
+          "idmconnect.contract.put"
+        ],
+        "visible": true
       }
     ],
     "icons": [

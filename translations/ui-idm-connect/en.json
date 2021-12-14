@@ -9,6 +9,7 @@
   "ULAffiliation": "UL Affiliation",
   "libraryCard": "Library card",
   "dateOfBirth": "Date of birth",
+  "academicTitle": "Academic title",
   "beginDate": "Start date",
   "endDate": "End date",
   "email": "External email",
@@ -33,7 +34,18 @@
   "searchIdm.title": "IDM Search",
   "searchIdm.resultCount": "{count, number} {count, plural, one {Result in IDM} other {Results in IDM}}",
   "searchIdm.noResults": "No results in IDM",
+  "searchIdm.takeContinue": "Take and continue",
   "searchIdm.error": "Error fetch IDM {msg}",
+  "searchIdm.choose": "Choose",
+  "searchIdm.selected": "Selected",
+  "searchIdm.noMatch": "No match",
   "form.validate.required": "Required!",
-  "form.cancel": "Cancel"
+  "form.validate.validMailRequired": "Valid email address required!",
+  "form.validate.noDollarBackslashRequired": "Required! No $ or \\ allowed!",
+  "form.validate.noDollarBackslash": "No $ or \\ allowed!",
+  "form.cancel": "Cancel",
+  "form.saveAndClose": "Save & close",
+  "form.create": "Create",
+  "new": "New",
+  "noPermission": "No permission"
 }
