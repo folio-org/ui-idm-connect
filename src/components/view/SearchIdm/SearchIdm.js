@@ -27,7 +27,7 @@ let newContractInitialValues = '';
 
 class SearchIdm extends React.Component {
   static propTypes = {
-    createNewUser: PropTypes.bool,
+    isCreateNewUser: PropTypes.bool,
     handlers: PropTypes.shape({
       onClose: PropTypes.func.isRequired,
     }),
@@ -76,7 +76,7 @@ class SearchIdm extends React.Component {
       <div className={css.noMatchButton}>
         <Button
           buttonStyle={buttonStyle}
-          onClick={this.props.createNewUser ? () => this.toggleRecord({}, true) : undefined}
+          onClick={this.props.isCreateNewUser ? () => this.toggleRecord({}, true) : undefined}
         >
           <FormattedMessage id="ui-idm-connect.searchIdm.noMatch" />
         </Button>
@@ -92,7 +92,7 @@ class SearchIdm extends React.Component {
   };
 
   renderPaneFooter() {
-    const { createNewUser, handlers: { onClose } } = this.props;
+    const { isCreateNewUser, handlers: { onClose } } = this.props;
     const disableTakeContinue = this.getDisableTakeContinue();
 
     const startButton = (
@@ -118,7 +118,7 @@ class SearchIdm extends React.Component {
       </Button>
     );
 
-    return <PaneFooter renderStart={startButton} renderEnd={createNewUser ? endButton : ''} />;
+    return <PaneFooter renderStart={startButton} renderEnd={isCreateNewUser ? endButton : ''} />;
   }
 
   columnMapping = {
@@ -128,6 +128,7 @@ class SearchIdm extends React.Component {
     givenname: <FormattedMessage id="ui-idm-connect.firstname" />,
     dateOfBirth: <FormattedMessage id="ui-idm-connect.dateOfBirth" />,
     ULAffiliation: <FormattedMessage id="ui-idm-connect.ULAffiliation" />,
+    UBRole: <FormattedMessage id="ui-idm-connect.UBRole" />,
     isChecked: '',
   };
 
@@ -138,6 +139,7 @@ class SearchIdm extends React.Component {
     givenname: 240,
     dateOfBirth: 150,
     ULAffiliation: 150,
+    UBRole: 100,
     isChecked: 100,
   };
 
@@ -156,7 +158,7 @@ class SearchIdm extends React.Component {
         <Button
           buttonStyle={buttonStyle}
           marginBottom0
-          onClick={this.props.createNewUser ? () => this.toggleRecord(users, false) : undefined}
+          onClick={this.props.isCreateNewUser ? () => this.toggleRecord(users, false) : undefined}
         >
           {buttonLabel}
         </Button>
@@ -165,10 +167,9 @@ class SearchIdm extends React.Component {
   };
 
   renderResults() {
-    const { createNewUser, users } = this.props;
+    const { isCreateNewUser, users } = this.props;
     const count = users.length;
     const columns = ['unilogin', 'accountState', 'surname', 'givenname', 'dateOfBirth', 'ULAffiliation'];
-    const columnsWithIsChecked = [...columns, 'isChecked'];
 
     if ((count > 0) && (_.get(this.props.users[0], 'msg', '') === '')) {
       return (
@@ -192,10 +193,10 @@ class SearchIdm extends React.Component {
               formatter={this.resultsFormatter}
               id="search-idm-list-users"
               interactive={false}
-              visibleColumns={createNewUser ? columnsWithIsChecked : columns}
+              visibleColumns={isCreateNewUser ? [...columns, 'isChecked'] : [...columns, 'UBRole']}
             />
           </Card>
-          {createNewUser ? this.renderNoMatchButton() : '' }
+          {isCreateNewUser ? this.renderNoMatchButton() : '' }
         </>
       );
     } else {

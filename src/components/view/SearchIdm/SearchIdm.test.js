@@ -29,7 +29,7 @@ const renderUsers = (USERS, newUser, rerender) => renderWithIntl(
   <Provider store={store}>
     <MemoryRouter>
       <SearchIdm
-        createNewUser={newUser}
+        isCreateNewUser={newUser}
         onSubmit={onSubmit}
         handlers={{ onClose }}
         users={USERS}
@@ -82,6 +82,7 @@ describe('Search IDM - with results', () => {
     expect(document.querySelector('#list-column-givenname')).toBeInTheDocument();
     expect(document.querySelector('#list-column-dateofbirth')).toBeInTheDocument();
     expect(screen.getByText('UL Affiliation')).toBeVisible();
+    expect(screen.getByText('UB Role')).toBeVisible();
   });
 });
 
