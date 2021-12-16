@@ -87,6 +87,15 @@ describe('Create new contract - without initial values', () => {
     expect(onSubmit).toHaveBeenCalled();
   });
 
+  test('click Cancel button', async () => {
+    const cancelButton = screen.getByRole('button', { name: 'Cancel' });
+
+    expect(cancelButton).toBeInTheDocument();
+    expect(cancelButton).not.toHaveAttribute('disabled');
+    userEvent.click(cancelButton);
+    expect(onClose).toHaveBeenCalled();
+  });
+
   test('close and open accordions', () => {
     const expandCollapseAllButton = document.querySelector('#clickable-expand-all');
     const accordionPersonal = document.querySelector('#accordion-toggle-button-editPersonalAccordion');
