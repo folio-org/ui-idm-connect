@@ -65,7 +65,7 @@ class SearchIdmRoute extends React.Component {
 
   render() {
     const { location } = this.props;
-    const createNewUser = this.props.location.state === 'new';
+    const isCreateNewUser = this.props.location.state === 'new';
 
     return (
       <SearchIdm
@@ -74,7 +74,7 @@ class SearchIdmRoute extends React.Component {
         users={this.state.users}
         renderListOfResults={this.state.renderListOfResults}
         searchString={location.search}
-        createNewUser={createNewUser}
+        isCreateNewUser={isCreateNewUser}
       />
     );
   }
