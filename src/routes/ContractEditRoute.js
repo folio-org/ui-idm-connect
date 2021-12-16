@@ -58,10 +58,6 @@ class ContractEditRoute extends React.Component {
       });
   }
 
-  getInitialValues = () => {
-    return _.get(this.props.resources, 'contracts.records', []).find(i => i.id === this.props.match.params.id);
-  }
-
   fetchIsPending = () => {
     return Object.values(this.props.resources)
       .filter(resource => resource)
@@ -74,7 +70,7 @@ class ContractEditRoute extends React.Component {
     return (
       <ContractsForm
         handlers={{ onClose: this.handleClose }}
-        initialValues={this.getInitialValues()}
+        initialValues={_.get(this.props.resources, 'contracts.records', []).find(i => i.id === this.props.match.params.id)}
         onSubmit={this.handleSubmit}
       />
     );
