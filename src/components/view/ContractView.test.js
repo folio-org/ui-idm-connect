@@ -14,7 +14,7 @@ const handlers = {
   onEdit: jest.fn,
 };
 
-const renderContract = (stripes, contract) => {
+const renderContract = (stripes, contract, editPerm) => {
   return renderWithIntl(
     <StripesContext.Provider value={stripes}>
       <MemoryRouter>
@@ -23,6 +23,7 @@ const renderContract = (stripes, contract) => {
           isLoading={false}
           record={contract}
           stripes={stripes}
+          canEdit={editPerm}
         />
       </MemoryRouter>
     </StripesContext.Provider>
@@ -34,7 +35,7 @@ describe('ContractView', () => {
 
   beforeEach(() => {
     stripes = useStripes();
-    renderContract(stripes, contractFixtures);
+    renderContract(stripes, contractFixtures, true);
   });
 
   it('should render contract', async () => {
@@ -62,9 +63,16 @@ describe('ContractView', () => {
     const expandAll = screen.getByRole('button', { name: 'Expand all' });
     expect(expandAll).toBeInTheDocument();
   });
+
+  it('should render the actions menu', () => {
+    const actionButton = document.querySelector('[data-test-pane-header-actions-button]');
+    expect(actionButton).toBeVisible();
+    userEvent.click(actionButton);
+    expect(screen.getByRole('button', { name: 'Edit' })).toBeInTheDocument();
+  });
 });
 
-describe('ContractView - with empty date and status', () => {
+describe('ContractView - with empty date and status - without edit permission', () => {
   let stripes;
   const contractWithoutDate = {
     id: '465ce0b3-10cd-4da2-8848-db85b63a0a32',
@@ -96,10 +104,16 @@ describe('ContractView - with empty date and status', () => {
 
   beforeEach(() => {
     stripes = useStripes();
-    renderContract(stripes, contractWithoutDate);
+    renderContract(stripes, contractWithoutDate, false);
   });
 
   it('should render hyphen for 3 empty dates and one empty status', () => {
     expect(screen.getAllByText('-').length).toEqual(4);
+  });
+
+  it('should not render the actions menu', () => {
+    const actionButton = document.querySelector('[data-test-pane-header-actions-button]');
+    expect(actionButton).not.toBeInTheDocument();
+    expect(document.querySelector('#clickable-edit-contract')).not.toBeInTheDocument();
   });
 });
