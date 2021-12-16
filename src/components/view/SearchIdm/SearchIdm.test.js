@@ -77,12 +77,12 @@ describe('Search IDM - with results', () => {
 
   it('should show all columns of MCL', () => {
     expect(screen.getByText('Uni login')).toBeVisible();
-    expect(screen.getByText('Account state')).toBeVisible();
+    expect(screen.getByText('IDM account state')).toBeVisible();
     expect(document.querySelector('#list-column-surname')).toBeInTheDocument();
     expect(document.querySelector('#list-column-givenname')).toBeInTheDocument();
     expect(document.querySelector('#list-column-dateofbirth')).toBeInTheDocument();
-    expect(screen.getByText('UL Affiliation')).toBeVisible();
-    expect(screen.getByText('UB Role')).toBeVisible();
+    expect(screen.getByText('UL affiliation')).toBeVisible();
+    expect(screen.getByText('UB role')).toBeVisible();
   });
 });
 

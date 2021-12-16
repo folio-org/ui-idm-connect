@@ -122,33 +122,33 @@ class SearchIdm extends React.Component {
   }
 
   columnMapping = {
-    unilogin: <FormattedMessage id="ui-idm-connect.uniLogin" />,
-    accountState: <FormattedMessage id="ui-idm-connect.accountState" />,
     surname: <FormattedMessage id="ui-idm-connect.lastname" />,
     givenname: <FormattedMessage id="ui-idm-connect.firstname" />,
     dateOfBirth: <FormattedMessage id="ui-idm-connect.dateOfBirth" />,
+    unilogin: <FormattedMessage id="ui-idm-connect.uniLogin" />,
+    accountState: <FormattedMessage id="ui-idm-connect.accountState" />,
     ULAffiliation: <FormattedMessage id="ui-idm-connect.ULAffiliation" />,
     UBRole: <FormattedMessage id="ui-idm-connect.UBRole" />,
     isChecked: '',
   };
 
   columnWidths = {
-    unilogin: 150,
-    accountState: 270,
     surname: 240,
     givenname: 240,
     dateOfBirth: 150,
+    unilogin: 150,
+    accountState: 270,
     ULAffiliation: 150,
     UBRole: 100,
     isChecked: 100,
   };
 
   resultsFormatter = {
-    unilogin: users => users.unilogin,
-    accountState: users => users.accountState,
     surname: users => users.surname,
     givenname: users => users.givenname,
     dateOfBirth: users => moment(users.dateOfBirth).format('YYYY-MM-DD'),
+    unilogin: users => users.unilogin,
+    accountState: users => users.accountState,
     ULAffiliation: users => users.ULAffiliation,
     isChecked: users => {
       const buttonLabel = this.isButtonSelected(users) ? <FormattedMessage id="ui-idm-connect.searchIdm.selected" /> : <FormattedMessage id="ui-idm-connect.searchIdm.choose" />;
@@ -169,7 +169,7 @@ class SearchIdm extends React.Component {
   renderResults() {
     const { isCreateNewUser, users } = this.props;
     const count = users.length;
-    const columns = ['unilogin', 'accountState', 'surname', 'givenname', 'dateOfBirth', 'ULAffiliation'];
+    const columns = ['surname', 'givenname', 'dateOfBirth', 'unilogin', 'accountState', 'ULAffiliation'];
 
     if ((count > 0) && (_.get(this.props.users[0], 'msg', '') === '')) {
       return (
