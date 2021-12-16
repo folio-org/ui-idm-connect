@@ -11,7 +11,7 @@ import contractFixtures from '../../../test/jest/fixtures/contract';
 
 const handlers = {
   onClose: jest.fn,
-  onEdit: jest.fn,
+  onEdit: jest.fn(),
 };
 
 const renderContract = (stripes, contract, editPerm) => {
@@ -68,7 +68,11 @@ describe('ContractView', () => {
     const actionButton = document.querySelector('[data-test-pane-header-actions-button]');
     expect(actionButton).toBeVisible();
     userEvent.click(actionButton);
-    expect(screen.getByRole('button', { name: 'Edit' })).toBeInTheDocument();
+
+    const editButton = screen.getByRole('button', { name: 'Edit' });
+    expect(editButton).toBeInTheDocument();
+    userEvent.click(editButton);
+    expect(handlers.onEdit).toHaveBeenCalled();
   });
 });
 
