@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { stripesConnect } from '@folio/stripes/core';
+import { Loading } from '@folio/stripes/components';
 
 import ContractsForm from '../components/view/ContractsForm';
 import urls from '../components/DisplayUtils/urls';
@@ -58,9 +59,7 @@ class ContractEditRoute extends React.Component {
   }
 
   getInitialValues = () => {
-    const initialValues = _.get(this.props.resources, 'contracts.records', []).find(i => i.id === this.props.match.params.id);
-
-    return initialValues;
+    return _.get(this.props.resources, 'contracts.records', []).find(i => i.id === this.props.match.params.id);
   }
 
   fetchIsPending = () => {
@@ -70,7 +69,7 @@ class ContractEditRoute extends React.Component {
   }
 
   render() {
-    if (this.fetchIsPending()) return 'loading';
+    if (this.fetchIsPending()) return <Loading />;
 
     return (
       <ContractsForm
