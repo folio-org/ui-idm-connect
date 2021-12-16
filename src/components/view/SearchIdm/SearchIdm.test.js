@@ -50,9 +50,9 @@ describe('Search IDM - without results', () => {
   });
 
   it('should show input fields', () => {
-    expect(screen.getByRole('textbox', { name: 'Lastname' })).toBeInTheDocument();
-    expect(screen.getByRole('textbox', { name: 'Firstname' })).toBeInTheDocument();
-    expect(screen.getByRole('textbox', { name: 'Date of birth' })).toBeInTheDocument();
+    expect(screen.getByRole('textbox', { name: 'Last name' })).toBeInTheDocument();
+    expect(screen.getByRole('textbox', { name: 'First name' })).toBeInTheDocument();
+    expect(screen.getByRole('textbox', { name: 'Birth date' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Search' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Cancel' })).toBeInTheDocument();
   });
@@ -77,7 +77,7 @@ describe('Search IDM - with results', () => {
 
   it('should show all columns of MCL', () => {
     expect(screen.getByText('Uni login')).toBeVisible();
-    expect(screen.getByText('IDM account state')).toBeVisible();
+    expect(screen.getByText('Account status')).toBeVisible();
     expect(document.querySelector('#list-column-surname')).toBeInTheDocument();
     expect(document.querySelector('#list-column-givenname')).toBeInTheDocument();
     expect(document.querySelector('#list-column-dateofbirth')).toBeInTheDocument();
