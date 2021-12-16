@@ -40,7 +40,7 @@ describe('Create Route', () => {
 
     test('renders the create contract component', async () => {
       const cancelButton = screen.getByRole('button', { name: 'Cancel' });
-      expect(screen.getByText('Create')).toBeInTheDocument();
+      expect(screen.getByText('Create walk-in contract')).toBeInTheDocument();
       expect(cancelButton).toBeInTheDocument();
     });
   });

@@ -125,8 +125,8 @@ describe('Contracts SASQ View - rerender result list', () => {
       expect(document.querySelector('#pane-contract-results')).toBeInTheDocument();
       expect(screen.getByText('Walk in contracts')).toBeVisible();
       expect(document.querySelector('#list-column-status')).toBeInTheDocument();
-      expect(screen.queryByText('Lastname')).toBeInTheDocument();
-      expect(screen.queryByText('Firstname')).toBeInTheDocument();
+      expect(screen.queryByText('Last name')).toBeInTheDocument();
+      expect(screen.queryByText('First name')).toBeInTheDocument();
       expect(screen.queryByText('Uni login')).toBeInTheDocument();
     });
 

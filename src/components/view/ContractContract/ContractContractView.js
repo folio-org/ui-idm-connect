@@ -30,7 +30,7 @@ class ContractContractView extends React.Component {
                 value={FormatDate(_.get(contract, 'beginDate', ''))}
               />
             </Col>
-            <Col xs={4}>
+            <Col xs={5}>
               <KeyValue
                 label={<FormattedMessage id="ui-idm-connect.endDate" />}
                 value={FormatDate(_.get(contract, 'endDate', ''))}

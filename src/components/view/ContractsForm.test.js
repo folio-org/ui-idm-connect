@@ -41,7 +41,7 @@ describe('Create new contract - without initial values', () => {
   });
 
   it('should show pane title', () => {
-    expect(screen.getByText('Create')).toBeInTheDocument();
+    expect(screen.getByText('Create walk-in contract')).toBeInTheDocument();
   });
 
   it('should show all accordions', () => {
@@ -52,17 +52,17 @@ describe('Create new contract - without initial values', () => {
   });
 
   test('required fields', async () => {
-    expect(screen.getByRole('textbox', { name: 'Lastname' })).toBeRequired();
-    expect(screen.getByRole('textbox', { name: 'Firstname' })).toBeRequired();
+    expect(screen.getByRole('textbox', { name: 'Last name' })).toBeRequired();
+    expect(screen.getByRole('textbox', { name: 'First name' })).toBeRequired();
     expect(screen.getByRole('textbox', { name: 'Academic title' })).not.toBeRequired();
-    expect(screen.getByRole('textbox', { name: 'Date of birth' })).toBeRequired();
-    expect(screen.getByRole('textbox', { name: 'End date' })).toBeRequired();
-    expect(screen.getByRole('textbox', { name: 'Library card' })).not.toBeRequired();
+    expect(screen.getByRole('textbox', { name: 'Birth date' })).toBeRequired();
+    expect(screen.getByRole('textbox', { name: 'Expiration date' })).toBeRequired();
+    expect(screen.getByRole('textbox', { name: 'Library card number' })).not.toBeRequired();
     expect(screen.getByRole('textbox', { name: 'Uni login' })).not.toBeRequired();
-    expect(screen.getByRole('textbox', { name: 'External email' })).toBeRequired();
+    expect(screen.getByRole('textbox', { name: 'Email (external)' })).toBeRequired();
     expect(screen.getByRole('textbox', { name: 'Street' })).toBeRequired();
     expect(screen.getByRole('textbox', { name: 'Addition to address' })).not.toBeRequired();
-    expect(screen.getByRole('textbox', { name: 'ZIP code' })).toBeRequired();
+    expect(screen.getByRole('textbox', { name: 'Zip/Postal Code' })).toBeRequired();
     expect(screen.getByRole('textbox', { name: 'City' })).toBeRequired();
     expect(screen.getByRole('textbox', { name: 'Country' })).toBeRequired();
     expect(screen.getByRole('textbox', { name: 'Comment' })).not.toBeRequired();
@@ -72,13 +72,13 @@ describe('Create new contract - without initial values', () => {
     const saveAndCloseButton = screen.getByRole('button', { name: 'Save & close' });
     expect(saveAndCloseButton).toHaveAttribute('disabled');
 
-    userEvent.type(screen.getByRole('textbox', { name: 'Lastname' }), 'Führer');
-    userEvent.type(screen.getByRole('textbox', { name: 'Firstname' }), 'Lienhardt');
-    userEvent.type(screen.getByRole('textbox', { name: 'Date of birth' }), '1994-04-22');
-    userEvent.type(screen.getByRole('textbox', { name: 'End date' }), '2020-01-12');
-    userEvent.type(screen.getByRole('textbox', { name: 'External email' }), 'lienhardtfuehrer@aol.com');
+    userEvent.type(screen.getByRole('textbox', { name: 'Last name' }), 'Führer');
+    userEvent.type(screen.getByRole('textbox', { name: 'First name' }), 'Lienhardt');
+    userEvent.type(screen.getByRole('textbox', { name: 'Birth date' }), '1994-04-22');
+    userEvent.type(screen.getByRole('textbox', { name: 'Expiration date' }), '2020-01-12');
+    userEvent.type(screen.getByRole('textbox', { name: 'Email (external)' }), 'lienhardtfuehrer@aol.com');
     userEvent.type(screen.getByRole('textbox', { name: 'Street' }), 'Peter-Schmitter-Straße 83');
-    userEvent.type(screen.getByRole('textbox', { name: 'ZIP code' }), '88453');
+    userEvent.type(screen.getByRole('textbox', { name: 'Zip/Postal Code' }), '88453');
     userEvent.type(screen.getByRole('textbox', { name: 'City' }), 'Erolzheim');
     userEvent.type(screen.getByRole('textbox', { name: 'Country' }), 'Germany');
 

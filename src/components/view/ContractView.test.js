@@ -38,9 +38,9 @@ describe('ContractView', () => {
   });
 
   it('should render contract', async () => {
-    await userEvent.click(screen.getByText('Personal data'));
+    await userEvent.click(screen.getByText('Personal information'));
 
-    expect(screen.getByText('Lastname')).toBeVisible();
+    expect(screen.getByText('Last name')).toBeVisible();
   });
 
   it('should display the full name twice', () => {
