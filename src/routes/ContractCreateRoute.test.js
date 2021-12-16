@@ -9,7 +9,6 @@ import { reducer as formReducer } from 'redux-form';
 import '../../test/jest/__mock__';
 import renderWithIntl from '../../test/jest/helpers/renderWithIntl';
 import ContractsForm from '../components/view/ContractsForm';
-// import ContractsCreateRoute from './ContractsCreateRoute';
 // import contractsFixtures from '../../test/jest/fixtures/contracts';
 import contractFixtures from '../../test/jest/fixtures/contract';
 

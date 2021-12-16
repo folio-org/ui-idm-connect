@@ -46,6 +46,7 @@
   "form.cancel": "Cancel",
   "form.saveAndClose": "Save & close",
   "form.create": "Create",
+  "edit": "Edit",
   "new": "New",
   "noPermission": "No permission"
 }

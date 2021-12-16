@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -6,12 +7,11 @@ import { stripesConnect } from '@folio/stripes/core';
 import ContractsForm from '../components/view/ContractsForm';
 import urls from '../components/DisplayUtils/urls';
 
-class ContractsCreateRoute extends React.Component {
+class ContractEditRoute extends React.Component {
   static manifest = Object.freeze({
     contracts: {
       type: 'okapi',
-      path: 'idm-connect/contract',
-      fetch: false,
+      path: 'idm-connect/contract/:{id}',
       shouldRefresh: () => false,
     },
   });
@@ -23,9 +23,14 @@ class ContractsCreateRoute extends React.Component {
     location: PropTypes.shape({
       search: PropTypes.string.isRequired,
     }).isRequired,
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+      }).isRequired,
+    }).isRequired,
     mutator: PropTypes.shape({
       contracts: PropTypes.shape({
-        POST: PropTypes.func.isRequired,
+        PUT: PropTypes.func.isRequired,
       }).isRequired,
     }).isRequired,
     resources: PropTypes.shape({
@@ -38,54 +43,43 @@ class ContractsCreateRoute extends React.Component {
   }
 
   handleClose = () => {
-    this.props.history.push({
-      pathname: `${urls.searchIdm()}`,
-      state: 'new'
-    });
+    const { location, match } = this.props;
+    this.props.history.push(`${urls.contractView(match.params.id)}${location.search}`);
   }
 
   handleSubmit = (contract) => {
     const { history, location, mutator } = this.props;
 
     mutator.contracts
-      .POST(contract)
+      .PUT(contract)
       .then(({ id }) => {
         history.push(`${urls.contractView(id)}${location.search}`);
       });
   }
 
-  checkInitialValues = (initialValues) => {
-    const today = new Date();
-    const todayDate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-    if (initialValues.length !== 0) {
-      return {
-        uniLogin: initialValues.unilogin,
-        // TODO: status
-        // status: initialValues.accountState,
-        beginDate: todayDate,
-        personal: {
-          lastName: initialValues.surname,
-          firstName: initialValues.givenname,
-          dateOfBirth: initialValues.dateOfBirth,
-        }
-      };
-    } else {
-      return { beginDate: todayDate };
-    }
+  getInitialValues = () => {
+    const initialValues = _.get(this.props.resources, 'contracts.records', []).find(i => i.id === this.props.match.params.id);
+
+    return initialValues;
+  }
+
+  fetchIsPending = () => {
+    return Object.values(this.props.resources)
+      .filter(resource => resource)
+      .some(resource => resource.isPending);
   }
 
   render() {
-    const initialValues = JSON.parse(localStorage.getItem('idmConnectNewContractInitialValues'));
-    const adaptedInitialValues = this.checkInitialValues(initialValues);
+    if (this.fetchIsPending()) return 'loading';
 
     return (
       <ContractsForm
         handlers={{ onClose: this.handleClose }}
-        initialValues={adaptedInitialValues}
+        initialValues={this.getInitialValues()}
         onSubmit={this.handleSubmit}
       />
     );
   }
 }
 
-export default stripesConnect(ContractsCreateRoute);
+export default stripesConnect(ContractEditRoute);
