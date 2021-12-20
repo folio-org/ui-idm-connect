@@ -50,14 +50,14 @@ class SearchIdm extends React.Component {
     };
   }
 
-  toggleRecord = (toggledRecord, noMatch) => {
+  toggleRecord(toggledRecord, noMatch) {
     newContractInitialValues = toggledRecord;
 
     localStorage.setItem('idmConnectNewContractInitialValues', JSON.stringify(newContractInitialValues));
 
     this.setState({
-      checkedUnilogin: toggledRecord.unilogin,
       noMatchButtonSelected: noMatch,
+      checkedUnilogin: toggledRecord.unilogin,
     });
   }
 
@@ -76,7 +76,7 @@ class SearchIdm extends React.Component {
       <div className={css.noMatchButton}>
         <Button
           buttonStyle={buttonStyle}
-          onClick={this.props.isCreateNewUser ? () => this.toggleRecord({}, true) : undefined}
+          onClick={this.props.isCreateNewUser ? () => this.toggleRecord('', true) : undefined}
         >
           <FormattedMessage id="ui-idm-connect.searchIdm.noMatch" />
         </Button>
@@ -94,6 +94,7 @@ class SearchIdm extends React.Component {
   renderPaneFooter() {
     const { isCreateNewUser, handlers: { onClose } } = this.props;
     const disableTakeContinue = this.getDisableTakeContinue();
+    const labelForContiunueButton = this.state.noMatchButtonSelected || disableTakeContinue ? <FormattedMessage id="ui-idm-connect.searchIdm.continue" /> : <FormattedMessage id="ui-idm-connect.searchIdm.takeContinue" />;
 
     const startButton = (
       <Button
@@ -114,7 +115,8 @@ class SearchIdm extends React.Component {
         marginBottom0
         to={`${urls.contractCreate()}${this.props.searchString}`}
       >
-        <FormattedMessage id="ui-idm-connect.searchIdm.takeContinue" />
+        {/* <FormattedMessage id="ui-idm-connect.searchIdm.takeContinue" /> */}
+        {labelForContiunueButton}
       </Button>
     );
 

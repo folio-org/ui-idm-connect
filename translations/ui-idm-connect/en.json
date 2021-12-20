@@ -36,6 +36,7 @@
   "searchIdm.resultCount": "{count, number} {count, plural, one {Result in IDM} other {Results in IDM}}",
   "searchIdm.noResults": "No results in IDM",
   "searchIdm.takeContinue": "Take and continue",
+  "searchIdm.continue": "Continue",
   "searchIdm.error": "Error fetch IDM {msg}",
   "searchIdm.choose": "Choose",
   "searchIdm.selected": "Selected",

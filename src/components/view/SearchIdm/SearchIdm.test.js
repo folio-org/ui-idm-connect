@@ -127,9 +127,9 @@ describe('Search IDM - Create new user', () => {
     const firstnameInput = document.querySelector('#searchIdm_firstname');
     const dateOfBirthInput = document.querySelector('#searchIdm_dateOfBirth');
     const searchButton = screen.getByRole('button', { name: 'Search' });
-    const takeAndContinueButton = screen.getByRole('button', { name: 'Take and continue' });
-    expect(takeAndContinueButton).toBeVisible();
-    expect(takeAndContinueButton).toHaveAttribute('disabled');
+    const continueButton = screen.getByRole('button', { name: 'Continue' });
+    expect(continueButton).toBeVisible();
+    expect(continueButton).toHaveAttribute('disabled');
 
     userEvent.type(lastnameInput, 'Hausmann');
     userEvent.type(firstnameInput, 'Lienhardt');
@@ -150,7 +150,7 @@ describe('Search IDM - Create new user', () => {
     expect(chooseButton).not.toHaveAttribute('disabled');
 
     userEvent.click(noMatchButton);
-    expect(takeAndContinueButton).not.toHaveAttribute('disabled');
+    expect(continueButton).not.toHaveAttribute('disabled');
 
     // userEvent.click(takeAndContinueButton);
     // expect(screen.getByText('Create')).toBeVisible();
