@@ -1,6 +1,6 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
-// import userEvent from '@testing-library/user-event';
+import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
@@ -19,12 +19,18 @@ const reducers = {
 const reducer = combineReducers(reducers);
 const store = createStore(reducer);
 
+const handlers = {
+  onClose: jest.fn(),
+};
+
+const handleSubmit = jest.fn();
+
 const renderContractsForm = (initVal) => renderWithIntl(
   <Provider store={store}>
     <MemoryRouter>
       <ContractsForm
-        handlers={{ onClose: jest.fn() }}
-        onSubmit={jest.fn()}
+        handlers={handlers}
+        onSubmit={handleSubmit}
         initialValues={initVal}
       />
     </MemoryRouter>
@@ -51,10 +57,16 @@ describe('Create Route', () => {
       renderContractsForm(contractFixtures);
     });
 
-    test('renders the Search IDM component', async () => {
+    test('renders the name of initial data and cancel button', async () => {
       const cancelButton = screen.getByRole('button', { name: 'Cancel' });
       expect(screen.getByText('Führer, Lienhardt')).toBeInTheDocument();
       expect(cancelButton).toBeInTheDocument();
+    });
+
+    test('click cancel button', () => {
+      const cancelButton = screen.getByRole('button', { name: 'Cancel' });
+      userEvent.click(cancelButton);
+      expect(handlers.onClose).toHaveBeenCalled();
     });
   });
 });
