@@ -137,7 +137,6 @@ class ContractsForm extends React.Component {
 
     return (
       <form
-        data-test-contract-form-page
         id="form-contract"
         onSubmit={handleSubmit}
       >

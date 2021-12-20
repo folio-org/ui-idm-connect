@@ -13,7 +13,6 @@ import {
   Icon,
   Layout,
   Pane,
-  PaneMenu,
   Row,
 } from '@folio/stripes/components';
 
@@ -69,27 +68,6 @@ class ContractView extends React.Component {
     });
   }
 
-  renderEditPaneMenu = () => {
-    const { canEdit, handlers } = this.props;
-
-    return (
-      <PaneMenu>
-        {canEdit && (
-          <Button
-            aria-label={<FormattedMessage id="ui-idm-connect.edit" />}
-            buttonRef={this.editButton}
-            buttonStyle="primary"
-            id="clickable-edit-contract"
-            marginBottom0
-            onClick={handlers.onEdit}
-          >
-            <FormattedMessage id="ui-idm-connect.edit" />
-          </Button>
-        )}
-      </PaneMenu>
-    );
-  }
-
   renderLoadingPane = () => {
     return (
       <Pane
@@ -106,6 +84,34 @@ class ContractView extends React.Component {
     );
   }
 
+  getActionMenu = () => () => {
+    const { handlers, canEdit } = this.props;
+
+    if (canEdit) {
+      return (
+        <>
+          <FormattedMessage id="ui-idm-connect.edit">
+            {ariaLabel => (
+              <Button
+                aria-label={ariaLabel}
+                buttonStyle="dropdownItem"
+                id="clickable-edit-contract"
+                marginBottom0
+                onClick={() => { handlers.onEdit(); }}
+              >
+                <Icon icon="edit">
+                  <FormattedMessage id="ui-idm-connect.edit" />
+                </Icon>
+              </Button>
+            )}
+          </FormattedMessage>
+        </>
+      );
+    } else {
+      return null;
+    }
+  };
+
   render() {
     const { record, isLoading } = this.props;
     const fullName = `${_.get(record, 'personal.lastName')}, ${_.get(record, 'personal.firstName')}`;
@@ -115,10 +121,10 @@ class ContractView extends React.Component {
     return (
       <>
         <Pane
+          actionMenu={this.getActionMenu()}
           defaultWidth="40%"
           dismissible
           id="pane-contractDetails"
-          lastMenu={this.renderEditPaneMenu()}
           onClose={this.props.handlers.onClose}
           paneTitle={<span>{fullName}</span>}
         >

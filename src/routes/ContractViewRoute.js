@@ -39,17 +39,17 @@ class ContractViewRoute extends React.Component {
     this.props.history.push(`${urls.contracts()}${location.search}`);
   }
 
-  // handleEdit = () => {
-  //   const { location, match } = this.props;
-  //   this.props.history.push(`${urls.sourceEdit(match.params.id)}${location.search}`);
-  // }
+  handleEdit = () => {
+    const { location, match } = this.props;
+    this.props.history.push(`${urls.contractEdit(match.params.id)}${location.search}`);
+  }
 
   render() {
-    // const { stripes } = this.props;
+    const { stripes } = this.props;
 
     return (
       <ContractView
-        // canEdit={stripes.hasPerm('ui-idm-connect.item.put')}
+        canEdit={stripes.hasPerm('ui-idm-connect.create-edit')}
         handlers={{
           onClose: this.handleClose,
           onEdit: this.handleEdit,
