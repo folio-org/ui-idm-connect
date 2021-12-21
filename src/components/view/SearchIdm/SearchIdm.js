@@ -186,11 +186,11 @@ class SearchIdm extends React.Component {
   };
 
   renderResults = () => {
-    const { isCreateNewUser, users } = this.props;
+    const { isCreateNewUser, isUsersResultsEmpty, users } = this.props;
     const count = users.length;
     const columns = ['surname', 'givenname', 'dateOfBirth', 'unilogin', 'accountState', 'ULAffiliation'];
 
-    if ((count > 0) && (_.get(users[0], 'msg', '') === '')) {
+    if (!isUsersResultsEmpty) {
       return (
         <>
           <Card

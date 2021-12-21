@@ -25,11 +25,12 @@ let renderWithIntlResult = {};
 const onClose = jest.fn();
 const onSubmit = jest.fn();
 
-const renderUsers = (USERS, newUser, rerender) => renderWithIntl(
+const renderUsers = (USERS, newUser, resultsEmpty, rerender) => renderWithIntl(
   <Provider store={store}>
     <MemoryRouter>
       <SearchIdm
         isCreateNewUser={newUser}
+        isUsersResultsEmpty={resultsEmpty}
         onSubmit={onSubmit}
         handlers={{ onClose }}
         users={USERS}
@@ -40,9 +41,9 @@ const renderUsers = (USERS, newUser, rerender) => renderWithIntl(
   rerender
 );
 
-describe('Search IDM - without results', async () => {
+describe('Search IDM - without results', () => {
   beforeEach(() => {
-    renderUsers({}, false);
+    renderUsers({}, false, true);
   });
 
   it('should show pane title', () => {
@@ -57,7 +58,7 @@ describe('Search IDM - without results', async () => {
     expect(screen.getByRole('button', { name: 'Cancel' })).toBeInTheDocument();
   });
 
-  await it('should not show results', () => {
+  it('should not show results', () => {
     expect(screen.getByText('No results in IDM')).toBeVisible();
   });
 
@@ -68,7 +69,7 @@ describe('Search IDM - without results', async () => {
 
 describe('Search IDM - with results', () => {
   beforeEach(() => {
-    renderUsers(usersFixtures, false);
+    renderUsers(usersFixtures, false, false);
   });
 
   it('should show results', () => {
@@ -88,7 +89,7 @@ describe('Search IDM - with results', () => {
 
 describe('Search IDM - trigger search', () => {
   beforeEach(() => {
-    renderWithIntlResult = renderUsers(usersFixtures, false);
+    renderWithIntlResult = renderUsers(usersFixtures, false, false);
   });
 
   test('enter lastname, firstname and date of birth and click search button', async () => {
@@ -105,7 +106,7 @@ describe('Search IDM - trigger search', () => {
     userEvent.type(dateOfBirthInput, '1874-06-12');
     userEvent.click(searchButton);
 
-    renderUsers(userFixtures, false, renderWithIntlResult.rerender);
+    renderUsers(userFixtures, false, false, renderWithIntlResult.rerender);
 
     expect(onSubmit).toHaveBeenCalled();
     expect(searchButton).not.toHaveAttribute('disabled');
@@ -119,7 +120,7 @@ describe('Search IDM - trigger search', () => {
 
 describe('Search IDM - Create new user', () => {
   beforeEach(() => {
-    renderWithIntlResult = renderUsers(usersFixtures, true);
+    renderWithIntlResult = renderUsers(usersFixtures, true, false);
   });
 
   it('should show take and continue button', () => {
@@ -136,7 +137,7 @@ describe('Search IDM - Create new user', () => {
     userEvent.type(dateOfBirthInput, '1874-06-12');
     userEvent.click(searchButton);
 
-    renderUsers(userFixtures, true, renderWithIntlResult.rerender);
+    renderUsers(userFixtures, true, false, renderWithIntlResult.rerender);
 
     expect(onSubmit).toHaveBeenCalled();
     expect(searchButton).not.toHaveAttribute('disabled');
