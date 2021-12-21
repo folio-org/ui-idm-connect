@@ -70,11 +70,7 @@ class SearchIdm extends React.Component {
   }
 
   getDisableTakeContinue() {
-    if (this.props.isUsersResultsEmpty || this.state.noMatchButtonSelected || this.state.checkedUnilogin !== '') {
-      return false;
-    } else {
-      return true;
-    }
+    return !(this.props.isUsersResultsEmpty || this.state.noMatchButtonSelected || this.state.checkedUnilogin !== '');
   }
 
   getLabelForContiunueButton = () => {
@@ -185,7 +181,7 @@ class SearchIdm extends React.Component {
     },
   };
 
-  renderResults = () => {
+  renderResults() {
     const { isCreateNewUser, isUsersResultsEmpty, users } = this.props;
     const count = users.length;
     const columns = ['surname', 'givenname', 'dateOfBirth', 'unilogin', 'accountState', 'ULAffiliation'];
