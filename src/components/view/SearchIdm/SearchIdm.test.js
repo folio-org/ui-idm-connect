@@ -163,7 +163,6 @@ describe('xxx Search IDM - select user, enter new search and create empty contra
 
     const continueButton = screen.getByRole('button', { name: 'Continue' });
     expect(continueButton).toBeInTheDocument();
-    // userEvent.click(continueButton);
   });
 });
 
@@ -201,9 +200,5 @@ describe('Search IDM - Create new user', () => {
 
     userEvent.click(noMatchButton);
     expect(continueButton).not.toHaveAttribute('disabled');
-
-    // userEvent.click(takeAndContinueButton);
-    // expect(screen.getByText('Create')).toBeVisible();
-    // expect(document.querySelector('#form-contract')).toBeInTheDocument();
   });
 });
