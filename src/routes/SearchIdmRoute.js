@@ -79,6 +79,7 @@ class SearchIdmRoute extends React.Component {
       <SearchIdm
         onSubmit={this.handleSubmit}
         handlers={{ onClose: this.handleClose }}
+        // history={history}
         users={this.state.users}
         renderListOfResults={this.state.renderListOfResults}
         searchString={location.search}

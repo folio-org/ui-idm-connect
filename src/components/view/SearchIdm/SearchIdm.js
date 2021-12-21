@@ -31,6 +31,9 @@ class SearchIdm extends React.Component {
     handlers: PropTypes.shape({
       onClose: PropTypes.func.isRequired,
     }),
+    // history: PropTypes.shape({
+    //   push: PropTypes.func.isRequired,
+    // }).isRequired,
     invalid: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
@@ -49,6 +52,13 @@ class SearchIdm extends React.Component {
       checkedUnilogin: '',
       noMatchButtonSelected: false,
     };
+  }
+
+  componentDidUpdate(prevProps) {
+    // result is empty, set record empty and noMatch false
+    if (this.props.isUsersResultsEmpty && this.props.isUsersResultsEmpty !== prevProps.isUsersResultsEmpty) {
+      this.toggleRecord('', false);
+    }
   }
 
   toggleRecord(toggledRecord, noMatch) {
@@ -90,7 +100,7 @@ class SearchIdm extends React.Component {
       <div className={css.noMatchButton}>
         <Button
           buttonStyle={buttonStyle}
-          onClick={this.props.isCreateNewUser ? () => this.toggleRecord('', true) : undefined}
+          onClick={() => this.toggleRecord('', true)}
         >
           <FormattedMessage id="ui-idm-connect.searchIdm.noMatch" />
         </Button>
@@ -104,6 +114,17 @@ class SearchIdm extends React.Component {
       dateOfBirth: newDate,
     });
   };
+
+  // doCreateContract() {
+  //   if (this.props.isUsersResultsEmpty) {
+  //     localStorage.setItem('idmConnectNewContractInitialValues', JSON.stringify(''));
+
+  //     this.setState({
+  //       checkedUnilogin: '',
+  //     });
+  //   }
+  //   this.props.history.push(`${urls.contractCreate()}${this.props.searchString}`);
+  // }
 
   renderPaneFooter() {
     const { isCreateNewUser, handlers: { onClose } } = this.props;
@@ -129,6 +150,7 @@ class SearchIdm extends React.Component {
         id="clickable-takeContinue-form"
         marginBottom0
         to={`${urls.contractCreate()}${this.props.searchString}`}
+        // onClick={() => this.doCreateContract()}
       >
         {labelForContiunueButton}
       </Button>
@@ -174,7 +196,7 @@ class SearchIdm extends React.Component {
         <Button
           buttonStyle={buttonStyle}
           marginBottom0
-          onClick={this.props.isCreateNewUser ? () => this.toggleRecord(users, false) : undefined}
+          onClick={() => this.toggleRecord(users, false)}
         >
           {buttonLabel}
         </Button>
