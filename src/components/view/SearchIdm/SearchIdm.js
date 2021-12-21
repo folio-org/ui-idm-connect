@@ -38,6 +38,7 @@ class SearchIdm extends React.Component {
     searchString: PropTypes.string,
     submitting: PropTypes.bool,
     users: PropTypes.arrayOf(PropTypes.object),
+    isUsersResultsEmpty: PropTypes.bool,
   };
 
   constructor(props) {
@@ -51,18 +52,31 @@ class SearchIdm extends React.Component {
   }
 
   toggleRecord(toggledRecord, noMatch) {
+    const unilogin = _.get(toggledRecord, 'unilogin', '');
     newContractInitialValues = toggledRecord;
 
     localStorage.setItem('idmConnectNewContractInitialValues', JSON.stringify(newContractInitialValues));
 
     this.setState({
       noMatchButtonSelected: noMatch,
-      checkedUnilogin: toggledRecord.unilogin,
+      checkedUnilogin: unilogin,
     });
   }
 
   getDisableTakeContinue() {
-    return this.state.checkedUnilogin === '' && !this.state.noMatchButtonSelected;
+    if (this.props.isUsersResultsEmpty || this.state.noMatchButtonSelected || this.state.checkedUnilogin !== '') {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  getLabelForContiunueButton = () => {
+    if (this.state.checkedUnilogin === '') {
+      return <FormattedMessage id="ui-idm-connect.searchIdm.continue" />;
+    } else {
+      return <FormattedMessage id="ui-idm-connect.searchIdm.takeContinue" />;
+    }
   }
 
   isButtonSelected = (user) => {
@@ -94,7 +108,8 @@ class SearchIdm extends React.Component {
   renderPaneFooter() {
     const { isCreateNewUser, handlers: { onClose } } = this.props;
     const disableTakeContinue = this.getDisableTakeContinue();
-    const labelForContiunueButton = this.state.noMatchButtonSelected || disableTakeContinue ? <FormattedMessage id="ui-idm-connect.searchIdm.continue" /> : <FormattedMessage id="ui-idm-connect.searchIdm.takeContinue" />;
+    // const labelForContiunueButton = this.state.noMatchButtonSelected || disableTakeContinue ? <FormattedMessage id="ui-idm-connect.searchIdm.continue" /> : <FormattedMessage id="ui-idm-connect.searchIdm.takeContinue" />;
+    const labelForContiunueButton = this.getLabelForContiunueButton();
 
     const startButton = (
       <Button
@@ -115,7 +130,6 @@ class SearchIdm extends React.Component {
         marginBottom0
         to={`${urls.contractCreate()}${this.props.searchString}`}
       >
-        {/* <FormattedMessage id="ui-idm-connect.searchIdm.takeContinue" /> */}
         {labelForContiunueButton}
       </Button>
     );
@@ -168,12 +182,12 @@ class SearchIdm extends React.Component {
     },
   };
 
-  renderResults() {
+  renderResults = () => {
     const { isCreateNewUser, users } = this.props;
     const count = users.length;
     const columns = ['surname', 'givenname', 'dateOfBirth', 'unilogin', 'accountState', 'ULAffiliation'];
 
-    if ((count > 0) && (_.get(this.props.users[0], 'msg', '') === '')) {
+    if ((count > 0) && (_.get(users[0], 'msg', '') === '')) {
       return (
         <>
           <Card

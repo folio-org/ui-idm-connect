@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -21,6 +22,7 @@ class SearchIdmRoute extends React.Component {
     this.state = {
       users: [],
       renderListOfResults: false,
+      isUsersResultsEmpty: false,
     };
   }
 
@@ -48,7 +50,13 @@ class SearchIdmRoute extends React.Component {
           this.setState(() => ({
             users: json,
             renderListOfResults: true,
+            isUsersResultsEmpty: false,
           }));
+          if (_.get(json[0], 'msg', '') === 'User not found') {
+            this.setState(() => ({
+              isUsersResultsEmpty: true,
+            }));
+          }
         });
       } else {
         this.sendCallout('error', '');
@@ -75,6 +83,7 @@ class SearchIdmRoute extends React.Component {
         renderListOfResults={this.state.renderListOfResults}
         searchString={location.search}
         isCreateNewUser={isCreateNewUser}
+        isUsersResultsEmpty={this.state.isUsersResultsEmpty}
       />
     );
   }
