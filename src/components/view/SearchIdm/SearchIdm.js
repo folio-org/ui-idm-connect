@@ -27,21 +27,17 @@ let newContractInitialValues = '';
 
 class SearchIdm extends React.Component {
   static propTypes = {
-    isCreateNewUser: PropTypes.bool,
     handlers: PropTypes.shape({
       onClose: PropTypes.func.isRequired,
     }),
-    // history: PropTypes.shape({
-    //   push: PropTypes.func.isRequired,
-    // }).isRequired,
     invalid: PropTypes.bool,
+    isCreateNewUser: PropTypes.bool,
+    isUsersResultsEmpty: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
     renderListOfResults: PropTypes.bool,
-    searchString: PropTypes.string,
     submitting: PropTypes.bool,
     users: PropTypes.arrayOf(PropTypes.object),
-    isUsersResultsEmpty: PropTypes.bool,
   };
 
   constructor(props) {
@@ -115,22 +111,8 @@ class SearchIdm extends React.Component {
     });
   };
 
-  // doCreateContract() {
-  //   if (this.props.isUsersResultsEmpty) {
-  //     localStorage.setItem('idmConnectNewContractInitialValues', JSON.stringify(''));
-
-  //     this.setState({
-  //       checkedUnilogin: '',
-  //     });
-  //   }
-  //   this.props.history.push(`${urls.contractCreate()}${this.props.searchString}`);
-  // }
-
   renderPaneFooter() {
     const { isCreateNewUser, handlers: { onClose } } = this.props;
-    const disableTakeContinue = this.getDisableTakeContinue();
-    // const labelForContiunueButton = this.state.noMatchButtonSelected || disableTakeContinue ? <FormattedMessage id="ui-idm-connect.searchIdm.continue" /> : <FormattedMessage id="ui-idm-connect.searchIdm.takeContinue" />;
-    const labelForContiunueButton = this.getLabelForContiunueButton();
 
     const startButton = (
       <Button
@@ -146,13 +128,12 @@ class SearchIdm extends React.Component {
     const endButton = (
       <Button
         buttonStyle="default mega"
-        disabled={disableTakeContinue}
+        disabled={this.getDisableTakeContinue()}
         id="clickable-takeContinue-form"
         marginBottom0
-        to={`${urls.contractCreate()}${this.props.searchString}`}
-        // onClick={() => this.doCreateContract()}
+        to={`${urls.contractCreate()}`}
       >
-        {labelForContiunueButton}
+        {this.getLabelForContiunueButton()}
       </Button>
     );
 

@@ -67,24 +67,20 @@ class SearchIdmRoute extends React.Component {
   }
 
   handleClose = () => {
-    const { location } = this.props;
-    this.props.history.push(`${urls.contracts()}${location.search}`);
+    this.props.history.push(`${urls.contracts()}`);
   }
 
   render() {
-    const { location } = this.props;
     const isCreateNewUser = this.props.location.state === 'new';
 
     return (
       <SearchIdm
-        onSubmit={this.handleSubmit}
         handlers={{ onClose: this.handleClose }}
-        // history={history}
-        users={this.state.users}
-        renderListOfResults={this.state.renderListOfResults}
-        searchString={location.search}
         isCreateNewUser={isCreateNewUser}
         isUsersResultsEmpty={this.state.isUsersResultsEmpty}
+        onSubmit={this.handleSubmit}
+        renderListOfResults={this.state.renderListOfResults}
+        users={this.state.users}
       />
     );
   }
@@ -95,7 +91,6 @@ SearchIdmRoute.propTypes = {
     push: PropTypes.func.isRequired,
   }).isRequired,
   location: PropTypes.shape({
-    search: PropTypes.string.isRequired,
     state: PropTypes.string.isRequired,
   }).isRequired,
   stripes: PropTypes.shape({

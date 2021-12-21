@@ -40,7 +40,7 @@ const renderUsers = (USERS, newUser, rerender) => renderWithIntl(
   rerender
 );
 
-describe('Search IDM - without results', () => {
+describe('Search IDM - without results', async () => {
   beforeEach(() => {
     renderUsers({}, false);
   });
@@ -57,7 +57,7 @@ describe('Search IDM - without results', () => {
     expect(screen.getByRole('button', { name: 'Cancel' })).toBeInTheDocument();
   });
 
-  it('should not show results', () => {
+  await it('should not show results', () => {
     expect(screen.getByText('No results in IDM')).toBeVisible();
   });
 
