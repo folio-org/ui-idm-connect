@@ -89,7 +89,7 @@ describe('Search IDM - with results', () => {
 
 describe('Search IDM - trigger search', () => {
   beforeEach(() => {
-    renderWithIntlResult = renderUsers(usersFixtures, false, false);
+    renderWithIntlResult = renderUsers(usersFixtures, true, false);
   });
 
   test('enter lastname, firstname and date of birth and click search button', async () => {
@@ -106,13 +106,24 @@ describe('Search IDM - trigger search', () => {
     userEvent.type(dateOfBirthInput, '1874-06-12');
     userEvent.click(searchButton);
 
-    renderUsers(userFixtures, false, false, renderWithIntlResult.rerender);
+    renderUsers(userFixtures, true, false, renderWithIntlResult.rerender);
 
     expect(onSubmit).toHaveBeenCalled();
     expect(searchButton).not.toHaveAttribute('disabled');
     expect(screen.getByText('1 Result in IDM')).toBeVisible();
 
     expect(cancelButton).toBeInTheDocument();
+
+    const continueButton = screen.getByRole('button', { name: 'Continue' });
+    expect(continueButton).toBeInTheDocument();
+    const chooseButton = screen.getByRole('button', { name: 'Choose' });
+    expect(chooseButton).toBeInTheDocument();
+    userEvent.click(chooseButton);
+    const selectedButton = screen.getByRole('button', { name: 'Selected' });
+    expect(selectedButton).toBeInTheDocument();
+    const takeAndContinueButton = screen.getByRole('button', { name: 'Take and continue' });
+    expect(takeAndContinueButton).toBeInTheDocument();
+
     userEvent.click(cancelButton);
     expect(onClose).toHaveBeenCalled();
   });
