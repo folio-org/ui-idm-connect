@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -21,6 +22,7 @@ class SearchIdmRoute extends React.Component {
     this.state = {
       users: [],
       renderListOfResults: false,
+      isUsersResultsEmpty: false,
     };
   }
 
@@ -48,7 +50,13 @@ class SearchIdmRoute extends React.Component {
           this.setState(() => ({
             users: json,
             renderListOfResults: true,
+            isUsersResultsEmpty: false,
           }));
+          if (_.get(json[0], 'msg', '') === 'User not found') {
+            this.setState(() => ({
+              isUsersResultsEmpty: true,
+            }));
+          }
         });
       } else {
         this.sendCallout('error', '');
@@ -59,22 +67,20 @@ class SearchIdmRoute extends React.Component {
   }
 
   handleClose = () => {
-    const { location } = this.props;
-    this.props.history.push(`${urls.contracts()}${location.search}`);
+    this.props.history.push(`${urls.contracts()}`);
   }
 
   render() {
-    const { location } = this.props;
     const isCreateNewUser = this.props.location.state === 'new';
 
     return (
       <SearchIdm
-        onSubmit={this.handleSubmit}
         handlers={{ onClose: this.handleClose }}
-        users={this.state.users}
-        renderListOfResults={this.state.renderListOfResults}
-        searchString={location.search}
         isCreateNewUser={isCreateNewUser}
+        isUsersResultsEmpty={this.state.isUsersResultsEmpty}
+        onSubmit={this.handleSubmit}
+        renderListOfResults={this.state.renderListOfResults}
+        users={this.state.users}
       />
     );
   }
@@ -85,7 +91,6 @@ SearchIdmRoute.propTypes = {
     push: PropTypes.func.isRequired,
   }).isRequired,
   location: PropTypes.shape({
-    search: PropTypes.string.isRequired,
     state: PropTypes.string.isRequired,
   }).isRequired,
   stripes: PropTypes.shape({

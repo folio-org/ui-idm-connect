@@ -25,11 +25,12 @@ let renderWithIntlResult = {};
 const onClose = jest.fn();
 const onSubmit = jest.fn();
 
-const renderUsers = (USERS, newUser, rerender) => renderWithIntl(
+const renderUsers = (USERS, newUser, resultsEmpty, rerender) => renderWithIntl(
   <Provider store={store}>
     <MemoryRouter>
       <SearchIdm
         isCreateNewUser={newUser}
+        isUsersResultsEmpty={resultsEmpty}
         onSubmit={onSubmit}
         handlers={{ onClose }}
         users={USERS}
@@ -42,7 +43,7 @@ const renderUsers = (USERS, newUser, rerender) => renderWithIntl(
 
 describe('Search IDM - without results', () => {
   beforeEach(() => {
-    renderUsers({}, false);
+    renderUsers({}, false, true);
   });
 
   it('should show pane title', () => {
@@ -68,7 +69,7 @@ describe('Search IDM - without results', () => {
 
 describe('Search IDM - with results', () => {
   beforeEach(() => {
-    renderUsers(usersFixtures, false);
+    renderUsers(usersFixtures, false, false);
   });
 
   it('should show results', () => {
@@ -88,7 +89,7 @@ describe('Search IDM - with results', () => {
 
 describe('Search IDM - trigger search', () => {
   beforeEach(() => {
-    renderWithIntlResult = renderUsers(usersFixtures, false);
+    renderWithIntlResult = renderUsers(usersFixtures, true, false);
   });
 
   test('enter lastname, firstname and date of birth and click search button', async () => {
@@ -105,21 +106,69 @@ describe('Search IDM - trigger search', () => {
     userEvent.type(dateOfBirthInput, '1874-06-12');
     userEvent.click(searchButton);
 
-    renderUsers(userFixtures, false, renderWithIntlResult.rerender);
+    renderUsers(userFixtures, true, false, renderWithIntlResult.rerender);
 
     expect(onSubmit).toHaveBeenCalled();
     expect(searchButton).not.toHaveAttribute('disabled');
     expect(screen.getByText('1 Result in IDM')).toBeVisible();
 
     expect(cancelButton).toBeInTheDocument();
+
+    const continueButton = screen.getByRole('button', { name: 'Continue' });
+    expect(continueButton).toBeInTheDocument();
+    const chooseButton = screen.getByRole('button', { name: 'Choose' });
+    expect(chooseButton).toBeInTheDocument();
+    userEvent.click(chooseButton);
+    const selectedButton = screen.getByRole('button', { name: 'Selected' });
+    expect(selectedButton).toBeInTheDocument();
+    const takeAndContinueButton = screen.getByRole('button', { name: 'Take and continue' });
+    expect(takeAndContinueButton).toBeInTheDocument();
+
     userEvent.click(cancelButton);
     expect(onClose).toHaveBeenCalled();
   });
 });
 
+describe('xxx Search IDM - select user, enter new search and create empty contract', () => {
+  beforeEach(() => {
+    renderWithIntlResult = renderUsers(usersFixtures, true, false);
+  });
+
+  test('enter lastname, firstname and date of birth and click search button', async () => {
+    const lastnameInput = document.querySelector('#searchIdm_lastname');
+    const firstnameInput = document.querySelector('#searchIdm_firstname');
+    const dateOfBirthInput = document.querySelector('#searchIdm_dateOfBirth');
+    const searchButton = screen.getByRole('button', { name: 'Search' });
+    expect(searchButton).toHaveAttribute('disabled');
+
+    userEvent.type(lastnameInput, 'Hausmann');
+    userEvent.type(firstnameInput, 'Lienhardt');
+    userEvent.type(dateOfBirthInput, '1874-06-12');
+    userEvent.click(searchButton);
+
+    renderUsers(userFixtures, true, false, renderWithIntlResult.rerender);
+
+    expect(onSubmit).toHaveBeenCalled();
+    expect(searchButton).not.toHaveAttribute('disabled');
+    expect(screen.getByText('1 Result in IDM')).toBeVisible();
+
+    userEvent.type(lastnameInput, 'xxx');
+    userEvent.type(firstnameInput, 'xxx');
+    userEvent.type(dateOfBirthInput, '1874-06-12');
+    userEvent.click(searchButton);
+
+    renderUsers({}, true, true, renderWithIntlResult.rerender);
+
+    expect(screen.getByText('No results in IDM')).toBeVisible();
+
+    const continueButton = screen.getByRole('button', { name: 'Continue' });
+    expect(continueButton).toBeInTheDocument();
+  });
+});
+
 describe('Search IDM - Create new user', () => {
   beforeEach(() => {
-    renderWithIntlResult = renderUsers(usersFixtures, true);
+    renderWithIntlResult = renderUsers(usersFixtures, true, false);
   });
 
   it('should show take and continue button', () => {
@@ -127,16 +176,16 @@ describe('Search IDM - Create new user', () => {
     const firstnameInput = document.querySelector('#searchIdm_firstname');
     const dateOfBirthInput = document.querySelector('#searchIdm_dateOfBirth');
     const searchButton = screen.getByRole('button', { name: 'Search' });
-    const takeAndContinueButton = screen.getByRole('button', { name: 'Take and continue' });
-    expect(takeAndContinueButton).toBeVisible();
-    expect(takeAndContinueButton).toHaveAttribute('disabled');
+    const continueButton = screen.getByRole('button', { name: 'Continue' });
+    expect(continueButton).toBeVisible();
+    expect(continueButton).toHaveAttribute('disabled');
 
     userEvent.type(lastnameInput, 'Hausmann');
     userEvent.type(firstnameInput, 'Lienhardt');
     userEvent.type(dateOfBirthInput, '1874-06-12');
     userEvent.click(searchButton);
 
-    renderUsers(userFixtures, true, renderWithIntlResult.rerender);
+    renderUsers(userFixtures, true, false, renderWithIntlResult.rerender);
 
     expect(onSubmit).toHaveBeenCalled();
     expect(searchButton).not.toHaveAttribute('disabled');
@@ -150,10 +199,6 @@ describe('Search IDM - Create new user', () => {
     expect(chooseButton).not.toHaveAttribute('disabled');
 
     userEvent.click(noMatchButton);
-    expect(takeAndContinueButton).not.toHaveAttribute('disabled');
-
-    // userEvent.click(takeAndContinueButton);
-    // expect(screen.getByText('Create')).toBeVisible();
-    // expect(document.querySelector('#form-contract')).toBeInTheDocument();
+    expect(continueButton).not.toHaveAttribute('disabled');
   });
 });

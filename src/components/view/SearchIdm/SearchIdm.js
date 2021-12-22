@@ -27,15 +27,15 @@ let newContractInitialValues = '';
 
 class SearchIdm extends React.Component {
   static propTypes = {
-    isCreateNewUser: PropTypes.bool,
     handlers: PropTypes.shape({
       onClose: PropTypes.func.isRequired,
     }),
     invalid: PropTypes.bool,
+    isCreateNewUser: PropTypes.bool,
+    isUsersResultsEmpty: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
     renderListOfResults: PropTypes.bool,
-    searchString: PropTypes.string,
     submitting: PropTypes.bool,
     users: PropTypes.arrayOf(PropTypes.object),
   };
@@ -50,19 +50,35 @@ class SearchIdm extends React.Component {
     };
   }
 
-  toggleRecord = (toggledRecord, noMatch) => {
+  componentDidUpdate(prevProps) {
+    // result is empty, set record empty and noMatch false
+    if (this.props.isUsersResultsEmpty && this.props.isUsersResultsEmpty !== prevProps.isUsersResultsEmpty) {
+      this.toggleRecord('', false);
+    }
+  }
+
+  toggleRecord(toggledRecord, noMatch) {
+    const unilogin = _.get(toggledRecord, 'unilogin', '');
     newContractInitialValues = toggledRecord;
 
     localStorage.setItem('idmConnectNewContractInitialValues', JSON.stringify(newContractInitialValues));
 
     this.setState({
-      checkedUnilogin: toggledRecord.unilogin,
       noMatchButtonSelected: noMatch,
+      checkedUnilogin: unilogin,
     });
   }
 
   getDisableTakeContinue() {
-    return this.state.checkedUnilogin === '' && !this.state.noMatchButtonSelected;
+    return !(this.props.isUsersResultsEmpty || this.state.noMatchButtonSelected || this.state.checkedUnilogin !== '');
+  }
+
+  getLabelForContiunueButton = () => {
+    if (this.state.checkedUnilogin === '') {
+      return <FormattedMessage id="ui-idm-connect.searchIdm.continue" />;
+    } else {
+      return <FormattedMessage id="ui-idm-connect.searchIdm.takeContinue" />;
+    }
   }
 
   isButtonSelected = (user) => {
@@ -76,7 +92,7 @@ class SearchIdm extends React.Component {
       <div className={css.noMatchButton}>
         <Button
           buttonStyle={buttonStyle}
-          onClick={this.props.isCreateNewUser ? () => this.toggleRecord({}, true) : undefined}
+          onClick={() => this.toggleRecord('', true)}
         >
           <FormattedMessage id="ui-idm-connect.searchIdm.noMatch" />
         </Button>
@@ -93,7 +109,6 @@ class SearchIdm extends React.Component {
 
   renderPaneFooter() {
     const { isCreateNewUser, handlers: { onClose } } = this.props;
-    const disableTakeContinue = this.getDisableTakeContinue();
 
     const startButton = (
       <Button
@@ -109,12 +124,12 @@ class SearchIdm extends React.Component {
     const endButton = (
       <Button
         buttonStyle="default mega"
-        disabled={disableTakeContinue}
+        disabled={this.getDisableTakeContinue()}
         id="clickable-takeContinue-form"
         marginBottom0
-        to={`${urls.contractCreate()}${this.props.searchString}`}
+        to={`${urls.contractCreate()}`}
       >
-        <FormattedMessage id="ui-idm-connect.searchIdm.takeContinue" />
+        {this.getLabelForContiunueButton()}
       </Button>
     );
 
@@ -158,7 +173,7 @@ class SearchIdm extends React.Component {
         <Button
           buttonStyle={buttonStyle}
           marginBottom0
-          onClick={this.props.isCreateNewUser ? () => this.toggleRecord(users, false) : undefined}
+          onClick={() => this.toggleRecord(users, false)}
         >
           {buttonLabel}
         </Button>
@@ -167,11 +182,11 @@ class SearchIdm extends React.Component {
   };
 
   renderResults() {
-    const { isCreateNewUser, users } = this.props;
+    const { isCreateNewUser, isUsersResultsEmpty, users } = this.props;
     const count = users.length;
     const columns = ['surname', 'givenname', 'dateOfBirth', 'unilogin', 'accountState', 'ULAffiliation'];
 
-    if ((count > 0) && (_.get(this.props.users[0], 'msg', '') === '')) {
+    if (!isUsersResultsEmpty) {
       return (
         <>
           <Card
