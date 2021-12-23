@@ -44,9 +44,11 @@ class SearchIdmRoute extends React.Component {
         'X-Okapi-Tenant': okapi.tenant,
         'X-Okapi-Token': okapi.token,
       },
-    }).then((response) => {
+    }).then(async (response) => {
       if (response.ok) {
-        response.json().then((json) => {
+        await response.json().then((json) => {
+          const uniIds = json.map((user) => user.unilogin);
+          console.log(uniIds);
           this.setState(() => ({
             users: json,
             renderListOfResults: true,
@@ -56,6 +58,16 @@ class SearchIdmRoute extends React.Component {
             this.setState(() => ({
               isUsersResultsEmpty: true,
             }));
+          }
+          if (this.props.location.state !== 'new') {
+            fetch(`${okapi.url}/users?query=externalSystemId==${uniIds}`, {
+              headers: {
+                'X-Okapi-Tenant': okapi.tenant,
+                'X-Okapi-Token': okapi.token,
+              },
+            }).then((res) => {
+              console.log(res);
+            });
           }
         });
       } else {

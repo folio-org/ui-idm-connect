@@ -144,6 +144,7 @@ class SearchIdm extends React.Component {
     accountState: <FormattedMessage id="ui-idm-connect.accountState" />,
     ULAffiliation: <FormattedMessage id="ui-idm-connect.ULAffiliation" />,
     UBRole: <FormattedMessage id="ui-idm-connect.UBRole" />,
+    FOLIOUser: 'FOLIO user',
     isChecked: '',
   };
 
@@ -155,6 +156,7 @@ class SearchIdm extends React.Component {
     accountState: 270,
     ULAffiliation: 150,
     UBRole: 100,
+    FOLIOUser: 100,
     isChecked: 100,
   };
 
@@ -165,6 +167,8 @@ class SearchIdm extends React.Component {
     unilogin: users => users.unilogin,
     accountState: users => users.accountState,
     ULAffiliation: users => users.ULAffiliation,
+    UBRole: users => users.UBRole,
+    FOLIOUser: users => users.FOLIOUser,
     isChecked: users => {
       const buttonLabel = this.isButtonSelected(users) ? <FormattedMessage id="ui-idm-connect.searchIdm.selected" /> : <FormattedMessage id="ui-idm-connect.searchIdm.choose" />;
       const buttonStyle = this.isButtonSelected(users) ? 'primary' : 'default';
@@ -208,7 +212,7 @@ class SearchIdm extends React.Component {
               formatter={this.resultsFormatter}
               id="search-idm-list-users"
               interactive={false}
-              visibleColumns={isCreateNewUser ? [...columns, 'isChecked'] : [...columns, 'UBRole']}
+              visibleColumns={isCreateNewUser ? [...columns, 'isChecked'] : [...columns, 'UBRole', 'FOLIO user']}
             />
           </Card>
           {isCreateNewUser ? this.renderNoMatchButton() : '' }
