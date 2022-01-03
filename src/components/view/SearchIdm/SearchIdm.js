@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import { Field } from 'redux-form';
 import moment from 'moment';
@@ -27,6 +28,7 @@ let newContractInitialValues = '';
 
 class SearchIdm extends React.Component {
   static propTypes = {
+    FOLIOUserId: PropTypes.string,
     handlers: PropTypes.shape({
       onClose: PropTypes.func.isRequired,
     }),
@@ -144,7 +146,7 @@ class SearchIdm extends React.Component {
     accountState: <FormattedMessage id="ui-idm-connect.accountState" />,
     ULAffiliation: <FormattedMessage id="ui-idm-connect.ULAffiliation" />,
     UBRole: <FormattedMessage id="ui-idm-connect.UBRole" />,
-    FOLIOUser: 'FOLIO user',
+    FOLIOUser: <FormattedMessage id="ui-idm-connect.FOLIOUser" />,
     isChecked: '',
   };
 
@@ -168,7 +170,7 @@ class SearchIdm extends React.Component {
     accountState: users => users.accountState,
     ULAffiliation: users => users.ULAffiliation,
     UBRole: users => users.UBRole,
-    FOLIOUser: users => users.FOLIOUser,
+    FOLIOUser: users => <Link to={{ pathname: `${urls.userView(this.props.FOLIOUserId)}` }}>{users.FOLIOUser}</Link>,
     isChecked: users => {
       const buttonLabel = this.isButtonSelected(users) ? <FormattedMessage id="ui-idm-connect.searchIdm.selected" /> : <FormattedMessage id="ui-idm-connect.searchIdm.choose" />;
       const buttonStyle = this.isButtonSelected(users) ? 'primary' : 'default';
@@ -212,7 +214,7 @@ class SearchIdm extends React.Component {
               formatter={this.resultsFormatter}
               id="search-idm-list-users"
               interactive={false}
-              visibleColumns={isCreateNewUser ? [...columns, 'isChecked'] : [...columns, 'UBRole', 'FOLIO user']}
+              visibleColumns={isCreateNewUser ? [...columns, 'isChecked'] : [...columns, 'UBRole', 'FOLIOUser']}
             />
           </Card>
           {isCreateNewUser ? this.renderNoMatchButton() : '' }

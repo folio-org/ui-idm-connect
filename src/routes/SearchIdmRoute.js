@@ -23,6 +23,7 @@ class SearchIdmRoute extends React.Component {
       users: [],
       renderListOfResults: false,
       isUsersResultsEmpty: false,
+      FOLIOUserId: '',
     };
   }
 
@@ -47,8 +48,6 @@ class SearchIdmRoute extends React.Component {
     }).then(async (response) => {
       if (response.ok) {
         await response.json().then((json) => {
-          const uniIds = json.map((user) => user.unilogin);
-          console.log(uniIds);
           this.setState(() => ({
             users: json,
             renderListOfResults: true,
@@ -60,13 +59,32 @@ class SearchIdmRoute extends React.Component {
             }));
           }
           if (this.props.location.state !== 'new') {
+            const uniIds = json.map((user) => user.unilogin);
+            // console.log(uniIds);
+            // TODO: fetch for every id
             fetch(`${okapi.url}/users?query=externalSystemId==${uniIds}`, {
+            // fetch(`${okapi.url}/users?query=externalSystemId==ve65cexu&externalSystemId==abc123`, {
+            // fetch(`${okapi.url}/users?query=externalSystemId==abc123`, {
               headers: {
                 'X-Okapi-Tenant': okapi.tenant,
                 'X-Okapi-Token': okapi.token,
               },
-            }).then((res) => {
-              console.log(res);
+            }).then(async (res) => {
+              if (res.ok) {
+                await res.json().then((singleUserResult) => {
+                  if (singleUserResult.totalRecords === 1) {
+                    // display name of user in users app:
+                    const FOLIOUser = `${singleUserResult.users[0].personal.lastName}, ${singleUserResult.users[0].personal.firstName}`;
+
+                    this.setState((state) => ({
+                      users: [{ ...state.users[0], FOLIOUser }],
+                      // for link to user in users app:
+                      FOLIOUserId: singleUserResult.users[0].id,
+                    }));
+                    // console.log(this.state.users);
+                  }
+                });
+              }
             });
           }
         });
@@ -87,6 +105,7 @@ class SearchIdmRoute extends React.Component {
 
     return (
       <SearchIdm
+        FOLIOUserId={this.state.FOLIOUserId}
         handlers={{ onClose: this.handleClose }}
         isCreateNewUser={isCreateNewUser}
         isUsersResultsEmpty={this.state.isUsersResultsEmpty}
