@@ -42,6 +42,8 @@
   "searchIdm.choose": "Choose",
   "searchIdm.selected": "Selected",
   "searchIdm.noMatch": "No match",
+  "searchIdm.noFolioUser": "Not existing",
+  "searchIdm.multipleFolioUser": "Warning: multiple records found.",
   "form.validate.required": "Required!",
   "form.validate.validMailRequired": "Valid email address required!",
   "form.validate.noDollarBackslashRequired": "Required! No $ or \\ allowed!",

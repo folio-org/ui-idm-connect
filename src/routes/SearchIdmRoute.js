@@ -24,6 +24,8 @@ class SearchIdmRoute extends React.Component {
       renderListOfResults: false,
       isUsersResultsEmpty: false,
       FOLIOUserId: '',
+      // noFolioUser: false,
+      multipleFolioUserWithId: '',
     };
   }
 
@@ -71,17 +73,34 @@ class SearchIdmRoute extends React.Component {
               },
             }).then(async (res) => {
               if (res.ok) {
-                await res.json().then((singleUserResult) => {
-                  if (singleUserResult.totalRecords === 1) {
+                await res.json().then((folioUserResult) => {
+                  // console.log(folioUserResult.users);
+                  if (folioUserResult.totalRecords === 1) {
                     // display name of user in users app:
-                    const FOLIOUser = `${singleUserResult.users[0].personal.lastName}, ${singleUserResult.users[0].personal.firstName}`;
+                    const FOLIOUser = `${folioUserResult.users[0].personal.lastName}, ${folioUserResult.users[0].personal.firstName}`;
 
                     this.setState((state) => ({
                       users: [{ ...state.users[0], FOLIOUser }],
                       // for link to user in users app:
-                      FOLIOUserId: singleUserResult.users[0].id,
+                      FOLIOUserId: folioUserResult.users[0].id,
+                      multipleFolioUserWithId: '',
+                      // noFolioUser: false,
                     }));
                     // console.log(this.state.users);
+                  } else if (folioUserResult.totalRecords === 0) {
+                    // const FOLIOUser = <FormattedMessage id="ui-idm-connect.searchIdm.noFolioUser" />;
+                    this.setState(() => ({
+                      FOLIOUserId: '',
+                      multipleFolioUserWithId: '',
+                      // noFolioUser: true,
+                    }));
+                  } else if (folioUserResult.totalRecords >= 1) {
+                    // const FOLIOUser = <FormattedMessage id="ui-idm-connect.searchIdm.multipleFolioUser" />;
+                    this.setState(() => ({
+                      FOLIOUserId: '',
+                      multipleFolioUserWithId: folioUserResult.users[0].externalSystemId,
+                      // noFolioUser: false,
+                    }));
                   }
                 });
               }
@@ -105,7 +124,9 @@ class SearchIdmRoute extends React.Component {
 
     return (
       <SearchIdm
-        FOLIOUserId={this.state.FOLIOUserId}
+        folioUserId={this.state.FOLIOUserId}
+        // folioUserNotAvailable={this.state.noFolioUser}
+        multipleFolioUserWithId={this.state.multipleFolioUserWithId}
         handlers={{ onClose: this.handleClose }}
         isCreateNewUser={isCreateNewUser}
         isUsersResultsEmpty={this.state.isUsersResultsEmpty}

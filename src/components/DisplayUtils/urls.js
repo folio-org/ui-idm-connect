@@ -6,6 +6,7 @@ const urls = {
   searchIdm: () => '/idm-connect/search-idm',
 
   userView: id => `/users/preview/${id}`,
+  userSearch: id => `/users?query=${id}`,
 };
 
 export default urls;

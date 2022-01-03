@@ -28,7 +28,9 @@ let newContractInitialValues = '';
 
 class SearchIdm extends React.Component {
   static propTypes = {
-    FOLIOUserId: PropTypes.string,
+    folioUserId: PropTypes.string,
+    // folioUserNotAvailable: PropTypes.bool,
+    multipleFolioUserWithId: PropTypes.string,
     handlers: PropTypes.shape({
       onClose: PropTypes.func.isRequired,
     }),
@@ -170,7 +172,17 @@ class SearchIdm extends React.Component {
     accountState: users => users.accountState,
     ULAffiliation: users => users.ULAffiliation,
     UBRole: users => users.UBRole,
-    FOLIOUser: users => <Link to={{ pathname: `${urls.userView(this.props.FOLIOUserId)}` }}>{users.FOLIOUser}</Link>,
+    FOLIOUser: users => {
+      let folioUser = '';
+      if (this.props.folioUserId !== '') {
+        folioUser = <Link to={{ pathname: `${urls.userView(this.props.folioUserId)}` }}>{users.FOLIOUser}</Link>;
+      } else if (this.props.multipleFolioUserWithId) {
+        folioUser = <Link to={{ pathname: `${urls.userSearch(this.props.multipleFolioUserWithId)}` }}><FormattedMessage id="ui-idm-connect.searchIdm.multipleFolioUser" /></Link>;
+      } else {
+        folioUser = <FormattedMessage id="ui-idm-connect.searchIdm.noFolioUser" />;
+      }
+      return folioUser;
+    },
     isChecked: users => {
       const buttonLabel = this.isButtonSelected(users) ? <FormattedMessage id="ui-idm-connect.searchIdm.selected" /> : <FormattedMessage id="ui-idm-connect.searchIdm.choose" />;
       const buttonStyle = this.isButtonSelected(users) ? 'primary' : 'default';
