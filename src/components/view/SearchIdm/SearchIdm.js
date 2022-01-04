@@ -28,9 +28,6 @@ let newContractInitialValues = '';
 
 class SearchIdm extends React.Component {
   static propTypes = {
-    // folioUserId: PropTypes.string,
-    // folioUserNotAvailable: PropTypes.bool,
-    // multipleFolioUserWithId: PropTypes.string,
     handlers: PropTypes.shape({
       onClose: PropTypes.func.isRequired,
     }),
