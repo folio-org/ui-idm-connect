@@ -177,7 +177,7 @@ class SearchIdm extends React.Component {
       if (this.props.folioUserId !== '') {
         folioUser = <Link to={{ pathname: `${urls.userView(this.props.folioUserId)}` }}>{users.FOLIOUser}</Link>;
       } else if (this.props.multipleFolioUserWithId) {
-        folioUser = <Link to={{ pathname: `${urls.userSearch(this.props.multipleFolioUserWithId)}` }}><FormattedMessage id="ui-idm-connect.searchIdm.multipleFolioUser" /></Link>;
+        folioUser = <><FormattedMessage id="ui-idm-connect.warning" />:&nbsp;<Link to={{ pathname: `${urls.userSearch(this.props.multipleFolioUserWithId)}` }}><FormattedMessage id="ui-idm-connect.searchIdm.multipleFolioUser" /></Link></>;
       } else {
         folioUser = <FormattedMessage id="ui-idm-connect.searchIdm.noFolioUser" />;
       }
