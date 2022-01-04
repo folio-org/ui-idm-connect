@@ -23,9 +23,9 @@ class SearchIdmRoute extends React.Component {
       users: [],
       renderListOfResults: false,
       isUsersResultsEmpty: false,
-      folioUserId: '',
+      // folioUserId: '',
       // noFolioUser: false,
-      multipleFolioUserWithId: '',
+      // multipleFolioUserWithId: '',
     };
   }
 
@@ -35,6 +35,55 @@ class SearchIdmRoute extends React.Component {
       message: (<FormattedMessage id="ui-idm-connect.searchIdm.error" values={{ msg }} />),
     });
   };
+
+  doSomething = (id, index) => {
+    const { stripes: { okapi } } = this.props;
+
+    fetch(`${okapi.url}/users?query=externalSystemId==${id}`, {
+      headers: {
+        'X-Okapi-Tenant': okapi.tenant,
+        'X-Okapi-Token': okapi.token,
+      },
+    }).then(async (res) => {
+      if (res.ok) {
+        await res.json().then((folioUserResult) => {
+          // console.log(folioUserResult.users);
+          if (folioUserResult.totalRecords === 1) {
+            // display name of user in users app:
+            const folioUserName = `${folioUserResult.users[0].personal.lastName}, ${folioUserResult.users[0].personal.firstName}`;
+            const folioUserId = folioUserResult.users[0].id;
+
+            const usersArray = [...this.state.users];
+            const userItem = { ...usersArray[index] };
+            const newUserItem = { ...userItem, folioUserName, folioUserId };
+            usersArray[index] = newUserItem;
+            // console.log(usersArray);
+
+            this.setState(() => ({
+              // users: [{ ...state.users[index], folioUserName, folioUserId }],
+              users: usersArray,
+            }));
+          } else if (folioUserResult.totalRecords >= 1) {
+            const multipleFolioUserWithId = folioUserResult.users[0].externalSystemId;
+
+            const usersArray = [...this.state.users];
+            const userItem = { ...usersArray[index] };
+            const newUserItem = { ...userItem, multipleFolioUserWithId };
+            usersArray[index] = newUserItem;
+            this.setState(() => ({
+              // users: [{ ...state.users[index], multipleFolioUserWithId }],
+              users: usersArray,
+            }));
+          }
+          // else {
+          //   this.setState((state) => ({
+          //     users: [{ ...state.users[index] }],
+          //   }));
+          // }
+        });
+      }
+    });
+  }
 
   handleSubmit = (e) => {
     const { stripes: { okapi } } = this.props;
@@ -62,43 +111,47 @@ class SearchIdmRoute extends React.Component {
           }
           if (this.props.location.state !== 'new') {
             const uniIds = json.map((user) => user.unilogin);
-            // console.log(uniIds);
             // TODO: fetch for every id
-            fetch(`${okapi.url}/users?query=externalSystemId==${uniIds}`, {
-            // fetch(`${okapi.url}/users?query=externalSystemId==ve65cexu&externalSystemId==abc123`, {
-            // fetch(`${okapi.url}/users?query=externalSystemId==abc123`, {
-              headers: {
-                'X-Okapi-Tenant': okapi.tenant,
-                'X-Okapi-Token': okapi.token,
-              },
-            }).then(async (res) => {
-              if (res.ok) {
-                await res.json().then((folioUserResult) => {
-                  // console.log(folioUserResult.users);
-                  if (folioUserResult.totalRecords === 1) {
-                    // display name of user in users app:
-                    const folioUserName = `${folioUserResult.users[0].personal.lastName}, ${folioUserResult.users[0].personal.firstName}`;
+            uniIds.map((id, index) => this.doSomething(id, index));
+            // uniIds.map(id => {
+            //   fetch(`${okapi.url}/users?query=externalSystemId==${id}`, {
+            //   // fetch(`${okapi.url}/users?query=externalSystemId=="ve65cexu" or externalSystemId=="abc123"`, {
+            //   // fetch(`${okapi.url}/users?query=externalSystemId==ve65cexu&externalSystemId==abc123`, {
+            //   // fetch(`${okapi.url}/users?query=externalSystemId==abc123`, {
+            //     headers: {
+            //       'X-Okapi-Tenant': okapi.tenant,
+            //       'X-Okapi-Token': okapi.token,
+            //     },
+            //   }).then(async (res) => {
+            //     if (res.ok) {
+            //       await res.json().then((folioUserResult) => {
+            //         // console.log(folioUserResult.users);
+            //         if (folioUserResult.totalRecords === 1) {
+            //           // display name of user in users app:
+            //           const folioUserName = `${folioUserResult.users[0].personal.lastName}, ${folioUserResult.users[0].personal.firstName}`;
 
-                    this.setState((state) => ({
-                      users: [{ ...state.users[0], folioUserName }],
-                      // for link to user in users app:
-                      folioUserId: folioUserResult.users[0].id,
-                      multipleFolioUserWithId: '',
-                    }));
-                  } else if (folioUserResult.totalRecords >= 1) {
-                    this.setState(() => ({
-                      folioUserId: '',
-                      multipleFolioUserWithId: folioUserResult.users[0].externalSystemId,
-                    }));
-                  } else {
-                    this.setState(() => ({
-                      folioUserId: '',
-                      multipleFolioUserWithId: '',
-                    }));
-                  }
-                });
-              }
-            });
+            //           this.setState((state) => ({
+            //             users: [{ ...state.users[0], folioUserName }],
+            //             // for link to user in users app:
+            //             folioUserId: folioUserResult.users[0].id,
+            //             multipleFolioUserWithId: '',
+            //           }));
+            //           return folioUserResult.users[0].id;
+            //         } else if (folioUserResult.totalRecords >= 1) {
+            //           this.setState(() => ({
+            //             folioUserId: '',
+            //             multipleFolioUserWithId: folioUserResult.users[0].externalSystemId,
+            //           }));
+            //         } else {
+            //           this.setState(() => ({
+            //             folioUserId: '',
+            //             multipleFolioUserWithId: '',
+            //           }));
+            //         }
+            //       });
+            //     }
+            //   });
+            // });
           }
         });
       } else {
@@ -118,8 +171,8 @@ class SearchIdmRoute extends React.Component {
 
     return (
       <SearchIdm
-        folioUserId={this.state.folioUserId}
-        multipleFolioUserWithId={this.state.multipleFolioUserWithId}
+        // folioUserId={this.state.folioUserId}
+        // multipleFolioUserWithId={this.state.multipleFolioUserWithId}
         handlers={{ onClose: this.handleClose }}
         isCreateNewUser={isCreateNewUser}
         isUsersResultsEmpty={this.state.isUsersResultsEmpty}

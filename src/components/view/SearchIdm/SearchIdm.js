@@ -28,9 +28,9 @@ let newContractInitialValues = '';
 
 class SearchIdm extends React.Component {
   static propTypes = {
-    folioUserId: PropTypes.string,
+    // folioUserId: PropTypes.string,
     // folioUserNotAvailable: PropTypes.bool,
-    multipleFolioUserWithId: PropTypes.string,
+    // multipleFolioUserWithId: PropTypes.string,
     handlers: PropTypes.shape({
       onClose: PropTypes.func.isRequired,
     }),
@@ -174,10 +174,10 @@ class SearchIdm extends React.Component {
     UBRole: users => users.UBRole,
     FOLIOUser: users => {
       let folioUser = '';
-      if (this.props.folioUserId !== '') {
-        folioUser = <Link to={{ pathname: `${urls.userView(this.props.folioUserId)}` }}>{users.FOLIOUser}</Link>;
-      } else if (this.props.multipleFolioUserWithId) {
-        folioUser = <><FormattedMessage id="ui-idm-connect.warning" />:&nbsp;<Link to={{ pathname: `${urls.userSearch(this.props.multipleFolioUserWithId)}` }}><FormattedMessage id="ui-idm-connect.searchIdm.multipleFolioUser" /></Link></>;
+      if (users.folioUserId) {
+        folioUser = <Link to={{ pathname: `${urls.userView(users.folioUserId)}` }}>{users.folioUserName}</Link>;
+      } else if (users.multipleFolioUserWithId) {
+        folioUser = <><FormattedMessage id="ui-idm-connect.warning" />:&nbsp;<Link to={{ pathname: `${urls.userSearch(users.multipleFolioUserWithId)}` }}><FormattedMessage id="ui-idm-connect.searchIdm.multipleFolioUser" /></Link></>;
       } else {
         folioUser = <FormattedMessage id="ui-idm-connect.searchIdm.noFolioUser" />;
       }
