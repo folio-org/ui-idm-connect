@@ -44,29 +44,22 @@ class SearchIdmRoute extends React.Component {
     }).then(async (res) => {
       if (res.ok) {
         await res.json().then((folioUserResult) => {
-          if (folioUserResult.totalRecords === 1) {
-            // display name of user in users app:
-            const folioUserName = `${folioUserResult.users[0].personal.lastName}, ${folioUserResult.users[0].personal.firstName}`;
-            // id for link to user in users app:
-            const folioUserId = folioUserResult.users[0].id;
+          const usersArray = [...this.state.users];
+          let newUserItem = { ...this.state.users[index] };
 
-            const usersArray = [...this.state.users];
-            const newUserItem = { ...this.state.users[index], folioUserName, folioUserId };
-            usersArray[index] = newUserItem;
-            this.setState(() => ({
-              users: usersArray,
-            }));
+          if (folioUserResult.totalRecords === 1) {
+            // get name and id of folio user in users app
+            const folioUserName = `${folioUserResult.users[0].personal.lastName}, ${folioUserResult.users[0].personal.firstName}`;
+            const folioUserId = folioUserResult.users[0].id;
+            newUserItem = { ...usersArray[index], folioUserName, folioUserId };
           } else if (folioUserResult.totalRecords >= 1) {
             const multipleFolioUserWithId = folioUserResult.users[0].externalSystemId;
-
-            const usersArray = [...this.state.users];
-            const userItem = { ...usersArray[index] };
-            const newUserItem = { ...userItem, multipleFolioUserWithId };
-            usersArray[index] = newUserItem;
-            this.setState(() => ({
-              users: usersArray,
-            }));
+            newUserItem = { ...usersArray[index], multipleFolioUserWithId };
           }
+          usersArray[index] = newUserItem;
+          this.setState(() => ({
+            users: usersArray,
+          }));
         });
       }
     });
