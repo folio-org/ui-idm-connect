@@ -9,6 +9,7 @@ import { reducer as formReducer } from 'redux-form';
 import '../../../../test/jest/__mock__';
 import renderWithIntl from '../../../../test/jest/helpers/renderWithIntl';
 import usersFixtures from '../../../../test/jest/fixtures/users';
+import usersWithFolioUserFixtures from '../../../../test/jest/fixtures/usersWithFolioUser';
 import userFixtures from '../../../../test/jest/fixtures/user';
 import SearchIdm from './SearchIdm';
 
@@ -85,6 +86,24 @@ describe('Search IDM - with results', () => {
     expect(screen.getByText('UL affiliation')).toBeVisible();
     expect(screen.getByText('UB role')).toBeVisible();
     expect(screen.getByText('FOLIO user')).toBeVisible();
+  });
+
+  it('should be no folio user available', () => {
+    expect(screen.queryAllByText('Not existing').length).toEqual(2);
+  });
+});
+
+describe('Search IDM - with results having folio users', () => {
+  beforeEach(() => {
+    renderUsers(usersWithFolioUserFixtures, false, false);
+  });
+
+  it('should show on user having ONE folio user', () => {
+    expect(screen.queryAllByText('Hausman, Linhart').length).toEqual(1);
+  });
+
+  it('should show on user having MULTIPLE folio users', () => {
+    expect(screen.queryAllByText('Multiple records found').length).toEqual(1);
   });
 });
 
