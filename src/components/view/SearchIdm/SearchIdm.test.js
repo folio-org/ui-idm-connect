@@ -84,6 +84,7 @@ describe('Search IDM - with results', () => {
     expect(document.querySelector('#list-column-dateofbirth')).toBeInTheDocument();
     expect(screen.getByText('UL affiliation')).toBeVisible();
     expect(screen.getByText('UB role')).toBeVisible();
+    expect(screen.getByText('FOLIO user')).toBeVisible();
   });
 });
 
@@ -129,7 +130,7 @@ describe('Search IDM - trigger search', () => {
   });
 });
 
-describe('xxx Search IDM - select user, enter new search and create empty contract', () => {
+describe('Search IDM - select user, enter new search and create empty contract', () => {
   beforeEach(() => {
     renderWithIntlResult = renderUsers(usersFixtures, true, false);
   });
@@ -152,8 +153,8 @@ describe('xxx Search IDM - select user, enter new search and create empty contra
     expect(searchButton).not.toHaveAttribute('disabled');
     expect(screen.getByText('1 Result in IDM')).toBeVisible();
 
-    userEvent.type(lastnameInput, 'xxx');
-    userEvent.type(firstnameInput, 'xxx');
+    userEvent.type(lastnameInput, 'lastname');
+    userEvent.type(firstnameInput, 'firstname');
     userEvent.type(dateOfBirthInput, '1874-06-12');
     userEvent.click(searchButton);
 
