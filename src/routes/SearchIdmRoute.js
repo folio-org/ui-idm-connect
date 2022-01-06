@@ -41,9 +41,9 @@ class SearchIdmRoute extends React.Component {
         'X-Okapi-Tenant': okapi.tenant,
         'X-Okapi-Token': okapi.token,
       },
-    }).then(async (res) => {
+    }).then((res) => {
       if (res.ok) {
-        await res.json().then((folioUserResult) => {
+        res.json().then((folioUserResult) => {
           const usersArray = [...this.state.users];
           let newUserItem = { ...this.state.users[index] };
 
@@ -75,9 +75,9 @@ class SearchIdmRoute extends React.Component {
         'X-Okapi-Tenant': okapi.tenant,
         'X-Okapi-Token': okapi.token,
       },
-    }).then(async (response) => {
+    }).then((response) => {
       if (response.ok) {
-        await response.json().then((json) => {
+        response.json().then((json) => {
           this.setState(() => ({
             users: json,
             renderListOfResults: true,
