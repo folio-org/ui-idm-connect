@@ -94,16 +94,21 @@ describe('Search IDM - with results', () => {
 });
 
 describe('Search IDM - with results having folio users', () => {
+  const urlDetail = '/users/preview/8d5851af-b831-4af7-8b6e-854749ff6b9a';
+  const urlSearch = '/users?query=edb76lyz';
+
   beforeEach(() => {
     renderUsers(usersWithFolioUserFixtures, false, false);
   });
 
   it('should show on user having ONE folio user', () => {
     expect(screen.queryAllByText('Hausman, Linhart').length).toEqual(1);
+    expect(screen.getByText('Hausman, Linhart')).toHaveAttribute('href', urlDetail);
   });
 
   it('should show on user having MULTIPLE folio users', () => {
     expect(screen.queryAllByText('Multiple records found').length).toEqual(1);
+    expect(screen.getByText('Multiple records found')).toHaveAttribute('href', urlSearch);
   });
 });
 

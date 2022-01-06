@@ -48,7 +48,6 @@ class SearchIdmRoute extends React.Component {
           let newUserItem = { ...this.state.users[index] };
 
           if (folioUserResult.totalRecords === 1) {
-            // get name and id of folio user in users app
             const folioUserName = `${folioUserResult.users[0].personal.lastName}, ${folioUserResult.users[0].personal.firstName}`;
             const folioUserId = folioUserResult.users[0].id;
             newUserItem = { ...usersArray[index], folioUserName, folioUserId };
@@ -91,7 +90,6 @@ class SearchIdmRoute extends React.Component {
           }
           if (this.props.location.state !== 'new') {
             const uniIds = json.map((user) => user.unilogin);
-            // fetch folioUser for every id
             uniIds.map((id, index) => this.fetchFolioUser(id, index));
           }
         });
