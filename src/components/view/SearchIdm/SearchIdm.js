@@ -172,9 +172,9 @@ class SearchIdm extends React.Component {
     FOLIOUser: users => {
       let folioUser = '';
       if (users.folioUserId) {
-        folioUser = <Link to={{ pathname: `${urls.userView(users.folioUserId)}` }}>{users.folioUserName}</Link>;
+        folioUser = <Link to={{ pathname: `${urls.userView(users.folioUserId)}` }} target="_blank">{users.folioUserName}</Link>;
       } else if (users.multipleFolioUserWithId) {
-        folioUser = <><FormattedMessage id="ui-idm-connect.warning" />:&nbsp;<Link to={{ pathname: `${urls.userSearch(users.multipleFolioUserWithId)}` }}><FormattedMessage id="ui-idm-connect.searchIdm.multipleFolioUser" /></Link></>;
+        folioUser = <><FormattedMessage id="ui-idm-connect.warning" />:&nbsp;<Link to={{ pathname: `${urls.userSearch(users.multipleFolioUserWithId)}` }} target="_blank"><FormattedMessage id="ui-idm-connect.searchIdm.multipleFolioUser" /></Link></>;
       } else {
         folioUser = <FormattedMessage id="ui-idm-connect.searchIdm.noFolioUser" />;
       }
