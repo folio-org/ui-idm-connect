@@ -109,6 +109,13 @@ describe('Search IDM - with results having folio users', () => {
 
   beforeEach(() => {
     renderUsers(usersWithFolioUserFixtures, false, false);
+
+    global.originalFetch = global.fetch;
+    global.fetch = jest.fn();
+  });
+
+  afterEach(() => {
+    global.fetch = global.originalFetch;
   });
 
   it('should show on user having ONE folio user', () => {
@@ -120,18 +127,28 @@ describe('Search IDM - with results having folio users', () => {
     expect(screen.queryAllByText('Multiple records found').length).toEqual(1);
     expect(screen.getByText('Multiple records found')).toHaveAttribute('href', urlSearch);
   });
+
+  test('xxx', async () => {
+    const fakeData = {
+      'users': [
+        { 'username':'benblu', 'id':'8d5851af-b831-4af7-8b6e-854749ff6b9a', 'externalSystemId':'bb27qydo', 'active':true, 'patronGroup':'ad0bc554-d5bc-463c-85d1-5562127ae91b', 'departments':[], 'proxyFor':[], 'personal':{ 'lastName':'Blume', 'firstName':'Ben', 'email':'ben@blume.de', 'addresses':[], 'preferredContactTypeId':'002' }, 'createdDate':'2022-01-03T16:56:15.381+00:00', 'updatedDate':'2022-01-03T16:56:15.381+00:00', 'metadata':{ 'createdDate':'2022-01-03T16:56:15.346+00:00', 'createdByUserId':'a10d6508-f8cb-547c-9ab1-7059f869b6f0', 'updatedDate':'2022-01-03T16:56:15.346+00:00', 'updatedByUserId':'a10d6508-f8cb-547c-9ab1-7059f869b6f0' } }
+      ],
+      'totalRecords': 1,
+      'resultInfo': { 'totalRecords':1, 'facets':[], 'diagnostics':[] }
+    };
+    jest.spyOn(global, 'fetch').mockImplementation(setupFetchStub(fakeData));
+
+    const res = await fetch('/users?query=externalSystemId==ss43muzu');
+    const json = await res.json();
+    expect(json).toEqual({ data: fakeData });
+
+    global.fetch.mockClear();
+  });
 });
 
 describe('Search IDM - trigger search', () => {
   beforeEach(() => {
     renderWithIntlResult = renderUsers(usersFixtures, true, false);
-    global.originalFetch = global.fetch;
-
-    global.fetch = jest.fn();
-  });
-
-  afterEach(() => {
-    global.fetch = global.originalFetch;
   });
 
   test('enter lastname, firstname and date of birth and click search button', async () => {
@@ -155,21 +172,6 @@ describe('Search IDM - trigger search', () => {
     userEvent.type(firstnameInput, 'Lienhardt');
     userEvent.type(dateOfBirthInput, '1874-06-12');
     userEvent.click(searchButton);
-
-    const fakeData = {
-      'users': [
-        { 'username':'benblu', 'id':'8d5851af-b831-4af7-8b6e-854749ff6b9a', 'externalSystemId':'bb27qydo', 'active':true, 'patronGroup':'ad0bc554-d5bc-463c-85d1-5562127ae91b', 'departments':[], 'proxyFor':[], 'personal':{ 'lastName':'Blume', 'firstName':'Ben', 'email':'ben@blume.de', 'addresses':[], 'preferredContactTypeId':'002' }, 'createdDate':'2022-01-03T16:56:15.381+00:00', 'updatedDate':'2022-01-03T16:56:15.381+00:00', 'metadata':{ 'createdDate':'2022-01-03T16:56:15.346+00:00', 'createdByUserId':'a10d6508-f8cb-547c-9ab1-7059f869b6f0', 'updatedDate':'2022-01-03T16:56:15.346+00:00', 'updatedByUserId':'a10d6508-f8cb-547c-9ab1-7059f869b6f0' } }
-      ],
-      'totalRecords': 1,
-      'resultInfo': { 'totalRecords':1, 'facets':[], 'diagnostics':[] }
-    };
-    jest.spyOn(global, 'fetch').mockImplementation(setupFetchStub(fakeData));
-
-    const res = await fetch('/users?query=externalSystemId==ss43muzu');
-    const json = await res.json();
-    expect(json).toEqual({ data: fakeData });
-
-    global.fetch.mockClear();
 
     renderUsers(userFixtures, true, false, renderWithIntlResult.rerender);
 
