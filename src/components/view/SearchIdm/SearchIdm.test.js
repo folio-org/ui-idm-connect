@@ -158,14 +158,6 @@ describe('Search IDM - trigger search', () => {
     const searchButton = screen.getByRole('button', { name: 'Search' });
     const cancelButton = screen.getByRole('button', { name: 'Cancel' });
 
-    // const blobData = 'blobData';
-    // const blob = jest.fn(() => Promise.resolve(blobData));
-
-    // global.fetch.mockClear().mockReturnValue(Promise.resolve({
-    //   status: 200,
-    //   blob,
-    // }));
-
     expect(searchButton).toHaveAttribute('disabled');
 
     userEvent.type(lastnameInput, 'Hausmann');
