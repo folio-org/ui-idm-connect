@@ -118,6 +118,36 @@ describe('Search IDM - with results having folio users', () => {
     global.fetch = global.originalFetch;
   });
 
+  const createOkapiHeaders = okapi => {
+    const {
+      token,
+      tenant,
+    } = okapi;
+
+    return {
+      'X-Okapi-Tenant': tenant,
+      'X-Okapi-Token': token,
+    };
+  };
+
+  const fetchUploadDefinition = async ({
+    okapi,
+    id,
+  }) => {
+    const { url: host } = okapi;
+
+    const response = await fetch(
+      `${host}/data-import/uploadDefinitions/${id}`,
+      { headers: createOkapiHeaders(okapi) },
+    );
+
+    if (!response.ok) {
+      throw response;
+    }
+
+    return response.json();
+  };
+
   it('should show on user having ONE folio user', () => {
     expect(screen.queryAllByText('Hausman, Linhart').length).toEqual(1);
     expect(screen.getByText('Hausman, Linhart')).toHaveAttribute('href', urlDetail);
@@ -126,6 +156,28 @@ describe('Search IDM - with results having folio users', () => {
   it('should show on user having MULTIPLE folio users', () => {
     expect(screen.queryAllByText('Multiple records found').length).toEqual(1);
     expect(screen.getByText('Multiple records found')).toHaveAttribute('href', urlSearch);
+  });
+
+  it('xxx', async () => {
+    global.fetch.mockResolvedValueOnce({
+      ok: false,
+      status: 400,
+    });
+
+    const okapi = { url: 'https://test.com' };
+    const id = '8d5851af-b831-4af7-8b6e-854749ff6b9a';
+
+    try {
+      await fetchUploadDefinition({
+        okapi,
+        id,
+      });
+    } catch (e) {
+      expect(e).toEqual({
+        ok: false,
+        status: 400,
+      });
+    }
   });
 
   test('xxx', async () => {
