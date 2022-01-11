@@ -171,12 +171,16 @@ class SearchIdm extends React.Component {
     UBRole: users => users.UBRole,
     FOLIOUser: users => {
       let folioUser = '';
-      if (users.folioUserId) {
-        folioUser = <Link to={{ pathname: `${urls.userView(users.folioUserId)}` }} target="_blank">{users.folioUserName}</Link>;
-      } else if (users.multipleFolioUserWithId) {
-        folioUser = <><FormattedMessage id="ui-idm-connect.warning" />:&nbsp;<Link to={{ pathname: `${urls.userSearch(users.multipleFolioUserWithId)}` }} target="_blank"><FormattedMessage id="ui-idm-connect.searchIdm.multipleFolioUser" /></Link></>;
-      } else {
-        folioUser = <FormattedMessage id="ui-idm-connect.searchIdm.noFolioUser" />;
+      if (users.folioUsers) {
+        if (users.folioUsers.totalRecords === 1) {
+          const folioUserName = `${users.folioUsers.users[0].personal.lastName}, ${users.folioUsers.users[0].personal.firstName}`;
+          const folioUserId = users.folioUsers.users[0].id;
+          folioUser = <Link to={{ pathname: `${urls.userView(folioUserId)}` }} target="_blank">{folioUserName}</Link>;
+        } else if (users.folioUsers.totalRecords > 1) {
+          folioUser = <><FormattedMessage id="ui-idm-connect.warning" />:&nbsp;<Link to={{ pathname: `${urls.userSearch(users.unilogin)}` }} target="_blank"><FormattedMessage id="ui-idm-connect.searchIdm.multipleFolioUser" /></Link></>;
+        } else {
+          folioUser = <FormattedMessage id="ui-idm-connect.searchIdm.noFolioUser" />;
+        }
       }
       return folioUser;
     },

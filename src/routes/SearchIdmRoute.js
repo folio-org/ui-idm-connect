@@ -47,20 +47,19 @@ class SearchIdmRoute extends React.Component {
           const usersArray = [...this.state.users];
           let newUserItem = { ...this.state.users[index] };
 
-          if (folioUserResult.totalRecords === 1) {
-            const folioUserName = `${folioUserResult.users[0].personal.lastName}, ${folioUserResult.users[0].personal.firstName}`;
-            const folioUserId = folioUserResult.users[0].id;
-            newUserItem = { ...usersArray[index], folioUserName, folioUserId };
-          } else if (folioUserResult.totalRecords >= 1) {
-            const multipleFolioUserWithId = folioUserResult.users[0].externalSystemId;
-            newUserItem = { ...usersArray[index], multipleFolioUserWithId };
-          }
+          const folioUsers = folioUserResult;
+          newUserItem = { ...usersArray[index], folioUsers };
+
           usersArray[index] = newUserItem;
           this.setState(() => ({
             users: usersArray,
           }));
         });
+      } else {
+        this.sendCallout('error', '');
       }
+    }).catch((err) => {
+      this.sendCallout('error', err);
     });
   }
 
