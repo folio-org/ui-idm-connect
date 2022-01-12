@@ -42,15 +42,15 @@ const renderUsers = (USERS, newUser, resultsEmpty, rerender) => renderWithIntl(
   rerender
 );
 
-function setupFetchStub(data) {
-  return function fetchStub(_url) {
-    return new Promise((resolve) => {
-      resolve({
-        json: () => Promise.resolve({ data }),
-      });
-    });
-  };
-}
+// function setupFetchStub(data) {
+//   return function fetchStub(_url) {
+//     return new Promise((resolve) => {
+//       resolve({
+//         json: () => Promise.resolve({ data }),
+//       });
+//     });
+//   };
+// }
 
 describe('Search IDM - without results', () => {
   beforeEach(() => {
@@ -110,43 +110,43 @@ describe('Search IDM - with results having folio users', () => {
   beforeEach(() => {
     renderUsers(usersWithFolioUserFixtures, false, false);
 
-    global.originalFetch = global.fetch;
-    global.fetch = jest.fn();
+    // global.originalFetch = global.fetch;
+    // global.fetch = jest.fn();
   });
 
-  afterEach(() => {
-    global.fetch = global.originalFetch;
-  });
+  // afterEach(() => {
+  //   global.fetch = global.originalFetch;
+  // });
 
-  const createOkapiHeaders = okapi => {
-    const {
-      token,
-      tenant,
-    } = okapi;
+  // const createOkapiHeaders = okapi => {
+  //   const {
+  //     token,
+  //     tenant,
+  //   } = okapi;
 
-    return {
-      'X-Okapi-Tenant': tenant,
-      'X-Okapi-Token': token,
-    };
-  };
+  //   return {
+  //     'X-Okapi-Tenant': tenant,
+  //     'X-Okapi-Token': token,
+  //   };
+  // };
 
-  const fetchUploadDefinition = async ({
-    okapi,
-    id,
-  }) => {
-    const { url: host } = okapi;
+  // const fetchUploadDefinition = async ({
+  //   okapi,
+  //   id,
+  // }) => {
+  //   const { url: host } = okapi;
 
-    const response = await fetch(
-      `${host}/data-import/uploadDefinitions/${id}`,
-      { headers: createOkapiHeaders(okapi) },
-    );
+  //   const response = await fetch(
+  //     `${host}/data-import/uploadDefinitions/${id}`,
+  //     { headers: createOkapiHeaders(okapi) },
+  //   );
 
-    if (!response.ok) {
-      throw response;
-    }
+  //   if (!response.ok) {
+  //     throw response;
+  //   }
 
-    return response.json();
-  };
+  //   return response.json();
+  // };
 
   it('should show on user having ONE folio user', () => {
     expect(screen.queryAllByText('Hausman, Linhart').length).toEqual(1);
@@ -158,44 +158,44 @@ describe('Search IDM - with results having folio users', () => {
     expect(screen.getByText('Multiple records found')).toHaveAttribute('href', urlSearch);
   });
 
-  it('xxx', async () => {
-    global.fetch.mockResolvedValueOnce({
-      ok: false,
-      status: 400,
-    });
+  // it('xxx', async () => {
+  //   global.fetch.mockResolvedValueOnce({
+  //     ok: false,
+  //     status: 400,
+  //   });
 
-    const okapi = { url: 'https://test.com' };
-    const id = '8d5851af-b831-4af7-8b6e-854749ff6b9a';
+  //   const okapi = { url: 'https://test.com' };
+  //   const id = '8d5851af-b831-4af7-8b6e-854749ff6b9a';
 
-    try {
-      await fetchUploadDefinition({
-        okapi,
-        id,
-      });
-    } catch (e) {
-      expect(e).toEqual({
-        ok: false,
-        status: 400,
-      });
-    }
-  });
+  //   try {
+  //     await fetchUploadDefinition({
+  //       okapi,
+  //       id,
+  //     });
+  //   } catch (e) {
+  //     expect(e).toEqual({
+  //       ok: false,
+  //       status: 400,
+  //     });
+  //   }
+  // });
 
-  test('xxx', async () => {
-    const fakeData = {
-      'users': [
-        { 'username':'benblu', 'id':'8d5851af-b831-4af7-8b6e-854749ff6b9a', 'externalSystemId':'bb27qydo', 'active':true, 'patronGroup':'ad0bc554-d5bc-463c-85d1-5562127ae91b', 'departments':[], 'proxyFor':[], 'personal':{ 'lastName':'Blume', 'firstName':'Ben', 'email':'ben@blume.de', 'addresses':[], 'preferredContactTypeId':'002' }, 'createdDate':'2022-01-03T16:56:15.381+00:00', 'updatedDate':'2022-01-03T16:56:15.381+00:00', 'metadata':{ 'createdDate':'2022-01-03T16:56:15.346+00:00', 'createdByUserId':'a10d6508-f8cb-547c-9ab1-7059f869b6f0', 'updatedDate':'2022-01-03T16:56:15.346+00:00', 'updatedByUserId':'a10d6508-f8cb-547c-9ab1-7059f869b6f0' } }
-      ],
-      'totalRecords': 1,
-      'resultInfo': { 'totalRecords':1, 'facets':[], 'diagnostics':[] }
-    };
-    jest.spyOn(global, 'fetch').mockImplementation(setupFetchStub(fakeData));
+  // test('xxx', async () => {
+  //   const fakeData = {
+  //     'users': [
+  //       { 'username':'benblu', 'id':'8d5851af-b831-4af7-8b6e-854749ff6b9a', 'externalSystemId':'bb27qydo', 'active':true, 'patronGroup':'ad0bc554-d5bc-463c-85d1-5562127ae91b', 'departments':[], 'proxyFor':[], 'personal':{ 'lastName':'Blume', 'firstName':'Ben', 'email':'ben@blume.de', 'addresses':[], 'preferredContactTypeId':'002' }, 'createdDate':'2022-01-03T16:56:15.381+00:00', 'updatedDate':'2022-01-03T16:56:15.381+00:00', 'metadata':{ 'createdDate':'2022-01-03T16:56:15.346+00:00', 'createdByUserId':'a10d6508-f8cb-547c-9ab1-7059f869b6f0', 'updatedDate':'2022-01-03T16:56:15.346+00:00', 'updatedByUserId':'a10d6508-f8cb-547c-9ab1-7059f869b6f0' } }
+  //     ],
+  //     'totalRecords': 1,
+  //     'resultInfo': { 'totalRecords':1, 'facets':[], 'diagnostics':[] }
+  //   };
+  //   jest.spyOn(global, 'fetch').mockImplementation(setupFetchStub(fakeData));
 
-    const res = await fetch('/users?query=externalSystemId==ss43muzu');
-    const json = await res.json();
-    expect(json).toEqual({ data: fakeData });
+  //   const res = await fetch('/users?query=externalSystemId==ss43muzu');
+  //   const json = await res.json();
+  //   expect(json).toEqual({ data: fakeData });
 
-    global.fetch.mockClear();
-  });
+  //   global.fetch.mockClear();
+  // });
 });
 
 describe('Search IDM - trigger search', () => {
