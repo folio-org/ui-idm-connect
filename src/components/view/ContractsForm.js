@@ -129,7 +129,6 @@ class ContractsForm extends React.Component {
     const { initialValues, isLoading, handleSubmit } = this.props;
     const { accordions } = this.state;
     const paneTitle = initialValues.uniLogin ? `${initialValues.personal.lastName}, ${initialValues.personal.firstName}` : <FormattedMessage id="ui-idm-connect.form.createTitle" />;
-    const uniLoginIsSet = !!initialValues.uniLogin;
     const firstMenu = this.getFirstMenu();
     const footer = this.getPaneFooter();
 
@@ -168,7 +167,6 @@ class ContractsForm extends React.Component {
                   accordionId="editContractAccordion"
                   expanded={accordions.editContractAccordion}
                   onToggle={this.handleSectionToggle}
-                  uniLoginIsSet={uniLoginIsSet}
                 />
                 <ContractContactForm
                   accordionId="editContactAccordion"
