@@ -9,6 +9,7 @@ import { reducer as formReducer } from 'redux-form';
 import '../../../../test/jest/__mock__';
 import renderWithIntl from '../../../../test/jest/helpers/renderWithIntl';
 import usersFixtures from '../../../../test/jest/fixtures/users';
+import usersWithFolioUserFixtures from '../../../../test/jest/fixtures/usersWithFolioUser';
 import userFixtures from '../../../../test/jest/fixtures/user';
 import SearchIdm from './SearchIdm';
 
@@ -84,6 +85,30 @@ describe('Search IDM - with results', () => {
     expect(document.querySelector('#list-column-dateofbirth')).toBeInTheDocument();
     expect(screen.getByText('UL affiliation')).toBeVisible();
     expect(screen.getByText('UB role')).toBeVisible();
+    expect(screen.getByText('FOLIO user')).toBeVisible();
+  });
+
+  it('should be no folio user available', () => {
+    expect(screen.queryAllByText('Not existing').length).toEqual(2);
+  });
+});
+
+describe('Search IDM - with results having folio users', () => {
+  const urlDetail = '/users/preview/8d5851af-b831-4af7-8b6e-854749ff6b9a';
+  const urlSearch = '/users?query=edb76lyz';
+
+  beforeEach(() => {
+    renderUsers(usersWithFolioUserFixtures, false, false);
+  });
+
+  it('should show on user having ONE folio user', () => {
+    expect(screen.queryAllByText('Hausman, Linhart').length).toEqual(1);
+    expect(screen.getByText('Hausman, Linhart')).toHaveAttribute('href', urlDetail);
+  });
+
+  it('should show on user having MULTIPLE folio users', () => {
+    expect(screen.queryAllByText('Multiple records found').length).toEqual(1);
+    expect(screen.getByText('Multiple records found')).toHaveAttribute('href', urlSearch);
   });
 });
 
@@ -129,7 +154,7 @@ describe('Search IDM - trigger search', () => {
   });
 });
 
-describe('xxx Search IDM - select user, enter new search and create empty contract', () => {
+describe('Search IDM - select user, enter new search and create empty contract', () => {
   beforeEach(() => {
     renderWithIntlResult = renderUsers(usersFixtures, true, false);
   });
@@ -152,8 +177,8 @@ describe('xxx Search IDM - select user, enter new search and create empty contra
     expect(searchButton).not.toHaveAttribute('disabled');
     expect(screen.getByText('1 Result in IDM')).toBeVisible();
 
-    userEvent.type(lastnameInput, 'xxx');
-    userEvent.type(firstnameInput, 'xxx');
+    userEvent.type(lastnameInput, 'lastname');
+    userEvent.type(firstnameInput, 'firstname');
     userEvent.type(dateOfBirthInput, '1874-06-12');
     userEvent.click(searchButton);
 

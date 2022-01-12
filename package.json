@@ -73,7 +73,10 @@
     "route": "/idm-connect",
     "home": "/idm-connect",
     "queryResource": "query",
-    "okapiInterfaces": {},
+    "okapiInterfaces": {
+      "idm-connect/contract": "1.0",
+      "users": "15.0"
+    },
     "permissionSets": [
       {
         "permissionName": "module.idm-connect.enabled",

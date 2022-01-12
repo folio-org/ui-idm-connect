@@ -5,6 +5,11 @@ const users = [
     dateOfBirth: '18740612',
     unilogin: 'mhb76lxa',
     ULAffiliation: 'affiliate',
+    folioUsers: {
+      'users': [],
+      'totalRecords': 0,
+      'resultInfo': { 'totalRecords':0, 'facets':[], 'diagnostics':[] }
+    }
   },
   {
     givenname: 'Lienhardt',
@@ -12,6 +17,11 @@ const users = [
     dateOfBirth: '18740612',
     unilogin: 'edb76lyz',
     ULAffiliation: 'affiliate',
+    folioUsers: {
+      'users': [],
+      'totalRecords': 0,
+      'resultInfo': { 'totalRecords':0, 'facets':[], 'diagnostics':[] }
+    }
   },
 ];
 

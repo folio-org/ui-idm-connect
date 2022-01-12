@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import { Field } from 'redux-form';
 import moment from 'moment';
@@ -144,6 +145,7 @@ class SearchIdm extends React.Component {
     accountState: <FormattedMessage id="ui-idm-connect.accountState" />,
     ULAffiliation: <FormattedMessage id="ui-idm-connect.ULAffiliation" />,
     UBRole: <FormattedMessage id="ui-idm-connect.UBRole" />,
+    FOLIOUser: <FormattedMessage id="ui-idm-connect.FOLIOUser" />,
     isChecked: '',
   };
 
@@ -155,6 +157,7 @@ class SearchIdm extends React.Component {
     accountState: 270,
     ULAffiliation: 150,
     UBRole: 100,
+    FOLIOUser: 100,
     isChecked: 100,
   };
 
@@ -165,6 +168,22 @@ class SearchIdm extends React.Component {
     unilogin: users => users.unilogin,
     accountState: users => users.accountState,
     ULAffiliation: users => users.ULAffiliation,
+    UBRole: users => users.UBRole,
+    FOLIOUser: users => {
+      let folioUser = '';
+      if (users.folioUsers) {
+        if (users.folioUsers.totalRecords === 1) {
+          const folioUserName = `${users.folioUsers.users[0].personal.lastName}, ${users.folioUsers.users[0].personal.firstName}`;
+          const folioUserId = users.folioUsers.users[0].id;
+          folioUser = <Link to={{ pathname: `${urls.userView(folioUserId)}` }} target="_blank">{folioUserName}</Link>;
+        } else if (users.folioUsers.totalRecords > 1) {
+          folioUser = <><FormattedMessage id="ui-idm-connect.warning" />:&nbsp;<Link to={{ pathname: `${urls.userSearch(users.unilogin)}` }} target="_blank"><FormattedMessage id="ui-idm-connect.searchIdm.multipleFolioUser" /></Link></>;
+        } else {
+          folioUser = <FormattedMessage id="ui-idm-connect.searchIdm.noFolioUser" />;
+        }
+      }
+      return folioUser;
+    },
     isChecked: users => {
       const buttonLabel = this.isButtonSelected(users) ? <FormattedMessage id="ui-idm-connect.searchIdm.selected" /> : <FormattedMessage id="ui-idm-connect.searchIdm.choose" />;
       const buttonStyle = this.isButtonSelected(users) ? 'primary' : 'default';
@@ -208,7 +227,7 @@ class SearchIdm extends React.Component {
               formatter={this.resultsFormatter}
               id="search-idm-list-users"
               interactive={false}
-              visibleColumns={isCreateNewUser ? [...columns, 'isChecked'] : [...columns, 'UBRole']}
+              visibleColumns={isCreateNewUser ? [...columns, 'isChecked'] : [...columns, 'UBRole', 'FOLIOUser']}
             />
           </Card>
           {isCreateNewUser ? this.renderNoMatchButton() : '' }

@@ -33,37 +33,72 @@ class SearchIdmRoute extends React.Component {
     });
   };
 
-  handleSubmit = (e) => {
+  fetchFolioUser = (id) => {
     const { stripes: { okapi } } = this.props;
-    const formValues = getFormValues('SearchIdmForm')(this.props.stripes.store.getState()) || {};
 
-    e.preventDefault();
-
-    fetch(`${okapi.url}/idm-connect/searchidm?firstName=${formValues.firstname}&lastName=${formValues.lastname}&dateOfBirth=${moment(formValues.dateOfBirth).format('YYYY-MM-DD')}`, {
+    return fetch(`${okapi.url}/users?query=externalSystemId==${id}`, {
       headers: {
         'X-Okapi-Tenant': okapi.tenant,
         'X-Okapi-Token': okapi.token,
       },
     }).then((response) => {
       if (response.ok) {
-        response.json().then((json) => {
-          this.setState(() => ({
-            users: json,
-            renderListOfResults: true,
-            isUsersResultsEmpty: false,
-          }));
-          if (_.get(json[0], 'msg', '') === 'User not found') {
-            this.setState(() => ({
-              isUsersResultsEmpty: true,
-            }));
-          }
-        });
+        return response.json();
       } else {
-        this.sendCallout('error', '');
+        this.sendCallout('error', <FormattedMessage id="ui-idm-connect.FOLIOUser" />);
+        return Promise.reject(response);
       }
     }).catch((err) => {
-      this.sendCallout('error', err);
+      this.sendCallout('error', err.statusText);
+      return Promise.reject(err);
     });
+  }
+
+  fetchIdmUser = (formValues) => {
+    const { stripes: { okapi } } = this.props;
+
+    return fetch(`${okapi.url}/idm-connect/searchidm?firstName=${formValues.firstname}&lastName=${formValues.lastname}&dateOfBirth=${moment(formValues.dateOfBirth).format('YYYY-MM-DD')}`, {
+      headers: {
+        'X-Okapi-Tenant': okapi.tenant,
+        'X-Okapi-Token': okapi.token,
+      },
+    }).then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        this.sendCallout('error', '');
+        return Promise.reject(response);
+      }
+    }).catch((err) => {
+      this.sendCallout('error', err.statusText);
+      return Promise.reject(err);
+    });
+  }
+
+  mergeData = (idmUser, folioUsers) => {
+    idmUser.folioUsers = folioUsers;
+    return idmUser;
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const formValues = getFormValues('SearchIdmForm')(this.props.stripes.store.getState()) || {};
+
+    this.fetchIdmUser(formValues)
+      .then(idmusers => idmusers.map(idmuser => this.fetchFolioUser(idmuser.unilogin).then(foliouser => this.mergeData(idmuser, foliouser))))
+      .then(promises => Promise.all(promises))
+      .then(result => {
+        this.setState(() => ({
+          users: result,
+          renderListOfResults: true,
+          isUsersResultsEmpty: false,
+        }));
+        if (_.get(result[0], 'msg', '') === 'User not found') {
+          this.setState(() => ({
+            isUsersResultsEmpty: true,
+          }));
+        }
+      });
   }
 
   handleClose = () => {
