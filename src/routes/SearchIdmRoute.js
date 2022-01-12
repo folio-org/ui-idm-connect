@@ -33,71 +33,72 @@ class SearchIdmRoute extends React.Component {
     });
   };
 
-  fetchFolioUser = (id, index) => {
+  fetchFolioUser = (id) => {
     const { stripes: { okapi } } = this.props;
 
-    fetch(`${okapi.url}/users?query=externalSystemId==${id}`, {
-      headers: {
-        'X-Okapi-Tenant': okapi.tenant,
-        'X-Okapi-Token': okapi.token,
-      },
-    }).then((res) => {
-      if (res.ok) {
-        res.json().then((folioUserResult) => {
-          const usersArray = [...this.state.users];
-          let newUserItem = { ...this.state.users[index] };
-
-          const folioUsers = folioUserResult;
-          newUserItem = { ...usersArray[index], folioUsers };
-
-          usersArray[index] = newUserItem;
-          this.setState(() => ({
-            users: usersArray,
-          }));
-        });
-      } else {
-        this.sendCallout('error', '');
-      }
-    }).catch((err) => {
-      this.sendCallout('error', err);
-    });
-  }
-
-  handleSubmit = (e) => {
-    const { stripes: { okapi } } = this.props;
-    const formValues = getFormValues('SearchIdmForm')(this.props.stripes.store.getState()) || {};
-
-    e.preventDefault();
-
-    fetch(`${okapi.url}/idm-connect/searchidm?firstName=${formValues.firstname}&lastName=${formValues.lastname}&dateOfBirth=${moment(formValues.dateOfBirth).format('YYYY-MM-DD')}`, {
+    return fetch(`${okapi.url}/users?query=externalSystemId==${id}`, {
       headers: {
         'X-Okapi-Tenant': okapi.tenant,
         'X-Okapi-Token': okapi.token,
       },
     }).then((response) => {
       if (response.ok) {
-        response.json().then((json) => {
-          this.setState(() => ({
-            users: json,
-            renderListOfResults: true,
-            isUsersResultsEmpty: false,
-          }));
-          if (_.get(json[0], 'msg', '') === 'User not found') {
-            this.setState(() => ({
-              isUsersResultsEmpty: true,
-            }));
-          }
-          if (this.props.location.state !== 'new') {
-            const uniIds = json.map((user) => user.unilogin);
-            uniIds.map((id, index) => this.fetchFolioUser(id, index));
-          }
-        });
+        return response.json();
       } else {
-        this.sendCallout('error', '');
+        this.sendCallout('error', <FormattedMessage id="ui-idm-connect.FOLIOUser" />);
+        return Promise.reject(response);
       }
     }).catch((err) => {
-      this.sendCallout('error', err);
+      this.sendCallout('error', err.statusText);
+      return Promise.reject(err);
     });
+  }
+
+  fetchIdmUser = (formValues) => {
+    const { stripes: { okapi } } = this.props;
+
+    return fetch(`${okapi.url}/idm-connect/searchidm?firstName=${formValues.firstname}&lastName=${formValues.lastname}&dateOfBirth=${moment(formValues.dateOfBirth).format('YYYY-MM-DD')}`, {
+      headers: {
+        'X-Okapi-Tenant': okapi.tenant,
+        'X-Okapi-Token': okapi.token,
+      },
+    }).then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        this.sendCallout('error', '');
+        return Promise.reject(response);
+      }
+    }).catch((err) => {
+      this.sendCallout('error', err.statusText);
+      return Promise.reject(err);
+    });
+  }
+
+  mergeData = (idmUser, folioUsers) => {
+    idmUser.folioUsers = folioUsers;
+    return idmUser;
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const formValues = getFormValues('SearchIdmForm')(this.props.stripes.store.getState()) || {};
+
+    this.fetchIdmUser(formValues)
+      .then(idmusers => idmusers.map(idmuser => this.fetchFolioUser(idmuser.unilogin).then(foliouser => this.mergeData(idmuser, foliouser))))
+      .then(promises => Promise.all(promises))
+      .then(result => {
+        this.setState(() => ({
+          users: result,
+          renderListOfResults: true,
+          isUsersResultsEmpty: false,
+        }));
+        if (_.get(result[0], 'msg', '') === 'User not found') {
+          this.setState(() => ({
+            isUsersResultsEmpty: true,
+          }));
+        }
+      });
   }
 
   handleClose = () => {
