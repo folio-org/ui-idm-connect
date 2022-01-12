@@ -48,7 +48,7 @@ class ContractContractForm extends React.Component {
           <Col xs={3}>
             <Field
               component={TextField}
-              disabled={this.props.uniLoginIsSet}
+              disabled
               id="addcontract_uniLogin"
               label={<FormattedMessage id="ui-idm-connect.uniLogin" />}
               name="uniLogin"
@@ -64,7 +64,6 @@ ContractContractForm.propTypes = {
   accordionId: PropTypes.string.isRequired,
   expanded: PropTypes.bool,
   onToggle: PropTypes.func,
-  uniLoginIsSet: PropTypes.bool,
 };
 
 export default ContractContractForm;
