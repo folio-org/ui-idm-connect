@@ -31,9 +31,6 @@ class SearchIdm extends React.Component {
     handlers: PropTypes.shape({
       onClose: PropTypes.func.isRequired,
     }),
-    // history: PropTypes.shape({
-    //   push: PropTypes.func.isRequired,
-    // }).isRequired,
     invalid: PropTypes.bool,
     isCreateNewUser: PropTypes.bool,
     isUsersResultsEmpty: PropTypes.bool,
@@ -134,7 +131,6 @@ class SearchIdm extends React.Component {
         id="clickable-takeContinue-form"
         marginBottom0
         to={`${urls.contractCreate()}`}
-        // onClick={this.handleClickContinue}
       >
         {this.getLabelForContiunueButton()}
       </Button>
@@ -142,13 +138,6 @@ class SearchIdm extends React.Component {
 
     return <PaneFooter renderStart={startButton} renderEnd={isCreateNewUser ? endButton : ''} />;
   }
-
-  // handleClickContinue = () => {
-  //   this.props.history.push({
-  //     pathname: `${urls.contractCreate()}`,
-  //     state: this.props.searchValues
-  //   });
-  // }
 
   columnMapping = {
     surname: <FormattedMessage id="ui-idm-connect.lastname" />,

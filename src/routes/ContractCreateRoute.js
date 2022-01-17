@@ -56,7 +56,6 @@ class ContractCreateRoute extends React.Component {
   }
 
   getInitialValues = () => {
-    // const { location } = this.props;
     const initialValues = JSON.parse(localStorage.getItem('idmConnectNewContractInitialValues'));
     const searchValues = JSON.parse(localStorage.getItem('idmConnectNewContractSearchValues'));
 
@@ -82,17 +81,11 @@ class ContractCreateRoute extends React.Component {
           firstName: searchValues.firstname,
           dateOfBirth: searchValues.dateOfBirth,
         }
-        // personal: {
-        //   lastName: location.state.lastname,
-        //   firstName: location.state.firstname,
-        //   dateOfBirth: location.state.dateOfBirth,
-        // }
       };
     }
   }
 
   render() {
-    // const initialValues = JSON.parse(localStorage.getItem('idmConnectNewContractInitialValues'));
     const adaptedInitialValues = this.getInitialValues();
 
     return (
