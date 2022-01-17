@@ -22,6 +22,7 @@ class ContractCreateRoute extends React.Component {
     }).isRequired,
     location: PropTypes.shape({
       search: PropTypes.string.isRequired,
+      state: PropTypes.object.isRequired,
     }).isRequired,
     mutator: PropTypes.shape({
       contracts: PropTypes.shape({
@@ -54,7 +55,11 @@ class ContractCreateRoute extends React.Component {
       });
   }
 
-  checkInitialValues = (initialValues) => {
+  getInitialValues = () => {
+    // const { location } = this.props;
+    const initialValues = JSON.parse(localStorage.getItem('idmConnectNewContractInitialValues'));
+    const searchValues = JSON.parse(localStorage.getItem('idmConnectNewContractSearchValues'));
+
     const today = new Date();
     const todayDate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
     if (initialValues.length !== 0) {
@@ -70,13 +75,25 @@ class ContractCreateRoute extends React.Component {
         }
       };
     } else {
-      return { beginDate: todayDate };
+      return {
+        beginDate: todayDate,
+        personal: {
+          lastName: searchValues.lastname,
+          firstName: searchValues.firstname,
+          dateOfBirth: searchValues.dateOfBirth,
+        }
+        // personal: {
+        //   lastName: location.state.lastname,
+        //   firstName: location.state.firstname,
+        //   dateOfBirth: location.state.dateOfBirth,
+        // }
+      };
     }
   }
 
   render() {
-    const initialValues = JSON.parse(localStorage.getItem('idmConnectNewContractInitialValues'));
-    const adaptedInitialValues = this.checkInitialValues(initialValues);
+    // const initialValues = JSON.parse(localStorage.getItem('idmConnectNewContractInitialValues'));
+    const adaptedInitialValues = this.getInitialValues();
 
     return (
       <ContractsForm

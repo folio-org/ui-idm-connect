@@ -31,12 +31,16 @@ class SearchIdm extends React.Component {
     handlers: PropTypes.shape({
       onClose: PropTypes.func.isRequired,
     }),
+    // history: PropTypes.shape({
+    //   push: PropTypes.func.isRequired,
+    // }).isRequired,
     invalid: PropTypes.bool,
     isCreateNewUser: PropTypes.bool,
     isUsersResultsEmpty: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
     renderListOfResults: PropTypes.bool,
+    searchValues: PropTypes.object,
     submitting: PropTypes.bool,
     users: PropTypes.arrayOf(PropTypes.object),
   };
@@ -63,6 +67,7 @@ class SearchIdm extends React.Component {
     newContractInitialValues = toggledRecord;
 
     localStorage.setItem('idmConnectNewContractInitialValues', JSON.stringify(newContractInitialValues));
+    localStorage.setItem('idmConnectNewContractSearchValues', JSON.stringify(this.props.searchValues));
 
     this.setState({
       noMatchButtonSelected: noMatch,
@@ -129,6 +134,7 @@ class SearchIdm extends React.Component {
         id="clickable-takeContinue-form"
         marginBottom0
         to={`${urls.contractCreate()}`}
+        // onClick={this.handleClickContinue}
       >
         {this.getLabelForContiunueButton()}
       </Button>
@@ -136,6 +142,13 @@ class SearchIdm extends React.Component {
 
     return <PaneFooter renderStart={startButton} renderEnd={isCreateNewUser ? endButton : ''} />;
   }
+
+  // handleClickContinue = () => {
+  //   this.props.history.push({
+  //     pathname: `${urls.contractCreate()}`,
+  //     state: this.props.searchValues
+  //   });
+  // }
 
   columnMapping = {
     surname: <FormattedMessage id="ui-idm-connect.lastname" />,
