@@ -74,6 +74,7 @@
     "home": "/idm-connect",
     "queryResource": "query",
     "okapiInterfaces": {
+      "idm-connect": "1.0",
       "users": "15.0"
     },
     "permissionSets": [
