@@ -107,6 +107,7 @@ class SearchIdmRoute extends React.Component {
 
   render() {
     const isCreateNewUser = this.props.location.state === 'new';
+    const formValues = getFormValues('SearchIdmForm')(this.props.stripes.store.getState()) || {};
 
     return (
       <SearchIdm
@@ -115,6 +116,7 @@ class SearchIdmRoute extends React.Component {
         isUsersResultsEmpty={this.state.isUsersResultsEmpty}
         onSubmit={this.handleSubmit}
         renderListOfResults={this.state.renderListOfResults}
+        searchValues={formValues}
         users={this.state.users}
       />
     );

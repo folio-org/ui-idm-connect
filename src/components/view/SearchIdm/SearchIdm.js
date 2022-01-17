@@ -37,6 +37,7 @@ class SearchIdm extends React.Component {
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
     renderListOfResults: PropTypes.bool,
+    searchValues: PropTypes.object,
     submitting: PropTypes.bool,
     users: PropTypes.arrayOf(PropTypes.object),
   };
@@ -63,6 +64,7 @@ class SearchIdm extends React.Component {
     newContractInitialValues = toggledRecord;
 
     localStorage.setItem('idmConnectNewContractInitialValues', JSON.stringify(newContractInitialValues));
+    localStorage.setItem('idmConnectNewContractSearchValues', JSON.stringify(this.props.searchValues));
 
     this.setState({
       noMatchButtonSelected: noMatch,
