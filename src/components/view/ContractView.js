@@ -8,6 +8,7 @@ import {
   AccordionSet,
   Button,
   Col,
+  ConfirmationModal,
   ExpandAllButton,
   Headline,
   Icon,
@@ -28,6 +29,7 @@ class ContractView extends React.Component {
     handlers: PropTypes.shape({
       onClose: PropTypes.func.isRequired,
       onEdit: PropTypes.func,
+      onDelete: PropTypes.func,
     }).isRequired,
     isLoading: PropTypes.bool,
     record: PropTypes.object,
@@ -40,6 +42,7 @@ class ContractView extends React.Component {
     this.editButton = React.createRef();
 
     this.state = {
+      confirmDelete: false,
       accordions: {
         personalAccordion: false,
         contractAccordion: false,
@@ -84,8 +87,24 @@ class ContractView extends React.Component {
     );
   }
 
+  beginDelete = () => {
+    this.setState({
+      confirmDelete: true,
+    });
+  }
+
+  confirmDelete = (confirmation) => {
+    if (confirmation) {
+      this.deleteCollection();
+    } else {
+      this.setState({ confirmDelete: false });
+    }
+  }
+
   getActionMenu = () => () => {
-    const { handlers, canEdit } = this.props;
+    const { record, handlers, canEdit } = this.props;
+    const { confirmDelete } = this.state;
+    const fullName = `${_.get(record, 'personal.lastName')}, ${_.get(record, 'personal.firstName')}`;
 
     if (canEdit) {
       return (
@@ -105,6 +124,32 @@ class ContractView extends React.Component {
               </Button>
             )}
           </FormattedMessage>
+          <FormattedMessage id="ui-idm-connect.delete">
+            {ariaLabel => (
+              <Button
+                aria-label={ariaLabel}
+                buttonStyle="dropdownItem"
+                id="clickable-delete-contract"
+                marginBottom0
+                onClick={() => { this.beginDelete(); }}
+              >
+                <Icon icon="trash">
+                  <FormattedMessage id="ui-idm-connect.delete" />
+                </Icon>
+              </Button>
+            )}
+          </FormattedMessage>
+          <ConfirmationModal
+            heading={<FormattedMessage id="ui-idm-connect.form.delete" />}
+            id="delete-collection-confirmation"
+            message={<FormattedMessage
+              id="ui-idm-connect.form.delete.confirm.message"
+              values={{ fullName }}
+            />}
+            onCancel={() => { this.confirmDelete(false); }}
+            onConfirm={() => handlers.onDelete()}
+            open={confirmDelete}
+          />
         </>
       );
     } else {

@@ -25,6 +25,12 @@ class ContractViewRoute extends React.Component {
         id: PropTypes.string.isRequired,
       }).isRequired,
     }).isRequired,
+    mutator: PropTypes.shape({
+      source: PropTypes.shape({
+        // PUT: PropTypes.func.isRequired,
+        DELETE: PropTypes.func.isRequired,
+      }).isRequired,
+    }).isRequired,
     resources: PropTypes.shape({
       source: PropTypes.object,
     }).isRequired,
@@ -44,6 +50,16 @@ class ContractViewRoute extends React.Component {
     this.props.history.push(`${urls.contractEdit(match.params.id)}${location.search}`);
   }
 
+  handleDelete = (contract) => {
+    const { history, location, mutator } = this.props;
+
+    console.log('handleDelete');
+    mutator.source.DELETE({ contract }).then(() => {
+      history.push(`${urls.contracts()}${location.search}`);
+    });
+    // this.props.history.push(`${urls.contractDelete(match.params.id)}${location.search}`);
+  }
+
   render() {
     const { stripes } = this.props;
 
@@ -53,6 +69,7 @@ class ContractViewRoute extends React.Component {
         handlers={{
           onClose: this.handleClose,
           onEdit: this.handleEdit,
+          onDelete: this.handleDelete,
         }}
         isLoading={_.get(this.props.resources, 'source.isPending', true)}
         record={_.get(this.props.resources, 'source.records', []).find(i => i.id === this.props.match.params.id)}

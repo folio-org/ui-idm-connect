@@ -53,6 +53,7 @@
   "form.saveAndClose": "Save & close",
   "form.createTitle": "Create walk-in contract",
   "edit": "Edit",
+  "delete": "Delete",
   "new": "New",
   "noPermission": "No permission"
 }
