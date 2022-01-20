@@ -13,6 +13,9 @@ class ContractViewRoute extends React.Component {
     source: {
       type: 'okapi',
       path: 'idm-connect/contract/:{id}',
+      // throwErrors: false,
+      // fetch: false,
+      shouldRefresh: () => false,
     },
     query: {},
   });
@@ -53,7 +56,6 @@ class ContractViewRoute extends React.Component {
   handleDelete = (contract) => {
     const { history, location, mutator } = this.props;
 
-    console.log('handleDelete');
     mutator.source.DELETE({ contract }).then(() => {
       history.push(`${urls.contracts()}${location.search}`);
     });

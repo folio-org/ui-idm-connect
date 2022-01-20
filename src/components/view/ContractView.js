@@ -140,10 +140,10 @@ class ContractView extends React.Component {
             )}
           </FormattedMessage>
           <ConfirmationModal
-            heading={<FormattedMessage id="ui-idm-connect.form.delete" />}
+            heading={<FormattedMessage id="ui-idm-connect.delete" />}
             id="delete-collection-confirmation"
             message={<FormattedMessage
-              id="ui-idm-connect.form.delete.confirm.message"
+              id="ui-idm-connect.delete.confirm.message"
               values={{ fullName }}
             />}
             onCancel={() => { this.confirmDelete(false); }}
