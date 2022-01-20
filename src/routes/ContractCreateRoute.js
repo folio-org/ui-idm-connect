@@ -22,7 +22,7 @@ class ContractCreateRoute extends React.Component {
     }).isRequired,
     location: PropTypes.shape({
       search: PropTypes.string.isRequired,
-      state: PropTypes.object.isRequired,
+      // state: PropTypes.object.isRequired,
     }).isRequired,
     mutator: PropTypes.shape({
       contracts: PropTypes.shape({

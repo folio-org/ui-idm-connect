@@ -64,17 +64,23 @@ class ContractViewRoute extends React.Component {
 
   render() {
     const { stripes } = this.props;
+    const record = _.get(this.props.resources, 'source.records', []).find(i => i.id === this.props.match.params.id);
+    // TODO: adapt to status draft
+    // const isStatusActivated = _.get(record, 'status') === 'draft';
+    const isStatusActivated = _.get(record, 'status') === undefined;
 
     return (
       <ContractView
         canEdit={stripes.hasPerm('ui-idm-connect.create-edit')}
+        canDelete={stripes.hasPerm('ui-idm-connect.delete')}
         handlers={{
           onClose: this.handleClose,
           onEdit: this.handleEdit,
           onDelete: this.handleDelete,
         }}
         isLoading={_.get(this.props.resources, 'source.isPending', true)}
-        record={_.get(this.props.resources, 'source.records', []).find(i => i.id === this.props.match.params.id)}
+        record={record}
+        isStatusActivated={isStatusActivated}
         stripes={this.props.stripes}
       />
     );

@@ -16,6 +16,7 @@ import {
   Pane,
   Row,
 } from '@folio/stripes/components';
+import { IfPermission } from '@folio/stripes/core';
 
 import ContractHeaderView from './ContractHeader/ContractHeaderView';
 import ContractPersonalView from './ContractPersonal/ContractPersonalView';
@@ -26,12 +27,14 @@ import ContractCommentView from './ContractComment/ContractCommentView';
 class ContractView extends React.Component {
   static propTypes = {
     canEdit: PropTypes.bool,
+    canDelete: PropTypes.bool,
     handlers: PropTypes.shape({
       onClose: PropTypes.func.isRequired,
       onEdit: PropTypes.func,
       onDelete: PropTypes.func,
     }).isRequired,
     isLoading: PropTypes.bool,
+    isStatusActivated: PropTypes.bool,
     record: PropTypes.object,
     stripes: PropTypes.object,
   };
@@ -102,43 +105,49 @@ class ContractView extends React.Component {
   }
 
   getActionMenu = () => () => {
-    const { record, handlers, canEdit } = this.props;
+    const { record, handlers, canEdit, canDelete, isStatusActivated } = this.props;
     const { confirmDelete } = this.state;
     const fullName = `${_.get(record, 'personal.lastName')}, ${_.get(record, 'personal.firstName')}`;
 
-    if (canEdit) {
+    if (canEdit || (canDelete && isStatusActivated)) {
       return (
         <>
-          <FormattedMessage id="ui-idm-connect.edit">
-            {ariaLabel => (
-              <Button
-                aria-label={ariaLabel}
-                buttonStyle="dropdownItem"
-                id="clickable-edit-contract"
-                marginBottom0
-                onClick={() => { handlers.onEdit(); }}
-              >
-                <Icon icon="edit">
-                  <FormattedMessage id="ui-idm-connect.edit" />
-                </Icon>
-              </Button>
-            )}
-          </FormattedMessage>
-          <FormattedMessage id="ui-idm-connect.delete">
-            {ariaLabel => (
-              <Button
-                aria-label={ariaLabel}
-                buttonStyle="dropdownItem"
-                id="clickable-delete-contract"
-                marginBottom0
-                onClick={() => { this.beginDelete(); }}
-              >
-                <Icon icon="trash">
-                  <FormattedMessage id="ui-idm-connect.delete" />
-                </Icon>
-              </Button>
-            )}
-          </FormattedMessage>
+          <IfPermission perm="ui-idm-connect.create-edit">
+            <FormattedMessage id="ui-idm-connect.edit">
+              {ariaLabel => (
+                <Button
+                  aria-label={ariaLabel}
+                  buttonStyle="dropdownItem"
+                  id="clickable-edit-contract"
+                  marginBottom0
+                  onClick={() => { handlers.onEdit(); }}
+                >
+                  <Icon icon="edit">
+                    <FormattedMessage id="ui-idm-connect.edit" />
+                  </Icon>
+                </Button>
+              )}
+            </FormattedMessage>
+          </IfPermission>
+          {/* <IfPermission perm="ui-idm-connect.delete"> */}
+          {canDelete && isStatusActivated && (
+            <FormattedMessage id="ui-idm-connect.delete">
+              {ariaLabel => (
+                <Button
+                  aria-label={ariaLabel}
+                  buttonStyle="dropdownItem"
+                  id="clickable-delete-contract"
+                  marginBottom0
+                  onClick={() => { this.beginDelete(); }}
+                >
+                  <Icon icon="trash">
+                    <FormattedMessage id="ui-idm-connect.delete" />
+                  </Icon>
+                </Button>
+              )}
+            </FormattedMessage>
+          )}
+          {/* </IfPermission> */}
           <ConfirmationModal
             heading={<FormattedMessage id="ui-idm-connect.delete" />}
             id="delete-collection-confirmation"
