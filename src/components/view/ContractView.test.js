@@ -152,7 +152,7 @@ describe('ContractView - without delete permission', () => {
   });
 });
 
-describe('ContractView - with status pending', () => {
+describe('ContractView - with delete permission but status NOT draft', () => {
   let stripes;
 
   beforeEach(() => {
@@ -167,6 +167,24 @@ describe('ContractView - with status pending', () => {
 
     const editButton = screen.getByRole('button', { name: 'Edit' });
     expect(editButton).toBeInTheDocument();
+
+    const deleteButton = document.querySelector('#clickable-delete-contract');
+    expect(deleteButton).not.toBeInTheDocument();
+  });
+});
+
+describe('ContractView - with status is draft but NO delete permission', () => {
+  let stripes;
+
+  beforeEach(() => {
+    stripes = useStripes();
+    renderContract(stripes, contractFixtures, true, false, true);
+  });
+
+  it('should render the actions menu with edit option but NOT delete option', () => {
+    const actionButton = document.querySelector('[data-test-pane-header-actions-button]');
+    expect(actionButton).toBeVisible();
+    userEvent.click(actionButton);
 
     const deleteButton = document.querySelector('#clickable-delete-contract');
     expect(deleteButton).not.toBeInTheDocument();
