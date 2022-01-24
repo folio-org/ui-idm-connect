@@ -205,6 +205,7 @@ class ContractView extends React.Component {
               <Col xs>
                 <ExpandAllButton
                   accordionStatus={this.state.accordions}
+                  id="clickable-expand-all"
                   onToggle={this.handleExpandAll}
                   setStatus={null}
                 />
