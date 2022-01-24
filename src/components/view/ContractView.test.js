@@ -88,9 +88,23 @@ describe('ContractView', () => {
     userEvent.click(submitButton);
     expect(handlers.onDelete).toHaveBeenCalled();
   });
+
+  test('click cancel delete option', () => {
+    const actionButton = document.querySelector('[data-test-pane-header-actions-button]');
+    expect(actionButton).toBeVisible();
+    userEvent.click(actionButton);
+
+    const deleteButton = screen.getByRole('button', { name: 'Delete' });
+    expect(deleteButton).toBeInTheDocument();
+    userEvent.click(deleteButton);
+    expect(screen.getByText('Do you really want to delete Führer, Lienhardt?')).toBeInTheDocument();
+    const cancelButton = screen.getByRole('button', { name: 'Cancel' });
+    expect(cancelButton).toBeInTheDocument();
+    userEvent.click(cancelButton);
+  });
 });
 
-describe('ContractView', () => {
+describe('ContractView - without delete permission', () => {
   let stripes;
 
   beforeEach(() => {
@@ -98,7 +112,7 @@ describe('ContractView', () => {
     renderContract(stripes, contractFixtures, true, false, true);
   });
 
-  it('should render the actions menu with edit option but NOTs delete option', () => {
+  it('should render the actions menu with edit option but NOT delete option', () => {
     const actionButton = document.querySelector('[data-test-pane-header-actions-button]');
     expect(actionButton).toBeVisible();
     userEvent.click(actionButton);
@@ -107,6 +121,27 @@ describe('ContractView', () => {
     expect(editButton).toBeInTheDocument();
     userEvent.click(editButton);
     expect(handlers.onEdit).toHaveBeenCalled();
+
+    const deleteButton = document.querySelector('#clickable-delete-contract');
+    expect(deleteButton).not.toBeInTheDocument();
+  });
+});
+
+describe('ContractView - with status pending', () => {
+  let stripes;
+
+  beforeEach(() => {
+    stripes = useStripes();
+    renderContract(stripes, contractFixtures, true, true, false);
+  });
+
+  it('should render the actions menu with edit option but NOT delete option', () => {
+    const actionButton = document.querySelector('[data-test-pane-header-actions-button]');
+    expect(actionButton).toBeVisible();
+    userEvent.click(actionButton);
+
+    const editButton = screen.getByRole('button', { name: 'Edit' });
+    expect(editButton).toBeInTheDocument();
 
     const deleteButton = document.querySelector('#clickable-delete-contract');
     expect(deleteButton).not.toBeInTheDocument();
