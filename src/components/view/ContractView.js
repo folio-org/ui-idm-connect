@@ -104,7 +104,7 @@ class ContractView extends React.Component {
     }
   }
 
-  getActionMenu = () => () => {
+  getActionMenu = () => ({ onToggle }) => {
     const { record, handlers, canEdit, canDelete, isStatusActivated } = this.props;
     const { confirmDelete } = this.state;
     const fullName = `${_.get(record, 'personal.lastName')}, ${_.get(record, 'personal.firstName')}`;
@@ -138,7 +138,10 @@ class ContractView extends React.Component {
                   buttonStyle="dropdownItem"
                   id="clickable-delete-contract"
                   marginBottom0
-                  onClick={() => { this.beginDelete(); }}
+                  onClick={() => {
+                    this.beginDelete();
+                    onToggle();
+                  }}
                 >
                   <Icon icon="trash">
                     <FormattedMessage id="ui-idm-connect.delete" />
