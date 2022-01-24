@@ -129,7 +129,6 @@ class ContractView extends React.Component {
               )}
             </FormattedMessage>
           </IfPermission>
-          {/* <IfPermission perm="ui-idm-connect.delete"> */}
           {canDelete && isStatusActivated && (
             <FormattedMessage id="ui-idm-connect.delete">
               {ariaLabel => (
@@ -150,7 +149,6 @@ class ContractView extends React.Component {
               )}
             </FormattedMessage>
           )}
-          {/* </IfPermission> */}
           <ConfirmationModal
             heading={<FormattedMessage id="ui-idm-connect.delete" />}
             id="delete-collection-confirmation"
