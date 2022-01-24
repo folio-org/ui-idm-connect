@@ -34,7 +34,7 @@ class ContractView extends React.Component {
       onDelete: PropTypes.func,
     }).isRequired,
     isLoading: PropTypes.bool,
-    isStatusActivated: PropTypes.bool,
+    isStatusUndefined: PropTypes.bool,
     record: PropTypes.object,
     stripes: PropTypes.object,
   };
@@ -105,11 +105,11 @@ class ContractView extends React.Component {
   }
 
   getActionMenu = () => ({ onToggle }) => {
-    const { record, handlers, canEdit, canDelete, isStatusActivated } = this.props;
+    const { record, handlers, canEdit, canDelete, isStatusUndefined } = this.props;
     const { confirmDelete } = this.state;
     const fullName = `${_.get(record, 'personal.lastName')}, ${_.get(record, 'personal.firstName')}`;
 
-    if (canEdit || (canDelete && isStatusActivated)) {
+    if (canEdit || (canDelete && isStatusUndefined)) {
       return (
         <>
           <IfPermission perm="ui-idm-connect.create-edit">
@@ -129,7 +129,7 @@ class ContractView extends React.Component {
               )}
             </FormattedMessage>
           </IfPermission>
-          {canDelete && isStatusActivated && (
+          {canDelete && isStatusUndefined && (
             <FormattedMessage id="ui-idm-connect.delete">
               {ariaLabel => (
                 <Button

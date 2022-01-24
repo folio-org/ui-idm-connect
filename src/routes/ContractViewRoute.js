@@ -63,7 +63,7 @@ class ContractViewRoute extends React.Component {
     const record = _.get(this.props.resources, 'source.records', []).find(i => i.id === this.props.match.params.id);
     // TODO: adapt to status draft
     // const isStatusActivated = _.get(record, 'status') === 'draft';
-    const isStatusActivated = _.get(record, 'status') === undefined;
+    const isStatusUndefined = _.get(record, 'status') === undefined;
 
     return (
       <ContractView
@@ -76,7 +76,7 @@ class ContractViewRoute extends React.Component {
         }}
         isLoading={_.get(this.props.resources, 'source.isPending', true)}
         record={record}
-        isStatusActivated={isStatusActivated}
+        isStatusUndefined={isStatusUndefined}
         stripes={this.props.stripes}
       />
     );

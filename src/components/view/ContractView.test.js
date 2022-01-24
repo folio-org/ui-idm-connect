@@ -14,7 +14,7 @@ const handlers = {
   onEdit: jest.fn(),
 };
 
-const renderContract = (stripes, contract, editPerm) => {
+const renderContract = (stripes, contract, editPerm, deletePerm, statusUndefined) => {
   return renderWithIntl(
     <StripesContext.Provider value={stripes}>
       <MemoryRouter>
@@ -24,6 +24,8 @@ const renderContract = (stripes, contract, editPerm) => {
           record={contract}
           stripes={stripes}
           canEdit={editPerm}
+          canDelete={deletePerm}
+          isStatusUndefined={statusUndefined}
         />
       </MemoryRouter>
     </StripesContext.Provider>
@@ -35,7 +37,7 @@ describe('ContractView', () => {
 
   beforeEach(() => {
     stripes = useStripes();
-    renderContract(stripes, contractFixtures, true);
+    renderContract(stripes, contractFixtures, true, true, true);
   });
 
   it('should render contract', async () => {
@@ -64,7 +66,7 @@ describe('ContractView', () => {
     expect(expandAll).toBeInTheDocument();
   });
 
-  it('should render the actions menu', () => {
+  it('should render the actions menu with edit and delete option', () => {
     const actionButton = document.querySelector('[data-test-pane-header-actions-button]');
     expect(actionButton).toBeVisible();
     userEvent.click(actionButton);
@@ -73,10 +75,36 @@ describe('ContractView', () => {
     expect(editButton).toBeInTheDocument();
     userEvent.click(editButton);
     expect(handlers.onEdit).toHaveBeenCalled();
+
+    const deleteButton = screen.getByRole('button', { name: 'Delete' });
+    expect(deleteButton).toBeInTheDocument();
   });
 });
 
-describe('ContractView - with empty date and status - without edit permission', () => {
+describe('ContractView', () => {
+  let stripes;
+
+  beforeEach(() => {
+    stripes = useStripes();
+    renderContract(stripes, contractFixtures, true, false, true);
+  });
+
+  it('should render the actions menu with edit option but NOTs delete option', () => {
+    const actionButton = document.querySelector('[data-test-pane-header-actions-button]');
+    expect(actionButton).toBeVisible();
+    userEvent.click(actionButton);
+
+    const editButton = screen.getByRole('button', { name: 'Edit' });
+    expect(editButton).toBeInTheDocument();
+    userEvent.click(editButton);
+    expect(handlers.onEdit).toHaveBeenCalled();
+
+    const deleteButton = document.querySelector('#clickable-delete-contract');
+    expect(deleteButton).not.toBeInTheDocument();
+  });
+});
+
+describe('ContractView - with empty date and status - without edit and delete permission', () => {
   let stripes;
   const contractWithoutDate = {
     id: '465ce0b3-10cd-4da2-8848-db85b63a0a32',
@@ -108,7 +136,7 @@ describe('ContractView - with empty date and status - without edit permission', 
 
   beforeEach(() => {
     stripes = useStripes();
-    renderContract(stripes, contractWithoutDate, false);
+    renderContract(stripes, contractWithoutDate, false, false, false);
   });
 
   it('should render hyphen for 3 empty dates and one empty status', () => {
