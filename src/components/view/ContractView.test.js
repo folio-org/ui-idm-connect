@@ -12,6 +12,7 @@ import contractFixtures from '../../../test/jest/fixtures/contract';
 const handlers = {
   onClose: jest.fn,
   onEdit: jest.fn(),
+  onDelete: jest.fn(),
 };
 
 const renderContract = (stripes, contract, editPerm, deletePerm, statusDraft) => {
@@ -78,6 +79,14 @@ describe('ContractView', () => {
 
     const deleteButton = screen.getByRole('button', { name: 'Delete' });
     expect(deleteButton).toBeInTheDocument();
+    userEvent.click(deleteButton);
+    expect(screen.getByText('Do you really want to delete Führer, Lienhardt?')).toBeInTheDocument();
+    const cancelButton = screen.getByRole('button', { name: 'Cancel' });
+    const submitButton = screen.getByRole('button', { name: 'Submit' });
+    expect(cancelButton).toBeInTheDocument();
+    expect(submitButton).toBeInTheDocument();
+    userEvent.click(submitButton);
+    expect(handlers.onDelete).toHaveBeenCalled();
   });
 });
 
