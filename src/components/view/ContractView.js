@@ -98,7 +98,7 @@ class ContractView extends React.Component {
 
   confirmDelete = (confirmation) => {
     if (confirmation) {
-      this.deleteCollection();
+      this.props.handlers.onDelete();
     } else {
       this.setState({ confirmDelete: false });
     }
@@ -157,7 +157,7 @@ class ContractView extends React.Component {
               values={{ fullName }}
             />}
             onCancel={() => { this.confirmDelete(false); }}
-            onConfirm={() => handlers.onDelete()}
+            onConfirm={() => { this.confirmDelete(true); }}
             open={confirmDelete}
           />
         </>
