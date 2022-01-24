@@ -219,7 +219,7 @@ class Contracts extends React.Component {
     return (
       <div data-testid="contracts">
         <SearchAndSortQuery
-          initialFilterState={{ status: ['activated'] }}
+          initialFilterState={{ status: ['updated'] }}
           initialSearchState={{ query: '' }}
           initialSortState={{ sort: 'lastName' }}
           queryGetter={queryGetter}
