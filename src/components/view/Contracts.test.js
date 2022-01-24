@@ -34,7 +34,7 @@ const renderContracts = (stripes, props = {}, contractsData, rerender) => render
           onNeedMoreData={jest.fn()}
           queryGetter={jest.fn()}
           querySetter={jest.fn()}
-          searchString="status.activated"
+          searchString="status.updated"
           visibleColumns={['status', 'lastName', 'firstName', 'uniLogin']}
           history={history}
           onSearchComplete={onSearchComplete}
@@ -77,7 +77,7 @@ describe('Contracts SASQ View', () => {
     });
 
     it('should translate the status of the two results', () => {
-      expect(screen.queryAllByText('Created').length).toEqual(2);
+      expect(screen.queryAllByText('Draft').length).toEqual(2);
     });
 
     it('should sort the results', () => {
