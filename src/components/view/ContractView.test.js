@@ -14,7 +14,7 @@ const handlers = {
   onEdit: jest.fn(),
 };
 
-const renderContract = (stripes, contract, editPerm, deletePerm, statusUndefined) => {
+const renderContract = (stripes, contract, editPerm, deletePerm, statusDraft) => {
   return renderWithIntl(
     <StripesContext.Provider value={stripes}>
       <MemoryRouter>
@@ -25,7 +25,7 @@ const renderContract = (stripes, contract, editPerm, deletePerm, statusUndefined
           stripes={stripes}
           canEdit={editPerm}
           canDelete={deletePerm}
-          isStatusUndefined={statusUndefined}
+          isStatusDraft={statusDraft}
         />
       </MemoryRouter>
     </StripesContext.Provider>
