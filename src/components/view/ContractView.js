@@ -34,7 +34,7 @@ class ContractView extends React.Component {
       onDelete: PropTypes.func,
     }).isRequired,
     isLoading: PropTypes.bool,
-    isStatusDraft: PropTypes.bool,
+    // isStatusDraft: PropTypes.bool,
     record: PropTypes.object,
     stripes: PropTypes.object,
   };
@@ -105,9 +105,10 @@ class ContractView extends React.Component {
   }
 
   getActionMenu = () => ({ onToggle }) => {
-    const { record, handlers, canEdit, canDelete, isStatusDraft } = this.props;
+    const { record, handlers, canEdit, canDelete } = this.props;
     const { confirmDelete } = this.state;
     const fullName = `${_.get(record, 'personal.lastName')}, ${_.get(record, 'personal.firstName')}`;
+    const isStatusDraft = _.get(record, 'status') === 'draft';
 
     if (canEdit || (canDelete && isStatusDraft)) {
       return (

@@ -60,8 +60,8 @@ class ContractViewRoute extends React.Component {
 
   render() {
     const { stripes } = this.props;
-    const record = _.get(this.props.resources, 'source.records', []).find(i => i.id === this.props.match.params.id);
-    const isStatusDraft = _.get(record, 'status') === 'draft';
+    // const record = _.get(this.props.resources, 'source.records', []).find(i => i.id === this.props.match.params.id);
+    // const isStatusDraft = _.get(record, 'status') === 'draft';
 
     return (
       <ContractView
@@ -73,8 +73,9 @@ class ContractViewRoute extends React.Component {
           onDelete: this.handleDelete,
         }}
         isLoading={_.get(this.props.resources, 'source.isPending', true)}
-        record={record}
-        isStatusDraft={isStatusDraft}
+        // record={record}
+        record={_.get(this.props.resources, 'source.records', []).find(i => i.id === this.props.match.params.id)}
+        // isStatusDraft={isStatusDraft}
         stripes={this.props.stripes}
       />
     );

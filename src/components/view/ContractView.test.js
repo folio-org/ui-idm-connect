@@ -8,6 +8,7 @@ import { MemoryRouter } from 'react-router-dom';
 import renderWithIntl from '../../../test/jest/helpers/renderWithIntl';
 import ContractView from './ContractView';
 import contractFixtures from '../../../test/jest/fixtures/contract';
+import contractWithoutDateAndStatusPending from '../../../test/jest/fixtures/contractWithoutDateAndStatusPending';
 
 const handlers = {
   onClose: jest.fn,
@@ -17,7 +18,35 @@ const handlers = {
 
 const handleExpandAll = jest.fn();
 
-const renderContract = (stripes, contract, editPerm, deletePerm, statusDraft) => {
+// const contractWithoutDateAndStatusPending = {
+//   id: '465ce0b3-10cd-4da2-8848-db85b63a0a32',
+//   personal: {
+//     firstName: 'Lienhardt',
+//     lastName: 'Führer',
+//     academicTitle: 'Dr.',
+//     dateOfBirth: '',
+//     address: {
+//       addressLine1: 'Peter-Schmitter-Straße 83',
+//       addressLine2: 'F/8',
+//       zipCode: '88453',
+//       city: 'Erolzheim',
+//       country: 'Germany'
+//     },
+//     email: 'lienhardtfuehrer@aol.com'
+//   },
+//   libraryCard: '79254581',
+//   uniLogin: 'mhb76lxa',
+//   status: 'pending',
+//   beginDate: '',
+//   endDate: '',
+//   comment: 'A comment.',
+//   metadata: {
+//     createdDate: '2021-11-01T17:39:12.364+00:00',
+//     updatedDate: '2021-11-01T17:39:12.364+00:00'
+//   }
+// };
+
+const renderContract = (stripes, contract, editPerm, deletePerm) => {
   return renderWithIntl(
     <StripesContext.Provider value={stripes}>
       <MemoryRouter>
@@ -28,7 +57,6 @@ const renderContract = (stripes, contract, editPerm, deletePerm, statusDraft) =>
           stripes={stripes}
           canEdit={editPerm}
           canDelete={deletePerm}
-          isStatusDraft={statusDraft}
           handleExpandAll={handleExpandAll}
         />
       </MemoryRouter>
@@ -41,7 +69,7 @@ describe('ContractView', () => {
 
   beforeEach(() => {
     stripes = useStripes();
-    renderContract(stripes, contractFixtures, true, true, true);
+    renderContract(stripes, contractFixtures, true, true);
   });
 
   it('should render contract', async () => {
@@ -134,7 +162,7 @@ describe('ContractView - without delete permission', () => {
 
   beforeEach(() => {
     stripes = useStripes();
-    renderContract(stripes, contractFixtures, true, false, true);
+    renderContract(stripes, contractFixtures, true, false);
   });
 
   it('should render the actions menu with edit option but NOT delete option', () => {
@@ -157,7 +185,7 @@ describe('ContractView - with delete permission but status NOT draft', () => {
 
   beforeEach(() => {
     stripes = useStripes();
-    renderContract(stripes, contractFixtures, true, true, false);
+    renderContract(stripes, contractWithoutDateAndStatusPending, true, true);
   });
 
   it('should render the actions menu with edit option but NOT delete option', () => {
@@ -175,41 +203,14 @@ describe('ContractView - with delete permission but status NOT draft', () => {
 
 describe('ContractView - with empty date and status - without edit and delete permission', () => {
   let stripes;
-  const contractWithoutDate = {
-    id: '465ce0b3-10cd-4da2-8848-db85b63a0a32',
-    personal: {
-      firstName: 'Lienhardt',
-      lastName: 'Führer',
-      academicTitle: 'Dr.',
-      dateOfBirth: '',
-      address: {
-        addressLine1: 'Peter-Schmitter-Straße 83',
-        addressLine2: 'F/8',
-        zipCode: '88453',
-        city: 'Erolzheim',
-        country: 'Germany'
-      },
-      email: 'lienhardtfuehrer@aol.com'
-    },
-    libraryCard: '79254581',
-    uniLogin: 'mhb76lxa',
-    status: '',
-    beginDate: '',
-    endDate: '',
-    comment: 'A comment.',
-    metadata: {
-      createdDate: '2021-11-01T17:39:12.364+00:00',
-      updatedDate: '2021-11-01T17:39:12.364+00:00'
-    }
-  };
 
   beforeEach(() => {
     stripes = useStripes();
-    renderContract(stripes, contractWithoutDate, false, false, false);
+    renderContract(stripes, contractWithoutDateAndStatusPending, false, false);
   });
 
-  it('should render hyphen for 3 empty dates and one empty status', () => {
-    expect(screen.getAllByText('-').length).toEqual(4);
+  it('should render hyphen for 3 empty dates', () => {
+    expect(screen.getAllByText('-').length).toEqual(3);
   });
 
   it('should not render the actions menu', () => {
