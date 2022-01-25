@@ -34,7 +34,6 @@ class ContractView extends React.Component {
       onDelete: PropTypes.func,
     }).isRequired,
     isLoading: PropTypes.bool,
-    // isStatusDraft: PropTypes.bool,
     record: PropTypes.object,
     stripes: PropTypes.object,
   };
