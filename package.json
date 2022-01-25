@@ -114,6 +114,16 @@
           "idmconnect.contract.put"
         ],
         "visible": true
+      },
+      {
+        "permissionName": "ui-idm-connect.delete",
+        "displayName": "IDM connect: Can delete idm connect",
+        "description": "Can delete single draft contract in idm connect",
+        "subPermissions": [
+          "ui-idm-connect.view",
+          "idmconnect.contract.delete"
+        ],
+        "visible": true
       }
     ],
     "icons": [

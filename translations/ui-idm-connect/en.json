@@ -55,6 +55,8 @@
   "form.saveAndClose": "Save & close",
   "form.createTitle": "Create walk-in contract",
   "edit": "Edit",
+  "delete": "Delete",
+  "delete.confirm.message": "Do you really want to delete {fullName}?",
   "new": "New",
   "noPermission": "No permission"
 }

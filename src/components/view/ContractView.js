@@ -8,6 +8,7 @@ import {
   AccordionSet,
   Button,
   Col,
+  ConfirmationModal,
   ExpandAllButton,
   Headline,
   Icon,
@@ -25,9 +26,11 @@ import ContractCommentView from './ContractComment/ContractCommentView';
 class ContractView extends React.Component {
   static propTypes = {
     canEdit: PropTypes.bool,
+    canDelete: PropTypes.bool,
     handlers: PropTypes.shape({
       onClose: PropTypes.func.isRequired,
       onEdit: PropTypes.func,
+      onDelete: PropTypes.func,
     }).isRequired,
     isLoading: PropTypes.bool,
     record: PropTypes.object,
@@ -40,6 +43,7 @@ class ContractView extends React.Component {
     this.editButton = React.createRef();
 
     this.state = {
+      confirmDelete: false,
       accordions: {
         personalAccordion: false,
         contractAccordion: false,
@@ -84,27 +88,79 @@ class ContractView extends React.Component {
     );
   }
 
-  getActionMenu = () => () => {
-    const { handlers, canEdit } = this.props;
+  beginDelete = () => {
+    this.setState({
+      confirmDelete: true,
+    });
+  }
 
-    if (canEdit) {
+  confirmDelete = (confirmation) => {
+    if (confirmation) {
+      this.props.handlers.onDelete();
+    } else {
+      this.setState({ confirmDelete: false });
+    }
+  }
+
+  getActionMenu = () => ({ onToggle }) => {
+    const { record, handlers, canEdit, canDelete } = this.props;
+    const { confirmDelete } = this.state;
+    const fullName = `${_.get(record, 'personal.lastName')}, ${_.get(record, 'personal.firstName')}`;
+    const isStatusDraft = _.get(record, 'status') === 'draft';
+
+    if (canEdit || (canDelete && isStatusDraft)) {
       return (
         <>
-          <FormattedMessage id="ui-idm-connect.edit">
-            {ariaLabel => (
-              <Button
-                aria-label={ariaLabel}
-                buttonStyle="dropdownItem"
-                id="clickable-edit-contract"
-                marginBottom0
-                onClick={() => { handlers.onEdit(); }}
-              >
-                <Icon icon="edit">
-                  <FormattedMessage id="ui-idm-connect.edit" />
-                </Icon>
-              </Button>
-            )}
-          </FormattedMessage>
+          {canEdit && (
+            <FormattedMessage id="ui-idm-connect.edit">
+              {ariaLabel => (
+                <Button
+                  aria-label={ariaLabel}
+                  buttonStyle="dropdownItem"
+                  id="clickable-edit-contract"
+                  marginBottom0
+                  onClick={() => { handlers.onEdit(); }}
+                >
+                  <Icon icon="edit">
+                    <FormattedMessage id="ui-idm-connect.edit" />
+                  </Icon>
+                </Button>
+              )}
+            </FormattedMessage>
+          )}
+          {canDelete && isStatusDraft && (
+            <FormattedMessage id="ui-idm-connect.delete">
+              {ariaLabel => (
+                <Button
+                  aria-label={ariaLabel}
+                  buttonStyle="dropdownItem"
+                  id="clickable-delete-contract"
+                  marginBottom0
+                  onClick={() => {
+                    this.beginDelete();
+                    onToggle();
+                  }}
+                >
+                  <Icon icon="trash">
+                    <FormattedMessage id="ui-idm-connect.delete" />
+                  </Icon>
+                </Button>
+              )}
+            </FormattedMessage>
+          )}
+          <ConfirmationModal
+            buttonStyle="danger"
+            confirmLabel={<FormattedMessage id="ui-idm-connect.delete" />}
+            heading={<FormattedMessage id="ui-idm-connect.delete" />}
+            id="delete-collection-confirmation"
+            message={<FormattedMessage
+              id="ui-idm-connect.delete.confirm.message"
+              values={{ fullName }}
+            />}
+            onCancel={() => { this.confirmDelete(false); }}
+            onConfirm={() => { this.confirmDelete(true); }}
+            open={confirmDelete}
+          />
         </>
       );
     } else {
@@ -150,6 +206,7 @@ class ContractView extends React.Component {
               <Col xs>
                 <ExpandAllButton
                   accordionStatus={this.state.accordions}
+                  id="clickable-expand-all"
                   onToggle={this.handleExpandAll}
                   setStatus={null}
                 />

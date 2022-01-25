@@ -13,6 +13,7 @@ class ContractViewRoute extends React.Component {
     source: {
       type: 'okapi',
       path: 'idm-connect/contract/:{id}',
+      shouldRefresh: () => false,
     },
     query: {},
   });
@@ -23,6 +24,11 @@ class ContractViewRoute extends React.Component {
     match: PropTypes.shape({
       params: PropTypes.shape({
         id: PropTypes.string.isRequired,
+      }).isRequired,
+    }).isRequired,
+    mutator: PropTypes.shape({
+      source: PropTypes.shape({
+        DELETE: PropTypes.func.isRequired,
       }).isRequired,
     }).isRequired,
     resources: PropTypes.shape({
@@ -44,15 +50,25 @@ class ContractViewRoute extends React.Component {
     this.props.history.push(`${urls.contractEdit(match.params.id)}${location.search}`);
   }
 
+  handleDelete = (contract) => {
+    const { history, location, mutator } = this.props;
+
+    mutator.source.DELETE({ contract }).then(() => {
+      history.push(`${urls.contracts()}${location.search}`);
+    });
+  }
+
   render() {
     const { stripes } = this.props;
 
     return (
       <ContractView
         canEdit={stripes.hasPerm('ui-idm-connect.create-edit')}
+        canDelete={stripes.hasPerm('ui-idm-connect.delete')}
         handlers={{
           onClose: this.handleClose,
           onEdit: this.handleEdit,
+          onDelete: this.handleDelete,
         }}
         isLoading={_.get(this.props.resources, 'source.isPending', true)}
         record={_.get(this.props.resources, 'source.records', []).find(i => i.id === this.props.match.params.id)}
