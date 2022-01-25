@@ -107,7 +107,7 @@ describe('ContractView', () => {
     userEvent.click(deleteButton);
     expect(screen.getByText('Do you really want to delete Führer, Lienhardt?')).toBeInTheDocument();
     const cancelButton = screen.getByRole('button', { name: 'Cancel' });
-    const submitButton = screen.getByRole('button', { name: 'Submit' });
+    const submitButton = screen.getByRole('button', { name: 'Delete' });
     expect(cancelButton).toBeInTheDocument();
     expect(submitButton).toBeInTheDocument();
     userEvent.click(submitButton);

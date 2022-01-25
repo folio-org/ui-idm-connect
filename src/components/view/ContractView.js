@@ -150,6 +150,8 @@ class ContractView extends React.Component {
             </FormattedMessage>
           )}
           <ConfirmationModal
+            buttonStyle="danger"
+            confirmLabel={<FormattedMessage id="ui-idm-connect.delete" />}
             heading={<FormattedMessage id="ui-idm-connect.delete" />}
             id="delete-collection-confirmation"
             message={<FormattedMessage
