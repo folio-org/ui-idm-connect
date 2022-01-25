@@ -16,7 +16,6 @@ import {
   Pane,
   Row,
 } from '@folio/stripes/components';
-import { IfPermission } from '@folio/stripes/core';
 
 import ContractHeaderView from './ContractHeader/ContractHeaderView';
 import ContractPersonalView from './ContractPersonal/ContractPersonalView';
@@ -112,7 +111,7 @@ class ContractView extends React.Component {
     if (canEdit || (canDelete && isStatusDraft)) {
       return (
         <>
-          <IfPermission perm="ui-idm-connect.create-edit">
+          {canEdit && (
             <FormattedMessage id="ui-idm-connect.edit">
               {ariaLabel => (
                 <Button
@@ -128,7 +127,7 @@ class ContractView extends React.Component {
                 </Button>
               )}
             </FormattedMessage>
-          </IfPermission>
+          )}
           {canDelete && isStatusDraft && (
             <FormattedMessage id="ui-idm-connect.delete">
               {ariaLabel => (
