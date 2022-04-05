@@ -56,7 +56,7 @@
     "form.createTitle": "Create walk-in contract",
     "edit": "Modifier",
     "delete": "Supprimer",
-    "delete.confirm.message": "Etes-vous sûr(e) de vouloir supprimer {aggName} ?",
+    "delete.confirm.message": "Etes-vous sûr(e) de vouloir supprimer {fullName} ?",
     "new": "Nouveau",
     "noPermission": "Aucune autorisation"
 }
