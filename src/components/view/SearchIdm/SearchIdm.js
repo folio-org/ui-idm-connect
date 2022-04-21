@@ -140,36 +140,45 @@ class SearchIdm extends React.Component {
   }
 
   columnMapping = {
+    readerNumber: <FormattedMessage id="ui-idm-connect.readerNumber" />,
+    unilogin: <FormattedMessage id="ui-idm-connect.uniLogin" />,
     surname: <FormattedMessage id="ui-idm-connect.lastname" />,
     givenname: <FormattedMessage id="ui-idm-connect.firstname" />,
     dateOfBirth: <FormattedMessage id="ui-idm-connect.dateOfBirth" />,
-    unilogin: <FormattedMessage id="ui-idm-connect.uniLogin" />,
     accountState: <FormattedMessage id="ui-idm-connect.accountState" />,
     ULAffiliation: <FormattedMessage id="ui-idm-connect.ULAffiliation" />,
+    cardReaderNumber: <FormattedMessage id="ui-idm-connect.cardReaderNumber" />,
+    UBReaderNumber: <FormattedMessage id="ui-idm-connect.UBReaderNumber" />,
     UBRole: <FormattedMessage id="ui-idm-connect.UBRole" />,
     FOLIOUser: <FormattedMessage id="ui-idm-connect.FOLIOUser" />,
     isChecked: '',
   };
 
   columnWidths = {
-    surname: 240,
-    givenname: 240,
-    dateOfBirth: 150,
+    readerNumber: 120,
     unilogin: 150,
-    accountState: 270,
-    ULAffiliation: 150,
-    UBRole: 100,
+    surname: 200,
+    givenname: 200,
+    dateOfBirth: 150,
+    accountState: 200,
+    ULAffiliation: 120,
+    cardReaderNumber: 140,
+    UBReaderNumber: 140,
+    UBRole: 80,
     FOLIOUser: 100,
-    isChecked: 100,
+    isChecked: 80,
   };
 
   resultsFormatter = {
+    readerNumber: users => users.readerNumber,
+    unilogin: users => users.unilogin,
     surname: users => users.surname,
     givenname: users => users.givenname,
     dateOfBirth: users => moment(users.dateOfBirth).format('YYYY-MM-DD'),
-    unilogin: users => users.unilogin,
     accountState: users => users.accountState,
     ULAffiliation: users => users.ULAffiliation,
+    cardReaderNumber: users => users.cardReaderNumber,
+    UBReaderNumber: users => users.UBReaderNumber,
     UBRole: users => users.UBRole,
     FOLIOUser: users => {
       let folioUser = '';
@@ -205,7 +214,7 @@ class SearchIdm extends React.Component {
   renderResults() {
     const { isCreateNewUser, isUsersResultsEmpty, users } = this.props;
     const count = users.length;
-    const columns = ['surname', 'givenname', 'dateOfBirth', 'unilogin', 'accountState', 'ULAffiliation'];
+    const columns = ['readerNumber', 'unilogin', 'surname', 'givenname', 'dateOfBirth', 'accountState', 'ULAffiliation', 'cardReaderNumber', 'UBReaderNumber'];
 
     if (!isUsersResultsEmpty) {
       return (
