@@ -1,16 +1,7 @@
 import React from 'react';
-import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 
 import { NoValue } from '@folio/stripes/components';
-
-const FormatDate = (dateVal) => {
-  if (dateVal === '') {
-    return <NoValue />;
-  } else {
-    return moment(dateVal).format('YYYY-MM-DD');
-  }
-};
 
 const DataLable = (field) => {
   if (field !== '') {
@@ -20,4 +11,4 @@ const DataLable = (field) => {
   }
 };
 
-export { FormatDate, DataLable };
+export default DataLable;

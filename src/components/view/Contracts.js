@@ -32,7 +32,7 @@ import {
 
 import urls from '../DisplayUtils/urls';
 import ContractsFilters from './ContractsFilters';
-import { DataLable } from '../DisplayUtils/Format';
+import DataLable from '../DisplayUtils/Format';
 
 class Contracts extends React.Component {
   static propTypes = {
