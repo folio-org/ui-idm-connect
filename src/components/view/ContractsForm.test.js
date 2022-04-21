@@ -74,8 +74,8 @@ describe('Create new contract - without initial values', () => {
 
     userEvent.type(screen.getByRole('textbox', { name: 'Last name' }), 'Führer');
     userEvent.type(screen.getByRole('textbox', { name: 'First name' }), 'Lienhardt');
-    userEvent.type(screen.getByRole('textbox', { name: 'Birth date' }), '1994-04-22');
-    userEvent.type(screen.getByRole('textbox', { name: 'Expiration date' }), '2020-01-12');
+    userEvent.type(screen.getByRole('textbox', { name: 'Birth date' }), '04/22/1994');
+    userEvent.type(screen.getByRole('textbox', { name: 'Expiration date' }), '01/12/2020');
     userEvent.type(screen.getByRole('textbox', { name: 'Email (external)' }), 'lienhardtfuehrer@aol.com');
     userEvent.type(screen.getByRole('textbox', { name: 'Street' }), 'Peter-Schmitter-Straße 83');
     userEvent.type(screen.getByRole('textbox', { name: 'Zip/Postal Code' }), '88453');

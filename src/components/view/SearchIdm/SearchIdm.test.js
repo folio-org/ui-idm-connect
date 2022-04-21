@@ -131,7 +131,7 @@ describe('Search IDM - trigger search', () => {
 
     userEvent.type(lastnameInput, 'Hausmann');
     userEvent.type(firstnameInput, 'Lienhardt');
-    userEvent.type(dateOfBirthInput, '1874-06-12');
+    userEvent.type(dateOfBirthInput, '06/12/1874');
     userEvent.click(searchButton);
 
     renderUsers(userFixtures, true, false, renderWithIntlResult.rerender);
@@ -177,7 +177,7 @@ describe('Search IDM - select user, enter new search and create empty contract',
     renderUsers(userFixtures, true, false, renderWithIntlResult.rerender);
 
     expect(onSubmit).toHaveBeenCalled();
-    expect(searchButton).not.toHaveAttribute('disabled');
+    expect(searchButton).toHaveProperty('disabled', true);
     expect(screen.getByText('1 Result in IDM')).toBeVisible();
 
     userEvent.type(lastnameInput, 'lastname');
@@ -216,7 +216,7 @@ describe('Search IDM - Create new user', () => {
     renderUsers(userFixtures, true, false, renderWithIntlResult.rerender);
 
     expect(onSubmit).toHaveBeenCalled();
-    expect(searchButton).not.toHaveAttribute('disabled');
+    expect(searchButton).toHaveProperty('disabled', true);
     expect(screen.getByText('1 Result in IDM')).toBeVisible();
 
     const chooseButton = screen.getByRole('button', { name: 'Choose' });
