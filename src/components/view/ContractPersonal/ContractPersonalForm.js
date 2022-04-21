@@ -61,6 +61,7 @@ class ContractPersonalForm extends React.Component {
               label={<FormattedMessage id="ui-idm-connect.dateOfBirth" />}
               name="personal.dateOfBirth"
               required
+              timeZone="UTC"
               validate={Required}
             />
           </Col>

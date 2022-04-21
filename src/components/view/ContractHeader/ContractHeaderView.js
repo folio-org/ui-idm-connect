@@ -11,7 +11,7 @@ import {
 } from '@folio/stripes/components';
 
 import css from './Header.css';
-import { DataLable } from '../../DisplayUtils/Format';
+import DataLable from '../../DisplayUtils/Format';
 
 class ContractHeaderView extends React.Component {
   static propTypes = {

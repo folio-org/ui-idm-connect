@@ -33,6 +33,7 @@ class ContractContractForm extends React.Component {
               label={<FormattedMessage id="ui-idm-connect.endDate" />}
               name="endDate"
               required
+              timeZone="UTC"
               validate={Required}
             />
           </Col>

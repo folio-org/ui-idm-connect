@@ -309,6 +309,7 @@ class SearchIdm extends React.Component {
                     name="dateOfBirth"
                     onChange={this.handleDateChange}
                     required
+                    timeZone="UTC"
                     validate={Required}
                     value={this.state.dateOfBirth}
                   />

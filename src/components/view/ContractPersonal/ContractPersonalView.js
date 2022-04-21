@@ -1,7 +1,10 @@
 import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import {
+  FormattedDate,
+  FormattedMessage,
+} from 'react-intl';
 
 import {
   Col,
@@ -9,8 +12,6 @@ import {
   NoValue,
   Row,
 } from '@folio/stripes/components';
-
-import { FormatDate } from '../../DisplayUtils/Format';
 
 class ContractPersonalView extends React.Component {
   static propTypes = {
@@ -20,6 +21,7 @@ class ContractPersonalView extends React.Component {
 
   render() {
     const { contract, id } = this.props;
+    const dateOfBirth = _.get(contract, 'personal.dateOfBirth');
 
     return (
       <>
@@ -38,10 +40,9 @@ class ContractPersonalView extends React.Component {
               />
             </Col>
             <Col xs={4}>
-              <KeyValue
-                label={<FormattedMessage id="ui-idm-connect.dateOfBirth" />}
-                value={FormatDate(_.get(contract, 'personal.dateOfBirth', ''))}
-              />
+              <KeyValue label={<FormattedMessage id="ui-idm-connect.dateOfBirth" />}>
+                {dateOfBirth ? <FormattedDate value={dateOfBirth} timeZone="UTC" /> : <NoValue />}
+              </KeyValue>
             </Col>
           </Row>
         </div>
