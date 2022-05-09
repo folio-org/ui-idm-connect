@@ -27,7 +27,7 @@ class ContractContractForm extends React.Component {
         <Row>
           <Col xs={2}>
             <Field
-              backendDateStandard="YYYYMMDD"
+              backendDateStandard="YYYY-MM-DD"
               component={Datepicker}
               id="addcontract_endDate"
               label={<FormattedMessage id="ui-idm-connect.endDate" />}

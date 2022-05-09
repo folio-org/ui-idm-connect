@@ -302,7 +302,7 @@ class SearchIdm extends React.Component {
                 </Col>
                 <Col xs={3} md={2}>
                   <Field
-                    backendDateStandard="YYYYMMDD"
+                    backendDateStandard="YYYY-MM-DD"
                     component={Datepicker}
                     id="searchIdm_dateOfBirth"
                     label={<FormattedMessage id="ui-idm-connect.dateOfBirth" />}
