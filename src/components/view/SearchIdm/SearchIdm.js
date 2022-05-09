@@ -2,7 +2,10 @@ import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
+import {
+  FormattedDate,
+  FormattedMessage,
+} from 'react-intl';
 import { Field } from 'redux-form';
 import moment from 'moment';
 
@@ -174,7 +177,7 @@ class SearchIdm extends React.Component {
     unilogin: users => users.unilogin,
     surname: users => users.surname,
     givenname: users => users.givenname,
-    dateOfBirth: users => moment(users.dateOfBirth).format('YYYY-MM-DD'),
+    dateOfBirth: users => <FormattedDate value={moment(users.dateOfBirth).format('YYYY-MM-DD')} timeZone="UTC" />,
     accountState: users => users.accountState,
     ULAffiliation: users => users.ULAffiliation,
     cardReaderNumber: users => users.cardReaderNumber,
