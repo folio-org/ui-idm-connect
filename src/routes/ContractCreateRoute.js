@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 
 import { stripesConnect } from '@folio/stripes/core';
 
@@ -69,7 +70,7 @@ class ContractCreateRoute extends React.Component {
         personal: {
           lastName: initialValues.surname,
           firstName: initialValues.givenname,
-          dateOfBirth: initialValues.dateOfBirth,
+          dateOfBirth: moment(initialValues.dateOfBirth).format('YYYY-MM-DD'),
         }
       };
     } else {
