@@ -177,7 +177,8 @@ describe('Search IDM - select user, enter new search and create empty contract',
     renderUsers(userFixtures, true, false, renderWithIntlResult.rerender);
 
     expect(onSubmit).toHaveBeenCalled();
-    expect(searchButton).toHaveProperty('disabled', true);
+    // expect(searchButton).toHaveProperty('disabled', true);
+    expect(searchButton).not.toHaveAttribute('disabled');
     expect(screen.getByText('1 Result in IDM')).toBeVisible();
 
     userEvent.type(lastnameInput, 'lastname');
@@ -216,7 +217,8 @@ describe('Search IDM - Create new user', () => {
     renderUsers(userFixtures, true, false, renderWithIntlResult.rerender);
 
     expect(onSubmit).toHaveBeenCalled();
-    expect(searchButton).toHaveProperty('disabled', true);
+    // expect(searchButton).toHaveProperty('disabled', true);
+    expect(searchButton).not.toHaveAttribute('disabled');
     expect(screen.getByText('1 Result in IDM')).toBeVisible();
 
     const chooseButton = screen.getByRole('button', { name: 'Choose' });
