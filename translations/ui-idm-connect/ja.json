@@ -1,7 +1,7 @@
 {
     "meta.title": "IDM connect",
     "status": "Status",
-    "lastname": "Last name",
+    "lastname": "姓",
     "firstname": "First name",
     "searchInputLabel": "Search",
     "noSourceYet": "No source yet",
@@ -27,7 +27,7 @@
     "searchIdm": "Search IDM",
     "dataOption.updated": "Updated",
     "dataOption.draft": "Draft",
-    "dataOption.pending": "Pending",
+    "dataOption.pending": "保留中",
     "dataOption.pending_edit": "Pending / modify",
     "dataOption.transmission_error": "Transmission error",
     "dataOption.transmission_error_edit": "Transmission error / modify",
