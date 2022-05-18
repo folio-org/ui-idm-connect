@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import { getFormValues } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
 
@@ -12,6 +11,7 @@ import {
 
 import urls from '../components/DisplayUtils/urls';
 import SearchIdm from '../components/view/SearchIdm/SearchIdm';
+import { fetchFolioUser, fetchIdmUser } from '../util/handler';
 
 class SearchIdmRoute extends React.Component {
   static contextType = CalloutContext;
@@ -33,48 +33,6 @@ class SearchIdmRoute extends React.Component {
     });
   };
 
-  fetchFolioUser = (id) => {
-    const { stripes: { okapi } } = this.props;
-
-    return fetch(`${okapi.url}/users?query=externalSystemId==${id}`, {
-      headers: {
-        'X-Okapi-Tenant': okapi.tenant,
-        'X-Okapi-Token': okapi.token,
-      },
-    }).then((response) => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        this.sendCallout('error', <FormattedMessage id="ui-idm-connect.FOLIOUser" />);
-        return Promise.reject(response);
-      }
-    }).catch((err) => {
-      this.sendCallout('error', err.statusText);
-      return Promise.reject(err);
-    });
-  }
-
-  fetchIdmUser = (formValues) => {
-    const { stripes: { okapi } } = this.props;
-
-    return fetch(`${okapi.url}/idm-connect/searchidm?firstName=${formValues.firstname}&lastName=${formValues.lastname}&dateOfBirth=${moment(formValues.dateOfBirth).format('YYYY-MM-DD')}`, {
-      headers: {
-        'X-Okapi-Tenant': okapi.tenant,
-        'X-Okapi-Token': okapi.token,
-      },
-    }).then((response) => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        this.sendCallout('error', '');
-        return Promise.reject(response);
-      }
-    }).catch((err) => {
-      this.sendCallout('error', err.statusText);
-      return Promise.reject(err);
-    });
-  }
-
   mergeData = (idmUser, folioUsers) => {
     idmUser.folioUsers = folioUsers;
     return idmUser;
@@ -84,8 +42,8 @@ class SearchIdmRoute extends React.Component {
     e.preventDefault();
     const formValues = getFormValues('SearchIdmForm')(this.props.stripes.store.getState()) || {};
 
-    this.fetchIdmUser(formValues)
-      .then(idmusers => idmusers.map(idmuser => this.fetchFolioUser(idmuser.unilogin).then(foliouser => this.mergeData(idmuser, foliouser))))
+    fetchIdmUser(formValues, this.props.stripes.okapi)
+      .then(idmusers => idmusers.map(idmuser => fetchFolioUser(idmuser.unilogin, this.props.stripes.okapi).then(foliouser => this.mergeData(idmuser, foliouser))))
       .then(promises => Promise.all(promises))
       .then(result => {
         this.setState(() => ({
@@ -107,9 +65,6 @@ class SearchIdmRoute extends React.Component {
 
   render() {
     const isCreateNewUser = this.props.location.state === 'new';
-    // const isChangeUBNumber = this.props.location.state === 'changeUBNumber';
-    // console.log('route isChangeUBNumber');
-    // console.log(isChangeUBNumber);
     const formValues = getFormValues('SearchIdmForm')(this.props.stripes.store.getState()) || {};
 
     return (
