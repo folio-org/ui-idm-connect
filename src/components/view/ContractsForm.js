@@ -58,7 +58,7 @@ class ContractsForm extends React.Component {
   getFirstMenu() {
     return (
       <PaneMenu>
-        <FormattedMessage id="ui-idm-connect.form.cancel">
+        <FormattedMessage id="ui-idm-connect.form.close">
           { ([ariaLabel]) => (
             <IconButton
               ariaLabel={ariaLabel}

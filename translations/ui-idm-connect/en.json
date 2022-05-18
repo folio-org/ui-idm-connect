@@ -54,6 +54,7 @@
   "form.validate.validMailRequired": "Valid email address required!",
   "form.validate.noDollarBackslashRequired": "Required! No $ or \\ allowed!",
   "form.validate.noDollarBackslash": "No $ or \\ allowed!",
+  "form.close": "Close edit dialog",
   "form.cancel": "Cancel",
   "form.saveAndClose": "Save & close",
   "form.createTitle": "Create walk-in contract",
