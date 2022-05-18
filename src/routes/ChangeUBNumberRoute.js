@@ -11,7 +11,7 @@ import {
 } from '@folio/stripes/core';
 
 import urls from '../components/DisplayUtils/urls';
-import ChangeUBNumber from '../components/view/ChangeUBNumber/ChangeUBNumber';
+import ChangeUBNumber from '../components/view/SearchIdm/ChangeUBNumber/ChangeUBNumber';
 
 class ChangeUBNumberRoute extends React.Component {
   static contextType = CalloutContext;
