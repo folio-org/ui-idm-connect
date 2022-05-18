@@ -159,6 +159,26 @@ class Contracts extends React.Component {
             </Button>
           )}
         </FormattedMessage>
+        <IfPermission perm="ui-idm-connect.ubreadernumber.all">
+          <FormattedMessage id="ui-idm-connect.ubreadernumber.change">
+            {ariaLabel => (
+              <Button
+                aria-label={ariaLabel}
+                buttonStyle="dropdownItem"
+                id="clickable-new"
+                marginBottom0
+                onClick={() => {
+                  this.props.history.push({
+                    pathname: `${urls.changeUBNumber()}`,
+                  });
+                  onToggle();
+                }}
+              >
+                <FormattedMessage id="ui-idm-connect.ubreadernumber.change" />
+              </Button>
+            )}
+          </FormattedMessage>
+        </IfPermission>
         <IfPermission perm="ui-idm-connect.create-edit">
           <FormattedMessage id="ui-idm-connect.new">
             {ariaLabel => (

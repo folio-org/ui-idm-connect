@@ -11,9 +11,9 @@ import {
 } from '@folio/stripes/core';
 
 import urls from '../components/DisplayUtils/urls';
-import SearchIdm from '../components/view/SearchIdm/SearchIdm';
+import ChangeUBNumber from '../components/view/ChangeUBNumber/ChangeUBNumber';
 
-class SearchIdmRoute extends React.Component {
+class ChangeUBNumberRoute extends React.Component {
   static contextType = CalloutContext;
 
   constructor(props) {
@@ -82,7 +82,7 @@ class SearchIdmRoute extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const formValues = getFormValues('SearchIdmForm')(this.props.stripes.store.getState()) || {};
+    const formValues = getFormValues('ChangeUBNumberForm')(this.props.stripes.store.getState()) || {};
 
     this.fetchIdmUser(formValues)
       .then(idmusers => idmusers.map(idmuser => this.fetchFolioUser(idmuser.unilogin).then(foliouser => this.mergeData(idmuser, foliouser))))
@@ -106,16 +106,11 @@ class SearchIdmRoute extends React.Component {
   }
 
   render() {
-    const isCreateNewUser = this.props.location.state === 'new';
-    // const isChangeUBNumber = this.props.location.state === 'changeUBNumber';
-    // console.log('route isChangeUBNumber');
-    // console.log(isChangeUBNumber);
-    const formValues = getFormValues('SearchIdmForm')(this.props.stripes.store.getState()) || {};
+    const formValues = getFormValues('ChangeUBNumberForm')(this.props.stripes.store.getState()) || {};
 
     return (
-      <SearchIdm
+      <ChangeUBNumber
         handlers={{ onClose: this.handleClose }}
-        isCreateNewUser={isCreateNewUser}
         isUsersResultsEmpty={this.state.isUsersResultsEmpty}
         onSubmit={this.handleSubmit}
         renderListOfResults={this.state.renderListOfResults}
@@ -126,7 +121,7 @@ class SearchIdmRoute extends React.Component {
   }
 }
 
-SearchIdmRoute.propTypes = {
+ChangeUBNumberRoute.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
@@ -145,4 +140,4 @@ SearchIdmRoute.propTypes = {
   }).isRequired,
 };
 
-export default stripesConnect(SearchIdmRoute);
+export default stripesConnect(ChangeUBNumberRoute);
