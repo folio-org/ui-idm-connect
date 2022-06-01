@@ -28,6 +28,9 @@ class ChangeUBNumber extends React.Component {
     handlers: PropTypes.shape({
       onClose: PropTypes.func.isRequired,
     }),
+    history: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+    }).isRequired,
     invalid: PropTypes.bool,
     isUsersResultsEmpty: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
@@ -41,6 +44,7 @@ class ChangeUBNumber extends React.Component {
   constructor(props) {
     super(props);
 
+    this.onRowClick = this.onRowClick.bind(this);
     this.state = {
       dateOfBirth: '',
     };
@@ -116,6 +120,13 @@ class ChangeUBNumber extends React.Component {
     return '';
   }
 
+  onRowClick(e, row) {
+    // localStorage.setItem('idmConnectChangeUBNumber', JSON.stringify(newContractInitialValues));
+    // const initialValues = JSON.parse(localStorage.getItem('idmConnectChangeUBNumber'));
+
+    this.props.history.push(urls.changeUBNumberView(row.unilogin));
+  }
+
   renderResults() {
     const { isUsersResultsEmpty, users } = this.props;
     const count = users.length;
@@ -145,7 +156,7 @@ class ChangeUBNumber extends React.Component {
               interactive
               visibleColumns={visibleColumns}
               // for change number:
-              onRowClick={this.onSelectRow}
+              onRowClick={this.onRowClick}
             />
           </Card>
         </>

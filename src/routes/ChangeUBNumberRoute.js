@@ -74,12 +74,15 @@ class ChangeUBNumberRoute extends React.Component {
         renderListOfResults={this.state.renderListOfResults}
         searchValues={formValues}
         users={this.state.users}
-      />
+      >
+        {this.props.children}
+      </ChangeUBNumber>
     );
   }
 }
 
 ChangeUBNumberRoute.propTypes = {
+  children: PropTypes.node,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
