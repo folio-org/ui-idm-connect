@@ -1,6 +1,8 @@
 {
   "meta.title": "IDM connect",
   "contracts": "Walk in contracts",
+  "yes": "yes",
+  "no": "no",
   "status": "Status",
   "lastname": "Last name",
   "firstname": "First name",
@@ -63,5 +65,6 @@
   "delete.confirm.message": "Do you really want to delete {fullName}?",
   "new": "New",
   "noPermission": "No permission",
-  "ubreadernumber.change": "Change library card number"
+  "ubreadernumber.change": "Change library card number",
+  "ubreadernumber.edit": "Edit library card number"
 }
