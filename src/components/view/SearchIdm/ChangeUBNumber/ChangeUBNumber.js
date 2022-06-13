@@ -188,6 +188,7 @@ class ChangeUBNumber extends React.Component {
         <form onSubmit={(e) => onSubmit(e)}>
           <Paneset>
             <Pane
+              // reduce defaultWidht for splitting screen
               defaultWidth="100%"
               dismissible
               footer={this.renderPaneFooter()}
