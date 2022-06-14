@@ -9,6 +9,7 @@ import {
   Button,
   Col,
   KeyValue,
+  MessageBanner,
   NoValue,
   Pane,
   PaneFooter,
@@ -67,8 +68,46 @@ class ChangeUBNumberView extends React.Component {
     return <PaneFooter renderStart={startButton} renderEnd={endButton} />;
   }
 
+  renderUbreadernumberMessage() {
+    const {
+      invalid,
+      pristine,
+      submitting
+    } = this.props;
+
+    const disabled = pristine || submitting || invalid;
+
+    if (disabled) {
+      return (
+        <MessageBanner style={{ background: 'grey', color: 'black' }}>
+          {/* Default grey: no change */}
+          <FormattedMessage id="ui-idm-connect.ubreadernumber.text.noChange" />
+        </MessageBanner>
+      );
+    } else {
+      return (
+        <>
+          <MessageBanner type="success">
+            {/* Success green: existing value is changed */}
+            {/* TODO: change the effective Card number to 4-560000001." */}
+            <FormattedMessage id="ui-idm-connect.ubreadernumber.text.updated" />
+          </MessageBanner>
+          <MessageBanner type="warning">
+            {/* Warning yellow: existing value is cleared */}
+            {/* TODO: change the effective Card number to 845000000000." */}
+            <FormattedMessage id="ui-idm-connect.ubreadernumber.text.cleared" />
+          </MessageBanner>
+          <MessageBanner type="success">
+            {/* Success green: value is added */}
+            {/* TODO: change the effective Card number to 4-560000099." */}
+            <FormattedMessage id="ui-idm-connect.ubreadernumber.text.added" />
+          </MessageBanner>
+        </>
+      );
+    }
+  }
+
   render() {
-    // const adaptedInitialValues = this.getInitialValues();
     const adaptedInitialValues = getInitialValues();
 
     return (
@@ -144,6 +183,7 @@ class ChangeUBNumberView extends React.Component {
             label={<FormattedMessage id="ui-idm-connect.UBReaderNumber" />}
             name="UBReaderNumber"
           />
+          {this.renderUbreadernumberMessage()}
         </Pane>
       </form>
     );

@@ -40,6 +40,7 @@ class ChangeUBNumberViewRoute extends React.Component {
         method: 'POST',
       }).then((response) => {
         if (response.ok) {
+          this.handleClose();
           return response.json();
         } else {
           this.sendCallout('error', '');
