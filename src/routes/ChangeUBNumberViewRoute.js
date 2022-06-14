@@ -61,6 +61,7 @@ class ChangeUBNumberViewRoute extends React.Component {
           onClose: this.handleClose,
         }}
         onSubmit={this.handleSubmit}
+        stripes={this.props.stripes}
       />
     );
   }

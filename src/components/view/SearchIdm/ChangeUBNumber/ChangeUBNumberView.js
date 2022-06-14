@@ -72,12 +72,17 @@ class ChangeUBNumberView extends React.Component {
     const {
       invalid,
       pristine,
-      submitting
+      submitting,
     } = this.props;
 
-    const disabled = pristine || submitting || invalid;
+    const noChange = pristine || submitting || invalid;
+    // const { initialValues, values } = useFormState();
+    // console.log('initialValues');
+    // console.log(initialValues);
+    // console.log('values');
+    // console.log(values);
 
-    if (disabled) {
+    if (noChange) {
       return (
         <MessageBanner style={{ background: 'grey', color: 'black' }}>
           {/* Default grey: no change */}
@@ -180,6 +185,7 @@ class ChangeUBNumberView extends React.Component {
           <Field
             component={TextField}
             id="field-change-ub-number"
+            initialValue={_.get(adaptedInitialValues, 'UBReaderNumber', '')}
             label={<FormattedMessage id="ui-idm-connect.UBReaderNumber" />}
             name="UBReaderNumber"
           />
@@ -194,4 +200,9 @@ class ChangeUBNumberView extends React.Component {
 export default stripesFinalForm({
   initialValuesEqual: (a, b) => _.isEqual(a, b),
   enableReinitialize: true,
+  navigationCheck: true,
+  subscription: {
+    values: true,
+    invalid: true,
+  },
 })(ChangeUBNumberView);
