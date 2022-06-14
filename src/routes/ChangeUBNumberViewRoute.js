@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
 import { stripesConnect } from '@folio/stripes/core';
@@ -10,6 +11,13 @@ import getInitialValues from '../components/view/SearchIdm/ChangeUBNumber/Helper
 class ChangeUBNumberViewRoute extends React.Component {
   static propTypes = {
     history: ReactRouterPropTypes.history.isRequired,
+    stripes: PropTypes.shape({
+      okapi: PropTypes.shape({
+        tenant: PropTypes.string.isRequired,
+        token: PropTypes.string.isRequired,
+        url: PropTypes.string,
+      }),
+    }).isRequired,
   };
 
   handleClose = () => {
@@ -19,19 +27,29 @@ class ChangeUBNumberViewRoute extends React.Component {
   }
 
   handleSubmit = (newUBReaderNumber) => {
-    const { history } = this.props;
+    const { stripes: { okapi } } = this.props;
     const adaptedInitialValues = getInitialValues();
+    const uniLogin = adaptedInitialValues.uniLogin;
 
-    console.log('mach was');
-    console.log(newUBReaderNumber);
-    console.log(adaptedInitialValues);
-
-    // mutator.contracts
-    //   .POST(contract)
-    //   .then(({ id }) => {
-    //     history.push(`${urls.contractView(id)}${location.search}`);
-    //   });
-
+    if (uniLogin) {
+      return fetch(`${okapi.url}/idm-connect/ubreadernumber?unilogin=${uniLogin}&UBReaderNumber=${newUBReaderNumber.UBReaderNumber}`, {
+        headers: {
+          'X-Okapi-Tenant': okapi.tenant,
+          'X-Okapi-Token': okapi.token,
+        },
+        method: 'POST',
+      }).then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          this.sendCallout('error', '');
+          return Promise.reject(response);
+        }
+      }).catch((err) => {
+        this.sendCallout('error', err.statusText);
+        return Promise.reject(err);
+      });
+    }
     return null;
   }
 

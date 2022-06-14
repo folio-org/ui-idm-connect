@@ -131,25 +131,10 @@ class ChangeUBNumberView extends React.Component {
                 value={_.get(adaptedInitialValues, 'uniLogin', <NoValue />)}
               />
             </Col>
-            {/* <Field
-              component={TextField}
-              id="field-changeUbNumber"
-              label={<FormattedMessage id="ui-idm-connect.uniLogin" />}
-              name="uniLogin"
-            /> */}
             <Col xs={4}>
               <KeyValue
                 label={<FormattedMessage id="ui-idm-connect.cardReaderNumber" />}
                 value={_.get(adaptedInitialValues, 'cardReaderNumber', <NoValue />)}
-              />
-            </Col>
-          </Row>
-          {/* TODO remove here when finished */}
-          <Row>
-            <Col xs={4}>
-              <KeyValue
-                label={<FormattedMessage id="ui-idm-connect.UBReaderNumber" />}
-                value={_.get(adaptedInitialValues, 'UBReaderNumber', <NoValue />)}
               />
             </Col>
           </Row>
