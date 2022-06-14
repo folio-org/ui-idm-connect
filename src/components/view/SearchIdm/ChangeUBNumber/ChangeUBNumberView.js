@@ -28,6 +28,7 @@ class ChangeUBNumberView extends React.Component {
     invalid: PropTypes.bool,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
+    values: PropTypes.object,
   };
 
   getPaneFooter() {
@@ -68,52 +69,57 @@ class ChangeUBNumberView extends React.Component {
     return <PaneFooter renderStart={startButton} renderEnd={endButton} />;
   }
 
-  renderUbreadernumberMessage() {
+  renderUbreadernumberMessage(initialUBReaderNumber) {
     const {
       invalid,
       pristine,
       submitting,
+      values,
     } = this.props;
 
     const noChange = pristine || submitting || invalid;
-    // const { initialValues, values } = useFormState();
-    // console.log('initialValues');
-    // console.log(initialValues);
-    // console.log('values');
-    // console.log(values);
 
-    if (noChange) {
+    { /* Warning yellow: existing value is cleared */ }
+    { /* TODO: change the effective Card number to 845000000000." */ }
+    if (!noChange && (Object.keys(values).length === 0) && initialUBReaderNumber) {
+      console.log('value is cleared');
       return (
-        <MessageBanner style={{ background: 'grey', color: 'black' }}>
-          {/* Default grey: no change */}
-          <FormattedMessage id="ui-idm-connect.ubreadernumber.text.noChange" />
+        <MessageBanner type="warning">
+          <FormattedMessage id="ui-idm-connect.ubreadernumber.text.cleared" />
         </MessageBanner>
       );
-    } else {
+    { /* Success green: existing value is changed */ }
+    { /* TODO: change the effective Card number to 4-560000001." */ }
+    } else if (!noChange && Object.keys(values).length > 0 && initialUBReaderNumber) {
+      console.log('value is changed');
       return (
-        <>
-          <MessageBanner type="success">
-            {/* Success green: existing value is changed */}
-            {/* TODO: change the effective Card number to 4-560000001." */}
-            <FormattedMessage id="ui-idm-connect.ubreadernumber.text.updated" />
-          </MessageBanner>
-          <MessageBanner type="warning">
-            {/* Warning yellow: existing value is cleared */}
-            {/* TODO: change the effective Card number to 845000000000." */}
-            <FormattedMessage id="ui-idm-connect.ubreadernumber.text.cleared" />
-          </MessageBanner>
-          <MessageBanner type="success">
-            {/* Success green: value is added */}
-            {/* TODO: change the effective Card number to 4-560000099." */}
-            <FormattedMessage id="ui-idm-connect.ubreadernumber.text.added" />
-          </MessageBanner>
-        </>
+        <MessageBanner type="success">
+          <FormattedMessage id="ui-idm-connect.ubreadernumber.text.updated" />
+        </MessageBanner>
+      );
+    { /* Success green: value is added */ }
+    { /* TODO: change the effective Card number to 4-560000099." */ }
+    } else if (!noChange && Object.keys(values).length > 0 && _.isEmpty(initialUBReaderNumber)) {
+      console.log('value is added');
+      return (
+        <MessageBanner type="success">
+          <FormattedMessage id="ui-idm-connect.ubreadernumber.text.added" />
+        </MessageBanner>
+      );
+    { /* Default grey: no change */ }
+    } else {
+      console.log('no changed');
+      return (
+        <MessageBanner style={{ background: 'grey', color: 'black' }}>
+          <FormattedMessage id="ui-idm-connect.ubreadernumber.text.noChange" />
+        </MessageBanner>
       );
     }
   }
 
   render() {
     const adaptedInitialValues = getInitialValues();
+    const initialUBReaderNumber = _.get(adaptedInitialValues, 'UBReaderNumber', '');
 
     return (
       <form
@@ -185,11 +191,11 @@ class ChangeUBNumberView extends React.Component {
           <Field
             component={TextField}
             id="field-change-ub-number"
-            initialValue={_.get(adaptedInitialValues, 'UBReaderNumber', '')}
+            initialValue={initialUBReaderNumber}
             label={<FormattedMessage id="ui-idm-connect.UBReaderNumber" />}
             name="UBReaderNumber"
           />
-          {this.renderUbreadernumberMessage()}
+          {this.renderUbreadernumberMessage(initialUBReaderNumber)}
         </Pane>
       </form>
     );
@@ -200,7 +206,6 @@ class ChangeUBNumberView extends React.Component {
 export default stripesFinalForm({
   initialValuesEqual: (a, b) => _.isEqual(a, b),
   enableReinitialize: true,
-  navigationCheck: true,
   subscription: {
     values: true,
     invalid: true,
