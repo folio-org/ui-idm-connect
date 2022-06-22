@@ -31,7 +31,7 @@ class ChangeUBNumberViewRoute extends React.Component {
     const adaptedInitialValues = getInitialValues();
     const uniLogin = adaptedInitialValues.uniLogin;
 
-    if (uniLogin) {
+    if (uniLogin && Object.keys(newUBReaderNumber).length > 0) {
       return fetch(`${okapi.url}/idm-connect/ubreadernumber?unilogin=${uniLogin}&UBReaderNumber=${newUBReaderNumber.UBReaderNumber}`, {
         headers: {
           'X-Okapi-Tenant': okapi.tenant,
@@ -50,6 +50,8 @@ class ChangeUBNumberViewRoute extends React.Component {
         this.sendCallout('error', err.statusText);
         return Promise.reject(err);
       });
+    } else if (uniLogin && Object.keys(newUBReaderNumber).length === 0) {
+      // DELETE
     }
     return null;
   }
