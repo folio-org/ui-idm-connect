@@ -136,8 +136,8 @@ class ChangeUBNumber extends React.Component {
       return (
         <Paneset>
           <Pane
-            // reduce defaultWidht for splitting screen
-            defaultWidth="50%"
+            height="80%"
+            // defaultWidth="50%"
           >
             <Card
               id="search-idm-results-card"
@@ -149,7 +149,6 @@ class ChangeUBNumber extends React.Component {
                   />
                 </span>
               }
-              style={{ marginTop: '60px' }}
             >
               <MultiColumnList
                 columnMapping={columnMapping}

@@ -130,6 +130,7 @@ class ChangeUBNumberView extends React.Component {
           onClose={this.props.handlers.onClose}
           paneTitle={<FormattedMessage id="ui-idm-connect.ubreadernumber.edit" />}
           defaultWidth="50%"
+          height="80%"
         >
           <Row>
             <Col xs={4}>
@@ -193,6 +194,7 @@ class ChangeUBNumberView extends React.Component {
             name="UBReaderNumber"
           />
           {this.renderUbreadernumberMessage(initialUBReaderNumber)}
+          {/* {this.getPaneFooter()} */}
         </Pane>
       </form>
     );
