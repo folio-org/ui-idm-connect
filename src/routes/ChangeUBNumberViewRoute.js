@@ -30,33 +30,18 @@ class ChangeUBNumberViewRoute extends React.Component {
     const { stripes: { okapi } } = this.props;
     const adaptedInitialValues = getInitialValues();
     const uniLogin = adaptedInitialValues.uniLogin;
+    const fetchMethod = Object.keys(newUBReaderNumber).length === 0 ? 'DELETE' : 'POST';
+    const fetchPath = Object.keys(newUBReaderNumber).length === 0 ?
+      `${okapi.url}/idm-connect/ubreadernumber?unilogin=${uniLogin}` :
+      `${okapi.url}/idm-connect/ubreadernumber?unilogin=${uniLogin}&UBReaderNumber=${newUBReaderNumber.UBReaderNumber}`;
 
-    if (uniLogin && Object.keys(newUBReaderNumber).length > 0) {
-      return fetch(`${okapi.url}/idm-connect/ubreadernumber?unilogin=${uniLogin}&UBReaderNumber=${newUBReaderNumber.UBReaderNumber}`, {
+    if (uniLogin) {
+      return fetch(fetchPath, {
         headers: {
           'X-Okapi-Tenant': okapi.tenant,
           'X-Okapi-Token': okapi.token,
         },
-        method: 'POST',
-      }).then((response) => {
-        if (response.ok) {
-          this.handleClose();
-          return response.json();
-        } else {
-          this.sendCallout('error', '');
-          return Promise.reject(response);
-        }
-      }).catch((err) => {
-        this.sendCallout('error', err.statusText);
-        return Promise.reject(err);
-      });
-    } else if (uniLogin && Object.keys(newUBReaderNumber).length === 0) {
-      return fetch(`${okapi.url}/idm-connect/ubreadernumber?unilogin=${uniLogin}`, {
-        headers: {
-          'X-Okapi-Tenant': okapi.tenant,
-          'X-Okapi-Token': okapi.token,
-        },
-        method: 'DELETE',
+        method: fetchMethod,
       }).then((response) => {
         if (response.ok) {
           this.handleClose();
