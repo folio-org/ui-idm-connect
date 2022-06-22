@@ -51,7 +51,24 @@ class ChangeUBNumberViewRoute extends React.Component {
         return Promise.reject(err);
       });
     } else if (uniLogin && Object.keys(newUBReaderNumber).length === 0) {
-      // DELETE
+      return fetch(`${okapi.url}/idm-connect/ubreadernumber?unilogin=${uniLogin}`, {
+        headers: {
+          'X-Okapi-Tenant': okapi.tenant,
+          'X-Okapi-Token': okapi.token,
+        },
+        method: 'DELETE',
+      }).then((response) => {
+        if (response.ok) {
+          this.handleClose();
+          return response.json();
+        } else {
+          this.sendCallout('error', '');
+          return Promise.reject(response);
+        }
+      }).catch((err) => {
+        this.sendCallout('error', err.statusText);
+        return Promise.reject(err);
+      });
     }
     return null;
   }
