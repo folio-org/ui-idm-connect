@@ -27,11 +27,11 @@ class IdmConnect extends React.Component {
     }
     return (
       <Switch>
-        <Route path={`${path}/change-ubnumber/view/:unilogin`} component={ChangeUBNumberViewRoute} />
-        <Route path={`${path}/change-ubnumber`} component={ChangeUBNumberRoute} />
-        {/* <Route path={`${path}/change-ubnumber/:unilogin?`} component={ChangeUBNumberRoute}>
+        {/* <Route path={`${path}/change-ubnumber/view/:unilogin`} component={ChangeUBNumberViewRoute} />
+        <Route path={`${path}/change-ubnumber`} component={ChangeUBNumberRoute} /> */}
+        <Route path={`${path}/change-ubnumber/:unilogin?`} component={ChangeUBNumberRoute}>
           <Route path={`${path}/change-ubnumber/view/:unilogin`} component={ChangeUBNumberViewRoute} />
-        </Route> */}
+        </Route>
         <Route path={`${path}/search-idm`} component={SearchIdmRoute} />
         <Route path={`${path}/create`} component={ContractCreateRoute} />
         <Route path={`${path}/:id/edit`} component={ContractEditRoute} />

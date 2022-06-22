@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import {
   FormattedDate,
   FormattedMessage,
@@ -25,6 +25,7 @@ let newContractInitialValues = '';
 
 class ChangeUBNumber extends React.Component {
   static propTypes = {
+    children: PropTypes.object,
     handlers: PropTypes.shape({
       onClose: PropTypes.func.isRequired,
     }),
@@ -133,32 +134,38 @@ class ChangeUBNumber extends React.Component {
 
     if (!isUsersResultsEmpty) {
       return (
-        <>
-          <Card
-            id="search-idm-results-card"
-            headerStart={
-              <span>
-                <FormattedMessage
-                  id="ui-idm-connect.searchIdm.resultCount"
-                  values={{ count }}
-                />
-              </span>
-            }
-            style={{ marginTop: '60px' }}
+        <Paneset>
+          <Pane
+            // reduce defaultWidht for splitting screen
+            defaultWidth="50%"
           >
-            <MultiColumnList
-              columnMapping={columnMapping}
-              columnWidths={columnWidths}
-              contentData={this.props.users}
-              formatter={this.resultsFormatter}
-              id="change-ubnumber-list-users"
-              interactive
-              visibleColumns={visibleColumns}
-              // for change number:
-              onRowClick={this.onRowClick}
-            />
-          </Card>
-        </>
+            <Card
+              id="search-idm-results-card"
+              headerStart={
+                <span>
+                  <FormattedMessage
+                    id="ui-idm-connect.searchIdm.resultCount"
+                    values={{ count }}
+                  />
+                </span>
+              }
+              style={{ marginTop: '60px' }}
+            >
+              <MultiColumnList
+                columnMapping={columnMapping}
+                columnWidths={columnWidths}
+                contentData={this.props.users}
+                formatter={this.resultsFormatter}
+                id="change-ubnumber-list-users"
+                interactive
+                visibleColumns={visibleColumns}
+                // for change number:
+                onRowClick={this.onRowClick}
+              />
+            </Card>
+          </Pane>
+          {this.props.children}
+        </Paneset>
       );
     } else {
       return (
@@ -188,7 +195,6 @@ class ChangeUBNumber extends React.Component {
         <form onSubmit={(e) => onSubmit(e)}>
           <Paneset>
             <Pane
-              // reduce defaultWidht for splitting screen
               defaultWidth="100%"
               dismissible
               footer={this.renderPaneFooter()}
@@ -216,4 +222,4 @@ class ChangeUBNumber extends React.Component {
 
 export default stripesForm({
   form: 'ChangeUBNumberForm',
-})(ChangeUBNumber);
+})(withRouter(ChangeUBNumber));

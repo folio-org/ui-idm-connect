@@ -129,7 +129,7 @@ class ChangeUBNumberView extends React.Component {
           footer={this.getPaneFooter()}
           onClose={this.props.handlers.onClose}
           paneTitle={<FormattedMessage id="ui-idm-connect.ubreadernumber.edit" />}
-          defaultWidth="fill"
+          defaultWidth="50%"
         >
           <Row>
             <Col xs={4}>
@@ -198,7 +198,6 @@ class ChangeUBNumberView extends React.Component {
     );
   }
 }
-
 
 export default stripesFinalForm({
   // initialValuesEqual: (a, b) => _.isEqual(a, b),
