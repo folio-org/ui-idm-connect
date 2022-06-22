@@ -3,6 +3,10 @@
     margin-bottom: 0.25rem;
   }
 
+.addPaddingBottom {
+  padding-bottom: 3em;
+}
+
 .noMatchButton {
   float: right;
 }

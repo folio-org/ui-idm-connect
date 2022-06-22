@@ -20,6 +20,7 @@ import {
 import urls from '../../../DisplayUtils/urls';
 import SearchFields from '../SearchFields';
 import { basisColumns, columnMapping, columnWidths } from '../Format';
+import css from '../SearchIdmStyles.css';
 
 let newContractInitialValues = '';
 
@@ -134,7 +135,7 @@ class ChangeUBNumber extends React.Component {
 
     if (!isUsersResultsEmpty) {
       return (
-        <Paneset>
+        <Paneset nested static>
           <Pane
             height="80%"
             // defaultWidth="50%"
@@ -201,11 +202,13 @@ class ChangeUBNumber extends React.Component {
               onClose={onClose}
               paneTitle={<FormattedMessage id="ui-idm-connect.ubreadernumber.change" />}
             >
-              <SearchFields
-                dateOfBirth={this.state.dateOfBirth}
-                handleDateChange={this.handleDateChange}
-                disabled={pristine || submitting || invalid}
-              />
+              <div className={css.addPaddingBottom}>
+                <SearchFields
+                  dateOfBirth={this.state.dateOfBirth}
+                  handleDateChange={this.handleDateChange}
+                  disabled={pristine || submitting || invalid}
+                />
+              </div>
               <>
                 {this.props.renderListOfResults &&
                   this.renderResults()
