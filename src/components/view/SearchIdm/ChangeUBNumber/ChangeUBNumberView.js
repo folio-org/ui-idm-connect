@@ -73,12 +73,10 @@ class ChangeUBNumberView extends React.Component {
     const {
       invalid,
       pristine,
-      submitting,
       values,
     } = this.props;
 
-    const noChange = pristine || submitting || invalid;
-
+    const noChange = pristine || invalid;
 
     if (!noChange && (Object.keys(values).length === 0) && initialUBReaderNumber) {
       // Warning yellow: existing value is cleared
@@ -104,13 +102,15 @@ class ChangeUBNumberView extends React.Component {
           <FormattedMessage id="ui-idm-connect.ubreadernumber.text.added" />
         </MessageBanner>
       );
-    } else {
+    } else if (noChange) {
       // Default grey: no change
       return (
         <MessageBanner style={{ background: 'grey', color: 'black' }}>
           <FormattedMessage id="ui-idm-connect.ubreadernumber.text.noChange" />
         </MessageBanner>
       );
+    } else {
+      return null;
     }
   }
 
@@ -201,8 +201,8 @@ class ChangeUBNumberView extends React.Component {
 
 
 export default stripesFinalForm({
-  initialValuesEqual: (a, b) => _.isEqual(a, b),
-  enableReinitialize: true,
+  // initialValuesEqual: (a, b) => _.isEqual(a, b),
+  // enableReinitialize: true,
   subscription: {
     values: true,
     invalid: true,
