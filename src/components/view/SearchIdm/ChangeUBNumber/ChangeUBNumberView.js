@@ -122,6 +122,7 @@ class ChangeUBNumberView extends React.Component {
       <form
         id="form-change-ub-number"
         onSubmit={this.props.handleSubmit}
+        style={{ width: '100%' }}
       >
         <Pane
           data-testid="changeUBNumberView"
@@ -129,8 +130,6 @@ class ChangeUBNumberView extends React.Component {
           footer={this.getPaneFooter()}
           onClose={this.props.handlers.onClose}
           paneTitle={<FormattedMessage id="ui-idm-connect.ubreadernumber.edit" />}
-          defaultWidth="50%"
-          height="80%"
         >
           <Row>
             <Col xs={4}>

@@ -135,37 +135,36 @@ class ChangeUBNumber extends React.Component {
 
     if (!isUsersResultsEmpty) {
       return (
-        <Paneset nested static>
-          <Pane
-            height="80%"
-            // defaultWidth="50%"
-          >
-            <Card
-              id="search-idm-results-card"
-              headerStart={
-                <span>
-                  <FormattedMessage
-                    id="ui-idm-connect.searchIdm.resultCount"
-                    values={{ count }}
-                  />
-                </span>
-              }
-            >
-              <MultiColumnList
-                columnMapping={columnMapping}
-                columnWidths={columnWidths}
-                contentData={this.props.users}
-                formatter={this.resultsFormatter}
-                id="change-ubnumber-list-users"
-                interactive
-                visibleColumns={visibleColumns}
-                // for change number:
-                onRowClick={this.onRowClick}
-              />
-            </Card>
-          </Pane>
-          {this.props.children}
-        </Paneset>
+        <div style={{ height: '80%' }}>
+          <Paneset nested>
+            <Pane>
+              <Card
+                id="search-idm-results-card"
+                headerStart={
+                  <span>
+                    <FormattedMessage
+                      id="ui-idm-connect.searchIdm.resultCount"
+                      values={{ count }}
+                    />
+                  </span>
+                }
+              >
+                <MultiColumnList
+                  columnMapping={columnMapping}
+                  columnWidths={columnWidths}
+                  contentData={this.props.users}
+                  formatter={this.resultsFormatter}
+                  id="change-ubnumber-list-users"
+                  interactive
+                  visibleColumns={visibleColumns}
+                  // for change number:
+                  onRowClick={this.onRowClick}
+                />
+              </Card>
+            </Pane>
+            {this.props.children}
+          </Paneset>
+        </div>
       );
     } else {
       return (
