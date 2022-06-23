@@ -43,9 +43,9 @@ class ChangeUBNumberViewRoute extends React.Component {
         },
         method: fetchMethod,
       }).then((response) => {
-        // TODO: close complete changeUBNumberView or fetch again the data of the search request
         if (response.ok) {
-          this.handleClose();
+          // return to search fields of changeUBNumber for fetching the new data
+          this.props.history.push(`${urls.changeUBNumber()}`);
           return response.json();
         } else {
           this.sendCallout('error', '');
