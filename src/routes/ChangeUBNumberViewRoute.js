@@ -45,7 +45,8 @@ class ChangeUBNumberViewRoute extends React.Component {
       }).then((response) => {
         if (response.ok) {
           // return to search fields of changeUBNumber for fetching the new data
-          this.props.history.push(`${urls.changeUBNumber()}`);
+          localStorage.removeItem('idmConnectChangeUBNumber');
+          this.props.history.push(`${urls.contracts()}`);
           return response.json();
         } else {
           this.sendCallout('error', '');
