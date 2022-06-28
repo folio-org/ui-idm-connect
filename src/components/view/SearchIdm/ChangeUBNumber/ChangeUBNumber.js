@@ -135,9 +135,9 @@ class ChangeUBNumber extends React.Component {
 
     if (!isUsersResultsEmpty) {
       return (
-        <div style={{ height: '80%' }}>
+        <div style={{ height: '85%' }}>
           <Paneset nested>
-            <Pane>
+            <Pane defaultWidth="fill">
               <Card
                 id="search-idm-results-card"
                 headerStart={
@@ -191,31 +191,31 @@ class ChangeUBNumber extends React.Component {
 
     return (
       <>
-        <form onSubmit={(e) => onSubmit(e)}>
-          <Paneset>
-            <Pane
-              defaultWidth="100%"
-              dismissible
-              footer={this.renderPaneFooter()}
-              id="pane-search-idm-form"
-              onClose={onClose}
-              paneTitle={<FormattedMessage id="ui-idm-connect.ubreadernumber.change" />}
-            >
-              <div className={css.addPaddingBottom}>
+        <Paneset>
+          <Pane
+            defaultWidth="100%"
+            dismissible
+            footer={this.renderPaneFooter()}
+            id="pane-search-idm-form"
+            onClose={onClose}
+            paneTitle={<FormattedMessage id="ui-idm-connect.ubreadernumber.change" />}
+          >
+            <div className={css.addPaddingBottom}>
+              <form onSubmit={(e) => onSubmit(e)}>
                 <SearchFields
                   dateOfBirth={this.state.dateOfBirth}
                   handleDateChange={this.handleDateChange}
                   disabled={pristine || submitting || invalid}
                 />
-              </div>
-              <>
-                {this.props.renderListOfResults &&
-                  this.renderResults()
-                }
-              </>
-            </Pane>
-          </Paneset>
-        </form>
+              </form>
+            </div>
+            <>
+              {this.props.renderListOfResults &&
+                this.renderResults()
+              }
+            </>
+          </Pane>
+        </Paneset>
       </>
     );
   }

@@ -126,6 +126,7 @@ class ChangeUBNumberView extends React.Component {
       >
         <Pane
           data-testid="changeUBNumberView"
+          defaultWidth="50%"
           dismissible
           footer={this.getPaneFooter()}
           onClose={this.props.handlers.onClose}
@@ -193,7 +194,6 @@ class ChangeUBNumberView extends React.Component {
             name="UBReaderNumber"
           />
           {this.renderUbreadernumberMessage(initialUBReaderNumber)}
-          {/* {this.getPaneFooter()} */}
         </Pane>
       </form>
     );
