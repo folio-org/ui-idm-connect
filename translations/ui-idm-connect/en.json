@@ -70,5 +70,7 @@
   "ubreadernumber.text.noChange": "Please make a change to the Libary card number.",
   "ubreadernumber.text.updated": "The existing Library card number will be updated.",
   "ubreadernumber.text.cleared": "The existing Libary card number will be deleted.",
-  "ubreadernumber.text.added": "A Library card number will be added for the first time."
+  "ubreadernumber.text.added": "A Library card number will be added for the first time.",
+  "ubreadernumber.update.success": "Library card number has been successfully updated.",
+  "ubreadernumber.update.error": "An error occurred while updating library card number {error}"
 }

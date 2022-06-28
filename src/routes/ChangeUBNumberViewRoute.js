@@ -1,8 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
+import { FormattedMessage } from 'react-intl';
 
-import { stripesConnect } from '@folio/stripes/core';
+import {
+  stripesConnect,
+  CalloutContext,
+} from '@folio/stripes/core';
 
 import urls from '../components/DisplayUtils/urls';
 import ChangeUBNumberView from '../components/view/SearchIdm/ChangeUBNumber/ChangeUBNumberView';
@@ -19,6 +23,15 @@ class ChangeUBNumberViewRoute extends React.Component {
       }),
     }).isRequired,
   };
+
+  static contextType = CalloutContext;
+
+  sendCallout = (type, msg) => {
+    this.context.sendCallout({
+      type,
+      message: msg,
+    });
+  }
 
   handleClose = () => {
     // remove item
@@ -44,17 +57,27 @@ class ChangeUBNumberViewRoute extends React.Component {
         method: fetchMethod,
       }).then((response) => {
         if (response.ok) {
-          // return to search fields of changeUBNumber for fetching the new data
+          // go back for fetching the new data
           localStorage.removeItem('idmConnectChangeUBNumber');
           this.props.history.push(`${urls.contracts()}`);
-          return response.json();
+          this.context.sendCallout({
+            type: 'success',
+            message: <FormattedMessage id="ui-idm-connect.ubreadernumber.update.success" />,
+          });
+          // return response.json();
         } else {
-          this.sendCallout('error', '');
-          return Promise.reject(response);
+          this.context.sendCallout({
+            type: 'error',
+            message: <FormattedMessage id="ui-idm-connect.ubreadernumber.update.error" values={{ error: '' }} />,
+          });
+          // return Promise.reject(response);
         }
       }).catch((err) => {
-        this.sendCallout('error', err.statusText);
-        return Promise.reject(err);
+        this.context.sendCallout({
+          type: 'error',
+          message: <FormattedMessage id="ui-idm-connect.ubreadernumber.update.error" values={{ error: err.statusText }} />,
+        });
+        // return Promise.reject(err);
       });
     }
     return null;
