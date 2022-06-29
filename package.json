@@ -124,6 +124,15 @@
           "idmconnect.contract.delete"
         ],
         "visible": true
+      },
+      {
+        "permissionName": "ui-idm-connect.ubreadernumber.all",
+        "displayName": "idmconnect ubreadernumber all",
+        "description": "All permissions related to ubreadernumber",
+        "subPermissions": [
+          "idmconnect.ubreadernumber.post",
+          "idmconnect.ubreadernumber.delete"
+        ]
       }
     ],
     "icons": [

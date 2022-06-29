@@ -6,26 +6,22 @@ import {
   FormattedDate,
   FormattedMessage,
 } from 'react-intl';
-import { Field } from 'redux-form';
 import moment from 'moment';
 
 import stripesForm from '@folio/stripes/form';
 import {
   Button,
   Card,
-  Col,
-  Datepicker,
   MultiColumnList,
   Pane,
   PaneFooter,
   Paneset,
-  Row,
-  TextField,
 } from '@folio/stripes/components';
 
-import { Required } from '../../DisplayUtils/Validate';
 import urls from '../../DisplayUtils/urls';
 import css from './SearchIdmStyles.css';
+import SearchFields from './SearchFields';
+import { basisColumns, columnMapping, columnWidths } from './Format';
 
 let newContractInitialValues = '';
 
@@ -142,36 +138,6 @@ class SearchIdm extends React.Component {
     return <PaneFooter renderStart={startButton} renderEnd={isCreateNewUser ? endButton : ''} />;
   }
 
-  columnMapping = {
-    readerNumber: <FormattedMessage id="ui-idm-connect.readerNumber" />,
-    unilogin: <FormattedMessage id="ui-idm-connect.uniLogin" />,
-    surname: <FormattedMessage id="ui-idm-connect.lastname" />,
-    givenname: <FormattedMessage id="ui-idm-connect.firstname" />,
-    dateOfBirth: <FormattedMessage id="ui-idm-connect.dateOfBirth" />,
-    accountState: <FormattedMessage id="ui-idm-connect.accountState" />,
-    ULAffiliation: <FormattedMessage id="ui-idm-connect.ULAffiliation" />,
-    cardReaderNumber: <FormattedMessage id="ui-idm-connect.cardReaderNumber" />,
-    UBReaderNumber: <FormattedMessage id="ui-idm-connect.UBReaderNumber" />,
-    UBRole: <FormattedMessage id="ui-idm-connect.UBRole" />,
-    FOLIOUser: <FormattedMessage id="ui-idm-connect.FOLIOUser" />,
-    isChecked: '',
-  };
-
-  columnWidths = {
-    readerNumber: 120,
-    unilogin: 150,
-    surname: 200,
-    givenname: 200,
-    dateOfBirth: 150,
-    accountState: 200,
-    ULAffiliation: 120,
-    cardReaderNumber: 140,
-    UBReaderNumber: 140,
-    UBRole: 80,
-    FOLIOUser: 100,
-    isChecked: 80,
-  };
-
   resultsFormatter = {
     readerNumber: users => users.readerNumber,
     unilogin: users => users.unilogin,
@@ -217,7 +183,6 @@ class SearchIdm extends React.Component {
   renderResults() {
     const { isCreateNewUser, isUsersResultsEmpty, users } = this.props;
     const count = users.length;
-    const columns = ['readerNumber', 'unilogin', 'surname', 'givenname', 'dateOfBirth', 'accountState', 'ULAffiliation', 'cardReaderNumber', 'UBReaderNumber'];
 
     if (!isUsersResultsEmpty) {
       return (
@@ -235,13 +200,13 @@ class SearchIdm extends React.Component {
             style={{ marginTop: '60px' }}
           >
             <MultiColumnList
-              columnMapping={this.columnMapping}
-              columnWidths={this.columnWidths}
+              columnMapping={columnMapping}
+              columnWidths={columnWidths}
               contentData={this.props.users}
               formatter={this.resultsFormatter}
               id="search-idm-list-users"
               interactive={false}
-              visibleColumns={isCreateNewUser ? [...columns, 'isChecked'] : [...columns, 'UBRole', 'FOLIOUser']}
+              visibleColumns={isCreateNewUser ? [...basisColumns, 'isChecked'] : [...basisColumns, 'UBRole', 'FOLIOUser']}
             />
           </Card>
           {isCreateNewUser ? this.renderNoMatchButton() : '' }
@@ -282,60 +247,11 @@ class SearchIdm extends React.Component {
               onClose={onClose}
               paneTitle={<FormattedMessage id="ui-idm-connect.searchIdm.title" />}
             >
-              <Row>
-                <Col xs={3}>
-                  <Field
-                    component={TextField}
-                    id="searchIdm_lastname"
-                    label={<FormattedMessage id="ui-idm-connect.lastname" />}
-                    name="lastname"
-                    required
-                    validate={Required}
-                  />
-                </Col>
-                <Col xs={3}>
-                  <Field
-                    component={TextField}
-                    id="searchIdm_firstname"
-                    label={<FormattedMessage id="ui-idm-connect.firstname" />}
-                    name="firstname"
-                    required
-                    validate={Required}
-                  />
-                </Col>
-                <Col xs={3} md={2}>
-                  <Field
-                    backendDateStandard="YYYY-MM-DD"
-                    component={Datepicker}
-                    id="searchIdm_dateOfBirth"
-                    label={<FormattedMessage id="ui-idm-connect.dateOfBirth" />}
-                    name="dateOfBirth"
-                    onChange={this.handleDateChange}
-                    required
-                    timeZone="UTC"
-                    validate={Required}
-                    value={this.state.dateOfBirth}
-                  />
-                </Col>
-                <Col xs={3}>
-                  <div className={css.searchButton}>
-                    <FormattedMessage id="ui-idm-connect.searchInputLabel">
-                      { ([ariaLabel]) => (
-                        <Button
-                          aria-label={ariaLabel}
-                          buttonStyle="primary"
-                          disabled={pristine || submitting || invalid}
-                          id="clickable-search-searchIdm"
-                          marginBottom0
-                          type="submit"
-                        >
-                          <FormattedMessage id="ui-idm-connect.searchInputLabel" />
-                        </Button>
-                      )}
-                    </FormattedMessage>
-                  </div>
-                </Col>
-              </Row>
+              <SearchFields
+                dateOfBirth={this.state.dateOfBirth}
+                handleDateChange={this.handleDateChange}
+                disabled={pristine || submitting || invalid}
+              />
               <>
                 {this.props.renderListOfResults &&
                   this.renderResults()

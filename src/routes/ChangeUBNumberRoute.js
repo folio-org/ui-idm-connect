@@ -6,10 +6,10 @@ import { getFormValues } from 'redux-form';
 import { stripesConnect } from '@folio/stripes/core';
 
 import urls from '../components/DisplayUtils/urls';
-import SearchIdm from '../components/view/SearchIdm/SearchIdm';
+import ChangeUBNumber from '../components/view/SearchIdm/ChangeUBNumber/ChangeUBNumber';
 import { fetchFolioUser, fetchIdmUser, mergeData } from '../util/handler';
 
-class SearchIdmRoute extends React.Component {
+class ChangeUBNumberRoute extends React.Component {
   constructor(props) {
     super(props);
 
@@ -22,7 +22,7 @@ class SearchIdmRoute extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const formValues = getFormValues('SearchIdmForm')(this.props.stripes.store.getState()) || {};
+    const formValues = getFormValues('ChangeUBNumberForm')(this.props.stripes.store.getState()) || {};
 
     fetchIdmUser(formValues, this.props.stripes.okapi)
       .then(idmusers => idmusers.map(idmuser => fetchFolioUser(idmuser.unilogin, this.props.stripes.okapi).then(foliouser => mergeData(idmuser, foliouser))))
@@ -46,29 +46,27 @@ class SearchIdmRoute extends React.Component {
   }
 
   render() {
-    const isCreateNewUser = this.props.location.state === 'new';
-    const formValues = getFormValues('SearchIdmForm')(this.props.stripes.store.getState()) || {};
+    const formValues = getFormValues('ChangeUBNumberForm')(this.props.stripes.store.getState()) || {};
 
     return (
-      <SearchIdm
+      <ChangeUBNumber
         handlers={{ onClose: this.handleClose }}
-        isCreateNewUser={isCreateNewUser}
         isUsersResultsEmpty={this.state.isUsersResultsEmpty}
         onSubmit={this.handleSubmit}
         renderListOfResults={this.state.renderListOfResults}
         searchValues={formValues}
         users={this.state.users}
-      />
+      >
+        {this.props.children}
+      </ChangeUBNumber>
     );
   }
 }
 
-SearchIdmRoute.propTypes = {
+ChangeUBNumberRoute.propTypes = {
+  children: PropTypes.node,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
-  }).isRequired,
-  location: PropTypes.shape({
-    state: PropTypes.string.isRequired,
   }).isRequired,
   stripes: PropTypes.shape({
     okapi: PropTypes.shape({
@@ -82,4 +80,4 @@ SearchIdmRoute.propTypes = {
   }).isRequired,
 };
 
-export default stripesConnect(SearchIdmRoute);
+export default stripesConnect(ChangeUBNumberRoute);

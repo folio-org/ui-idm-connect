@@ -9,6 +9,8 @@ import ContractViewRoute from './routes/ContractViewRoute';
 import ContractCreateRoute from './routes/ContractCreateRoute';
 import ContractEditRoute from './routes/ContractEditRoute';
 import SearchIdmRoute from './routes/SearchIdmRoute';
+import ChangeUBNumberRoute from './routes/ChangeUBNumberRoute';
+import ChangeUBNumberViewRoute from './routes/ChangeUBNumberViewRoute';
 import Settings from './settings';
 
 class IdmConnect extends React.Component {
@@ -25,10 +27,15 @@ class IdmConnect extends React.Component {
     }
     return (
       <Switch>
+        {/* <Route path={`${path}/change-ubnumber/view/:unilogin`} component={ChangeUBNumberViewRoute} />
+        <Route path={`${path}/change-ubnumber`} component={ChangeUBNumberRoute} /> */}
+        <Route path={`${path}/change-ubnumber/:unilogin?`} component={ChangeUBNumberRoute}>
+          <Route path={`${path}/change-ubnumber/view/:unilogin`} component={ChangeUBNumberViewRoute} />
+        </Route>
         <Route path={`${path}/search-idm`} component={SearchIdmRoute} />
         <Route path={`${path}/create`} component={ContractCreateRoute} />
         <Route path={`${path}/:id/edit`} component={ContractEditRoute} />
-        <Route path={`${path}`} component={ContractsRoute}>
+        <Route path={`${path}/:id?`} component={ContractsRoute}>
           <Route path={`${path}/view/:id`} component={ContractViewRoute} />
         </Route>
       </Switch>

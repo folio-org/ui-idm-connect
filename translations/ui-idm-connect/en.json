@@ -1,6 +1,8 @@
 {
   "meta.title": "IDM connect",
   "contracts": "Walk in contracts",
+  "yes": "yes",
+  "no": "no",
   "status": "Status",
   "lastname": "Last name",
   "firstname": "First name",
@@ -54,6 +56,7 @@
   "form.validate.validMailRequired": "Valid email address required!",
   "form.validate.noDollarBackslashRequired": "Required! No $ or \\ allowed!",
   "form.validate.noDollarBackslash": "No $ or \\ allowed!",
+  "form.close": "Close edit dialog",
   "form.cancel": "Cancel",
   "form.saveAndClose": "Save & close",
   "form.createTitle": "Create walk-in contract",
@@ -61,5 +64,16 @@
   "delete": "Delete",
   "delete.confirm.message": "Do you really want to delete {fullName}?",
   "new": "New",
-  "noPermission": "No permission"
+  "noPermission": "No permission",
+  "ubreadernumber.change": "Change library card number",
+  "ubreadernumber.edit": "Edit library card number",
+  "ubreadernumber.text.noChange": "Please make a change to the Libary card number.",
+  "ubreadernumber.text.updated": "The existing Library card number will be <strong>updated</strong>.",
+  "ubreadernumber.text.updated.changeInfo": "This action will change the effective Card number to <strong>4-560000001</strong>.",
+  "ubreadernumber.text.cleared": "The existing Libary card number will be <strong>deleted</strong>.",
+  "ubreadernumber.text.cleared.changeInfo": "This action will change the effective Card number to <strong>845000000000</strong>.",
+  "ubreadernumber.text.added": "A Library card number will be <strong>added</strong>.",
+  "ubreadernumber.text.added.changeInfo": "This action will change the effective Card number to <strong>4-560000099</strong>.",
+  "ubreadernumber.update.success": "Library card number has been successfully updated.",
+  "ubreadernumber.update.error": "An error occurred while updating library card number {error}"
 }
