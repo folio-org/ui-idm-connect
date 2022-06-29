@@ -82,7 +82,7 @@ class ChangeUBNumberView extends React.Component {
       // Warning yellow: existing value is cleared
       // should change the effective Card number to 845000000000
       return (
-        <MessageBanner type="warning">
+        <MessageBanner type="warning" id="msg-ubreadernumber-cleared">
           <FormattedMessage id="ui-idm-connect.ubreadernumber.text.cleared" /><br />
           <FormattedMessage id="ui-idm-connect.ubreadernumber.text.cleared.changeInfo" />
         </MessageBanner>
@@ -91,7 +91,7 @@ class ChangeUBNumberView extends React.Component {
       // Success green: existing value is changed
       // should change the effective Card number to 4-560000001
       return (
-        <MessageBanner type="success">
+        <MessageBanner type="success" id="msg-ubreadernumber-updated">
           <FormattedMessage id="ui-idm-connect.ubreadernumber.text.updated" /><br />
           <FormattedMessage id="ui-idm-connect.ubreadernumber.text.updated.changeInfo" />
         </MessageBanner>
@@ -100,7 +100,7 @@ class ChangeUBNumberView extends React.Component {
       // Success green: value is added
       // should change the effective Card number to 4-560000099
       return (
-        <MessageBanner type="success">
+        <MessageBanner type="success" id="msg-ubreadernumber-added">
           <FormattedMessage id="ui-idm-connect.ubreadernumber.text.added" /><br />
           <FormattedMessage id="ui-idm-connect.ubreadernumber.text.added.changeInfo" />
         </MessageBanner>
