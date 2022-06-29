@@ -80,26 +80,29 @@ class ChangeUBNumberView extends React.Component {
 
     if (!noChange && (Object.keys(values).length === 0) && initialUBReaderNumber) {
       // Warning yellow: existing value is cleared
-      // TODO: change the effective Card number to 845000000000."
+      // should change the effective Card number to 845000000000
       return (
         <MessageBanner type="warning">
-          <FormattedMessage id="ui-idm-connect.ubreadernumber.text.cleared" />
+          <FormattedMessage id="ui-idm-connect.ubreadernumber.text.cleared" /><br />
+          <FormattedMessage id="ui-idm-connect.ubreadernumber.text.cleared.changeInfo" />
         </MessageBanner>
       );
     } else if (!noChange && Object.keys(values).length > 0 && initialUBReaderNumber) {
       // Success green: existing value is changed
-      // TODO: change the effective Card number to 4-560000001."
+      // should change the effective Card number to 4-560000001
       return (
         <MessageBanner type="success">
-          <FormattedMessage id="ui-idm-connect.ubreadernumber.text.updated" />
+          <FormattedMessage id="ui-idm-connect.ubreadernumber.text.updated" /><br />
+          <FormattedMessage id="ui-idm-connect.ubreadernumber.text.updated.changeInfo" />
         </MessageBanner>
       );
     } else if (!noChange && Object.keys(values).length > 0 && _.isEmpty(initialUBReaderNumber)) {
       // Success green: value is added
-      // TODO: change the effective Card number to 4-560000099."
+      // should change the effective Card number to 4-560000099
       return (
         <MessageBanner type="success">
-          <FormattedMessage id="ui-idm-connect.ubreadernumber.text.added" />
+          <FormattedMessage id="ui-idm-connect.ubreadernumber.text.added" /><br />
+          <FormattedMessage id="ui-idm-connect.ubreadernumber.text.added.changeInfo" />
         </MessageBanner>
       );
     } else if (noChange) {
