@@ -40,9 +40,14 @@ describe('Change ub number view - detail', () => {
 
   it('should change the message when enter a UB card number', () => {
     const inputChangeUbNumber = document.querySelector('#field-change-ub-number');
+    const saveAndCloseButton = screen.getByRole('button', { name: 'Save & close' });
     expect(inputChangeUbNumber).toBeInTheDocument();
+    expect(saveAndCloseButton).toHaveAttribute('disabled');
     expect(screen.getByText('Please make a change to the Libary card number.')).toBeInTheDocument();
     userEvent.type(inputChangeUbNumber, '0015U0016954');
     expect(document.querySelector('#msg-ubreadernumber-added')).toBeInTheDocument();
+    expect(saveAndCloseButton).not.toHaveAttribute('disabled');
+    userEvent.click(saveAndCloseButton);
+    expect(onSubmit).toHaveBeenCalled();
   });
 });
