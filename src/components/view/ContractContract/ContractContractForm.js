@@ -38,6 +38,7 @@ class ContractContractForm extends React.Component {
             />
           </Col>
           <Col xs={3}>
+            {/* TODO: change libraryCard to UBReaderNumber https://issues.folio.org/browse/UIIDM-29 */}
             <Field
               component={TextField}
               id="addcontract_libraryCard"
