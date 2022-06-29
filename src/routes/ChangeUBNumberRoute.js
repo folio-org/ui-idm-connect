@@ -11,7 +11,7 @@ import {
 
 import urls from '../components/DisplayUtils/urls';
 import ChangeUBNumber from '../components/view/SearchIdm/ChangeUBNumber/ChangeUBNumber';
-import { fetchFolioUser, fetchIdmUser } from '../util/handler';
+import { fetchFolioUser, fetchIdmUser, mergeData } from '../util/handler';
 
 class ChangeUBNumberRoute extends React.Component {
   static contextType = CalloutContext;
@@ -33,17 +33,12 @@ class ChangeUBNumberRoute extends React.Component {
     });
   };
 
-  mergeData = (idmUser, folioUsers) => {
-    idmUser.folioUsers = folioUsers;
-    return idmUser;
-  }
-
   handleSubmit = (e) => {
     e.preventDefault();
     const formValues = getFormValues('ChangeUBNumberForm')(this.props.stripes.store.getState()) || {};
 
     fetchIdmUser(formValues, this.props.stripes.okapi)
-      .then(idmusers => idmusers.map(idmuser => fetchFolioUser(idmuser.unilogin, this.props.stripes.okapi).then(foliouser => this.mergeData(idmuser, foliouser))))
+      .then(idmusers => idmusers.map(idmuser => fetchFolioUser(idmuser.unilogin, this.props.stripes.okapi).then(foliouser => mergeData(idmuser, foliouser))))
       .then(promises => Promise.all(promises))
       .then(result => {
         this.setState(() => ({

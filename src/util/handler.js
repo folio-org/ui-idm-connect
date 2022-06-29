@@ -39,4 +39,9 @@ const fetchIdmUser = (formValues, okapi) => {
   });
 };
 
-export { fetchFolioUser, fetchIdmUser };
+const mergeData = (idmUser, folioUsers) => {
+  idmUser.folioUsers = folioUsers;
+  return idmUser;
+}
+
+export { fetchFolioUser, fetchIdmUser, mergeData };
