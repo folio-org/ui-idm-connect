@@ -10,7 +10,7 @@ import {
 
 import urls from '../components/DisplayUtils/urls';
 import ChangeUBNumberView from '../components/view/SearchIdm/ChangeUBNumber/ChangeUBNumberView';
-import getInitialValues from '../components/view/SearchIdm/ChangeUBNumber/Helper';
+import getInitialValues from '../components/view/SearchIdm/ChangeUBNumber/getInitialValues';
 
 class ChangeUBNumberViewRoute extends React.Component {
   static propTypes = {
@@ -64,20 +64,17 @@ class ChangeUBNumberViewRoute extends React.Component {
             type: 'success',
             message: <FormattedMessage id="ui-idm-connect.ubreadernumber.update.success" />,
           });
-          // return response.json();
         } else {
           this.context.sendCallout({
             type: 'error',
             message: <FormattedMessage id="ui-idm-connect.ubreadernumber.update.error" values={{ error: '' }} />,
           });
-          // return Promise.reject(response);
         }
       }).catch((err) => {
         this.context.sendCallout({
           type: 'error',
           message: <FormattedMessage id="ui-idm-connect.ubreadernumber.update.error" values={{ error: err.statusText }} />,
         });
-        // return Promise.reject(err);
       });
     }
     return null;

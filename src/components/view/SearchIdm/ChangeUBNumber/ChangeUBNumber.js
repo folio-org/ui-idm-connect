@@ -122,7 +122,7 @@ class ChangeUBNumber extends React.Component {
     return '';
   }
 
-  onRowClick(e, item) {
+  onRowClick(_e, item) {
     localStorage.setItem('idmConnectChangeUBNumber', JSON.stringify(item));
 
     this.props.history.push(urls.changeUBNumberView(item.unilogin));

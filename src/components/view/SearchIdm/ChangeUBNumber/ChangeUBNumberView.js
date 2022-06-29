@@ -17,7 +17,7 @@ import {
   TextField,
 } from '@folio/stripes/components';
 
-import getInitialValues from './Helper';
+import getInitialValues from './getInitialValues';
 
 class ChangeUBNumberView extends React.Component {
   static propTypes = {
@@ -204,8 +204,6 @@ class ChangeUBNumberView extends React.Component {
 }
 
 export default stripesFinalForm({
-  // initialValuesEqual: (a, b) => _.isEqual(a, b),
-  // enableReinitialize: true,
   subscription: {
     values: true,
     invalid: true,
