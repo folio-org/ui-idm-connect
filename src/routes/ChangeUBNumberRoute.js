@@ -2,20 +2,14 @@ import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { getFormValues } from 'redux-form';
-import { FormattedMessage } from 'react-intl';
 
-import {
-  CalloutContext,
-  stripesConnect,
-} from '@folio/stripes/core';
+import { stripesConnect } from '@folio/stripes/core';
 
 import urls from '../components/DisplayUtils/urls';
 import ChangeUBNumber from '../components/view/SearchIdm/ChangeUBNumber/ChangeUBNumber';
 import { fetchFolioUser, fetchIdmUser, mergeData } from '../util/handler';
 
 class ChangeUBNumberRoute extends React.Component {
-  static contextType = CalloutContext;
-
   constructor(props) {
     super(props);
 
@@ -25,13 +19,6 @@ class ChangeUBNumberRoute extends React.Component {
       isUsersResultsEmpty: false,
     };
   }
-
-  sendCallout = (type, msg) => {
-    this.context.sendCallout({
-      type,
-      message: (<FormattedMessage id="ui-idm-connect.searchIdm.error" values={{ msg }} />),
-    });
-  };
 
   handleSubmit = (e) => {
     e.preventDefault();
