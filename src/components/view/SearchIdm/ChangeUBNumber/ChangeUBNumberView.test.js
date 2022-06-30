@@ -33,12 +33,12 @@ describe('Change ub number view - detail', () => {
     expect(screen.getByText('Edit library card number')).toBeInTheDocument();
   });
 
-  it('should show input field for changing UB card number', () => {
+  it('should show input field for changing Library card number', () => {
     const inputChangeUbNumber = document.querySelector('#field-change-ub-number');
     expect(inputChangeUbNumber).toBeInTheDocument();
   });
 
-  it('should change the message when enter a UB card number', () => {
+  it('should change the message when enter a Library card number', () => {
     const inputChangeUbNumber = document.querySelector('#field-change-ub-number');
     const saveAndCloseButton = screen.getByRole('button', { name: 'Save & close' });
     expect(inputChangeUbNumber).toBeInTheDocument();
