@@ -86,9 +86,9 @@ describe('Search IDM - with results', () => {
     expect(screen.getByText('UL affiliation')).toBeVisible();
     expect(screen.getByText('UB role')).toBeVisible();
     expect(screen.getByText('FOLIO user')).toBeVisible();
-    expect(screen.getByText('Card number')).toBeVisible();
+    expect(screen.getByText('Active card')).toBeVisible();
     expect(screen.getByText('Uni card number')).toBeVisible();
-    expect(screen.getByText('UB card number')).toBeVisible();
+    expect(screen.getByText('Library card number')).toBeVisible();
   });
 
   it('should be no folio user available', () => {
