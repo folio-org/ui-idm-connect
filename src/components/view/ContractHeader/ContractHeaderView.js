@@ -40,7 +40,6 @@ class ContractHeaderView extends React.Component {
               />
             </Col>
             <Col xs={4}>
-              {/* TODO: change libraryCard to UBReaderNumber https://issues.folio.org/browse/UIIDM-29 */}
               <KeyValue
                 label={<FormattedMessage id="ui-idm-connect.libraryCard" />}
                 value={_.get(contract, 'libraryCard', <NoValue />)}
