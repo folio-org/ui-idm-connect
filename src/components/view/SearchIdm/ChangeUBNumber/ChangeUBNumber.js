@@ -1,11 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link, withRouter } from 'react-router-dom';
-import {
-  FormattedDate,
-  FormattedMessage,
-} from 'react-intl';
-import moment from 'moment';
+import { withRouter } from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
 
 import stripesForm from '@folio/stripes/form';
 import {
@@ -19,7 +15,7 @@ import {
 
 import urls from '../../../DisplayUtils/urls';
 import SearchFields from '../SearchFields';
-import { basisColumns, columnMapping, columnWidths } from '../Format';
+import { basisColumns, columnMapping, columnWidths, basicResultsFormatter } from '../Format';
 import css from '../SearchIdmStyles.css';
 
 let newContractInitialValues = '';
@@ -90,34 +86,6 @@ class ChangeUBNumber extends React.Component {
     return <PaneFooter renderStart={startButton} />;
   }
 
-  resultsFormatter = {
-    readerNumber: users => users.readerNumber,
-    unilogin: users => users.unilogin,
-    surname: users => users.surname,
-    givenname: users => users.givenname,
-    dateOfBirth: users => <FormattedDate value={moment(users.dateOfBirth).format('YYYY-MM-DD')} timeZone="UTC" />,
-    accountState: users => users.accountState,
-    ULAffiliation: users => users.ULAffiliation,
-    cardReaderNumber: users => users.cardReaderNumber,
-    UBReaderNumber: users => users.UBReaderNumber,
-    UBRole: users => (users.UBRole ? '✓' : '-'),
-    FOLIOUser: users => {
-      let folioUser = '';
-      if (users.folioUsers) {
-        if (users.folioUsers.totalRecords === 1) {
-          const folioUserName = `${users.folioUsers.users[0].personal.lastName}, ${users.folioUsers.users[0].personal.firstName}`;
-          const folioUserId = users.folioUsers.users[0].id;
-          folioUser = <Link to={{ pathname: `${urls.userView(folioUserId)}` }} target="_blank">{folioUserName}</Link>;
-        } else if (users.folioUsers.totalRecords > 1) {
-          folioUser = <><FormattedMessage id="ui-idm-connect.warning" />:&nbsp;<Link to={{ pathname: `${urls.userSearch(users.unilogin)}` }} target="_blank"><FormattedMessage id="ui-idm-connect.searchIdm.multipleFolioUser" /></Link></>;
-        } else {
-          folioUser = <FormattedMessage id="ui-idm-connect.searchIdm.noFolioUser" />;
-        }
-      }
-      return folioUser;
-    },
-  };
-
   onSelectRow() {
     return '';
   }
@@ -153,7 +121,7 @@ class ChangeUBNumber extends React.Component {
                   columnMapping={columnMapping}
                   columnWidths={columnWidths}
                   contentData={this.props.users}
-                  formatter={this.resultsFormatter}
+                  formatter={basicResultsFormatter}
                   id="change-ubnumber-list-users"
                   interactive
                   visibleColumns={visibleColumns}
