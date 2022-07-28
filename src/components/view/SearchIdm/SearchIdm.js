@@ -148,7 +148,7 @@ class SearchIdm extends React.Component {
     ULAffiliation: users => users.ULAffiliation,
     cardReaderNumber: users => users.cardReaderNumber,
     UBReaderNumber: users => users.UBReaderNumber,
-    UBRole: users => users.UBRole,
+    UBRole: users => (users.UBRole ? '✓' : '-'),
     FOLIOUser: users => {
       let folioUser = '';
       if (users.folioUsers) {
