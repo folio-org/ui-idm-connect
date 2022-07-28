@@ -40,6 +40,7 @@ class ContractContractForm extends React.Component {
           <Col xs={3}>
             <Field
               component={TextField}
+              disabled={this.props.disableLibraryCard}
               id="addcontract_libraryCard"
               label={<FormattedMessage id="ui-idm-connect.libraryCard" />}
               name="libraryCard"
@@ -62,6 +63,7 @@ class ContractContractForm extends React.Component {
 
 ContractContractForm.propTypes = {
   accordionId: PropTypes.string.isRequired,
+  disableLibraryCard: PropTypes.bool,
   expanded: PropTypes.bool,
   onToggle: PropTypes.func,
 };
