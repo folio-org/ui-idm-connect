@@ -1,5 +1,9 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
+import { FormattedMessage, FormattedDate } from 'react-intl';
+import moment from 'moment';
+
+import urls from '../../DisplayUtils/urls';
 
 const columnWidths = {
   readerNumber: 120,
@@ -31,6 +35,34 @@ const columnMapping = {
   isChecked: '',
 };
 
+const basicResultsFormatter = {
+  readerNumber: users => users.readerNumber,
+  unilogin: users => users.unilogin,
+  surname: users => users.surname,
+  givenname: users => users.givenname,
+  dateOfBirth: users => <FormattedDate value={moment(users.dateOfBirth).format('YYYY-MM-DD')} timeZone="UTC" />,
+  accountState: users => users.accountState,
+  ULAffiliation: users => users.ULAffiliation,
+  cardReaderNumber: users => users.cardReaderNumber,
+  UBReaderNumber: users => users.UBReaderNumber,
+  UBRole: users => (users.UBRole ? '✓' : '-'),
+  FOLIOUser: users => {
+    let folioUser = '';
+    if (users.folioUsers) {
+      if (users.folioUsers.totalRecords === 1) {
+        const folioUserName = `${users.folioUsers.users[0].personal.lastName}, ${users.folioUsers.users[0].personal.firstName}`;
+        const folioUserId = users.folioUsers.users[0].id;
+        folioUser = <Link to={{ pathname: `${urls.userView(folioUserId)}` }} target="_blank">{folioUserName}</Link>;
+      } else if (users.folioUsers.totalRecords > 1) {
+        folioUser = <><FormattedMessage id="ui-idm-connect.warning" />:&nbsp;<Link to={{ pathname: `${urls.userSearch(users.unilogin)}` }} target="_blank"><FormattedMessage id="ui-idm-connect.searchIdm.multipleFolioUser" /></Link></>;
+      } else {
+        folioUser = <FormattedMessage id="ui-idm-connect.searchIdm.noFolioUser" />;
+      }
+    }
+    return folioUser;
+  },
+};
+
 const basisColumns = ['readerNumber', 'unilogin', 'surname', 'givenname', 'dateOfBirth', 'accountState', 'ULAffiliation', 'cardReaderNumber', 'UBReaderNumber'];
 
-export { basisColumns, columnMapping, columnWidths };
+export { basisColumns, columnMapping, columnWidths, basicResultsFormatter };
