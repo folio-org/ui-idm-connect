@@ -25,6 +25,7 @@ import ContractCommentForm from './ContractComment/ContractCommentForm';
 
 class ContractsForm extends React.Component {
   static propTypes = {
+    disableLibraryCard: PropTypes.bool,
     handlers: PropTypes.PropTypes.shape({
       onClose: PropTypes.func.isRequired,
     }),
@@ -167,6 +168,7 @@ class ContractsForm extends React.Component {
                   accordionId="editContractAccordion"
                   expanded={accordions.editContractAccordion}
                   onToggle={this.handleSectionToggle}
+                  disableLibraryCard={this.props.disableLibraryCard}
                 />
                 <ContractContactForm
                   accordionId="editContactAccordion"

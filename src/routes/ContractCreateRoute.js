@@ -93,6 +93,7 @@ class ContractCreateRoute extends React.Component {
         handlers={{ onClose: this.handleClose }}
         initialValues={adaptedInitialValues}
         onSubmit={this.handleSubmit}
+        disableLibraryCard={false}
       />
     );
   }

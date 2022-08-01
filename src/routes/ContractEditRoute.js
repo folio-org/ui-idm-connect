@@ -72,6 +72,7 @@ class ContractEditRoute extends React.Component {
         handlers={{ onClose: this.handleClose }}
         initialValues={_.get(this.props.resources, 'contracts.records', []).find(i => i.id === this.props.match.params.id)}
         onSubmit={this.handleSubmit}
+        disableLibraryCard
       />
     );
   }
