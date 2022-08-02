@@ -78,31 +78,35 @@ class ChangeUBNumberView extends React.Component {
 
     const noChange = pristine || invalid;
 
+    const adaptedInitialValues = getInitialValues();
+    const uniCardNumber = _.get(adaptedInitialValues, 'cardReaderNumber', <NoValue />);
+    const libraryCardNumber = values?.UBReaderNumber ?? <NoValue />;
+
     if (!noChange && (Object.keys(values).length === 0) && initialUBReaderNumber) {
       // Warning yellow: existing value is cleared
-      // should change the effective Card number to 845000000000
+      // should change the effective Card number to uni card number
       return (
         <MessageBanner type="warning" id="msg-ubreadernumber-cleared">
           <FormattedMessage id="ui-idm-connect.ubreadernumber.text.cleared" /><br />
-          <FormattedMessage id="ui-idm-connect.ubreadernumber.text.cleared.changeInfo" />
+          <FormattedMessage id="ui-idm-connect.ubreadernumber.text.cleared.changeInfo" values={{ uniCardNumber }} />
         </MessageBanner>
       );
     } else if (!noChange && Object.keys(values).length > 0 && initialUBReaderNumber) {
       // Success green: existing value is changed
-      // should change the effective Card number to 4-560000001
+      // should change the effective Card number library card number
       return (
         <MessageBanner type="success" id="msg-ubreadernumber-updated">
           <FormattedMessage id="ui-idm-connect.ubreadernumber.text.updated" /><br />
-          <FormattedMessage id="ui-idm-connect.ubreadernumber.text.updated.changeInfo" />
+          <FormattedMessage id="ui-idm-connect.ubreadernumber.text.updated.changeInfo" values={{ libraryCardNumber }} />
         </MessageBanner>
       );
     } else if (!noChange && Object.keys(values).length > 0 && _.isEmpty(initialUBReaderNumber)) {
       // Success green: value is added
-      // should change the effective Card number to 4-560000099
+      // should change the effective Card number to uni card number
       return (
         <MessageBanner type="success" id="msg-ubreadernumber-added">
           <FormattedMessage id="ui-idm-connect.ubreadernumber.text.added" /><br />
-          <FormattedMessage id="ui-idm-connect.ubreadernumber.text.added.changeInfo" />
+          <FormattedMessage id="ui-idm-connect.ubreadernumber.text.added.changeInfo" values={{ libraryCardNumber }} />
         </MessageBanner>
       );
     } else if (noChange) {
