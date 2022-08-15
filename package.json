@@ -72,7 +72,7 @@
     ],
     "displayName": "ui-idm-connect.meta.title",
     "route": "/idm-connect",
-    "home": "/idm-connect",
+    "home": "/idm-connect?filters=status.updated&sort=lastName",
     "queryResource": "query",
     "okapiInterfaces": {
       "idm-connect": "1.0",
