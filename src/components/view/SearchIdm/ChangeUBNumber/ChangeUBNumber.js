@@ -104,7 +104,7 @@ class ChangeUBNumber extends React.Component {
     if (!isUsersResultsEmpty) {
       return (
         <div style={{ height: '85%' }}>
-          <Paneset nested>
+          <Paneset nested isRoot>
             <Pane defaultWidth="fill">
               <Card
                 id="search-idm-results-card"
