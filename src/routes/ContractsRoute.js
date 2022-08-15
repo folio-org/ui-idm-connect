@@ -43,7 +43,13 @@ class ContractsRoute extends React.Component {
         staticFallback: { params: {} },
       },
     },
-    query: { initialValue: {} },
+    query: {
+      initialValue: {
+        query: '',
+        filters: 'status.updated',
+        sort: 'lastName'
+      }
+    },
     resultCount: { initialValue: INITIAL_RESULT_COUNT },
   });
 
