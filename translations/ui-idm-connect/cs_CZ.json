@@ -67,13 +67,13 @@
     "form.close": "Zavřít dialogové okno úprav",
     "ubreadernumber.change": "Změňte číslo čtenářského průkazu",
     "ubreadernumber.edit": "Upravit číslo čtenářského průkazu",
-    "ubreadernumber.text.noChange": "Proveďte prosím změnu čísla karty knihovny.",
+    "ubreadernumber.text.noChange": "Změňte prosím číslo čtenářského průkazu.",
     "ubreadernumber.text.updated": "Stávající číslo čtenářského průkazu bude <strong>aktualizováno</strong>.",
-    "ubreadernumber.text.updated.changeInfo": "Tato akce změní platné číslo karty na <strong>4-560000001</strong>.",
-    "ubreadernumber.text.cleared": "Stávající číslo karty Libary bude <strong>vymazáno</strong>.",
-    "ubreadernumber.text.cleared.changeInfo": "Tato akce změní platné číslo karty na <strong>845000000000</strong> .",
+    "ubreadernumber.text.updated.changeInfo": "Tato akce změní aktivní kartu na <strong>{libraryCardNumber}</strong>.",
+    "ubreadernumber.text.cleared": "Stávající číslo čtenářského průkazu bude <strong>vymazáno</strong>.",
+    "ubreadernumber.text.cleared.changeInfo": "Tato akce změní aktivní kartu na <strong>{uniCardNumber}</strong>.",
     "ubreadernumber.text.added": "Číslo čtenářského průkazu bude <strong>přidáno</strong>.",
-    "ubreadernumber.text.added.changeInfo": "Tato akce změní platné číslo karty na <strong>4-560000099</strong>.",
+    "ubreadernumber.text.added.changeInfo": "Tato akce změní aktivní kartu na <strong>{libraryCardNumber}</strong>.",
     "ubreadernumber.update.success": "Číslo čtenářského průkazu bylo úspěšně aktualizováno.",
     "ubreadernumber.update.error": "Při aktualizaci čísla čtenářského průkazu došlo k chybě {error}"
 }
