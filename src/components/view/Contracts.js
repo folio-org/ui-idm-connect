@@ -140,7 +140,7 @@ class Contracts extends React.Component {
   getActionMenu = () => ({ onToggle }) => {
     return (
       <>
-        <FormattedMessage id="ui-idm-connect.searchIdm">
+        <FormattedMessage id="ui-idm-connect.searchIdm.title">
           {ariaLabel => (
             <Button
               aria-label={ariaLabel}
@@ -155,7 +155,7 @@ class Contracts extends React.Component {
                 onToggle();
               }}
             >
-              <FormattedMessage id="ui-idm-connect.searchIdm" />
+              <FormattedMessage id="ui-idm-connect.searchIdm.title" />
             </Button>
           )}
         </FormattedMessage>

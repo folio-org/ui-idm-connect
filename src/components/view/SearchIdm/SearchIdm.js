@@ -201,6 +201,7 @@ class SearchIdm extends React.Component {
     const {
       handlers: { onClose },
       invalid,
+      isCreateNewUser,
       onSubmit,
       pristine,
       submitting,
@@ -216,7 +217,9 @@ class SearchIdm extends React.Component {
               footer={this.renderPaneFooter()}
               id="pane-search-idm-form"
               onClose={onClose}
-              paneTitle={<FormattedMessage id="ui-idm-connect.searchIdm.title" />}
+              // TODO: change title to:
+              // New: (1) Search IDM
+              paneTitle={isCreateNewUser ? <FormattedMessage id="ui-idm-connect.searchIdm.title.new" /> : <FormattedMessage id="ui-idm-connect.searchIdm.title" />}
             >
               <SearchFields
                 dateOfBirth={this.state.dateOfBirth}

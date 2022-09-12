@@ -48,7 +48,7 @@ describe('Search IDM - without results', () => {
   });
 
   it('should show pane title', () => {
-    expect(screen.getByText('IDM Search')).toBeInTheDocument();
+    expect(screen.getByText('Search IDM')).toBeInTheDocument();
   });
 
   it('should show input fields', () => {

@@ -43,7 +43,7 @@ describe('Change ub number view - detail', () => {
     const saveAndCloseButton = screen.getByRole('button', { name: 'Save & close' });
     expect(inputChangeUbNumber).toBeInTheDocument();
     expect(saveAndCloseButton).toHaveAttribute('disabled');
-    expect(screen.getByText('Please make a change to the libary card number.')).toBeInTheDocument();
+    expect(screen.getByText('Please make a change to the library card number.')).toBeInTheDocument();
     userEvent.type(inputChangeUbNumber, '0015U0016954');
     expect(document.querySelector('#msg-ubreadernumber-added')).toBeInTheDocument();
     expect(saveAndCloseButton).not.toHaveAttribute('disabled');
