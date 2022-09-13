@@ -43,7 +43,7 @@ describe('SearchIdm', () => {
 
     test('renders the Search IDM component', async () => {
       const cancelButton = screen.getByRole('button', { name: 'Cancel' });
-      expect(screen.getByText('IDM Search')).toBeInTheDocument();
+      expect(screen.getByText('Search IDM')).toBeInTheDocument();
       expect(cancelButton).toBeInTheDocument();
       await userEvent.click(cancelButton);
       expect(historyPushMock).toHaveBeenCalled();

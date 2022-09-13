@@ -123,7 +123,7 @@ describe('Contracts SASQ View - rerender result list', () => {
 
     it('should be present the list of results and columns of MCL', async () => {
       expect(document.querySelector('#pane-contract-results')).toBeInTheDocument();
-      expect(screen.getByText('Walk in contracts')).toBeVisible();
+      expect(screen.getByText('Walk-in contracts')).toBeVisible();
       expect(document.querySelector('#list-column-status')).toBeInTheDocument();
       expect(screen.queryByText('Last name')).toBeInTheDocument();
       expect(screen.queryByText('First name')).toBeInTheDocument();
@@ -135,7 +135,7 @@ describe('Contracts SASQ View - rerender result list', () => {
       expect(actionButton).toBeVisible();
       userEvent.click(actionButton);
       expect(screen.getByRole('button', { name: 'Search IDM' })).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: 'Change library card number' })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: 'Change card number' })).toBeInTheDocument();
       expect(screen.getByRole('button', { name: 'New' })).toBeInTheDocument();
     });
 
@@ -169,7 +169,7 @@ describe('Contracts SASQ View - without results', () => {
   });
 
   it('should no results be visible', async () => {
-    expect(screen.getByText('Walk in contracts')).toBeVisible();
+    expect(screen.getByText('Walk-in contracts')).toBeVisible();
     expect(document.querySelectorAll('#list-contracts .mclRowContainer > [role=row]').length).toEqual(0);
   });
 });

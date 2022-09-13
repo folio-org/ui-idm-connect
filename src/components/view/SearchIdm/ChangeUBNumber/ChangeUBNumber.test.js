@@ -47,7 +47,7 @@ describe('Change ub number - without results', () => {
   });
 
   it('should show pane title', () => {
-    expect(screen.getByText('Change library card number')).toBeInTheDocument();
+    expect(screen.getByText('Change card number')).toBeInTheDocument();
   });
 
   it('should show input fields', () => {
