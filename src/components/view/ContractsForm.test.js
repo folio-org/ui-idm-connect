@@ -41,7 +41,7 @@ describe('Create new contract - without initial values', () => {
   });
 
   it('should show pane title', () => {
-    expect(screen.getByText('New: (2) Create Walk-in contract')).toBeInTheDocument();
+    expect(screen.getByText('New: (2) Create walk-in contract')).toBeInTheDocument();
   });
 
   it('should show all accordions', () => {
