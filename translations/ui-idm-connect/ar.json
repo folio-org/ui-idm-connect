@@ -24,7 +24,6 @@
     "city": "المدينة",
     "country": "البلد",
     "comment": "تعليق",
-    "searchIdm": "بحث IDM",
     "dataOption.updated": "محدّث",
     "dataOption.draft": "مسودة",
     "dataOption.pending": "قيد الانتظار",
@@ -70,10 +69,11 @@
     "ubreadernumber.text.noChange": "يرجى إجراء تغيير على رقم بطاقة المكتبة.",
     "ubreadernumber.text.updated": "سيتم <strong> تحديث </strong> رقم بطاقة المكتبة الحالي.",
     "ubreadernumber.text.updated.changeInfo": "This action will change the active card to <strong>{libraryCardNumber}</strong>.",
-    "ubreadernumber.text.cleared": "The existing libary card number will be <strong>deleted</strong>.",
+    "ubreadernumber.text.cleared": "The existing library card number will be <strong>deleted</strong>.",
     "ubreadernumber.text.cleared.changeInfo": "This action will change the active card to <strong>{uniCardNumber}</strong>.",
     "ubreadernumber.text.added": "A library card number will be <strong>added</strong>.",
     "ubreadernumber.text.added.changeInfo": "This action will change the active card to <strong>{libraryCardNumber}</strong>.",
     "ubreadernumber.update.success": "تم تحديث رقم بطاقة المكتبة بنجاح.",
-    "ubreadernumber.update.error": "حدث خطأ أثناء تحديث رقم بطاقة المكتبة {error}"
+    "ubreadernumber.update.error": "حدث خطأ أثناء تحديث رقم بطاقة المكتبة {error}",
+    "searchIdm.title.new": "New: (1) Search IDM"
 }
