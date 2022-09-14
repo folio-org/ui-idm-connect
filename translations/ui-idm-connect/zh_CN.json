@@ -24,7 +24,6 @@
     "city": "城市",
     "country": "国家",
     "comment": "备注",
-    "searchIdm": "搜索IDM",
     "dataOption.updated": "已更新",
     "dataOption.draft": "草案",
     "dataOption.pending": "等待中",
@@ -73,7 +72,8 @@
     "ubreadernumber.text.cleared": "现有的图书馆卡号将被<strong>删除</strong> 。",
     "ubreadernumber.text.cleared.changeInfo": "此操作会将有效卡更改为<strong> {uniCardNumber} </strong> 。",
     "ubreadernumber.text.added": "图书馆卡号将被<strong>添加</strong> 。",
-    "ubreadernumber.text.added.changeInfo": "本操作会将有效卡号更改为<strong> 4-560000099 </strong> 。",
+    "ubreadernumber.text.added.changeInfo": "本操作会将有效卡号更改为<strong>{libraryCardNumber}</strong> 。",
     "ubreadernumber.update.success": "图书馆卡号已成功更新。",
-    "ubreadernumber.update.error": "更新图书馆卡号时出错{error}"
+    "ubreadernumber.update.error": "更新图书馆卡号时出错{error}",
+    "searchIdm.title.new": "New: (1) Search IDM"
 }

@@ -24,7 +24,6 @@
     "city": "Cidade",
     "country": "País",
     "comment": "Comentário",
-    "searchIdm": "Pesquisar IDM",
     "dataOption.updated": "Atualizado",
     "dataOption.draft": "Rascunho",
     "dataOption.pending": "Pendente",
@@ -75,5 +74,6 @@
     "ubreadernumber.text.added": "Um número de cartão de biblioteca será <strong> adicionado </strong> .",
     "ubreadernumber.text.added.changeInfo": "Esta ação mudará o cartão ativo para <strong>{libraryCardNumber}</strong>.",
     "ubreadernumber.update.success": "O número do cartão da biblioteca foi atualizado com sucesso.",
-    "ubreadernumber.update.error": "Ocorreu um erro ao atualizar o número do cartão da biblioteca {error}"
+    "ubreadernumber.update.error": "Ocorreu um erro ao atualizar o número do cartão da biblioteca {error}",
+    "searchIdm.title.new": "New: (1) Search IDM"
 }

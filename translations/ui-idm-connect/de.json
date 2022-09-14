@@ -24,7 +24,6 @@
     "city": "Stadt",
     "country": "Land",
     "comment": "Kommentar",
-    "searchIdm": "IDM durchsuchen",
     "dataOption.updated": "Aktualisiert",
     "dataOption.draft": "Entwurf",
     "dataOption.pending": "Ausstehend",
@@ -56,7 +55,7 @@
     "form.createTitle": "Walk-in-Vertrag erstellen",
     "edit": "Bearbeiten",
     "delete": "Löschen",
-    "delete.confirm.message": "{vollerName} wirklich löschen?",
+    "delete.confirm.message": "{fullName} wirklich löschen?",
     "new": "Neu",
     "noPermission": "Keine Berechtigung",
     "yes": "ja",
@@ -69,11 +68,12 @@
     "ubreadernumber.edit": "Bibliotheksausweisnummer bearbeiten",
     "ubreadernumber.text.noChange": "Bitte ändern Sie die Nummer des Bibliotheksausweises.",
     "ubreadernumber.text.updated": "Die Nummer des bestehenden Bibliotheksausweises wird <strong>aktualisiert</strong>.",
-    "ubreadernumber.text.updated.changeInfo": "Durch diese Aktion wird die effektive Bibliotheksausweisnummer in <strong>4-560000001</strong> geändert.",
+    "ubreadernumber.text.updated.changeInfo": "Durch diese Aktion wird die effektive Bibliotheksausweisnummer in <strong>{libraryCardNumber}</strong> geändert.",
     "ubreadernumber.text.cleared": "Die bestehende Bibliotheksausweisnummer wird <strong>gelöscht</strong>.",
-    "ubreadernumber.text.cleared.changeInfo": "Durch diese Aktion wird die effektive Bibliotheksausweisnummer auf <strong>845000000000</strong> geändert.",
+    "ubreadernumber.text.cleared.changeInfo": "Durch diese Aktion wird die effektive Bibliotheksausweisnummer auf <strong>{uniCardNumber}</strong> geändert.",
     "ubreadernumber.text.added": "Eine Bibliotheksausweisnummer wird <strong> hinzugefügt </strong> .",
-    "ubreadernumber.text.added.changeInfo": "Durch diese Aktion wird die effektive Bibliotheksausweisnummer in <strong>4-560000099</strong> geändert.",
+    "ubreadernumber.text.added.changeInfo": "Durch diese Aktion wird die effektive Bibliotheksausweisnummer in <strong>{libraryCardNumber}</strong> geändert.",
     "ubreadernumber.update.success": "Die Nummer des Bibliotheksausweises wurde erfolgreich aktualisiert.",
-    "ubreadernumber.update.error": "Beim Aktualisieren der Nummer des Bibliotheksausweises ist ein Fehler aufgetreten {error}"
+    "ubreadernumber.update.error": "Beim Aktualisieren der Nummer des Bibliotheksausweises ist ein Fehler aufgetreten {error}",
+    "searchIdm.title.new": "New: (1) Search IDM"
 }
