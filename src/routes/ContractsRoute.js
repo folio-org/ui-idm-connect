@@ -161,6 +161,7 @@ class ContractsRoute extends React.Component {
         searchString={location.search}
         selectedRecordId={match.params.id}
         source={this.source}
+        stripes={this.props.stripes}
       >
         {children}
       </Contracts>
