@@ -140,25 +140,27 @@ class Contracts extends React.Component {
   getActionMenu = () => ({ onToggle }) => {
     return (
       <>
-        <FormattedMessage id="ui-idm-connect.searchIdm.title">
-          {ariaLabel => (
-            <Button
-              aria-label={ariaLabel}
-              buttonStyle="dropdownItem"
-              id="clickable-searchIdm"
-              marginBottom0
-              onClick={() => {
-                this.props.history.push({
-                  pathname: `${urls.searchIdm()}`,
-                  state: 'search'
-                });
-                onToggle();
-              }}
-            >
-              <FormattedMessage id="ui-idm-connect.searchIdm.title" />
-            </Button>
-          )}
-        </FormattedMessage>
+        <IfPermission id="ui-idm-connect.searchidm">
+          <FormattedMessage id="ui-idm-connect.searchIdm.title">
+            {ariaLabel => (
+              <Button
+                aria-label={ariaLabel}
+                buttonStyle="dropdownItem"
+                id="clickable-searchIdm"
+                marginBottom0
+                onClick={() => {
+                  this.props.history.push({
+                    pathname: `${urls.searchIdm()}`,
+                    state: 'search'
+                  });
+                  onToggle();
+                }}
+              >
+                <FormattedMessage id="ui-idm-connect.searchIdm.title" />
+              </Button>
+            )}
+          </FormattedMessage>
+        </IfPermission>
         <IfPermission perm="ui-idm-connect.ubreadernumber.all">
           <FormattedMessage id="ui-idm-connect.ubreadernumber.change">
             {ariaLabel => (
@@ -179,7 +181,7 @@ class Contracts extends React.Component {
             )}
           </FormattedMessage>
         </IfPermission>
-        <IfPermission perm="ui-idm-connect.create-edit">
+        <IfPermission perm="ui-idm-connect.create">
           <FormattedMessage id="ui-idm-connect.new">
             {ariaLabel => (
               <Button
