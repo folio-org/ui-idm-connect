@@ -170,7 +170,7 @@ class Contracts extends React.Component {
                 <Button
                   aria-label={ariaLabel}
                   buttonStyle="dropdownItem"
-                  id="clickable-new"
+                  id="clickable-changeubreadernumber"
                   marginBottom0
                   onClick={() => {
                     this.props.history.push({
