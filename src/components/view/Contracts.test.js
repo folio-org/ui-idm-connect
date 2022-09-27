@@ -2,10 +2,7 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
-// import { Button, Modal } from '@folio/stripes-testing';
 
-import { StripesContext } from '@folio/stripes-core/src/StripesContext';
-import { ModuleHierarchyProvider } from '@folio/stripes-core/src/components/ModuleHierarchy';
 import { useStripes } from '@folio/stripes/core';
 
 import '../../../test/jest/__mock__';
@@ -26,23 +23,19 @@ const sourceLoaded = { source: { pending: jest.fn(() => false), totalCount: jest
 // trigger a new list of results: source isPending has to be TRUE first, than FALSE
 const renderContracts = (stripes, props = {}, contractsData, rerender) => renderWithIntl(
   <MemoryRouter>
-    <StripesContext.Provider value={stripes}>
-      <ModuleHierarchyProvider module="@folio/idm-connect">
-        <Contracts
-          contentData={contractsData}
-          selectedRecordId=""
-          onNeedMoreData={jest.fn()}
-          queryGetter={jest.fn()}
-          querySetter={jest.fn()}
-          searchString="status.updated"
-          visibleColumns={['status', 'lastName', 'firstName', 'uniLogin']}
-          history={history}
-          onSearchComplete={onSearchComplete}
-          {...props}
-          // stripes={{ hasPerm: () => true }}
-        />
-      </ModuleHierarchyProvider>
-    </StripesContext.Provider>
+    <Contracts
+      contentData={contractsData}
+      selectedRecordId=""
+      onNeedMoreData={jest.fn()}
+      queryGetter={jest.fn()}
+      querySetter={jest.fn()}
+      searchString="status.updated"
+      visibleColumns={['status', 'lastName', 'firstName', 'uniLogin']}
+      history={history}
+      onSearchComplete={onSearchComplete}
+      stripes={stripes}
+      {...props}
+    />
   </MemoryRouter>,
   rerender
 );
@@ -174,12 +167,46 @@ describe('Contracts SASQ View - without results', () => {
   });
 });
 
-describe('Contracts SASQ View - without permission', () => {
+describe('Contracts SASQ View - permissions', () => {
+  const getActionMenu = () => document.querySelector('[data-test-pane-header-actions-button]');
+  const getMenuNew = () => document.querySelector('#clickable-new');
+  const getMenuSearch = () => document.querySelector('#clickable-searchIdm');
+  const getMenuChange = () => document.querySelector('#clickable-changeubreadernumber');
+  let stripes;
+
   beforeEach(() => {
-    renderContracts({ hasPerm: () => false }, sourceLoaded, contracts);
+    stripes = useStripes();
   });
-  it('should not display the new button', () => {
-    expect(document.querySelector('#clickable-searchIdm')).toBeInTheDocument();
-    expect(document.querySelector('#clickable-new')).not.toBeInTheDocument();
+
+  test('no permission', () => {
+    renderContracts({ ...stripes, hasPerm: () => false }, sourceLoaded, contracts);
+    expect(getActionMenu()).toBeNull();
+    expect(getMenuNew()).not.toBeInTheDocument();
+    expect(getMenuSearch()).not.toBeInTheDocument();
+    expect(getMenuChange()).not.toBeInTheDocument();
+  });
+
+  test('searchidm permission', () => {
+    renderContracts({ ...stripes, hasPerm: (p) => (p === 'ui-idm-connect.searchidm') }, sourceLoaded, contracts);
+    expect(getActionMenu()).toBeVisible();
+    expect(getMenuNew()).not.toBeInTheDocument();
+    expect(getMenuSearch()).toBeInTheDocument();
+    expect(getMenuChange()).not.toBeInTheDocument();
+  });
+
+  test('changeubreadernumber permission', () => {
+    renderContracts({ ...stripes, hasPerm: (p) => (p === 'ui-idm-connect.changeubreadernumber') }, sourceLoaded, contracts);
+    expect(getActionMenu()).toBeVisible();
+    expect(getMenuNew()).not.toBeInTheDocument();
+    expect(getMenuSearch()).not.toBeInTheDocument();
+    expect(getMenuChange()).toBeInTheDocument();
+  });
+
+  test('create permission', () => {
+    renderContracts({ ...stripes, hasPerm: (p) => (p === 'ui-idm-connect.create') }, sourceLoaded, contracts);
+    expect(getActionMenu()).toBeVisible();
+    expect(getMenuNew()).toBeInTheDocument();
+    expect(getMenuSearch()).not.toBeInTheDocument();
+    expect(getMenuChange()).not.toBeInTheDocument();
   });
 });

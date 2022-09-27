@@ -9,7 +9,6 @@ import {
   injectIntl,
   FormattedMessage,
 } from 'react-intl';
-
 import {
   CollapseFilterPaneButton,
   ExpandFilterPaneButton,
@@ -25,10 +24,7 @@ import {
   Paneset,
   SearchField,
 } from '@folio/stripes/components';
-import {
-  AppIcon,
-  IfPermission,
-} from '@folio/stripes/core';
+import { AppIcon } from '@folio/stripes/core';
 
 import urls from '../DisplayUtils/urls';
 import ContractsFilters from './ContractsFilters';
@@ -52,6 +48,9 @@ class Contracts extends React.Component {
     selectedRecordId: PropTypes.string,
     source: PropTypes.object,
     syncToLocationSearch: PropTypes.bool,
+    stripes: PropTypes.shape({
+      hasPerm: PropTypes.func.isRequired,
+    })
   };
 
   static defaultProps = {
@@ -138,70 +137,79 @@ class Contracts extends React.Component {
   }
 
   getActionMenu = () => ({ onToggle }) => {
-    return (
-      <>
-        <FormattedMessage id="ui-idm-connect.searchIdm.title">
-          {ariaLabel => (
-            <Button
-              aria-label={ariaLabel}
-              buttonStyle="dropdownItem"
-              id="clickable-searchIdm"
-              marginBottom0
-              onClick={() => {
-                this.props.history.push({
-                  pathname: `${urls.searchIdm()}`,
-                  state: 'search'
-                });
-                onToggle();
-              }}
-            >
-              <FormattedMessage id="ui-idm-connect.searchIdm.title" />
-            </Button>
+    const canSearch = this.props.stripes.hasPerm('ui-idm-connect.searchidm');
+    const canChange = this.props.stripes.hasPerm('ui-idm-connect.changeubreadernumber');
+    const canCreate = this.props.stripes.hasPerm('ui-idm-connect.create');
+    if (canSearch || canCreate || canChange) {
+      return (
+        <>
+          { canSearch && (
+            <FormattedMessage id="ui-idm-connect.searchIdm.title">
+              {ariaLabel => (
+                <Button
+                  aria-label={ariaLabel}
+                  buttonStyle="dropdownItem"
+                  id="clickable-searchIdm"
+                  marginBottom0
+                  onClick={() => {
+                    this.props.history.push({
+                      pathname: `${urls.searchIdm()}`,
+                      state: 'search'
+                    });
+                    onToggle();
+                  }}
+                >
+                  <FormattedMessage id="ui-idm-connect.searchIdm.title" />
+                </Button>
+              )}
+            </FormattedMessage>
           )}
-        </FormattedMessage>
-        <IfPermission perm="ui-idm-connect.ubreadernumber.all">
-          <FormattedMessage id="ui-idm-connect.ubreadernumber.change">
-            {ariaLabel => (
-              <Button
-                aria-label={ariaLabel}
-                buttonStyle="dropdownItem"
-                id="clickable-new"
-                marginBottom0
-                onClick={() => {
-                  this.props.history.push({
-                    pathname: `${urls.changeUBNumber()}`,
-                  });
-                  onToggle();
-                }}
-              >
-                <FormattedMessage id="ui-idm-connect.ubreadernumber.change" />
-              </Button>
-            )}
-          </FormattedMessage>
-        </IfPermission>
-        <IfPermission perm="ui-idm-connect.create-edit">
-          <FormattedMessage id="ui-idm-connect.new">
-            {ariaLabel => (
-              <Button
-                aria-label={ariaLabel}
-                buttonStyle="dropdownItem"
-                id="clickable-new"
-                marginBottom0
-                onClick={() => {
-                  this.props.history.push({
-                    pathname: `${urls.searchIdm()}`,
-                    state: 'new'
-                  });
-                  onToggle();
-                }}
-              >
-                <FormattedMessage id="ui-idm-connect.new" />
-              </Button>
-            )}
-          </FormattedMessage>
-        </IfPermission>
-      </>
-    );
+          { canChange && (
+            <FormattedMessage id="ui-idm-connect.ubreadernumber.change">
+              {ariaLabel => (
+                <Button
+                  aria-label={ariaLabel}
+                  buttonStyle="dropdownItem"
+                  id="clickable-changeubreadernumber"
+                  marginBottom0
+                  onClick={() => {
+                    this.props.history.push({
+                      pathname: `${urls.changeUBNumber()}`,
+                    });
+                    onToggle();
+                  }}
+                >
+                  <FormattedMessage id="ui-idm-connect.ubreadernumber.change" />
+                </Button>
+              )}
+            </FormattedMessage>
+          )}
+          { canCreate && (
+            <FormattedMessage id="ui-idm-connect.new">
+              {ariaLabel => (
+                <Button
+                  aria-label={ariaLabel}
+                  buttonStyle="dropdownItem"
+                  id="clickable-new"
+                  marginBottom0
+                  onClick={() => {
+                    this.props.history.push({
+                      pathname: `${urls.searchIdm()}`,
+                      state: 'new'
+                    });
+                    onToggle();
+                  }}
+                >
+                  <FormattedMessage id="ui-idm-connect.new" />
+                </Button>
+              )}
+            </FormattedMessage>
+          )}
+        </>
+      );
+    } else {
+      return null;
+    }
   }
 
   renderIsEmptyMessage = (query, source) => {
