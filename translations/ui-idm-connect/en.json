@@ -68,6 +68,7 @@
   "ubreadernumber.change": "Change card number",
   "ubreadernumber.edit": "Edit library card number",
   "ubreadernumber.text.noChange": "Please make a change to the library card number.",
+  "ubreadernumber.text.statusNotActive": "No active contract. Account status = <strong>{accountState}</strong>. Please resolve contract status.",
   "ubreadernumber.text.updated": "The existing library card number will be <strong>updated</strong>.",
   "ubreadernumber.text.updated.changeInfo": "This action will change the active card to <strong>{libraryCardNumber}</strong>.",
   "ubreadernumber.text.cleared": "The existing library card number will be <strong>deleted</strong>.",
