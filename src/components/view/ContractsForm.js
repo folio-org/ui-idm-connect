@@ -32,6 +32,7 @@ class ContractsForm extends React.Component {
     handleSubmit: PropTypes.func.isRequired,
     initialValues: PropTypes.object,
     invalid: PropTypes.bool,
+    isEditContract: PropTypes.bool,
     isLoading: PropTypes.bool,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
@@ -127,9 +128,10 @@ class ContractsForm extends React.Component {
   }
 
   render() {
-    const { initialValues, isLoading, handleSubmit } = this.props;
+    const { initialValues, isLoading, handleSubmit, isEditContract } = this.props;
     const { accordions } = this.state;
-    const paneTitle = initialValues.uniLogin ? `${initialValues.personal.lastName}, ${initialValues.personal.firstName}` : <FormattedMessage id="ui-idm-connect.form.createTitle" />;
+    const paneTitleEdit = initialValues.uniLogin ? `${initialValues.personal.lastName}, ${initialValues.personal.firstName}` : <FormattedMessage id="ui-idm-connect.form.createTitle" />;
+    const paneTitleCreate = <FormattedMessage id="ui-idm-connect.searchIdm.title.new.create" />;
     const firstMenu = this.getFirstMenu();
     const footer = this.getPaneFooter();
 
@@ -145,7 +147,7 @@ class ContractsForm extends React.Component {
             defaultWidth="100%"
             firstMenu={firstMenu}
             footer={footer}
-            paneTitle={paneTitle}
+            paneTitle={isEditContract ? paneTitleEdit : paneTitleCreate}
           >
             <div>
               <AccordionSet>

@@ -217,9 +217,7 @@ class SearchIdm extends React.Component {
               footer={this.renderPaneFooter()}
               id="pane-search-idm-form"
               onClose={onClose}
-              // TODO: change title to:
-              // New: (1) Search IDM
-              paneTitle={isCreateNewUser ? <FormattedMessage id="ui-idm-connect.searchIdm.title.new" /> : <FormattedMessage id="ui-idm-connect.searchIdm.title" />}
+              paneTitle={isCreateNewUser ? <FormattedMessage id="ui-idm-connect.searchIdm.title.new.search" /> : <FormattedMessage id="ui-idm-connect.searchIdm.title" />}
             >
               <SearchFields
                 dateOfBirth={this.state.dateOfBirth}

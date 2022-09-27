@@ -73,6 +73,7 @@ class ContractEditRoute extends React.Component {
         initialValues={_.get(this.props.resources, 'contracts.records', []).find(i => i.id === this.props.match.params.id)}
         onSubmit={this.handleSubmit}
         disableLibraryCard
+        isEditContract
       />
     );
   }
