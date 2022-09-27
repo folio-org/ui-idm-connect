@@ -1,7 +1,7 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import userEvent from '@testing-library/user-event';
+// import userEvent from '@testing-library/user-event';
 
 import '../../../../../test/jest/__mock__';
 import renderWithIntl from '../../../../../test/jest/helpers/renderWithIntl';
@@ -38,16 +38,26 @@ describe('Change ub number view - detail', () => {
     expect(inputChangeUbNumber).toBeInTheDocument();
   });
 
-  it('should change the message when enter a Library card number', () => {
+  it('should be disabled the input field for Library card number', () => {
     const inputChangeUbNumber = document.querySelector('#field-change-ub-number');
     const saveAndCloseButton = screen.getByRole('button', { name: 'Save & close' });
     expect(inputChangeUbNumber).toBeInTheDocument();
     expect(saveAndCloseButton).toHaveAttribute('disabled');
-    expect(screen.getByText('Please make a change to the library card number.')).toBeInTheDocument();
-    userEvent.type(inputChangeUbNumber, '0015U0016954');
-    expect(document.querySelector('#msg-ubreadernumber-added')).toBeInTheDocument();
-    expect(saveAndCloseButton).not.toHaveAttribute('disabled');
-    userEvent.click(saveAndCloseButton);
-    expect(onSubmit).toHaveBeenCalled();
+    expect(document.querySelector('#msg-ubreadernumber-statusNotActive')).toBeInTheDocument();
+    expect(inputChangeUbNumber).toHaveAttribute('disabled');
   });
+
+  // TODO for user with accountState: 'Aktives Uni-Login',
+  // it('should change the message when enter a Library card number', () => {
+  //   const inputChangeUbNumber = document.querySelector('#field-change-ub-number');
+  //   const saveAndCloseButton = screen.getByRole('button', { name: 'Save & close' });
+  //   expect(inputChangeUbNumber).toBeInTheDocument();
+  //   expect(saveAndCloseButton).toHaveAttribute('disabled');
+  //   expect(screen.getByText('Please make a change to the library card number.')).toBeInTheDocument();
+  //   userEvent.type(inputChangeUbNumber, '0015U0016954');
+  //   expect(document.querySelector('#msg-ubreadernumber-added')).toBeInTheDocument();
+  //   expect(saveAndCloseButton).not.toHaveAttribute('disabled');
+  //   userEvent.click(saveAndCloseButton);
+  //   expect(onSubmit).toHaveBeenCalled();
+  // });
 });

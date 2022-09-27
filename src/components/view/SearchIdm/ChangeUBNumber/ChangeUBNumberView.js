@@ -69,7 +69,7 @@ class ChangeUBNumberView extends React.Component {
     return <PaneFooter renderStart={startButton} renderEnd={endButton} />;
   }
 
-  renderUbreadernumberMessage(initialUBReaderNumber) {
+  renderUbreadernumberMessage(initialUBReaderNumber, isStatusActive) {
     const {
       invalid,
       pristine,
@@ -81,8 +81,16 @@ class ChangeUBNumberView extends React.Component {
     const adaptedInitialValues = getInitialValues();
     const uniCardNumber = _.get(adaptedInitialValues, 'cardReaderNumber', <NoValue />);
     const libraryCardNumber = values?.UBReaderNumber ?? <NoValue />;
+    const accountState = _.get(adaptedInitialValues, 'status', <NoValue />);
 
-    if (!noChange && (Object.keys(values).length === 0) && initialUBReaderNumber) {
+    if (!isStatusActive) {
+      // Warning red: account state is not active
+      return (
+        <MessageBanner type="error" id="msg-ubreadernumber-statusNotActive">
+          <FormattedMessage id="ui-idm-connect.ubreadernumber.text.statusNotActive" values={{ accountState }} />
+        </MessageBanner>
+      );
+    } else if (!noChange && (Object.keys(values).length === 0) && initialUBReaderNumber) {
       // Warning yellow: existing value is cleared
       // should change the effective Card number to uni card number
       return (
@@ -112,7 +120,7 @@ class ChangeUBNumberView extends React.Component {
     } else if (noChange) {
       // Default grey: no change
       return (
-        <MessageBanner style={{ background: 'grey', color: 'black' }}>
+        <MessageBanner style={{ background: 'lightGray', color: 'black' }}>
           <FormattedMessage id="ui-idm-connect.ubreadernumber.text.noChange" />
         </MessageBanner>
       );
@@ -124,6 +132,7 @@ class ChangeUBNumberView extends React.Component {
   render() {
     const adaptedInitialValues = getInitialValues();
     const initialUBReaderNumber = _.get(adaptedInitialValues, 'UBReaderNumber', '');
+    const isStatusActive = _.get(adaptedInitialValues, 'status') === 'Aktives Uni-Login';
 
     return (
       <form
@@ -195,12 +204,13 @@ class ChangeUBNumberView extends React.Component {
           </Row>
           <Field
             component={TextField}
+            disabled={!isStatusActive}
             id="field-change-ub-number"
             initialValue={initialUBReaderNumber}
             label={<FormattedMessage id="ui-idm-connect.UBReaderNumber" />}
             name="UBReaderNumber"
           />
-          {this.renderUbreadernumberMessage(initialUBReaderNumber)}
+          {this.renderUbreadernumberMessage(initialUBReaderNumber, isStatusActive)}
         </Pane>
       </form>
     );
