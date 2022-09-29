@@ -52,7 +52,6 @@
     "form.validate.noDollarBackslash": "Kein $ oder \\ erlaubt!",
     "form.cancel": "Abbrechen",
     "form.saveAndClose": "Speichern & schließen",
-    "form.createTitle": "Walk-in-Vertrag erstellen",
     "edit": "Bearbeiten",
     "delete": "Löschen",
     "delete.confirm.message": "{fullName} wirklich löschen?",
@@ -75,5 +74,7 @@
     "ubreadernumber.text.added.changeInfo": "Durch diese Aktion wird die effektive Bibliotheksausweisnummer in <strong>{libraryCardNumber}</strong> geändert.",
     "ubreadernumber.update.success": "Die Nummer des Bibliotheksausweises wurde erfolgreich aktualisiert.",
     "ubreadernumber.update.error": "Beim Aktualisieren der Nummer des Bibliotheksausweises ist ein Fehler aufgetreten {error}",
-    "searchIdm.title.new": "New: (1) Search IDM"
+    "ubreadernumber.text.statusNotActive": "No active contract. Account status = <strong>{accountState}</strong>. Please resolve contract status.",
+    "searchIdm.title.new.search": "Create walk-in contract 1/2: Search for existing IDM identity",
+    "searchIdm.title.new.create": "Create walk-in contract 2/2: Add record details"
 }
