@@ -121,7 +121,8 @@
         "displayName": "IDM connect: Search IDM",
         "description": "Can search IDM",
         "subPermissions": [
-          "idmconnect.searchidm.get"
+          "idmconnect.searchidm.get",
+          "users.collection.get"
         ],
         "visible": true
       },
@@ -154,7 +155,8 @@
         "subPermissions": [
           "idmconnect.ubreadernumber.post",
           "idmconnect.ubreadernumber.delete",
-          "idmconnect.searchidm.get"
+          "idmconnect.searchidm.get",
+          "users.collection.get"
         ],
         "visible": true
       }
