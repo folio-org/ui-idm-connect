@@ -61,7 +61,7 @@
     "no": "no",
     "readerNumber": "Active card",
     "cardReaderNumber": "Uni card number",
-    "UBReaderNumber": "Library card number",
+    "UBReaderNumber": "Numero di tessera della biblioteca",
     "form.close": "Close edit dialog",
     "ubreadernumber.change": "Change card number",
     "ubreadernumber.edit": "Edit library card number",
