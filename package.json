@@ -76,7 +76,7 @@
     "queryResource": "query",
     "okapiInterfaces": {
       "idm-connect": "1.0",
-      "users": "15.0"
+      "users": "15.0 16.0"
     },
     "permissionSets": [
       {
