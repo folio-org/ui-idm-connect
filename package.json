@@ -82,58 +82,83 @@
       {
         "permissionName": "module.idm-connect.enabled",
         "displayName": "UI: ui-idm-connect module is enabled",
-        "visible": true
+        "visible": false
       },
       {
         "permissionName": "settings.idm-connect.enabled",
         "displayName": "Settings (idm-connect): display list of settings pages",
         "subPermissions": [
-          "module.idm-connect.enabled",
           "settings.enabled"
+        ],
+        "visible": false
+      },
+      {
+        "permissionName": "ui-idm-connect.all",
+        "displayName": "IDM connect: All permissions",
+        "subPermissions": [
+          "module.idm-connect.enabled",
+          "settings.idm-connect.enabled",
+          "ui-idm-connect.view",
+          "ui-idm-connect.searchidm",
+          "ui-idm-connect.create",
+          "ui-idm-connect.edit-delete",
+          "ui-idm-connect.changeubreadernumber"
+        ],
+        "visible": false
+      },
+      {
+        "permissionName": "ui-idm-connect.view",
+        "displayName": "IDM connect: View Walk-in contracts",
+        "description": "Can view Walk-in contracts",
+        "subPermissions": [
+          "module.idm-connect.enabled",
+          "idmconnect.contract.get"
         ],
         "visible": true
       },
       {
-        "permissionName": "ui-idm-connect.view",
-        "displayName": "IDM connect: Can view idm connect",
-        "description": "Can view idm connect",
+        "permissionName": "ui-idm-connect.searchidm",
+        "displayName": "IDM connect: Search IDM",
+        "description": "Can search IDM",
         "subPermissions": [
-          "module.idm-connect.enabled",
-          "settings.idm-connect.enabled",
-          "idmconnect.contract.get",
+          "idmconnect.searchidm.get",
+          "users.collection.get"
+        ],
+        "visible": true
+      },
+      {
+        "permissionName": "ui-idm-connect.create",
+        "displayName": "IDM connect: Create Walk-in contracts",
+        "description": "Can create Walk-in connect",
+        "subPermissions": [
+          "idmconnect.contract.post",
+          "idmconnect.contract.transmit.get",
           "idmconnect.searchidm.get"
         ],
         "visible": true
       },
       {
-        "permissionName": "ui-idm-connect.create-edit",
-        "displayName": "IDM connect: Can create and edit idm connect",
-        "description": "Can create and edit idm connect",
+        "permissionName": "ui-idm-connect.edit-delete",
+        "displayName": "IDM connect: Edit and delete Walk-in contracts",
+        "description": "Can edit and delete Walk-in contracts",
         "subPermissions": [
-          "ui-idm-connect.view",
-          "idmconnect.contract.post",
-          "idmconnect.contract.put"
-        ],
-        "visible": true
-      },
-      {
-        "permissionName": "ui-idm-connect.delete",
-        "displayName": "IDM connect: Can delete idm connect",
-        "description": "Can delete single draft contract in idm connect",
-        "subPermissions": [
-          "ui-idm-connect.view",
+          "idmconnect.contract.put",
+          "idmconnect.contract.transmit.get",
           "idmconnect.contract.delete"
         ],
         "visible": true
       },
       {
-        "permissionName": "ui-idm-connect.ubreadernumber.all",
-        "displayName": "idmconnect ubreadernumber all",
-        "description": "All permissions related to ubreadernumber",
+        "permissionName": "ui-idm-connect.changeubreadernumber",
+        "displayName": "IDM connect: Change card number",
+        "description": "Can change card number",
         "subPermissions": [
           "idmconnect.ubreadernumber.post",
-          "idmconnect.ubreadernumber.delete"
-        ]
+          "idmconnect.ubreadernumber.delete",
+          "idmconnect.searchidm.get",
+          "users.collection.get"
+        ],
+        "visible": true
       }
     ],
     "icons": [

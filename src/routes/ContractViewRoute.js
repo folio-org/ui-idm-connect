@@ -63,8 +63,8 @@ class ContractViewRoute extends React.Component {
 
     return (
       <ContractView
-        canEdit={stripes.hasPerm('ui-idm-connect.create-edit')}
-        canDelete={stripes.hasPerm('ui-idm-connect.delete')}
+        canEdit={stripes.hasPerm('ui-idm-connect.edit-delete')}
+        canDelete={stripes.hasPerm('ui-idm-connect.edit-delete')}
         handlers={{
           onClose: this.handleClose,
           onEdit: this.handleEdit,

@@ -52,7 +52,6 @@
     "form.validate.noDollarBackslash": "No $ or \\ allowed!",
     "form.cancel": "Cancel",
     "form.saveAndClose": "Save & close",
-    "form.createTitle": "New: (2) Create walk-in contract",
     "edit": "Edit",
     "delete": "Delete",
     "delete.confirm.message": "Do you really want to delete {fullName}?",
@@ -62,7 +61,7 @@
     "no": "no",
     "readerNumber": "Active card",
     "cardReaderNumber": "Uni card number",
-    "UBReaderNumber": "Library card number",
+    "UBReaderNumber": "Numero di tessera della biblioteca",
     "form.close": "Close edit dialog",
     "ubreadernumber.change": "Change card number",
     "ubreadernumber.edit": "Edit library card number",
@@ -75,5 +74,7 @@
     "ubreadernumber.text.added.changeInfo": "This action will change the active card to <strong>{libraryCardNumber}</strong>.",
     "ubreadernumber.update.success": "Library card number has been successfully updated.",
     "ubreadernumber.update.error": "An error occurred while updating library card number {error}",
-    "searchIdm.title.new": "New: (1) Search IDM"
+    "ubreadernumber.text.statusNotActive": "No active contract. Account status = <strong>{accountState}</strong>. Please resolve contract status.",
+    "searchIdm.title.new.search": "Create walk-in contract 1/2: Search for existing IDM identity",
+    "searchIdm.title.new.create": "Create walk-in contract 2/2: Add record details"
 }

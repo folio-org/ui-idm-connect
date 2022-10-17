@@ -52,7 +52,6 @@
     "form.validate.noDollarBackslash": "Žádné $ nebo \\ povoleno!",
     "form.cancel": "Zrušit",
     "form.saveAndClose": "Uložit a zavřít",
-    "form.createTitle": "Novinka: (2) Vytvořit walk-in smlouvu",
     "edit": "Upravit",
     "delete": "Smazat",
     "delete.confirm.message": "Opravdu chcete smazat {fullName}?",
@@ -75,5 +74,7 @@
     "ubreadernumber.text.added.changeInfo": "Tato akce změní aktivní kartu na <strong>{libraryCardNumber}</strong>.",
     "ubreadernumber.update.success": "Číslo čtenářského průkazu bylo úspěšně aktualizováno.",
     "ubreadernumber.update.error": "Při aktualizaci čísla čtenářského průkazu došlo k chybě {error}",
-    "searchIdm.title.new": "Novinka: (1) Vyhledávání IDM"
+    "ubreadernumber.text.statusNotActive": "Žádná aktivní smlouva. Stav účtu = <strong>{accountState}</strong>. Vyřešte prosím stav smlouvy.",
+    "searchIdm.title.new.search": "Vytvořit vstupní smlouvu 1/2: Vyhledat existující identitu IDM",
+    "searchIdm.title.new.create": "Vytvořit vstupní smlouvu 2/2: Přidat podrobnosti o záznamu"
 }
