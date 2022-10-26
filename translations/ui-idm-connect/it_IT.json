@@ -57,7 +57,7 @@
     "delete.confirm.message": "Do you really want to delete {fullName}?",
     "new": "New",
     "noPermission": "No permission",
-    "yes": "yes",
+    "yes": "sì",
     "no": "no",
     "readerNumber": "Active card",
     "cardReaderNumber": "Uni card number",
