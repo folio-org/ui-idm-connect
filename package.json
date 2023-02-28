@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Search IDM",
   "main": "src/index.js",
-  "repository": "",
+  "repository": "folio-org/ui-idm-connect",
   "license": "Apache-2.0",
   "engines": {
     "node": ">=12.20.1"
