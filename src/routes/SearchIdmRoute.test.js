@@ -28,7 +28,7 @@ const renderUsers = (USERS, rerender) => renderWithIntl(
         users={USERS}
         renderListOfResults
         history={{ push: historyPushMock }}
-        location={{ search: '' }}
+        location={{ search: '', state: '' }}
       />
     </MemoryRouter>
   </Provider>,

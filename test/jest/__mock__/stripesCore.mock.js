@@ -18,6 +18,7 @@ jest.mock(
       okapi: {
         tenant: 'diku',
         url: 'https://folio-testing-okapi.dev.folio.org',
+        token: '',
       },
       plugins: {},
       setBindings: () => {},
