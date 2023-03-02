@@ -3,13 +3,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { getFormValues } from 'redux-form';
 
-import { stripesConnect } from '@folio/stripes/core';
+import { CalloutContext, stripesConnect } from '@folio/stripes/core';
 
 import urls from '../components/DisplayUtils/urls';
 import SearchIdm from '../components/view/SearchIdm/SearchIdm';
 import { fetchFolioUser, fetchIdmUser, mergeData } from '../util/handler';
 
 class SearchIdmRoute extends React.Component {
+  static contextType = CalloutContext;
+
   constructor(props) {
     super(props);
 
@@ -20,12 +22,19 @@ class SearchIdmRoute extends React.Component {
     };
   }
 
+  sendCallout = (type, msg) => {
+    this.context.sendCallout({
+      type,
+      message: msg,
+    });
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
     const formValues = getFormValues('SearchIdmForm')(this.props.stripes.store.getState()) || {};
 
-    fetchIdmUser(formValues, this.props.stripes.okapi)
-      .then(idmusers => idmusers.map(idmuser => fetchFolioUser(idmuser.unilogin, this.props.stripes.okapi).then(foliouser => mergeData(idmuser, foliouser))))
+    fetchIdmUser(formValues, this.props.stripes.okapi, this.context)
+      .then(idmusers => idmusers.map(idmuser => fetchFolioUser(idmuser.unilogin, this.props.stripes.okapi, this.context).then(foliouser => mergeData(idmuser, foliouser))))
       .then(promises => Promise.all(promises))
       .then(result => {
         this.setState(() => ({
