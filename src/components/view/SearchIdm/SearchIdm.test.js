@@ -17,6 +17,7 @@ const reducers = {
   form: formReducer,
 };
 
+
 const reducer = combineReducers(reducers);
 
 const store = createStore(reducer);
@@ -24,7 +25,7 @@ const store = createStore(reducer);
 let renderWithIntlResult = {};
 
 const onClose = jest.fn();
-const onSubmit = jest.fn();
+const onSubmit = jest.fn(e => e.preventDefault());
 
 const renderUsers = (USERS, newUser, resultsEmpty, rerender) => renderWithIntl(
   <Provider store={store}>
@@ -44,7 +45,7 @@ const renderUsers = (USERS, newUser, resultsEmpty, rerender) => renderWithIntl(
 
 describe('Search IDM - without results', () => {
   beforeEach(() => {
-    renderUsers({}, false, true);
+    renderUsers([], false, true);
   });
 
   it('should show pane title', () => {
@@ -186,7 +187,7 @@ describe('Search IDM - select user, enter new search and create empty contract',
     userEvent.type(dateOfBirthInput, '1874-06-12');
     userEvent.click(searchButton);
 
-    renderUsers({}, true, true, renderWithIntlResult.rerender);
+    renderUsers([], true, true, renderWithIntlResult.rerender);
 
     expect(screen.getByText('No results in IDM')).toBeVisible();
 
