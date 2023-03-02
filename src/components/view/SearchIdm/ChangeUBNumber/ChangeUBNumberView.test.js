@@ -1,12 +1,14 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+
+import { screen } from '@testing-library/react';
+import { renderWithIntl } from '@folio/stripes-erm-testing';
 // import userEvent from '@testing-library/user-event';
 
 import '../../../../../test/jest/__mock__';
-import renderWithIntl from '../../../../../test/jest/helpers/renderWithIntl';
 import userFixtures from '../../../../../test/jest/fixtures/user';
 import ChangeUBNumberView from './ChangeUBNumberView';
+import translationsProperties from '../../../../../test/jest/helpers/translationProperties';
 
 const onClose = jest.fn();
 const onSubmit = jest.fn();
@@ -21,7 +23,8 @@ const renderUsers = (USER) => renderWithIntl(
       submitting={false}
       values={{ USER }}
     />
-  </MemoryRouter>
+  </MemoryRouter>,
+  translationsProperties
 );
 
 describe('Change ub number view - detail', () => {
