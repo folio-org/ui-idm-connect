@@ -54,6 +54,7 @@
     "regenerator-runtime": "^0.13.3"
   },
   "dependencies": {
+    "@k-int/stripes-kint-components": "^4.0.0",
     "lodash": "^4.17.21",
     "prop-types": "^15.6.0",
     "react-final-form": "^6.5.9",
