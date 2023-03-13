@@ -8,12 +8,11 @@ import '../../../../../test/jest/__mock__';
 import renderWithIntl from '../../../../../test/jest/helpers/renderWithIntl';
 import userFixtures from '../../../../../test/jest/fixtures/user';
 import ChangeUBNumberView from './ChangeUBNumberView';
-import translationsProperties from '../../../../../test/jest/helpers/translationProperties';
 
 const onClose = jest.fn();
 const onSubmit = jest.fn();
 
-const renderUsers = (USER) => renderWithIntl(
+const renderUsers = (USER, rerender) => renderWithIntl(
   <MemoryRouter>
     <ChangeUBNumberView
       onSubmit={onSubmit}
@@ -24,7 +23,7 @@ const renderUsers = (USER) => renderWithIntl(
       values={{ USER }}
     />
   </MemoryRouter>,
-  translationsProperties
+  rerender
 );
 
 describe('Change ub number view - detail', () => {
