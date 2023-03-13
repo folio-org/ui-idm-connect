@@ -28,12 +28,17 @@ const defaultRichTextElements = ['b', 'i', 'em', 'strong', 'span', 'div', 'p', '
   return res;
 }, {});
 
+const onWarn = jest.fn;
+const onError = jest.fn;
+
 // eslint-disable-next-line react/prop-types
 const Intl = ({ children }) => (
     <IntlProvider
       defaultRichTextElements={defaultRichTextElements}
       locale="en"
       messages={translations}
+      onWarn={onWarn}
+      onError={onError}
     >
       {children}
     </IntlProvider>
