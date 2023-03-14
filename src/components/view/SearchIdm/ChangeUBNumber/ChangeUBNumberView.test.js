@@ -1,6 +1,7 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+
+import { screen } from '@testing-library/react';
 // import userEvent from '@testing-library/user-event';
 
 import '../../../../../test/jest/__mock__';
@@ -11,7 +12,7 @@ import ChangeUBNumberView from './ChangeUBNumberView';
 const onClose = jest.fn();
 const onSubmit = jest.fn();
 
-const renderUsers = (USER) => renderWithIntl(
+const renderUsers = (USER, rerender) => renderWithIntl(
   <MemoryRouter>
     <ChangeUBNumberView
       onSubmit={onSubmit}
@@ -21,7 +22,8 @@ const renderUsers = (USER) => renderWithIntl(
       submitting={false}
       values={{ USER }}
     />
-  </MemoryRouter>
+  </MemoryRouter>,
+  rerender
 );
 
 describe('Change ub number view - detail', () => {

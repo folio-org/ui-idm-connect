@@ -1,5 +1,9 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
+import {
+  act,
+  screen,
+  waitFor,
+} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 
@@ -42,15 +46,19 @@ const renderContracts = (stripes, props = {}, contractsData, rerender) => render
 
 describe('Contracts SASQ View', () => {
   let stripes;
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   beforeEach(() => {
+    jest.clearAllMocks();
     stripes = useStripes();
 
     renderContracts(stripes, sourceLoaded, contracts);
   });
 
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
+
 
   describe('check filters', () => {
     it('should be present status filter', () => {
@@ -82,13 +90,13 @@ describe('Contracts SASQ View', () => {
       expect(window.location.href.includes('sort=-lastName')).toBeFalsy();
     });
 
-    it('should close filter pane', () => {
+    it('should close filter pane', async () => {
       const collapseFilterButton = document.querySelector('[data-test-collapse-filter-pane-button]');
       expect(collapseFilterButton).toBeVisible();
       expect(document.querySelector('#pane-contract-filter')).toBeInTheDocument();
 
-      userEvent.click(collapseFilterButton);
-      expect(document.querySelector('#pane-contract-filter')).not.toBeInTheDocument();
+      await act(async () => userEvent.click(collapseFilterButton));
+      await waitFor(() => expect(document.querySelector('#pane-contract-filter')).not.toBeInTheDocument());
     });
   });
 });

@@ -1,5 +1,6 @@
 import React from 'react';
 import { IntlProvider } from 'react-intl';
+import { noop } from 'lodash';
 
 import componentsTranslations from '@folio/stripes-components/translations/stripes-components/en';
 import smartComponentsTranslations from '@folio/stripes-smart-components/translations/stripes-smart-components/en';
@@ -23,9 +24,20 @@ const translations = {
   ...prefixKeys(stripesCoreTranslations, 'stripes-core'),
 };
 
+const defaultRichTextElements = ['b', 'i', 'em', 'strong', 'span', 'div', 'p', 'ul', 'ol', 'li', 'code'].reduce((res, Tag) => {
+  res[Tag] = chunks => <Tag>{chunks}</Tag>;
+  return res;
+}, {});
+
 // eslint-disable-next-line react/prop-types
 const Intl = ({ children }) => (
-  <IntlProvider locale="en" messages={translations}>
+  <IntlProvider
+    defaultRichTextElements={defaultRichTextElements}
+    locale="en"
+    messages={translations}
+    onWarn={noop}
+    onError={noop}
+  >
     {children}
   </IntlProvider>
 );

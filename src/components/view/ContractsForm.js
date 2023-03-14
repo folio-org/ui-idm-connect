@@ -130,7 +130,7 @@ class ContractsForm extends React.Component {
   render() {
     const { initialValues, isLoading, handleSubmit, isEditContract } = this.props;
     const { accordions } = this.state;
-    const paneTitleEdit = initialValues.uniLogin ? `${initialValues.personal.lastName}, ${initialValues.personal.firstName}` : <FormattedMessage id="ui-idm-connect.form.createTitle" />;
+    const paneTitleEdit = initialValues.uniLogin ? `${initialValues.personal.lastName}, ${initialValues.personal.firstName}` : <FormattedMessage id="ui-idm-connect.edit" />;
     const paneTitleCreate = <FormattedMessage id="ui-idm-connect.searchIdm.title.new.create" />;
     const firstMenu = this.getFirstMenu();
     const footer = this.getPaneFooter();
