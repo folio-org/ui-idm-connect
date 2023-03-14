@@ -7,8 +7,6 @@ import {
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 
-import { StripesContext } from '@folio/stripes-core/src/StripesContext';
-import { ModuleHierarchyProvider } from '@folio/stripes-core/src/components/ModuleHierarchy';
 import { useStripes } from '@folio/stripes/core';
 
 import '../../../test/jest/__mock__';
@@ -29,23 +27,19 @@ const sourceLoaded = { source: { pending: jest.fn(() => false), totalCount: jest
 // trigger a new list of results: source isPending has to be TRUE first, than FALSE
 const renderContracts = (stripes, props = {}, contractsData, rerender) => renderWithIntl(
   <MemoryRouter>
-    <StripesContext.Provider value={stripes}>
-      <ModuleHierarchyProvider module="@folio/idm-connect">
-        <Contracts
-          contentData={contractsData}
-          selectedRecordId=""
-          onNeedMoreData={jest.fn()}
-          queryGetter={jest.fn()}
-          querySetter={jest.fn()}
-          searchString="status.updated"
-          visibleColumns={['status', 'lastName', 'firstName', 'uniLogin']}
-          history={history}
-          onSearchComplete={onSearchComplete}
-          stripes={stripes}
-          {...props}
-        />
-      </ModuleHierarchyProvider>
-    </StripesContext.Provider>
+    <Contracts
+      contentData={contractsData}
+      selectedRecordId=""
+      onNeedMoreData={jest.fn()}
+      queryGetter={jest.fn()}
+      querySetter={jest.fn()}
+      searchString="status.updated"
+      visibleColumns={['status', 'lastName', 'firstName', 'uniLogin']}
+      history={history}
+      onSearchComplete={onSearchComplete}
+      stripes={stripes}
+      {...props}
+    />
   </MemoryRouter>,
   rerender
 );
