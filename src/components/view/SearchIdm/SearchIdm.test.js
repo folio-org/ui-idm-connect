@@ -17,7 +17,6 @@ const reducers = {
   form: formReducer,
 };
 
-
 const reducer = combineReducers(reducers);
 
 const store = createStore(reducer);
