@@ -23,7 +23,7 @@ const store = createStore(reducer);
 let renderWithIntlResult = {};
 
 const onClose = jest.fn();
-const onSubmit = jest.fn();
+const onSubmit = jest.fn(e => e.preventDefault());
 
 const renderUsers = (USERS, newUser, resultsEmpty, rerender) => renderWithIntl(
   <Provider store={store}>
@@ -43,7 +43,7 @@ const renderUsers = (USERS, newUser, resultsEmpty, rerender) => renderWithIntl(
 
 describe('Change ub number - without results', () => {
   beforeEach(() => {
-    renderUsers({}, false, true);
+    renderUsers([], false, true);
   });
 
   it('should show pane title', () => {
