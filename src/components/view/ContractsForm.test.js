@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { Form } from 'react-final-form';
 import { MemoryRouter } from 'react-router-dom';
 
-import { StripesContext } from '@folio/stripes-core/src/StripesContext';
+import { StripesContext } from '@folio/stripes/core';
 
 import '../../../test/jest/__mock__';
 import stripes from '../../../test/jest/__mock__/stripesCore.mock';
