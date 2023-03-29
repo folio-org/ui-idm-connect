@@ -22,7 +22,7 @@ class SearchIdmRoute extends React.Component {
     };
   }
 
-  sendCallout = (type, msg) => {
+  doSendCallout = (type, msg) => {
     this.context.sendCallout({
       type,
       message: msg,
@@ -33,7 +33,19 @@ class SearchIdmRoute extends React.Component {
     e.preventDefault();
     const formValues = getFormValues('SearchIdmForm')(this.props.stripes.store.getState()) || {};
 
-    fetchIdmUser(formValues, this.props.stripes.okapi, this.context)
+    fetchIdmUser(formValues, this.props.stripes.okapi)
+      .then(
+        (response) => {
+          if (response.status >= 400) {
+            // ERROR
+            this.doSendCallout('error', `Error: ${response.statusText}`);
+            return null;
+          } else {
+            // SUCCESS return data
+            return response.json();
+          }
+        },
+      )
       .then(idmusers => idmusers.map(idmuser => fetchFolioUser(idmuser.unilogin, this.props.stripes.okapi, this.context).then(foliouser => mergeData(idmuser, foliouser))))
       .then(promises => Promise.all(promises))
       .then(result => {
@@ -47,6 +59,9 @@ class SearchIdmRoute extends React.Component {
             isUsersResultsEmpty: true,
           }));
         }
+      })
+      .catch(() => {
+        this.doSendCallout('error', 'Error');
       });
   }
 

@@ -22,7 +22,7 @@ class ChangeUBNumberRoute extends React.Component {
     };
   }
 
-  sendCallout = (type, msg) => {
+  doSendCallout = (type, msg) => {
     this.context.sendCallout({
       type,
       message: msg,
@@ -34,6 +34,18 @@ class ChangeUBNumberRoute extends React.Component {
     const formValues = getFormValues('ChangeUBNumberForm')(this.props.stripes.store.getState()) || {};
 
     fetchIdmUser(formValues, this.props.stripes.okapi, this.context)
+      .then(
+        (response) => {
+          if (response.status >= 400) {
+            // ERROR
+            this.doSendCallout('error', `Error: ${response.statusText}`);
+            return null;
+          } else {
+            // SUCCESS return data
+            return response.json();
+          }
+        },
+      )
       .then(idmusers => idmusers.map(idmuser => fetchFolioUser(idmuser.unilogin, this.props.stripes.okapi, this.context).then(foliouser => mergeData(idmuser, foliouser))))
       .then(promises => Promise.all(promises))
       .then(result => {
@@ -47,6 +59,9 @@ class ChangeUBNumberRoute extends React.Component {
             isUsersResultsEmpty: true,
           }));
         }
+      })
+      .catch(() => {
+        this.doSendCallout('error', 'Error');
       });
   }
 
