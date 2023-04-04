@@ -1,14 +1,19 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { cleanup, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 
-import '../../test/jest/__mock__';
 import renderWithIntl from '../../test/jest/helpers/renderWithIntl';
 import SearchIdmRoute from './SearchIdmRoute';
+import { CalloutContextProvider } from '../../test/jest/helpers/calloutContextProvider';
+import urls from '../components/DisplayUtils/urls';
+import user from '../../test/jest/fixtures/user';
+import users from '../../test/jest/fixtures/usersWithFolioUser';
+
+const { Response } = jest.requireActual('node-fetch');
 
 const reducers = {
   form: formReducer,
@@ -16,37 +21,90 @@ const reducers = {
 
 const reducer = combineReducers(reducers);
 
-const store = createStore(reducer);
+let store;
 
 const historyPushMock = jest.fn();
 
-const renderUsers = (USERS, rerender) => renderWithIntl(
-  <Provider store={store}>
-    <MemoryRouter>
-      <SearchIdmRoute
-        onSubmit={jest.fn()}
-        users={USERS}
-        renderListOfResults
-        history={{ push: historyPushMock }}
-        location={{ search: '', state: '' }}
-      />
-    </MemoryRouter>
-  </Provider>,
+const renderSearchIdmRoute = (rerender) => renderWithIntl(
+  <CalloutContextProvider>
+    <Provider store={store}>
+      <MemoryRouter>
+        <SearchIdmRoute
+          history={{ push: historyPushMock }}
+          location={{ search: '', state: '' }}
+        />
+      </MemoryRouter>
+    </Provider>
+  </CalloutContextProvider>,
   rerender
 );
 
-describe('SearchIdm', () => {
-  describe('rendering the route with permissions', () => {
+describe('When SearchIdmRoute is rendered', () => {
+  beforeEach(() => {
+    cleanup();
+    store = createStore(reducer);
+    renderSearchIdmRoute();
+  });
+
+  it('should display textboxes and buttons', () => {
+    expect(screen.getByRole('textbox', { name: 'Last name' })).toBeInTheDocument();
+    expect(screen.getByRole('textbox', { name: 'First name' })).toBeInTheDocument();
+    expect(screen.getByRole('textbox', { name: 'Birth date' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Search' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Cancel' })).toBeInTheDocument();
+  });
+
+  it('clicking the cancel button should push to history', () => {
+    userEvent.click(screen.getByRole('button', { name: 'Cancel' }));
+    expect(historyPushMock).toHaveBeenCalledWith(urls.contracts());
+  });
+
+  describe('When form is filled', () => {
+    let originalFetch;
+    let resp200WithUser;
+    let resp200WithFolioUser;
+    let resp500;
+
     beforeEach(() => {
-      renderUsers({});
+      originalFetch = global.fetch;
+      resp200WithUser = Promise.resolve(new Response(JSON.stringify(user), { status: 200, statusText: 'Ok' }));
+      resp200WithFolioUser = Promise.resolve(new Response(JSON.stringify(users[0].folioUsers), { status: 200, statusText: 'Ok' }));
+      resp500 = Promise.resolve(new Response(null, { status: 500, statusText: 'Internal Server Error' }));
+      userEvent.type(screen.getByRole('textbox', { name: 'Last name' }), 'e');
+      userEvent.type(screen.getByRole('textbox', { name: 'First name' }), 'e');
+      userEvent.type(screen.getByRole('textbox', { name: 'Birth date' }), '01/01/2000');
     });
 
-    test('renders the Search IDM component', async () => {
-      const cancelButton = screen.getByRole('button', { name: 'Cancel' });
-      expect(screen.getByText('Search IDM')).toBeInTheDocument();
-      expect(cancelButton).toBeInTheDocument();
-      await userEvent.click(cancelButton);
-      expect(historyPushMock).toHaveBeenCalled();
+    afterEach(() => {
+      global.fetch = originalFetch;
+    });
+
+    it('search button should be enabled', () => {
+      expect(screen.getByRole('button', { name: 'Search' })).toBeEnabled();
+    });
+
+    it('clicking search should render result if fetches are OK', async () => {
+      global.fetch = jest.fn((url) => (url.includes('/idm-connect/searchidm') ? resp200WithUser : resp200WithFolioUser));
+
+      userEvent.click(screen.getByRole('button', { name: 'Search' }));
+      expect(await screen.findByText('Hausman, Linhart')).toBeInTheDocument();
+      await new Promise(r => setTimeout(r, 500)); // no idea why test fails without
+    });
+
+    it('clicking search should display error if fetch /users is not OK', async () => {
+      global.fetch = jest.fn((url) => (url.includes('/idm-connect/searchidm') ? resp200WithUser : resp500));
+
+      userEvent.click(screen.getByRole('button', { name: 'Search' }));
+      expect(await screen.findByText('Error getting Folio users')).toBeVisible();
+      await new Promise(r => setTimeout(r, 500)); // no idea why test fails without
+    });
+
+    it('clicking search should display error if fetch /searchidm is not OK', async () => {
+      global.fetch = jest.fn(() => resp500);
+
+      userEvent.click(screen.getByRole('button', { name: 'Search' }));
+      expect(await screen.findByText('Error getting IDM users')).toBeVisible();
+      await new Promise(r => setTimeout(r, 500)); // no idea why test fails without
     });
   });
 });
