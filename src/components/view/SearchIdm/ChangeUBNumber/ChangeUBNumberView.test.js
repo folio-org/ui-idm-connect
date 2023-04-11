@@ -4,7 +4,6 @@ import { MemoryRouter } from 'react-router-dom';
 import { screen } from '@testing-library/react';
 // import userEvent from '@testing-library/user-event';
 
-import '../../../../../test/jest/__mock__';
 import renderWithIntl from '../../../../../test/jest/helpers/renderWithIntl';
 import userFixtures from '../../../../../test/jest/fixtures/user';
 import ChangeUBNumberView from './ChangeUBNumberView';
