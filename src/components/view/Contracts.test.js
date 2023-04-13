@@ -9,7 +9,6 @@ import { MemoryRouter } from 'react-router-dom';
 
 import { useStripes } from '@folio/stripes/core';
 
-import '../../../test/jest/__mock__';
 import renderWithIntl from '../../../test/jest/helpers/renderWithIntl';
 import contracts from '../../../test/jest/fixtures/contracts';
 import Contracts from './Contracts';

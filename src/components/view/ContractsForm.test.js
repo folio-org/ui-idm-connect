@@ -4,18 +4,14 @@ import userEvent from '@testing-library/user-event';
 import { Form } from 'react-final-form';
 import { MemoryRouter } from 'react-router-dom';
 
-import { StripesContext } from '@folio/stripes/core';
-
-import '../../../test/jest/__mock__';
-import stripes from '../../../test/jest/__mock__/stripesCore.mock';
+import { StripesContext, useStripes } from '@folio/stripes/core';
 import renderWithIntl from '../../../test/jest/helpers/renderWithIntl';
 import ContractsForm from './ContractsForm';
-// import userFixtures from '../../../test/jest/fixtures/user';
 
 const onClose = jest.fn();
 const onSubmit = jest.fn();
 
-const renderContractsForm = (initVal) => renderWithIntl(
+const renderContractsForm = (stripes, initVal) => renderWithIntl(
   <StripesContext.Provider value={stripes}>
     <MemoryRouter>
       <Form
@@ -37,7 +33,7 @@ const renderContractsForm = (initVal) => renderWithIntl(
 
 describe('Create new contract - without initial values', () => {
   beforeEach(() => {
-    renderContractsForm({});
+    renderContractsForm(useStripes(), {});
   });
 
   it('should show pane title', () => {

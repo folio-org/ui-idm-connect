@@ -6,7 +6,6 @@ import { MemoryRouter } from 'react-router-dom';
 import { createStore, combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 
-import '../../../../test/jest/__mock__';
 import renderWithIntl from '../../../../test/jest/helpers/renderWithIntl';
 import usersFixtures from '../../../../test/jest/fixtures/users';
 import usersWithFolioUserFixtures from '../../../../test/jest/fixtures/usersWithFolioUser';
