@@ -39,7 +39,7 @@
     "searchIdm.noResults": "Žádné výsledky v IDM",
     "searchIdm.takeContinue": "Vezměte a pokračujte",
     "searchIdm.continue": "Pokračovat",
-    "searchIdm.error": "Chyba načtení IDM {msg}",
+    "searchIdm.error": "Chyba načtení uživatele",
     "searchIdm.choose": "Vybrat",
     "searchIdm.selected": "Vybrané",
     "searchIdm.noMatch": "Žádná shoda",

@@ -39,7 +39,7 @@
     "searchIdm.noResults": "No results in IDM",
     "searchIdm.takeContinue": "קח והמשיך",
     "searchIdm.continue": "Continue",
-    "searchIdm.error": "Error fetch IDM {msg}",
+    "searchIdm.error": "Error fetch user",
     "searchIdm.choose": "בחר",
     "searchIdm.selected": "Selected",
     "searchIdm.noMatch": "אין התאמה",
