@@ -39,7 +39,7 @@
     "searchIdm.noResults": "No results in IDM",
     "searchIdm.takeContinue": "Take and continue",
     "searchIdm.continue": "Continuer",
-    "searchIdm.error": "Error fetch IDM {msg}",
+    "searchIdm.error": "Error fetch user",
     "searchIdm.choose": "Choisir",
     "searchIdm.selected": "Selected",
     "searchIdm.noMatch": "No match",
