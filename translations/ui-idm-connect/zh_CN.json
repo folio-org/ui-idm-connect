@@ -39,7 +39,7 @@
     "searchIdm.noResults": "IDM 中无结果",
     "searchIdm.takeContinue": "采取并继续",
     "searchIdm.continue": "继续",
-    "searchIdm.error": "错误获取 IDM {msg}",
+    "searchIdm.error": "错误获取用户",
     "searchIdm.choose": "选择",
     "searchIdm.selected": "已选",
     "searchIdm.noMatch": "没有匹配",

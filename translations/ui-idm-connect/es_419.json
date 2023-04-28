@@ -39,7 +39,7 @@
     "searchIdm.noResults": "Sin resultados en IDM",
     "searchIdm.takeContinue": "Tomar y continuar",
     "searchIdm.continue": "Continúe en",
-    "searchIdm.error": "Error fetch user",
+    "searchIdm.error": "Error al recuperar usuario",
     "searchIdm.choose": "Elija",
     "searchIdm.selected": "Selección",
     "searchIdm.noMatch": "No coincide",
