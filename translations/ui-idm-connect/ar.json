@@ -39,7 +39,7 @@
     "searchIdm.noResults": "لم يتم العثور على نتائج في IDM",
     "searchIdm.takeContinue": "أخذ ومتابعة",
     "searchIdm.continue": "متابعة",
-    "searchIdm.error": "خطأ في جلب IDM {msg}",
+    "searchIdm.error": "Error fetch user",
     "searchIdm.choose": "اختر",
     "searchIdm.selected": "المحدد",
     "searchIdm.noMatch": "لا يوجد تطابق",
