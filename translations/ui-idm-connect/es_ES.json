@@ -3,7 +3,7 @@
     "status": "Status",
     "lastname": "Apellido",
     "firstname": "Nombre",
-    "searchInputLabel": "Search",
+    "searchInputLabel": "Buscar",
     "noSourceYet": "No source yet",
     "contracts": "Walk-in contracts",
     "uniLogin": "Uni login",
