@@ -11,6 +11,7 @@ import {
 import urls from '../components/DisplayUtils/urls';
 import ChangeUBNumberView from '../components/view/SearchIdm/ChangeUBNumber/ChangeUBNumberView';
 import getInitialValues from '../components/view/SearchIdm/ChangeUBNumber/getInitialValues';
+import fetchWithDefaultOptions from '../util/fetchWithDefaultOptions';
 
 class ChangeUBNumberViewRoute extends React.Component {
   static propTypes = {
@@ -45,15 +46,11 @@ class ChangeUBNumberViewRoute extends React.Component {
     const uniLogin = adaptedInitialValues.uniLogin;
     const fetchMethod = Object.keys(newUBReaderNumber).length === 0 ? 'DELETE' : 'POST';
     const fetchPath = Object.keys(newUBReaderNumber).length === 0 ?
-      `${okapi.url}/idm-connect/ubreadernumber?unilogin=${uniLogin}` :
-      `${okapi.url}/idm-connect/ubreadernumber?unilogin=${uniLogin}&UBReaderNumber=${newUBReaderNumber.UBReaderNumber}`;
+      `/idm-connect/ubreadernumber?unilogin=${uniLogin}` :
+      `/idm-connect/ubreadernumber?unilogin=${uniLogin}&UBReaderNumber=${newUBReaderNumber.UBReaderNumber}`;
 
     if (uniLogin) {
-      return fetch(fetchPath, {
-        headers: {
-          'X-Okapi-Tenant': okapi.tenant,
-          'X-Okapi-Token': okapi.token,
-        },
+      return fetchWithDefaultOptions(okapi, fetchPath, {
         method: fetchMethod,
       }).then((response) => {
         if (response.ok) {
