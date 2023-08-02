@@ -2,40 +2,28 @@ import moment from 'moment';
 import { getFormValues } from 'redux-form';
 import _ from 'lodash';
 import urls from '../components/DisplayUtils/urls';
-
-const createOkapiHeaders = (okapi) => {
-  return {
-    headers: {
-      'X-Okapi-Tenant': okapi.tenant,
-      'X-Okapi-Token': okapi.token,
-    },
-  };
-};
+import fetchWithDefaultOptions from './fetchWithDefaultOptions';
 
 const fetchFolioUsers = (id, okapi) => {
-  return fetch(
-    `${okapi.url}/users?query=externalSystemId==${id}`,
-    createOkapiHeaders(okapi)
-  ).then((response) => {
-    if (response.ok) {
-      return response.json();
-    } else {
-      return Promise.reject(new Error('Error getting Folio users'));
-    }
-  });
+  return fetchWithDefaultOptions(okapi, `/users?query=externalSystemId==${id}`)
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        return Promise.reject(new Error('Error getting Folio users'));
+      }
+    });
 };
 
 const fetchIdmUsers = (formValues, okapi) => {
-  return fetch(
-    `${okapi.url}/idm-connect/searchidm?firstName=${formValues.firstname}&lastName=${formValues.lastname}&dateOfBirth=${moment(formValues.dateOfBirth).format('YYYY-MM-DD')}`,
-    createOkapiHeaders(okapi)
-  ).then((response) => {
-    if (response.ok) {
-      return response.json();
-    } else {
-      return Promise.reject(new Error('Error getting IDM users'));
-    }
-  });
+  return fetchWithDefaultOptions(okapi, `/idm-connect/searchidm?firstName=${formValues.firstname}&lastName=${formValues.lastname}&dateOfBirth=${moment(formValues.dateOfBirth).format('YYYY-MM-DD')}`)
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        return Promise.reject(new Error('Error getting IDM users'));
+      }
+    });
 };
 
 const mergeData = (idmUser, folioUsers) => {
