@@ -64,7 +64,7 @@ describe('ContractView', () => {
     expect(document.querySelector('#commentAccordion')).toBeInTheDocument();
   });
 
-  test('close and open accordions', () => {
+  test('close and open accordions', async () => {
     const expandCollapseAllButton = document.querySelector('#clickable-expand-all');
     const accordionPersonal = document.querySelector('#accordion-toggle-button-personalAccordion');
     const accordionContract = document.querySelector('#accordion-toggle-button-contractAccordion');
@@ -73,17 +73,17 @@ describe('ContractView', () => {
     expect(accordionPersonal).toBeInTheDocument();
     expect(accordionPersonal).toHaveAttribute('aria-expanded', 'false');
 
-    userEvent.click(accordionPersonal);
+    await userEvent.click(accordionPersonal);
     expect(accordionPersonal).toHaveAttribute('aria-expanded', 'true');
 
-    userEvent.click(expandCollapseAllButton);
+    await userEvent.click(expandCollapseAllButton);
     expect(accordionPersonal).toHaveAttribute('aria-expanded', 'true');
     expect(accordionContract).toHaveAttribute('aria-expanded', 'true');
     expect(accordionContact).toHaveAttribute('aria-expanded', 'true');
     expect(accordionComment).toHaveAttribute('aria-expanded', 'true');
     expect(screen.getByRole('button', { name: 'Collapse all' })).toBeInTheDocument();
 
-    userEvent.click(expandCollapseAllButton);
+    await userEvent.click(expandCollapseAllButton);
     expect(accordionPersonal).toHaveAttribute('aria-expanded', 'false');
     expect(accordionContract).toHaveAttribute('aria-expanded', 'false');
     expect(accordionContact).toHaveAttribute('aria-expanded', 'false');
@@ -91,40 +91,40 @@ describe('ContractView', () => {
     expect(screen.getByRole('button', { name: 'Expand all' })).toBeInTheDocument();
   });
 
-  it('should render the actions menu with edit and delete option', () => {
+  it('should render the actions menu with edit and delete option', async () => {
     const actionButton = document.querySelector('[data-test-pane-header-actions-button]');
     expect(actionButton).toBeVisible();
-    userEvent.click(actionButton);
+    await userEvent.click(actionButton);
 
     const editButton = screen.getByRole('button', { name: 'Edit' });
     expect(editButton).toBeInTheDocument();
-    userEvent.click(editButton);
+    await userEvent.click(editButton);
     expect(handlers.onEdit).toHaveBeenCalled();
 
     const deleteButton = screen.getByRole('button', { name: 'Delete' });
     expect(deleteButton).toBeInTheDocument();
-    userEvent.click(deleteButton);
+    await userEvent.click(deleteButton);
     expect(screen.getByText('Do you really want to delete Führer, Lienhardt?')).toBeInTheDocument();
     const cancelButton = screen.getByRole('button', { name: 'Cancel' });
     const submitButton = screen.getByRole('button', { name: 'Delete' });
     expect(cancelButton).toBeInTheDocument();
     expect(submitButton).toBeInTheDocument();
-    userEvent.click(submitButton);
+    await userEvent.click(submitButton);
     expect(handlers.onDelete).toHaveBeenCalled();
   });
 
-  test('click cancel delete option', () => {
+  test('click cancel delete option', async () => {
     const actionButton = document.querySelector('[data-test-pane-header-actions-button]');
     expect(actionButton).toBeVisible();
-    userEvent.click(actionButton);
+    await userEvent.click(actionButton);
 
     const deleteButton = screen.getByRole('button', { name: 'Delete' });
     expect(deleteButton).toBeInTheDocument();
-    userEvent.click(deleteButton);
+    await userEvent.click(deleteButton);
     expect(screen.getByText('Do you really want to delete Führer, Lienhardt?')).toBeInTheDocument();
     const cancelButton = screen.getByRole('button', { name: 'Cancel' });
     expect(cancelButton).toBeInTheDocument();
-    userEvent.click(cancelButton);
+    await userEvent.click(cancelButton);
   });
 });
 
@@ -136,14 +136,14 @@ describe('ContractView - without delete permission', () => {
     renderContract(stripes, contractFixtures, true, false);
   });
 
-  it('should render the actions menu with edit option but NOT delete option', () => {
+  it('should render the actions menu with edit option but NOT delete option', async () => {
     const actionButton = document.querySelector('[data-test-pane-header-actions-button]');
     expect(actionButton).toBeVisible();
-    userEvent.click(actionButton);
+    await userEvent.click(actionButton);
 
     const editButton = screen.getByRole('button', { name: 'Edit' });
     expect(editButton).toBeInTheDocument();
-    userEvent.click(editButton);
+    await userEvent.click(editButton);
     expect(handlers.onEdit).toHaveBeenCalled();
 
     const deleteButton = document.querySelector('#clickable-delete-contract');
@@ -159,10 +159,10 @@ describe('ContractView - with delete permission but status NOT draft', () => {
     renderContract(stripes, contractWithoutDateAndStatusPending, true, true);
   });
 
-  it('should render the actions menu with edit option but NOT delete option', () => {
+  it('should render the actions menu with edit option but NOT delete option', async () => {
     const actionButton = document.querySelector('[data-test-pane-header-actions-button]');
     expect(actionButton).toBeVisible();
-    userEvent.click(actionButton);
+    await userEvent.click(actionButton);
 
     const editButton = screen.getByRole('button', { name: 'Edit' });
     expect(editButton).toBeInTheDocument();

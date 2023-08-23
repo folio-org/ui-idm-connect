@@ -1,5 +1,5 @@
 import React from 'react';
-import { cleanup, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
@@ -41,7 +41,6 @@ const renderSearchIdmRoute = (rerender) => renderWithIntl(
 
 describe('When SearchIdmRoute is rendered', () => {
   beforeEach(() => {
-    cleanup();
     store = createStore(reducer);
     renderSearchIdmRoute();
   });
@@ -54,8 +53,8 @@ describe('When SearchIdmRoute is rendered', () => {
     expect(screen.getByRole('button', { name: 'Cancel' })).toBeInTheDocument();
   });
 
-  it('clicking the cancel button should push to history', () => {
-    userEvent.click(screen.getByRole('button', { name: 'Cancel' }));
+  it('clicking the cancel button should push to history', async () => {
+    await userEvent.click(screen.getByRole('button', { name: 'Cancel' }));
     expect(historyPushMock).toHaveBeenCalledWith(urls.contracts());
   });
 
@@ -65,14 +64,14 @@ describe('When SearchIdmRoute is rendered', () => {
     let resp200WithFolioUser;
     let resp500;
 
-    beforeEach(() => {
+    beforeEach(async () => {
       originalFetch = global.fetch;
       resp200WithUser = Promise.resolve(new Response(JSON.stringify(user), { status: 200, statusText: 'Ok' }));
       resp200WithFolioUser = Promise.resolve(new Response(JSON.stringify(users[0].folioUsers), { status: 200, statusText: 'Ok' }));
       resp500 = Promise.resolve(new Response(null, { status: 500, statusText: 'Internal Server Error' }));
-      userEvent.type(screen.getByRole('textbox', { name: 'Last name' }), 'e');
-      userEvent.type(screen.getByRole('textbox', { name: 'First name' }), 'e');
-      userEvent.type(screen.getByRole('textbox', { name: 'Birth date' }), '01/01/2000');
+      await userEvent.type(screen.getByRole('textbox', { name: 'Last name' }), 'e');
+      await userEvent.type(screen.getByRole('textbox', { name: 'First name' }), 'e');
+      await userEvent.type(screen.getByRole('textbox', { name: 'Birth date' }), '01/01/2000');
     });
 
     afterEach(() => {
@@ -86,25 +85,22 @@ describe('When SearchIdmRoute is rendered', () => {
     it('clicking search should render result if fetches are OK', async () => {
       global.fetch = jest.fn((url) => (url.includes('/idm-connect/searchidm') ? resp200WithUser : resp200WithFolioUser));
 
-      userEvent.click(screen.getByRole('button', { name: 'Search' }));
+      await userEvent.click(screen.getByRole('button', { name: 'Search' }));
       expect(await screen.findByText('Hausman, Linhart')).toBeInTheDocument();
-      await new Promise(r => setTimeout(r, 500)); // no idea why test fails without
     });
 
     it('clicking search should display error if fetch /users is not OK', async () => {
       global.fetch = jest.fn((url) => (url.includes('/idm-connect/searchidm') ? resp200WithUser : resp500));
 
-      userEvent.click(screen.getByRole('button', { name: 'Search' }));
+      await userEvent.click(screen.getByRole('button', { name: 'Search' }));
       expect(await screen.findByText('Error getting Folio users')).toBeVisible();
-      await new Promise(r => setTimeout(r, 500)); // no idea why test fails without
     });
 
     it('clicking search should display error if fetch /searchidm is not OK', async () => {
       global.fetch = jest.fn(() => resp500);
 
-      userEvent.click(screen.getByRole('button', { name: 'Search' }));
+      await userEvent.click(screen.getByRole('button', { name: 'Search' }));
       expect(await screen.findByText('Error getting IDM users')).toBeVisible();
-      await new Promise(r => setTimeout(r, 500)); // no idea why test fails without
     });
   });
 });

@@ -43,9 +43,9 @@ describe('Change ub number view - detail', () => {
     const inputChangeUbNumber = document.querySelector('#field-change-ub-number');
     const saveAndCloseButton = screen.getByRole('button', { name: 'Save & close' });
     expect(inputChangeUbNumber).toBeInTheDocument();
-    expect(saveAndCloseButton).toHaveAttribute('disabled');
+    expect(saveAndCloseButton).toBeDisabled();
     expect(document.querySelector('#msg-ubreadernumber-statusNotActive')).toBeInTheDocument();
-    expect(inputChangeUbNumber).toHaveAttribute('disabled');
+    expect(inputChangeUbNumber).toBeDisabled();
   });
 
   // TODO for user with accountState: 'Aktives Uni-Login',
