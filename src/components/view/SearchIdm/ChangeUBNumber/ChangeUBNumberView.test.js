@@ -1,8 +1,8 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 
-import { screen } from '@testing-library/react';
-// import userEvent from '@testing-library/user-event';
+import { screen } from '@folio/jest-config-stripes/testing-library/react';
+// import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 
 import renderWithIntl from '../../../../../test/jest/helpers/renderWithIntl';
 import userFixtures from '../../../../../test/jest/fixtures/user';
