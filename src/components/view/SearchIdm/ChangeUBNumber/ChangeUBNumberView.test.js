@@ -1,8 +1,8 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 
-import { screen } from '@testing-library/react';
-// import userEvent from '@testing-library/user-event';
+import { screen } from '@folio/jest-config-stripes/testing-library/react';
+// import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 
 import renderWithIntl from '../../../../../test/jest/helpers/renderWithIntl';
 import userFixtures from '../../../../../test/jest/fixtures/user';
@@ -43,9 +43,9 @@ describe('Change ub number view - detail', () => {
     const inputChangeUbNumber = document.querySelector('#field-change-ub-number');
     const saveAndCloseButton = screen.getByRole('button', { name: 'Save & close' });
     expect(inputChangeUbNumber).toBeInTheDocument();
-    expect(saveAndCloseButton).toHaveAttribute('disabled');
+    expect(saveAndCloseButton).toBeDisabled();
     expect(document.querySelector('#msg-ubreadernumber-statusNotActive')).toBeInTheDocument();
-    expect(inputChangeUbNumber).toHaveAttribute('disabled');
+    expect(inputChangeUbNumber).toBeDisabled();
   });
 
   // TODO for user with accountState: 'Aktives Uni-Login',

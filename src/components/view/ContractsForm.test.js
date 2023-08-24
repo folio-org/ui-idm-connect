@@ -1,6 +1,6 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { screen } from '@folio/jest-config-stripes/testing-library/react';
+import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 import { Form } from 'react-final-form';
 import { MemoryRouter } from 'react-router-dom';
 
@@ -66,33 +66,33 @@ describe('Create new contract - without initial values', () => {
 
   test('fill required fields should enable Save & close button', async () => {
     const saveAndCloseButton = screen.getByRole('button', { name: 'Save & close' });
-    expect(saveAndCloseButton).toHaveAttribute('disabled');
+    expect(saveAndCloseButton).toBeDisabled();
 
-    userEvent.type(screen.getByRole('textbox', { name: 'Last name' }), 'Führer');
-    userEvent.type(screen.getByRole('textbox', { name: 'First name' }), 'Lienhardt');
-    userEvent.type(screen.getByRole('textbox', { name: 'Birth date' }), '04/22/1994');
-    userEvent.type(screen.getByRole('textbox', { name: 'Expiration date' }), '01/12/2020');
-    userEvent.type(screen.getByRole('textbox', { name: 'Email (external)' }), 'lienhardtfuehrer@aol.com');
-    userEvent.type(screen.getByRole('textbox', { name: 'Street' }), 'Peter-Schmitter-Straße 83');
-    userEvent.type(screen.getByRole('textbox', { name: 'Zip/Postal Code' }), '88453');
-    userEvent.type(screen.getByRole('textbox', { name: 'City' }), 'Erolzheim');
-    userEvent.type(screen.getByRole('textbox', { name: 'Country' }), 'Germany');
+    await userEvent.type(screen.getByRole('textbox', { name: 'Last name' }), 'Führer');
+    await userEvent.type(screen.getByRole('textbox', { name: 'First name' }), 'Lienhardt');
+    await userEvent.type(screen.getByRole('textbox', { name: 'Birth date' }), '04/22/1994');
+    await userEvent.type(screen.getByRole('textbox', { name: 'Expiration date' }), '01/12/2020');
+    await userEvent.type(screen.getByRole('textbox', { name: 'Email (external)' }), 'lienhardtfuehrer@aol.com');
+    await userEvent.type(screen.getByRole('textbox', { name: 'Street' }), 'Peter-Schmitter-Straße 83');
+    await userEvent.type(screen.getByRole('textbox', { name: 'Zip/Postal Code' }), '88453');
+    await userEvent.type(screen.getByRole('textbox', { name: 'City' }), 'Erolzheim');
+    await userEvent.type(screen.getByRole('textbox', { name: 'Country' }), 'Germany');
 
-    expect(saveAndCloseButton).not.toHaveAttribute('disabled');
-    userEvent.click(saveAndCloseButton);
+    expect(saveAndCloseButton).toBeEnabled();
+    await userEvent.click(saveAndCloseButton);
     expect(onSubmit).toHaveBeenCalled();
-  });
+  }, 10000);
 
   test('click Cancel button', async () => {
     const cancelButton = screen.getByRole('button', { name: 'Cancel' });
 
     expect(cancelButton).toBeInTheDocument();
-    expect(cancelButton).not.toHaveAttribute('disabled');
-    userEvent.click(cancelButton);
+    expect(cancelButton).toBeEnabled();
+    await userEvent.click(cancelButton);
     expect(onClose).toHaveBeenCalled();
   });
 
-  test('close and open accordions', () => {
+  test('close and open accordions', async () => {
     const expandCollapseAllButton = document.querySelector('#clickable-expand-all');
     const accordionPersonal = document.querySelector('#accordion-toggle-button-editPersonalAccordion');
     const accordionContract = document.querySelector('#accordion-toggle-button-editContractAccordion');
@@ -101,17 +101,17 @@ describe('Create new contract - without initial values', () => {
     expect(accordionPersonal).toBeInTheDocument();
     expect(accordionPersonal).toHaveAttribute('aria-expanded', 'true');
 
-    userEvent.click(accordionPersonal);
+    await userEvent.click(accordionPersonal);
     expect(accordionPersonal).toHaveAttribute('aria-expanded', 'false');
 
-    userEvent.click(expandCollapseAllButton);
+    await userEvent.click(expandCollapseAllButton);
     expect(accordionPersonal).toHaveAttribute('aria-expanded', 'false');
     expect(accordionContract).toHaveAttribute('aria-expanded', 'false');
     expect(accordionContact).toHaveAttribute('aria-expanded', 'false');
     expect(accordionComment).toHaveAttribute('aria-expanded', 'false');
     expect(screen.getByRole('button', { name: 'Expand all' })).toBeInTheDocument();
 
-    userEvent.click(expandCollapseAllButton);
+    await userEvent.click(expandCollapseAllButton);
     expect(accordionPersonal).toHaveAttribute('aria-expanded', 'true');
     expect(accordionContract).toHaveAttribute('aria-expanded', 'true');
     expect(accordionContact).toHaveAttribute('aria-expanded', 'true');

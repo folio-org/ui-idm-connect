@@ -5,6 +5,6 @@ module.exports = {
   ...config,
   setupFiles: [
     ...config.setupFiles,
-    path.join(__dirname, './test/jest/setupTests.js'),
+    path.join(__dirname, './test/jest/setupFiles.js'),
   ],
 };

@@ -1,6 +1,6 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { screen } from '@folio/jest-config-stripes/testing-library/react';
+import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import { createStore, combineReducers } from 'redux';
@@ -126,17 +126,17 @@ describe('Search IDM - trigger search', () => {
     const searchButton = screen.getByRole('button', { name: 'Search' });
     const cancelButton = screen.getByRole('button', { name: 'Cancel' });
 
-    expect(searchButton).toHaveAttribute('disabled');
+    expect(searchButton).toBeDisabled();
 
-    userEvent.type(lastnameInput, 'Hausmann');
-    userEvent.type(firstnameInput, 'Lienhardt');
-    userEvent.type(dateOfBirthInput, '06/12/1874');
-    userEvent.click(searchButton);
+    await userEvent.type(lastnameInput, 'Hausmann');
+    await userEvent.type(firstnameInput, 'Lienhardt');
+    await userEvent.type(dateOfBirthInput, '06/12/1874');
+    await userEvent.click(searchButton);
 
     renderUsers(userFixtures, true, false, renderWithIntlResult.rerender);
 
     expect(onSubmit).toHaveBeenCalled();
-    expect(searchButton).not.toHaveAttribute('disabled');
+    expect(searchButton).toBeEnabled();
     expect(screen.getByText('1 Result in IDM')).toBeVisible();
 
     expect(cancelButton).toBeInTheDocument();
@@ -145,13 +145,13 @@ describe('Search IDM - trigger search', () => {
     expect(continueButton).toBeInTheDocument();
     const chooseButton = screen.getByRole('button', { name: 'Choose' });
     expect(chooseButton).toBeInTheDocument();
-    userEvent.click(chooseButton);
+    await userEvent.click(chooseButton);
     const selectedButton = screen.getByRole('button', { name: 'Selected' });
     expect(selectedButton).toBeInTheDocument();
     const takeAndContinueButton = screen.getByRole('button', { name: 'Take and continue' });
     expect(takeAndContinueButton).toBeInTheDocument();
 
-    userEvent.click(cancelButton);
+    await userEvent.click(cancelButton);
     expect(onClose).toHaveBeenCalled();
   });
 });
@@ -166,24 +166,23 @@ describe('Search IDM - select user, enter new search and create empty contract',
     const firstnameInput = document.querySelector('#searchIdm_firstname');
     const dateOfBirthInput = document.querySelector('#searchIdm_dateOfBirth');
     const searchButton = screen.getByRole('button', { name: 'Search' });
-    expect(searchButton).toHaveAttribute('disabled');
+    expect(searchButton).toBeDisabled();
 
-    userEvent.type(lastnameInput, 'Hausmann');
-    userEvent.type(firstnameInput, 'Lienhardt');
-    userEvent.type(dateOfBirthInput, '1874-06-12');
-    userEvent.click(searchButton);
+    await userEvent.type(lastnameInput, 'Hausmann');
+    await userEvent.type(firstnameInput, 'Lienhardt');
+    await userEvent.type(dateOfBirthInput, '1874-06-12');
+    await userEvent.click(searchButton);
 
     renderUsers(userFixtures, true, false, renderWithIntlResult.rerender);
 
     expect(onSubmit).toHaveBeenCalled();
-    // expect(searchButton).toHaveProperty('disabled', true);
-    expect(searchButton).not.toHaveAttribute('disabled');
+    expect(searchButton).toBeEnabled();
     expect(screen.getByText('1 Result in IDM')).toBeVisible();
 
-    userEvent.type(lastnameInput, 'lastname');
-    userEvent.type(firstnameInput, 'firstname');
-    userEvent.type(dateOfBirthInput, '1874-06-12');
-    userEvent.click(searchButton);
+    await userEvent.type(lastnameInput, 'lastname');
+    await userEvent.type(firstnameInput, 'firstname');
+    await userEvent.type(dateOfBirthInput, '1874-06-12');
+    await userEvent.click(searchButton);
 
     renderUsers([], true, true, renderWithIntlResult.rerender);
 
@@ -199,35 +198,34 @@ describe('Search IDM - Create new user', () => {
     renderWithIntlResult = renderUsers(usersFixtures, true, false);
   });
 
-  it('should show take and continue button', () => {
+  it('should show take and continue button', async () => {
     const lastnameInput = document.querySelector('#searchIdm_lastname');
     const firstnameInput = document.querySelector('#searchIdm_firstname');
     const dateOfBirthInput = document.querySelector('#searchIdm_dateOfBirth');
     const searchButton = screen.getByRole('button', { name: 'Search' });
     const continueButton = screen.getByRole('button', { name: 'Continue' });
     expect(continueButton).toBeVisible();
-    expect(continueButton).toHaveAttribute('disabled');
+    expect(continueButton).toHaveAttribute('disabled'); // not a form element
 
-    userEvent.type(lastnameInput, 'Hausmann');
-    userEvent.type(firstnameInput, 'Lienhardt');
-    userEvent.type(dateOfBirthInput, '1874-06-12');
-    userEvent.click(searchButton);
+    await userEvent.type(lastnameInput, 'Hausmann');
+    await userEvent.type(firstnameInput, 'Lienhardt');
+    await userEvent.type(dateOfBirthInput, '1874-06-12');
+    await userEvent.click(searchButton);
 
     renderUsers(userFixtures, true, false, renderWithIntlResult.rerender);
 
     expect(onSubmit).toHaveBeenCalled();
-    // expect(searchButton).toHaveProperty('disabled', true);
-    expect(searchButton).not.toHaveAttribute('disabled');
+    expect(searchButton).toBeEnabled();
     expect(screen.getByText('1 Result in IDM')).toBeVisible();
 
     const chooseButton = screen.getByRole('button', { name: 'Choose' });
     expect(chooseButton).toBeVisible();
-    expect(chooseButton).not.toHaveAttribute('disabled');
+    expect(chooseButton).toBeEnabled();
     const noMatchButton = screen.getByRole('button', { name: 'No match' });
     expect(noMatchButton).toBeVisible();
-    expect(chooseButton).not.toHaveAttribute('disabled');
+    expect(chooseButton).toBeEnabled();
 
-    userEvent.click(noMatchButton);
-    expect(continueButton).not.toHaveAttribute('disabled');
+    await userEvent.click(noMatchButton);
+    expect(continueButton).not.toHaveAttribute('disabled');  // not a form element
   });
 });

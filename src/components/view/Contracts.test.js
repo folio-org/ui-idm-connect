@@ -1,10 +1,6 @@
 import React from 'react';
-import {
-  act,
-  screen,
-  waitFor,
-} from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
+import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 
 import { useStripes } from '@folio/stripes/core';
@@ -80,12 +76,12 @@ describe('Contracts SASQ View', () => {
       expect(screen.queryAllByText('Draft').length).toEqual(2);
     });
 
-    it('should sort the results', () => {
+    it('should sort the results', async () => {
       const columnHeaderLastname = document.querySelector('#list-column-lastname');
       expect(columnHeaderLastname).toBeInTheDocument();
       expect(window.location.href.includes('sort=lastName')).toBeFalsy();
 
-      userEvent.click(columnHeaderLastname);
+      await userEvent.click(columnHeaderLastname);
       expect(window.location.href.includes('sort=-lastName')).toBeFalsy();
     });
 
@@ -94,7 +90,7 @@ describe('Contracts SASQ View', () => {
       expect(collapseFilterButton).toBeVisible();
       expect(document.querySelector('#pane-contract-filter')).toBeInTheDocument();
 
-      await act(async () => userEvent.click(collapseFilterButton));
+      await userEvent.click(collapseFilterButton);
       await waitFor(() => expect(document.querySelector('#pane-contract-filter')).not.toBeInTheDocument());
     });
   });
@@ -125,27 +121,27 @@ describe('Contracts SASQ View - rerender result list', () => {
       expect(document.querySelector('#pane-contract-results')).toBeInTheDocument();
       expect(screen.getByText('Walk-in contracts')).toBeVisible();
       expect(document.querySelector('#list-column-status')).toBeInTheDocument();
-      expect(screen.queryByText('Last name')).toBeInTheDocument();
-      expect(screen.queryByText('First name')).toBeInTheDocument();
-      expect(screen.queryByText('Uni login')).toBeInTheDocument();
+      expect(screen.getByText('Last name')).toBeInTheDocument();
+      expect(screen.getByText('First name')).toBeInTheDocument();
+      expect(screen.getByText('Uni login')).toBeInTheDocument();
     });
 
-    it('should be present the actions menu', () => {
+    it('should be present the actions menu', async () => {
       const actionButton = document.querySelector('[data-test-pane-header-actions-button]');
       expect(actionButton).toBeVisible();
-      userEvent.click(actionButton);
+      await userEvent.click(actionButton);
       expect(screen.getByRole('button', { name: 'Search IDM' })).toBeInTheDocument();
       expect(screen.getByRole('button', { name: 'Change card number' })).toBeInTheDocument();
       expect(screen.getByRole('button', { name: 'New' })).toBeInTheDocument();
     });
 
-    test('trigger search should return results', () => {
+    test('trigger search should return results', async () => {
       const searchFieldInput = document.querySelector('#contractSearchField');
-      userEvent.type(searchFieldInput, 'Hausmann');
+      await userEvent.type(searchFieldInput, 'Hausmann');
 
-      expect(document.querySelector('#clickable-search-contracts')).not.toBeDisabled();
+      expect(document.querySelector('#clickable-search-contracts')).toBeEnabled();
       expect(screen.getByRole('button', { name: 'Search' })).toBeInTheDocument();
-      userEvent.click(screen.getByRole('button', { name: 'Search' }));
+      await userEvent.click(screen.getByRole('button', { name: 'Search' }));
 
       renderContracts(
         stripes,
@@ -155,7 +151,7 @@ describe('Contracts SASQ View - rerender result list', () => {
       );
 
       expect(document.querySelectorAll('#list-contracts .mclRowContainer > [role=row]').length).toEqual(1);
-      expect(screen.queryByText('Lienhardt')).toBeInTheDocument();
+      expect(screen.getByText('Lienhardt')).toBeInTheDocument();
     });
   });
 });

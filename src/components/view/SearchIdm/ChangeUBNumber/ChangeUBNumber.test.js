@@ -1,6 +1,6 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { screen } from '@folio/jest-config-stripes/testing-library/react';
+import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import { createStore, combineReducers } from 'redux';
@@ -103,22 +103,22 @@ describe('Change ub number - trigger search', () => {
     const searchButton = screen.getByRole('button', { name: 'Search' });
     const cancelButton = screen.getByRole('button', { name: 'Cancel' });
 
-    expect(searchButton).toHaveAttribute('disabled');
+    expect(searchButton).toBeDisabled();
 
-    userEvent.type(lastnameInput, 'Hausmann');
-    userEvent.type(firstnameInput, 'Lienhardt');
-    userEvent.type(dateOfBirthInput, '06/12/1874');
-    userEvent.click(searchButton);
+    await userEvent.type(lastnameInput, 'Hausmann');
+    await userEvent.type(firstnameInput, 'Lienhardt');
+    await userEvent.type(dateOfBirthInput, '06/12/1874');
+    await userEvent.click(searchButton);
 
     renderUsers(userFixtures, true, false, renderWithIntlResult.rerender);
 
     expect(onSubmit).toHaveBeenCalled();
-    expect(searchButton).not.toHaveAttribute('disabled');
+    expect(searchButton).toBeEnabled();
     expect(screen.getByText('1 Result in IDM')).toBeVisible();
 
     expect(cancelButton).toBeInTheDocument();
 
-    userEvent.click(cancelButton);
+    await userEvent.click(cancelButton);
     expect(onClose).toHaveBeenCalled();
   });
 });
@@ -133,18 +133,18 @@ describe('Change ub number - select user, enter new search and create empty cont
     const firstnameInput = document.querySelector('#searchIdm_firstname');
     const dateOfBirthInput = document.querySelector('#searchIdm_dateOfBirth');
     const searchButton = screen.getByRole('button', { name: 'Search' });
-    expect(searchButton).toHaveAttribute('disabled');
+    expect(searchButton).toBeDisabled();
 
-    userEvent.type(lastnameInput, 'Hausmann');
-    userEvent.type(firstnameInput, 'Lienhardt');
-    userEvent.type(dateOfBirthInput, '1874-06-12');
-    userEvent.click(searchButton);
+    await userEvent.type(lastnameInput, 'Hausmann');
+    await userEvent.type(firstnameInput, 'Lienhardt');
+    await userEvent.type(dateOfBirthInput, '1874-06-12');
+    await userEvent.click(searchButton);
 
     renderUsers(userFixtures, true, false, renderWithIntlResult.rerender);
 
     expect(onSubmit).toHaveBeenCalled();
     // expect(searchButton).toHaveProperty('disabled', true);
-    expect(searchButton).not.toHaveAttribute('disabled');
+    expect(searchButton).toBeEnabled();
     expect(screen.getByText('1 Result in IDM')).toBeVisible();
   });
 });
