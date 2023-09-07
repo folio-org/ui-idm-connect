@@ -59,7 +59,7 @@
     "noPermission": "没有权限",
     "yes": "是",
     "no": "否",
-    "readerNumber": "激活卡",
+    "readerNumber": "有效卡",
     "cardReaderNumber": "统一卡号",
     "UBReaderNumber": "图书馆卡号",
     "form.close": "关闭编辑对话框",
@@ -74,7 +74,7 @@
     "ubreadernumber.text.added.changeInfo": "本操作会将有效卡号更改为<strong>{libraryCardNumber}</strong> 。",
     "ubreadernumber.update.success": "图书馆卡号已成功更新。",
     "ubreadernumber.update.error": "更新图书馆卡号时出错{error}",
-    "ubreadernumber.text.statusNotActive": "无有效的合同。帐户状态 = <strong> {accountState} </strong> 。请解决合同状态。",
+    "ubreadernumber.text.statusNotActive": "无有效的合同。账户状态 = <strong> {accountState} </strong> 。请解决合同状态。",
     "searchIdm.title.new.search": "创建步入式合同1/2：搜索现有 IDM 标识",
     "searchIdm.title.new.create": "创建步入式合同 2/2：添加记录详情"
 }
