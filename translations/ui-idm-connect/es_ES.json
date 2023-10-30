@@ -20,7 +20,7 @@
     "address": "Address",
     "street": "Street",
     "addition": "Addition to address",
-    "zipCode": "Zip/Postal Code",
+    "zipCode": "Código postal",
     "city": "City",
     "country": "Country",
     "comment": "Comment",
