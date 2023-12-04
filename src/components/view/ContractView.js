@@ -14,6 +14,7 @@ import {
   Icon,
   Layout,
   Pane,
+  PaneHeader,
   Row,
 } from '@folio/stripes/components';
 
@@ -72,14 +73,36 @@ class ContractView extends React.Component {
     });
   }
 
+  renderLoadingPanePaneHeader = () => {
+    return (
+      <PaneHeader
+        dismissible
+        onClose={this.props.handlers.onClose}
+        paneTitle={<span>loading</span>}
+      />
+    );
+  };
+
+  renderDetailsPanePaneHeader = () => {
+    const { record } = this.props;
+    const fullName = `${_.get(record, 'personal.lastName')}, ${_.get(record, 'personal.firstName')}`;
+
+    return (
+      <PaneHeader
+        actionMenu={this.getActionMenu()}
+        dismissible
+        onClose={this.props.handlers.onClose}
+        paneTitle={<span>{fullName}</span>}
+      />
+    );
+  };
+
   renderLoadingPane = () => {
     return (
       <Pane
         defaultWidth="40%"
-        dismissible
         id="pane-contractDetails"
-        onClose={this.props.handlers.onClose}
-        paneTitle={<span>loading</span>}
+        renderHeader={this.renderLoadingPanePaneHeader}
       >
         <Layout className="marginTop1">
           <Icon icon="spinner-ellipsis" width="10px" />
@@ -177,12 +200,9 @@ class ContractView extends React.Component {
     return (
       <>
         <Pane
-          actionMenu={this.getActionMenu()}
           defaultWidth="40%"
-          dismissible
           id="pane-contractDetails"
-          onClose={this.props.handlers.onClose}
-          paneTitle={<span>{fullName}</span>}
+          renderHeader={this.renderDetailsPanePaneHeader}
         >
           <ContractHeaderView
             contract={record}
