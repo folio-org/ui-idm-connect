@@ -12,6 +12,7 @@ import {
   IconButton,
   Pane,
   PaneFooter,
+  PaneHeader,
   PaneMenu,
   Paneset,
   Row,
@@ -63,7 +64,7 @@ class ContractsForm extends React.Component {
         <FormattedMessage id="ui-idm-connect.form.close">
           { ([ariaLabel]) => (
             <IconButton
-              ariaLabel={ariaLabel}
+              aria-label={ariaLabel}
               icon="times"
               id="clickable-closecontractdialog"
               onClick={this.props.handlers.onClose}
@@ -127,12 +128,24 @@ class ContractsForm extends React.Component {
     });
   }
 
-  render() {
-    const { initialValues, isLoading, handleSubmit, isEditContract } = this.props;
-    const { accordions } = this.state;
+  renderPaneHeader = () => {
+    const { initialValues, isEditContract } = this.props;
+
     const paneTitleEdit = initialValues.uniLogin ? `${initialValues.personal.lastName}, ${initialValues.personal.firstName}` : <FormattedMessage id="ui-idm-connect.edit" />;
     const paneTitleCreate = <FormattedMessage id="ui-idm-connect.searchIdm.title.new.create" />;
     const firstMenu = this.getFirstMenu();
+
+    return (
+      <PaneHeader
+        firstMenu={firstMenu}
+        paneTitle={isEditContract ? paneTitleEdit : paneTitleCreate}
+      />
+    );
+  };
+
+  render() {
+    const { isLoading, handleSubmit } = this.props;
+    const { accordions } = this.state;
     const footer = this.getPaneFooter();
 
     if (isLoading) return <Icon icon="spinner-ellipsis" width="10px" />;
@@ -145,9 +158,8 @@ class ContractsForm extends React.Component {
         <Paneset isRoot>
           <Pane
             defaultWidth="100%"
-            firstMenu={firstMenu}
             footer={footer}
-            paneTitle={isEditContract ? paneTitleEdit : paneTitleCreate}
+            renderHeader={this.renderPaneHeader}
           >
             <div>
               <AccordionSet>

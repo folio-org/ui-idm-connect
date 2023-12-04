@@ -20,6 +20,7 @@ import {
   Icon,
   MultiColumnList,
   Pane,
+  PaneHeader,
   PaneMenu,
   Paneset,
   SearchField,
@@ -229,6 +230,33 @@ class Contracts extends React.Component {
     );
   };
 
+  renderFilterPaneHeader = () => {
+    return (
+      <PaneHeader
+        lastMenu={
+          <PaneMenu>
+            <CollapseFilterPaneButton
+              onClick={this.toggleFilterPane}
+            />
+          </PaneMenu>
+        }
+        paneTitle={<FormattedMessage id="stripes-smart-components.searchAndFilter" />}
+      />
+    );
+  };
+
+  renderResultsPaneHeader = (activeFilters, source) => {
+    return (
+      <PaneHeader
+        actionMenu={this.getActionMenu()}
+        appIcon={<AppIcon app="idm-connect" />}
+        firstMenu={this.renderResultsFirstMenu(activeFilters)}
+        paneSub={this.renderResultsPaneSubtitle(source)}
+        paneTitle={<FormattedMessage id="ui-idm-connect.contracts" />}
+      />
+    );
+  };
+
   render() {
     const {
       intl,
@@ -274,14 +302,7 @@ class Contracts extends React.Component {
                     <Pane
                       defaultWidth="18%"
                       id="pane-contract-filter"
-                      lastMenu={
-                        <PaneMenu>
-                          <CollapseFilterPaneButton
-                            onClick={this.toggleFilterPane}
-                          />
-                        </PaneMenu>
-                      }
-                      paneTitle={<FormattedMessage id="stripes-smart-components.searchAndFilter" />}
+                      renderHeader={this.renderFilterPaneHeader}
                     >
                       <form onSubmit={onSubmitSearch}>
                         <div>
@@ -323,15 +344,11 @@ class Contracts extends React.Component {
                     </Pane>
                   }
                   <Pane
-                    actionMenu={this.getActionMenu()}
-                    appIcon={<AppIcon app="idm-connect" />}
                     defaultWidth="fill"
-                    firstMenu={this.renderResultsFirstMenu(activeFilters)}
                     id="pane-contract-results"
                     padContent={false}
-                    paneSub={this.renderResultsPaneSubtitle(source)}
                     noOverflow
-                    paneTitle={<FormattedMessage id="ui-idm-connect.contracts" />}
+                    renderHeader={() => this.renderResultsPaneHeader(activeFilters, source)}
                   >
                     <MultiColumnList
                       autosize

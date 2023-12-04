@@ -10,6 +10,7 @@ import {
   MultiColumnList,
   Pane,
   PaneFooter,
+  PaneHeader,
   Paneset,
 } from '@folio/stripes/components';
 
@@ -148,9 +149,18 @@ class ChangeUBNumber extends React.Component {
     }
   }
 
+  renderPaneHeader = () => {
+    return (
+      <PaneHeader
+        dismissible
+        onClose={this.props.handlers.onClose}
+        paneTitle={<FormattedMessage id="ui-idm-connect.ubreadernumber.change" />}
+      />
+    );
+  };
+
   render() {
     const {
-      handlers: { onClose },
       invalid,
       onSubmit,
       pristine,
@@ -162,11 +172,9 @@ class ChangeUBNumber extends React.Component {
         <Paneset>
           <Pane
             defaultWidth="100%"
-            dismissible
             footer={this.renderPaneFooter()}
             id="pane-search-idm-form"
-            onClose={onClose}
-            paneTitle={<FormattedMessage id="ui-idm-connect.ubreadernumber.change" />}
+            renderHeader={this.renderPaneHeader}
           >
             <div className={css.addPaddingBottom}>
               <form onSubmit={(e) => onSubmit(e)}>

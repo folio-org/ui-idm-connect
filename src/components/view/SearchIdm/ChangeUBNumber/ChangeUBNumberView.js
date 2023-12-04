@@ -13,6 +13,7 @@ import {
   NoValue,
   Pane,
   PaneFooter,
+  PaneHeader,
   Row,
   TextField,
 } from '@folio/stripes/components';
@@ -129,6 +130,16 @@ class ChangeUBNumberView extends React.Component {
     }
   }
 
+  renderPaneHeader = () => {
+    return (
+      <PaneHeader
+        dismissible
+        onClose={this.props.handlers.onClose}
+        paneTitle={<FormattedMessage id="ui-idm-connect.ubreadernumber.edit" />}
+      />
+    );
+  };
+
   render() {
     const adaptedInitialValues = getInitialValues();
     const initialUBReaderNumber = _.get(adaptedInitialValues, 'UBReaderNumber', '');
@@ -143,10 +154,8 @@ class ChangeUBNumberView extends React.Component {
         <Pane
           data-testid="changeUBNumberView"
           defaultWidth="50%"
-          dismissible
           footer={this.getPaneFooter()}
-          onClose={this.props.handlers.onClose}
-          paneTitle={<FormattedMessage id="ui-idm-connect.ubreadernumber.edit" />}
+          renderHeader={this.renderPaneHeader}
         >
           <Row>
             <Col xs={4}>
