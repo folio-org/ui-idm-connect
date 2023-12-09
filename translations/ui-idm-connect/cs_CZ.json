@@ -34,7 +34,7 @@
     "accordion.contract": "Informace o smlouvě",
     "accordion.contact": "Kontaktní informace",
     "accordion.comment": "Komentář",
-    "searchIdm.title": "Vyhledávání IDM",
+    "searchIdm.title": "Vyhledat IDM",
     "searchIdm.resultCount": "{count, number} {count, plural, one {výsledek v IDM} other {výsledky in IDM}}",
     "searchIdm.noResults": "Žádné výsledky v IDM",
     "searchIdm.takeContinue": "Vezměte a pokračujte",
