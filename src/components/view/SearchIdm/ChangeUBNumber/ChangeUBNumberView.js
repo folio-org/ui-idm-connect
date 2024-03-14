@@ -63,7 +63,7 @@ class ChangeUBNumberView extends React.Component {
         onClick={handleSubmit}
         type="submit"
       >
-        <FormattedMessage id="ui-idm-connect.form.saveAndClose" />
+        <FormattedMessage id="stripes-components.saveAndClose" />
       </Button>
     );
 

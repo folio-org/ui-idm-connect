@@ -59,7 +59,6 @@
   "form.validate.noDollarBackslash": "No $ or \\ allowed!",
   "form.close": "Close edit dialog",
   "form.cancel": "Cancel",
-  "form.saveAndClose": "Save & close",
   "edit": "Edit",
   "delete": "Delete",
   "delete.confirm.message": "Do you really want to delete {fullName}?",
