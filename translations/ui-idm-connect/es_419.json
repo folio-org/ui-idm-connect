@@ -51,7 +51,6 @@
     "form.validate.noDollarBackslashRequired": "¡Se requiere! ¡No se admiten $ ni \\!",
     "form.validate.noDollarBackslash": "No se permite el uso de dinero.",
     "form.cancel": "Cancelar",
-    "form.saveAndClose": "Guardar y cerrar",
     "edit": "Editar",
     "delete": "Borrar",
     "delete.confirm.message": "¿De verdad quieres borrar {fullName}?",
