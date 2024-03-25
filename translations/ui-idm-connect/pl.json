@@ -51,7 +51,6 @@
     "form.validate.noDollarBackslashRequired": "Required! No $ or \\ allowed!",
     "form.validate.noDollarBackslash": "Znaki: $ \\ nie są dozwolone!",
     "form.cancel": "Anuluj",
-    "form.saveAndClose": "Zapisz i zamknij",
     "edit": "Edit",
     "delete": "Delete",
     "delete.confirm.message": "Do you really want to delete {fullName}?",

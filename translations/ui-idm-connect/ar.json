@@ -51,7 +51,6 @@
     "form.validate.noDollarBackslashRequired": "مطلوب! غير مسموح بعلامة $ أو \\!",
     "form.validate.noDollarBackslash": "غير مسموح بعلامة $ أو \\!",
     "form.cancel": "إلغاء",
-    "form.saveAndClose": "حفظ وإغلاق",
     "edit": "تحرير",
     "delete": "حذف",
     "delete.confirm.message": "هل تريد حقًا حذف {fullName}؟",

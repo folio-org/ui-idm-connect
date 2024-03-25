@@ -51,7 +51,6 @@
     "form.validate.noDollarBackslashRequired": "必填！不允许使用 $ 或 \\！",
     "form.validate.noDollarBackslash": "不允许使用 $ 或 \\！",
     "form.cancel": "取消",
-    "form.saveAndClose": "保存并关闭",
     "edit": "编辑",
     "delete": "删除",
     "delete.confirm.message": "确定删除{fullName}？",

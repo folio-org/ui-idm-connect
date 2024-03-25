@@ -51,7 +51,6 @@
     "form.validate.noDollarBackslashRequired": "Povinné! Žádné $ nebo \\ povoleno!",
     "form.validate.noDollarBackslash": "Žádné $ nebo \\ povoleno!",
     "form.cancel": "Zrušit",
-    "form.saveAndClose": "Uložit a zavřít",
     "edit": "Upravit",
     "delete": "Smazat",
     "delete.confirm.message": "Opravdu chcete smazat {fullName}?",
