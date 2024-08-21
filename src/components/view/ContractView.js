@@ -1,6 +1,6 @@
-import _ from 'lodash';
-import React from 'react';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
+import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -24,112 +24,58 @@ import ContractContractView from './ContractContract/ContractContractView';
 import ContractContactView from './ContractContact/ContractContactView';
 import ContractCommentView from './ContractComment/ContractCommentView';
 
-class ContractView extends React.Component {
-  static propTypes = {
-    canEdit: PropTypes.bool,
-    canDelete: PropTypes.bool,
-    handlers: PropTypes.shape({
-      onClose: PropTypes.func.isRequired,
-      onEdit: PropTypes.func,
-      onDelete: PropTypes.func,
-    }).isRequired,
-    isLoading: PropTypes.bool,
-    record: PropTypes.object,
-    stripes: PropTypes.object,
+const ContractView = ({
+  canEdit,
+  canDelete,
+  handlers,
+  isLoading,
+  record,
+  stripes,
+}) => {
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [accordions, setAccordions] = useState(
+    {
+      personalAccordion: false,
+      contractAccordion: false,
+      contactAccordion: false,
+      commentAccordion: false,
+    }
+  );
+
+  const handleExpandAll = (obj) => {
+    setAccordions(obj);
   };
 
-  constructor(props) {
-    super(props);
+  const handleAccordionToggle = ({ id }) => {
+    setAccordions({ ...accordions, [id]: !accordions[id] });
+  };
 
-    this.editButton = React.createRef();
-
-    this.state = {
-      confirmDelete: false,
-      accordions: {
-        personalAccordion: false,
-        contractAccordion: false,
-        contactAccordion: false,
-        commentAccordion: false,
-      },
-    };
-  }
-
-  handleExpandAll = (obj) => {
-    this.setState((curState) => {
-      const newState = _.cloneDeep(curState);
-
-      newState.accordions = obj;
-      return newState;
-    });
-  }
-
-  handleAccordionToggle = ({ id }) => {
-    this.setState((state) => {
-      const newState = _.cloneDeep(state);
-
-      if (!_.has(newState.accordions, id)) newState.accordions[id] = true;
-      newState.accordions[id] = !newState.accordions[id];
-      return newState;
-    });
-  }
-
-  renderLoadingPanePaneHeader = () => {
+  const renderLoadingPanePaneHeader = () => {
     return (
       <PaneHeader
         dismissible
-        onClose={this.props.handlers.onClose}
+        onClose={handlers.onClose}
         paneTitle={<span>loading</span>}
       />
     );
   };
 
-  renderDetailsPanePaneHeader = () => {
-    const { record } = this.props;
-    const fullName = `${_.get(record, 'personal.lastName')}, ${_.get(record, 'personal.firstName')}`;
-
-    return (
-      <PaneHeader
-        actionMenu={this.getActionMenu()}
-        dismissible
-        onClose={this.props.handlers.onClose}
-        paneTitle={<span>{fullName}</span>}
-      />
-    );
+  const beginDelete = () => {
+    setConfirmDelete(true);
   };
 
-  renderLoadingPane = () => {
-    return (
-      <Pane
-        defaultWidth="40%"
-        id="pane-contractDetails"
-        renderHeader={this.renderLoadingPanePaneHeader}
-      >
-        <Layout className="marginTop1">
-          <Icon icon="spinner-ellipsis" width="10px" />
-        </Layout>
-      </Pane>
-    );
-  }
-
-  beginDelete = () => {
-    this.setState({
-      confirmDelete: true,
-    });
-  }
-
-  confirmDelete = (confirmation) => {
+  const doConfirmDelete = (confirmation) => {
     if (confirmation) {
-      this.props.handlers.onDelete();
+      handlers.onDelete();
     } else {
-      this.setState({ confirmDelete: false });
+      setConfirmDelete(false);
     }
-  }
+  };
 
-  getActionMenu = () => ({ onToggle }) => {
-    const { record, handlers, canEdit, canDelete } = this.props;
-    const { confirmDelete } = this.state;
-    const fullName = `${_.get(record, 'personal.lastName')}, ${_.get(record, 'personal.firstName')}`;
-    const isStatusDraft = _.get(record, 'status') === 'draft';
+  // eslint-disable-next-line react/prop-types
+  const getActionMenu = () => ({ onToggle }) => {
+    const fullName = `${get(record, 'personal.lastName')}, ${get(record, 'personal.firstName')}`;
+    const isStatusDraft = get(record, 'status') === 'draft';
 
     if (canEdit || (canDelete && isStatusDraft)) {
       return (
@@ -160,7 +106,7 @@ class ContractView extends React.Component {
                   id="clickable-delete-contract"
                   marginBottom0
                   onClick={() => {
-                    this.beginDelete();
+                    beginDelete();
                     onToggle();
                   }}
                 >
@@ -180,8 +126,8 @@ class ContractView extends React.Component {
               id="ui-idm-connect.delete.confirm.message"
               values={{ fullName }}
             />}
-            onCancel={() => { this.confirmDelete(false); }}
-            onConfirm={() => { this.confirmDelete(true); }}
+            onCancel={() => { doConfirmDelete(false); }}
+            onConfirm={() => { doConfirmDelete(true); }}
             open={confirmDelete}
           />
         </>
@@ -191,101 +137,138 @@ class ContractView extends React.Component {
     }
   };
 
-  render() {
-    const { record, isLoading } = this.props;
-    const fullName = `${_.get(record, 'personal.lastName')}, ${_.get(record, 'personal.firstName')}`;
-
-    if (isLoading) return this.renderLoadingPane();
+  const renderDetailsPanePaneHeader = () => {
+    const fullName = `${get(record, 'personal.lastName')}, ${get(record, 'personal.firstName')}`;
 
     return (
-      <>
-        <Pane
-          defaultWidth="40%"
-          id="pane-contractDetails"
-          renderHeader={this.renderDetailsPanePaneHeader}
-        >
-          <ContractHeaderView
-            contract={record}
-            id="contractHeader"
-            stripes={this.props.stripes}
-          />
-          <Row>
-            <Col xs={12}>
-              <div>
-                <Headline
-                  size="xx-large"
-                  tag="h2"
-                >
-                  {fullName}
-                </Headline>
-              </div>
+      <PaneHeader
+        actionMenu={getActionMenu()}
+        dismissible
+        onClose={handlers.onClose}
+        paneTitle={<span>{fullName}</span>}
+      />
+    );
+  };
+
+  const renderLoadingPane = () => {
+    return (
+      <Pane
+        defaultWidth="40%"
+        id="pane-contractDetails"
+        renderHeader={renderLoadingPanePaneHeader}
+      >
+        <Layout className="marginTop1">
+          <Icon icon="spinner-ellipsis" width="10px" />
+        </Layout>
+      </Pane>
+    );
+  };
+
+  const fullName = `${get(record, 'personal.lastName')}, ${get(record, 'personal.firstName')}`;
+
+  if (isLoading) return renderLoadingPane();
+
+  return (
+    <>
+      <Pane
+        defaultWidth="40%"
+        id="pane-contractDetails"
+        renderHeader={renderDetailsPanePaneHeader}
+      >
+        <ContractHeaderView
+          contract={record}
+          id="contractHeader"
+          stripes={stripes}
+        />
+        <Row>
+          <Col xs={12}>
+            <div>
+              <Headline
+                size="xx-large"
+                tag="h2"
+              >
+                {fullName}
+              </Headline>
+            </div>
+          </Col>
+        </Row>
+        <AccordionSet>
+          <Row end="xs">
+            <Col xs>
+              <ExpandAllButton
+                accordionStatus={accordions}
+                id="clickable-expand-all"
+                onToggle={handleExpandAll}
+                setStatus={null}
+              />
             </Col>
           </Row>
-          <AccordionSet>
-            <Row end="xs">
-              <Col xs>
-                <ExpandAllButton
-                  accordionStatus={this.state.accordions}
-                  id="clickable-expand-all"
-                  onToggle={this.handleExpandAll}
-                  setStatus={null}
-                />
-              </Col>
-            </Row>
-            <Accordion
-              id="personalAccordion"
-              label={<FormattedMessage id="ui-idm-connect.accordion.personal" />}
-              onToggle={this.handleAccordionToggle}
-              open={this.state.accordions.personalAccordion}
-            >
-              <ContractPersonalView
-                contract={record}
-                id="contractPersonal"
-                stripes={this.props.stripes}
-              />
-            </Accordion>
-            <Accordion
-              id="contractAccordion"
-              label={<FormattedMessage id="ui-idm-connect.accordion.contract" />}
-              onToggle={this.handleAccordionToggle}
-              open={this.state.accordions.contractAccordion}
-            >
-              <ContractContractView
-                contract={record}
-                id="contractContract"
-                stripes={this.props.stripes}
-              />
-            </Accordion>
-            <Accordion
-              id="contactAccordion"
-              label={<FormattedMessage id="ui-idm-connect.accordion.contact" />}
-              onToggle={this.handleAccordionToggle}
-              open={this.state.accordions.contactAccordion}
-            >
-              <ContractContactView
-                contract={record}
-                id="contractContact"
-                stripes={this.props.stripes}
-              />
-            </Accordion>
-            <Accordion
-              id="commentAccordion"
-              label={<FormattedMessage id="ui-idm-connect.accordion.comment" />}
-              onToggle={this.handleAccordionToggle}
-              open={this.state.accordions.commentAccordion}
-            >
-              <ContractCommentView
-                contract={record}
-                id="contractComment"
-                stripes={this.props.stripes}
-              />
-            </Accordion>
-          </AccordionSet>
-        </Pane>
-      </>
-    );
-  }
-}
+          <Accordion
+            id="personalAccordion"
+            label={<FormattedMessage id="ui-idm-connect.accordion.personal" />}
+            onToggle={handleAccordionToggle}
+            open={accordions.personalAccordion}
+          >
+            <ContractPersonalView
+              contract={record}
+              id="contractPersonal"
+              stripes={stripes}
+            />
+          </Accordion>
+          <Accordion
+            id="contractAccordion"
+            label={<FormattedMessage id="ui-idm-connect.accordion.contract" />}
+            onToggle={handleAccordionToggle}
+            open={accordions.contractAccordion}
+          >
+            <ContractContractView
+              contract={record}
+              id="contractContract"
+              stripes={stripes}
+            />
+          </Accordion>
+          <Accordion
+            id="contactAccordion"
+            label={<FormattedMessage id="ui-idm-connect.accordion.contact" />}
+            onToggle={handleAccordionToggle}
+            open={accordions.contactAccordion}
+          >
+            <ContractContactView
+              contract={record}
+              id="contractContact"
+              stripes={stripes}
+            />
+          </Accordion>
+          <Accordion
+            id="commentAccordion"
+            label={<FormattedMessage id="ui-idm-connect.accordion.comment" />}
+            onToggle={handleAccordionToggle}
+            open={accordions.commentAccordion}
+          >
+            <ContractCommentView
+              contract={record}
+              id="contractComment"
+              stripes={stripes}
+            />
+          </Accordion>
+        </AccordionSet>
+      </Pane>
+    </>
+  );
+};
+
+ContractView.propTypes = {
+  canEdit: PropTypes.bool,
+  canDelete: PropTypes.bool,
+  handlers: PropTypes.shape({
+    onClose: PropTypes.func.isRequired,
+    onEdit: PropTypes.func,
+    onDelete: PropTypes.func,
+  }).isRequired,
+  isLoading: PropTypes.bool,
+  record: PropTypes.object,
+  stripes: PropTypes.object,
+};
 
 
 export default ContractView;

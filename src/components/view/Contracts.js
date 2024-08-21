@@ -1,14 +1,15 @@
-import _ from 'lodash';
-import React from 'react';
+import PropTypes from 'prop-types';
+import { get, noop } from 'lodash';
+import { useState } from 'react';
 import {
   withRouter,
   Link,
 } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import {
   injectIntl,
   FormattedMessage,
 } from 'react-intl';
+
 import {
   CollapseFilterPaneButton,
   ExpandFilterPaneButton,
@@ -31,54 +32,41 @@ import urls from '../DisplayUtils/urls';
 import ContractsFilters from './ContractsFilters';
 import DataLable from '../DisplayUtils/Format';
 
-class Contracts extends React.Component {
-  static propTypes = {
-    children: PropTypes.object,
-    contentData: PropTypes.arrayOf(PropTypes.object),
-    history: PropTypes.shape({
-      push: PropTypes.func.isRequired,
-    }).isRequired,
-    intl: PropTypes.shape({
-      formatMessage: PropTypes.func.isRequired,
-    }),
-    onNeedMoreData: PropTypes.func,
-    onSelectRow: PropTypes.func,
-    queryGetter: PropTypes.func.isRequired,
-    querySetter: PropTypes.func.isRequired,
-    searchString: PropTypes.string,
-    selectedRecordId: PropTypes.string,
-    source: PropTypes.object,
-    syncToLocationSearch: PropTypes.bool,
-    stripes: PropTypes.shape({
-      hasPerm: PropTypes.func.isRequired,
-    })
+const Contracts = ({
+  children,
+  contentData = {},
+  history,
+  intl,
+  onNeedMoreData,
+  onSelectRow,
+  queryGetter,
+  querySetter,
+  searchField,
+  searchString = '',
+  selectedRecordId,
+  source,
+  stripes,
+  syncToLocationSearch = true,
+}) => {
+  const [filterPaneIsVisible, setFilterPaneIsVisible] = useState(true);
+
+  const resultsFormatter = {
+    status: result => DataLable(get(result, 'status', '')),
+    lastName: result => result.personal.lastName,
+    firstName: result => result.personal.firstName,
+    uniLogin: result => result.uniLogin,
   };
 
-  static defaultProps = {
-    contentData: {},
-    searchString: '',
-    syncToLocationSearch: true,
-  }
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      filterPaneIsVisible: true,
-    };
-  }
-
-  resultsFormatter = {
-    status: source => DataLable(_.get(source, 'status', '')),
-    lastName: source => source.personal.lastName,
-    firstName: source => source.personal.firstName,
-    uniLogin: source => source.uniLogin,
+  // generate url for record-details
+  const rowURL = (id) => {
+    return `${urls.contractView(id)}${searchString}`;
+    // NEED FILTER: "status.active,status.technical implementation,status.request,status.negotiation"
   };
 
-  rowFormatter = (row) => {
+  const rowFormatter = (row) => {
     const { rowClass, rowData, rowIndex, rowProps = {}, cells } = row;
     const RowComponent = Link;
-    rowProps.to = this.rowURL(rowData.id);
+    rowProps.to = rowURL(rowData.id);
 
     return (
       <RowComponent
@@ -94,24 +82,15 @@ class Contracts extends React.Component {
         {cells}
       </RowComponent>
     );
-  }
-
-  // generate url for record-details
-  rowURL = (id) => {
-    return `${urls.contractView(id)}${this.props.searchString}`;
-    // NEED FILTER: "status.active,status.technical implementation,status.request,status.negotiation"
-  }
+  };
 
   // fade in/out of filter-pane
-  toggleFilterPane = () => {
-    this.setState(curState => ({
-      filterPaneIsVisible: !curState.filterPaneIsVisible,
-    }));
-  }
+  const toggleFilterPane = () => {
+    setFilterPaneIsVisible((curState) => !curState);
+  };
 
   // fade in / out the filter menu
-  renderResultsFirstMenu = (filters) => {
-    const { filterPaneIsVisible } = this.state;
+  const renderResultsFirstMenu = (filters) => {
     const filterCount = filters.string !== '' ? filters.string.split(',').length : 0;
     if (filterPaneIsVisible) {
       return null;
@@ -121,26 +100,27 @@ class Contracts extends React.Component {
       <PaneMenu>
         <ExpandFilterPaneButton
           filterCount={filterCount}
-          onClick={this.toggleFilterPane}
+          onClick={toggleFilterPane}
         />
       </PaneMenu>
     );
-  }
+  };
 
   // counting records of result list
-  renderResultsPaneSubtitle = (source) => {
-    if (source && source.loaded()) {
-      const count = source ? source.totalCount() : 0;
+  const renderResultsPaneSubtitle = (results) => {
+    if (results && results.loaded()) {
+      const count = results ? results.totalCount() : 0;
       return <FormattedMessage id="stripes-smart-components.searchResultsCountHeader" values={{ count }} />;
     }
 
     return <FormattedMessage id="stripes-smart-components.searchCriteria" />;
-  }
+  };
 
-  getActionMenu = () => ({ onToggle }) => {
-    const canSearch = this.props.stripes.hasPerm('ui-idm-connect.searchidm');
-    const canChange = this.props.stripes.hasPerm('ui-idm-connect.changeubreadernumber');
-    const canCreate = this.props.stripes.hasPerm('ui-idm-connect.create');
+  // eslint-disable-next-line react/prop-types
+  const getActionMenu = () => ({ onToggle }) => {
+    const canSearch = stripes.hasPerm('ui-idm-connect.searchidm');
+    const canChange = stripes.hasPerm('ui-idm-connect.changeubreadernumber');
+    const canCreate = stripes.hasPerm('ui-idm-connect.create');
     if (canSearch || canCreate || canChange) {
       return (
         <>
@@ -153,7 +133,7 @@ class Contracts extends React.Component {
                   id="clickable-searchIdm"
                   marginBottom0
                   onClick={() => {
-                    this.props.history.push({
+                    history.push({
                       pathname: `${urls.searchIdm()}`,
                       state: 'search'
                     });
@@ -174,7 +154,7 @@ class Contracts extends React.Component {
                   id="clickable-changeubreadernumber"
                   marginBottom0
                   onClick={() => {
-                    this.props.history.push({
+                    history.push({
                       pathname: `${urls.changeUBNumber()}`,
                     });
                     onToggle();
@@ -194,7 +174,7 @@ class Contracts extends React.Component {
                   id="clickable-new"
                   marginBottom0
                   onClick={() => {
-                    this.props.history.push({
+                    history.push({
                       pathname: `${urls.searchIdm()}`,
                       state: 'new'
                     });
@@ -211,32 +191,32 @@ class Contracts extends React.Component {
     } else {
       return null;
     }
-  }
+  };
 
-  renderIsEmptyMessage = (query, source) => {
-    if (!source) {
+  const renderIsEmptyMessage = (query, result) => {
+    if (!result) {
       return <FormattedMessage id="ui-idm-connect.noSourceYet" />;
     }
 
     return (
       <div>
         <NoResultsMessage
-          source={source}
+          source={result}
           searchTerm={query.query || ''}
           filterPaneIsVisible
-          toggleFilterPane={_.noop}
+          toggleFilterPane={noop}
         />
       </div>
     );
   };
 
-  renderFilterPaneHeader = () => {
+  const renderFilterPaneHeader = () => {
     return (
       <PaneHeader
         lastMenu={
           <PaneMenu>
             <CollapseFilterPaneButton
-              onClick={this.toggleFilterPane}
+              onClick={toggleFilterPane}
             />
           </PaneMenu>
         }
@@ -245,144 +225,155 @@ class Contracts extends React.Component {
     );
   };
 
-  renderResultsPaneHeader = (activeFilters, source) => {
+  const renderResultsPaneHeader = (activeFilters, result) => {
     return (
       <PaneHeader
-        actionMenu={this.getActionMenu()}
+        actionMenu={getActionMenu()}
         appIcon={<AppIcon app="idm-connect" />}
-        firstMenu={this.renderResultsFirstMenu(activeFilters)}
-        paneSub={this.renderResultsPaneSubtitle(source)}
+        firstMenu={renderResultsFirstMenu(activeFilters)}
+        paneSub={renderResultsPaneSubtitle(result)}
         paneTitle={<FormattedMessage id="ui-idm-connect.contracts" />}
       />
     );
   };
 
-  render() {
-    const {
-      intl,
-      queryGetter,
-      querySetter,
-      onNeedMoreData,
-      onSelectRow,
-      selectedRecordId,
-      source,
-      syncToLocationSearch
-    } = this.props;
-    const count = source ? source.totalCount() : 0;
-    const query = queryGetter() || {};
-    const sortOrder = query.sort || '';
+  const count = source ? source.totalCount() : 0;
+  const query = queryGetter() || {};
+  const sortOrder = query.sort || '';
 
-    return (
-      <div data-testid="contracts">
-        <SearchAndSortQuery
-          initialFilterState={{ status: ['updated'] }}
-          initialSearchState={{ query: '' }}
-          initialSortState={{ sort: 'lastName' }}
-          queryGetter={queryGetter}
-          querySetter={querySetter}
-          syncToLocationSearch={syncToLocationSearch}
-        >
-          {
-            ({
-              activeFilters,
-              filterChanged,
-              getFilterHandlers,
-              getSearchHandlers,
-              onSort,
-              onSubmitSearch,
-              resetAll,
-              searchChanged,
-              searchValue,
-            }) => {
-              const disableReset = () => !filterChanged && !searchChanged;
+  return (
+    <div data-testid="contracts">
+      <SearchAndSortQuery
+        initialFilterState={{ status: ['updated'] }}
+        initialSearchState={{ query: '' }}
+        initialSortState={{ sort: 'lastName' }}
+        queryGetter={queryGetter}
+        querySetter={querySetter}
+        syncToLocationSearch={syncToLocationSearch}
+      >
+        {
+          ({
+            activeFilters,
+            filterChanged,
+            getFilterHandlers,
+            getSearchHandlers,
+            onSort,
+            onSubmitSearch,
+            resetAll,
+            searchChanged,
+            searchValue,
+          }) => {
+            const disableReset = () => !filterChanged && !searchChanged;
 
-              return (
-                <Paneset>
-                  {this.state.filterPaneIsVisible &&
-                    <Pane
-                      defaultWidth="18%"
-                      id="pane-contract-filter"
-                      renderHeader={this.renderFilterPaneHeader}
-                    >
-                      <form onSubmit={onSubmitSearch}>
-                        <div>
-                          <SearchField
-                            ariaLabel={intl.formatMessage({ id: 'ui-idm-connect.searchInputLabel' })}
-                            autoFocus
-                            id="contractSearchField"
-                            inputRef={this.searchField}
-                            name="query"
-                            onChange={getSearchHandlers().query}
-                            onClear={getSearchHandlers().reset}
-                            value={searchValue.query}
-                          />
-                          <Button
-                            buttonStyle="primary"
-                            disabled={!searchValue.query || searchValue.query === ''}
-                            fullWidth
-                            id="clickable-search-contracts"
-                            type="submit"
-                          >
-                            <FormattedMessage id="stripes-smart-components.search" />
-                          </Button>
-                        </div>
-                        <Button
-                          buttonStyle="none"
-                          disabled={disableReset()}
-                          id="clickable-reset-all"
-                          onClick={resetAll}
-                        >
-                          <Icon icon="times-circle-solid">
-                            <FormattedMessage id="stripes-smart-components.resetAll" />
-                          </Icon>
-                        </Button>
-                        <ContractsFilters
-                          activeFilters={activeFilters.state}
-                          filterHandlers={getFilterHandlers()}
-                        />
-                      </form>
-                    </Pane>
-                  }
+            return (
+              <Paneset>
+                {filterPaneIsVisible &&
                   <Pane
-                    defaultWidth="fill"
-                    id="pane-contract-results"
-                    padContent={false}
-                    noOverflow
-                    renderHeader={() => this.renderResultsPaneHeader(activeFilters, source)}
+                    defaultWidth="18%"
+                    id="pane-contract-filter"
+                    renderHeader={renderFilterPaneHeader}
                   >
-                    <MultiColumnList
-                      autosize
-                      columnMapping={{
-                        status: <FormattedMessage id="ui-idm-connect.status" />,
-                        lastName: <FormattedMessage id="ui-idm-connect.lastname" />,
-                        firstName: <FormattedMessage id="ui-idm-connect.firstname" />,
-                        uniLogin: <FormattedMessage id="ui-idm-connect.uniLogin" />,
-                      }}
-                      contentData={this.props.contentData}
-                      formatter={this.resultsFormatter}
-                      id="list-contracts"
-                      isEmptyMessage={this.renderIsEmptyMessage(query, source)}
-                      isSelected={({ item }) => item.id === selectedRecordId}
-                      onHeaderClick={onSort}
-                      onNeedMoreData={onNeedMoreData}
-                      onRowClick={onSelectRow}
-                      rowFormatter={this.rowFormatter}
-                      sortDirection={sortOrder.startsWith('-') ? 'descending' : 'ascending'}
-                      sortOrder={sortOrder.replace(/^-/, '').replace(/,.*/, '')}
-                      totalCount={count}
-                      virtualize
-                      visibleColumns={['status', 'lastName', 'firstName', 'uniLogin']}
-                    />
+                    <form onSubmit={onSubmitSearch}>
+                      <div>
+                        <SearchField
+                          ariaLabel={intl.formatMessage({ id: 'ui-idm-connect.searchInputLabel' })}
+                          autoFocus
+                          id="contractSearchField"
+                          inputRef={searchField}
+                          name="query"
+                          onChange={getSearchHandlers().query}
+                          onClear={getSearchHandlers().reset}
+                          value={searchValue.query}
+                        />
+                        <Button
+                          buttonStyle="primary"
+                          disabled={!searchValue.query || searchValue.query === ''}
+                          fullWidth
+                          id="clickable-search-contracts"
+                          type="submit"
+                        >
+                          <FormattedMessage id="stripes-smart-components.search" />
+                        </Button>
+                      </div>
+                      <Button
+                        buttonStyle="none"
+                        disabled={disableReset()}
+                        id="clickable-reset-all"
+                        onClick={resetAll}
+                      >
+                        <Icon icon="times-circle-solid">
+                          <FormattedMessage id="stripes-smart-components.resetAll" />
+                        </Icon>
+                      </Button>
+                      <ContractsFilters
+                        activeFilters={activeFilters.state}
+                        filterHandlers={getFilterHandlers()}
+                      />
+                    </form>
                   </Pane>
-                  {this.props.children}
-                </Paneset>
-              );
-            }
+                }
+                <Pane
+                  defaultWidth="fill"
+                  id="pane-contract-results"
+                  padContent={false}
+                  noOverflow
+                  renderHeader={() => renderResultsPaneHeader(activeFilters, source)}
+                >
+                  <MultiColumnList
+                    autosize
+                    columnMapping={{
+                      status: <FormattedMessage id="ui-idm-connect.status" />,
+                      lastName: <FormattedMessage id="ui-idm-connect.lastname" />,
+                      firstName: <FormattedMessage id="ui-idm-connect.firstname" />,
+                      uniLogin: <FormattedMessage id="ui-idm-connect.uniLogin" />,
+                    }}
+                    contentData={contentData}
+                    formatter={resultsFormatter}
+                    id="list-contracts"
+                    isEmptyMessage={renderIsEmptyMessage(query, source)}
+                    isSelected={({ item }) => item.id === selectedRecordId}
+                    onHeaderClick={onSort}
+                    onNeedMoreData={onNeedMoreData}
+                    onRowClick={onSelectRow}
+                    rowFormatter={rowFormatter}
+                    sortDirection={sortOrder.startsWith('-') ? 'descending' : 'ascending'}
+                    sortOrder={sortOrder.replace(/^-/, '').replace(/,.*/, '')}
+                    totalCount={count}
+                    virtualize
+                    visibleColumns={['status', 'lastName', 'firstName', 'uniLogin']}
+                  />
+                </Pane>
+                {children}
+              </Paneset>
+            );
           }
-        </SearchAndSortQuery>
-      </div>
-    );
-  }
-}
+        }
+      </SearchAndSortQuery>
+    </div>
+  );
+};
+
+Contracts.propTypes = {
+  children: PropTypes.object,
+  contentData: PropTypes.arrayOf(PropTypes.object),
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+  intl: PropTypes.shape({
+    formatMessage: PropTypes.func.isRequired,
+  }),
+  onNeedMoreData: PropTypes.func,
+  onSelectRow: PropTypes.func,
+  queryGetter: PropTypes.func.isRequired,
+  querySetter: PropTypes.func.isRequired,
+  searchField: PropTypes.object,
+  searchString: PropTypes.string,
+  selectedRecordId: PropTypes.string,
+  source: PropTypes.object,
+  syncToLocationSearch: PropTypes.bool,
+  stripes: PropTypes.shape({
+    hasPerm: PropTypes.func.isRequired,
+  })
+};
 
 export default injectIntl(withRouter(Contracts));
