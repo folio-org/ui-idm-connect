@@ -10,9 +10,9 @@ import {
 } from '@folio/stripes/components';
 
 const ContractCommentForm = ({
+  accordionId,
   expanded,
   onToggle,
-  accordionId,
 }) => {
   return (
     <Accordion

@@ -18,9 +18,9 @@ import {
 import BasicCss from '../BasicStyle.css';
 
 const ContractContactForm = ({
+  accordionId,
   expanded,
   onToggle,
-  accordionId,
 }) => {
   return (
     <Accordion
