@@ -1,6 +1,6 @@
-import _ from 'lodash';
-import React from 'react';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
+import { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import stripesForm from '@folio/stripes/form';
@@ -21,93 +21,78 @@ import { basisColumns, columnMapping, columnWidths, basicResultsFormatter } from
 
 let newContractInitialValues = '';
 
-class SearchIdm extends React.Component {
-  static propTypes = {
-    handlers: PropTypes.shape({
-      onClose: PropTypes.func.isRequired,
-    }),
-    invalid: PropTypes.bool,
-    isCreateNewUser: PropTypes.bool,
-    isUsersResultsEmpty: PropTypes.bool,
-    onSubmit: PropTypes.func.isRequired,
-    pristine: PropTypes.bool,
-    renderListOfResults: PropTypes.bool,
-    searchValues: PropTypes.object,
-    submitting: PropTypes.bool,
-    users: PropTypes.arrayOf(PropTypes.object),
-  };
+const SearchIdm = ({
+  handlers: { onClose },
+  invalid,
+  isCreateNewUser,
+  isUsersResultsEmpty,
+  onSubmit,
+  pristine,
+  renderListOfResults,
+  searchValues,
+  submitting,
+  users,
+}) => {
+  const [dateOfBirth, setDateOfBirth] = useState('');
+  const [checkedUnilogin, setCheckedUnilogin] = useState('');
+  const [noMatchButtonSelected, setNoMatchButtonSelected] = useState(false);
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      dateOfBirth: '',
-      checkedUnilogin: '',
-      noMatchButtonSelected: false,
-    };
-  }
-
-  componentDidUpdate(prevProps) {
-    // result is empty, set record empty and noMatch false
-    if (this.props.isUsersResultsEmpty && this.props.isUsersResultsEmpty !== prevProps.isUsersResultsEmpty) {
-      this.toggleRecord('', false);
-    }
-  }
-
-  toggleRecord(toggledRecord, noMatch) {
-    const unilogin = _.get(toggledRecord, 'unilogin', '');
+  const toggleRecord = (toggledRecord, noMatch) => {
+    const unilogin = get(toggledRecord, 'unilogin', '');
     newContractInitialValues = toggledRecord;
 
     localStorage.setItem('idmConnectNewContractInitialValues', JSON.stringify(newContractInitialValues));
-    localStorage.setItem('idmConnectNewContractSearchValues', JSON.stringify(this.props.searchValues));
+    localStorage.setItem('idmConnectNewContractSearchValues', JSON.stringify(searchValues));
 
-    this.setState({
-      noMatchButtonSelected: noMatch,
-      checkedUnilogin: unilogin,
-    });
-  }
+    setNoMatchButtonSelected(noMatch);
+    setCheckedUnilogin(unilogin);
+  };
 
-  getDisableTakeContinue() {
-    return !(this.props.isUsersResultsEmpty || this.state.noMatchButtonSelected || this.state.checkedUnilogin !== '');
-  }
+  useEffect(() => {
+    // result is empty, set record empty and noMatch false
+    if (isUsersResultsEmpty) {
+      toggleRecord('', false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isUsersResultsEmpty]);
 
-  getLabelForContiunueButton = () => {
-    if (this.state.checkedUnilogin === '') {
+  const getDisableTakeContinue = () => {
+    return !(isUsersResultsEmpty || noMatchButtonSelected || checkedUnilogin !== '');
+  };
+
+  const getLabelForContiunueButton = () => {
+    if (checkedUnilogin === '') {
       return <FormattedMessage id="ui-idm-connect.searchIdm.continue" />;
     } else {
       return <FormattedMessage id="ui-idm-connect.searchIdm.takeContinue" />;
     }
-  }
+  };
 
-  isButtonSelected = (user) => {
-    return user.unilogin === this.state.checkedUnilogin;
-  }
+  const isButtonSelected = (user) => {
+    return user.unilogin === checkedUnilogin;
+  };
 
-  renderNoMatchButton() {
-    const buttonStyle = this.state.noMatchButtonSelected ? 'primary' : 'default';
+  const renderNoMatchButton = () => {
+    const buttonStyle = noMatchButtonSelected ? 'primary' : 'default';
 
     return (
       <div className={css.noMatchButton}>
         <Button
           buttonStyle={buttonStyle}
-          onClick={() => this.toggleRecord('', true)}
+          onClick={() => toggleRecord('', true)}
         >
           <FormattedMessage id="ui-idm-connect.searchIdm.noMatch" />
         </Button>
       </div>
     );
-  }
-
-  handleDateChange = (e) => {
-    const newDate = e.target.value;
-    this.setState({
-      dateOfBirth: newDate,
-    });
   };
 
-  renderPaneFooter() {
-    const { isCreateNewUser, handlers: { onClose } } = this.props;
+  const handleDateChange = (e) => {
+    const newDate = e.target.value;
+    setDateOfBirth(newDate);
+  };
 
+  const renderPaneFooter = () => {
     const startButton = (
       <Button
         buttonStyle="default mega"
@@ -122,38 +107,37 @@ class SearchIdm extends React.Component {
     const endButton = (
       <Button
         buttonStyle="default mega"
-        disabled={this.getDisableTakeContinue()}
+        disabled={getDisableTakeContinue()}
         id="clickable-takeContinue-form"
         marginBottom0
         to={`${urls.contractCreate()}`}
       >
-        {this.getLabelForContiunueButton()}
+        {getLabelForContiunueButton()}
       </Button>
     );
 
     return <PaneFooter renderStart={startButton} renderEnd={isCreateNewUser ? endButton : ''} />;
-  }
+  };
 
-  resultsFormatter = {
+  const resultsFormatter = {
     ...basicResultsFormatter,
-    isChecked: users => {
-      const buttonLabel = this.isButtonSelected(users) ? <FormattedMessage id="ui-idm-connect.searchIdm.selected" /> : <FormattedMessage id="ui-idm-connect.searchIdm.choose" />;
-      const buttonStyle = this.isButtonSelected(users) ? 'primary' : 'default';
+    isChecked: user => {
+      const buttonLabel = isButtonSelected(user) ? <FormattedMessage id="ui-idm-connect.searchIdm.selected" /> : <FormattedMessage id="ui-idm-connect.searchIdm.choose" />;
+      const buttonStyle = isButtonSelected(user) ? 'primary' : 'default';
 
       return (
         <Button
           buttonStyle={buttonStyle}
           marginBottom0
-          onClick={() => this.toggleRecord(users, false)}
+          onClick={() => toggleRecord(user, false)}
         >
           {buttonLabel}
         </Button>
       );
     },
-  }
+  };
 
-  renderResults() {
-    const { isCreateNewUser, isUsersResultsEmpty, users } = this.props;
+  const renderResults = () => {
     const count = users.length;
 
     if (!isUsersResultsEmpty) {
@@ -174,14 +158,14 @@ class SearchIdm extends React.Component {
             <MultiColumnList
               columnMapping={columnMapping}
               columnWidths={columnWidths}
-              contentData={this.props.users}
-              formatter={this.resultsFormatter}
+              contentData={users}
+              formatter={resultsFormatter}
               id="search-idm-list-users"
               interactive={false}
               visibleColumns={isCreateNewUser ? [...basisColumns, 'isChecked'] : [...basisColumns, 'UBRole', 'FOLIOUser']}
             />
           </Card>
-          {isCreateNewUser ? this.renderNoMatchButton() : '' }
+          {isCreateNewUser ? renderNoMatchButton() : '' }
         </>
       );
     } else {
@@ -196,53 +180,59 @@ class SearchIdm extends React.Component {
         </div>
       );
     }
-  }
+  };
 
-  renderPaneHeader = () => {
+  const renderPaneHeader = () => {
     return (
       <PaneHeader
         dismissible
-        onClose={this.props.handlers.onClose}
-        paneTitle={this.props.isCreateNewUser ? <FormattedMessage id="ui-idm-connect.searchIdm.title.new.search" /> : <FormattedMessage id="ui-idm-connect.searchIdm.title" />}
+        onClose={onClose}
+        paneTitle={isCreateNewUser ? <FormattedMessage id="ui-idm-connect.searchIdm.title.new.search" /> : <FormattedMessage id="ui-idm-connect.searchIdm.title" />}
       />
     );
   };
 
-  render() {
-    const {
-      invalid,
-      onSubmit,
-      pristine,
-      submitting,
-    } = this.props;
+  return (
+    <>
+      <form onSubmit={(e) => onSubmit(e)}>
+        <Paneset>
+          <Pane
+            defaultWidth="100%"
+            footer={renderPaneFooter()}
+            id="pane-search-idm-form"
+            renderHeader={renderPaneHeader}
+          >
+            <SearchFields
+              dateOfBirth={dateOfBirth}
+              handleDateChange={handleDateChange}
+              disabled={pristine || submitting || invalid}
+            />
+            <>
+              {renderListOfResults &&
+                renderResults()
+              }
+            </>
+          </Pane>
+        </Paneset>
+      </form>
+    </>
+  );
+};
 
-    return (
-      <>
-        <form onSubmit={(e) => onSubmit(e)}>
-          <Paneset>
-            <Pane
-              defaultWidth="100%"
-              footer={this.renderPaneFooter()}
-              id="pane-search-idm-form"
-              renderHeader={this.renderPaneHeader}
-            >
-              <SearchFields
-                dateOfBirth={this.state.dateOfBirth}
-                handleDateChange={this.handleDateChange}
-                disabled={pristine || submitting || invalid}
-              />
-              <>
-                {this.props.renderListOfResults &&
-                  this.renderResults()
-                }
-              </>
-            </Pane>
-          </Paneset>
-        </form>
-      </>
-    );
-  }
-}
+SearchIdm.propTypes = {
+  handlers: PropTypes.shape({
+    onClose: PropTypes.func.isRequired,
+  }),
+  invalid: PropTypes.bool,
+  isCreateNewUser: PropTypes.bool,
+  isUsersResultsEmpty: PropTypes.bool,
+  onSubmit: PropTypes.func.isRequired,
+  pristine: PropTypes.bool,
+  renderListOfResults: PropTypes.bool,
+  searchValues: PropTypes.object,
+  submitting: PropTypes.bool,
+  users: PropTypes.arrayOf(PropTypes.object),
+};
 
 export default stripesForm({
   form: 'SearchIdmForm',

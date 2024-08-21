@@ -1,5 +1,5 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
@@ -21,58 +21,42 @@ import css from '../SearchIdmStyles.css';
 
 let newContractInitialValues = '';
 
-class ChangeUBNumber extends React.Component {
-  static propTypes = {
-    children: PropTypes.object,
-    handlers: PropTypes.shape({
-      onClose: PropTypes.func.isRequired,
-    }),
-    history: PropTypes.shape({
-      push: PropTypes.func.isRequired,
-    }).isRequired,
-    invalid: PropTypes.bool,
-    isUsersResultsEmpty: PropTypes.bool,
-    onSubmit: PropTypes.func.isRequired,
-    pristine: PropTypes.bool,
-    renderListOfResults: PropTypes.bool,
-    searchValues: PropTypes.object,
-    submitting: PropTypes.bool,
-    users: PropTypes.arrayOf(PropTypes.object),
-  };
+const ChangeUBNumber = ({
+  children,
+  handlers: { onClose },
+  history,
+  invalid,
+  isUsersResultsEmpty,
+  onSubmit,
+  pristine,
+  renderListOfResults,
+  searchValues,
+  submitting,
+  users,
+}) => {
+  const [dateOfBirth, setDateOfBirth] = useState('');
 
-  constructor(props) {
-    super(props);
-
-    this.onRowClick = this.onRowClick.bind(this);
-    this.state = {
-      dateOfBirth: '',
-    };
-  }
-
-  componentDidUpdate(prevProps) {
-    // result is empty, set record empty and noMatch false
-    if (this.props.isUsersResultsEmpty && this.props.isUsersResultsEmpty !== prevProps.isUsersResultsEmpty) {
-      this.toggleRecord('', false);
-    }
-  }
-
-  toggleRecord(toggledRecord) {
+  const toggleRecord = (toggledRecord) => {
     newContractInitialValues = toggledRecord;
 
     localStorage.setItem('idmConnectNewContractInitialValues', JSON.stringify(newContractInitialValues));
-    localStorage.setItem('idmConnectNewContractSearchValues', JSON.stringify(this.props.searchValues));
-  }
-
-  handleDateChange = (e) => {
-    const newDate = e.target.value;
-    this.setState({
-      dateOfBirth: newDate,
-    });
+    localStorage.setItem('idmConnectNewContractSearchValues', JSON.stringify(searchValues));
   };
 
-  renderPaneFooter() {
-    const { handlers: { onClose } } = this.props;
+  useEffect(() => {
+    // result is empty, set record empty and noMatch false
+    if (isUsersResultsEmpty) {
+      toggleRecord('', false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isUsersResultsEmpty]);
 
+  const handleDateChange = (e) => {
+    const newDate = e.target.value;
+    setDateOfBirth(newDate);
+  };
+
+  const renderPaneFooter = () => {
     const startButton = (
       <Button
         buttonStyle="default mega"
@@ -85,20 +69,15 @@ class ChangeUBNumber extends React.Component {
     );
 
     return <PaneFooter renderStart={startButton} />;
-  }
+  };
 
-  onSelectRow() {
-    return '';
-  }
-
-  onRowClick(_e, item) {
+  const onRowClick = (_e, item) => {
     localStorage.setItem('idmConnectChangeUBNumber', JSON.stringify(item));
 
-    this.props.history.push(urls.changeUBNumberView(item.unilogin));
-  }
+    history.push(urls.changeUBNumberView(item.unilogin));
+  };
 
-  renderResults() {
-    const { isUsersResultsEmpty, users } = this.props;
+  const renderResults = () => {
     const count = users.length;
     const visibleColumns = [...basisColumns, 'UBRole', 'FOLIOUser'];
 
@@ -121,17 +100,17 @@ class ChangeUBNumber extends React.Component {
                 <MultiColumnList
                   columnMapping={columnMapping}
                   columnWidths={columnWidths}
-                  contentData={this.props.users}
+                  contentData={users}
                   formatter={basicResultsFormatter}
                   id="change-ubnumber-list-users"
                   interactive
                   visibleColumns={visibleColumns}
                   // for change number:
-                  onRowClick={this.onRowClick}
+                  onRowClick={onRowClick}
                 />
               </Card>
             </Pane>
-            {this.props.children}
+            {children}
           </Paneset>
         </div>
       );
@@ -147,55 +126,64 @@ class ChangeUBNumber extends React.Component {
         </div>
       );
     }
-  }
+  };
 
-  renderPaneHeader = () => {
+  const renderPaneHeader = () => {
     return (
       <PaneHeader
         dismissible
-        onClose={this.props.handlers.onClose}
+        onClose={onClose}
         paneTitle={<FormattedMessage id="ui-idm-connect.ubreadernumber.change" />}
       />
     );
   };
 
-  render() {
-    const {
-      invalid,
-      onSubmit,
-      pristine,
-      submitting,
-    } = this.props;
+  return (
+    <>
+      <Paneset>
+        <Pane
+          defaultWidth="100%"
+          footer={renderPaneFooter()}
+          id="pane-search-idm-form"
+          renderHeader={renderPaneHeader}
+        >
+          <div className={css.addPaddingBottom}>
+            <form onSubmit={(e) => onSubmit(e)}>
+              <SearchFields
+                dateOfBirth={dateOfBirth}
+                handleDateChange={handleDateChange}
+                disabled={pristine || submitting || invalid}
+              />
+            </form>
+          </div>
+          <>
+            {renderListOfResults &&
+              renderResults()
+            }
+          </>
+        </Pane>
+      </Paneset>
+    </>
+  );
+};
 
-    return (
-      <>
-        <Paneset>
-          <Pane
-            defaultWidth="100%"
-            footer={this.renderPaneFooter()}
-            id="pane-search-idm-form"
-            renderHeader={this.renderPaneHeader}
-          >
-            <div className={css.addPaddingBottom}>
-              <form onSubmit={(e) => onSubmit(e)}>
-                <SearchFields
-                  dateOfBirth={this.state.dateOfBirth}
-                  handleDateChange={this.handleDateChange}
-                  disabled={pristine || submitting || invalid}
-                />
-              </form>
-            </div>
-            <>
-              {this.props.renderListOfResults &&
-                this.renderResults()
-              }
-            </>
-          </Pane>
-        </Paneset>
-      </>
-    );
-  }
-}
+ChangeUBNumber.propTypes = {
+  children: PropTypes.object,
+  handlers: PropTypes.shape({
+    onClose: PropTypes.func.isRequired,
+  }),
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+  invalid: PropTypes.bool,
+  isUsersResultsEmpty: PropTypes.bool,
+  onSubmit: PropTypes.func.isRequired,
+  pristine: PropTypes.bool,
+  renderListOfResults: PropTypes.bool,
+  searchValues: PropTypes.object,
+  submitting: PropTypes.bool,
+  users: PropTypes.arrayOf(PropTypes.object),
+};
 
 export default stripesForm({
   form: 'ChangeUBNumberForm',
