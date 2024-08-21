@@ -1,6 +1,5 @@
-import _ from 'lodash';
-import React from 'react';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
 import {
   FormattedDate,
   FormattedMessage,
@@ -13,42 +12,42 @@ import {
   Row,
 } from '@folio/stripes/components';
 
-class ContractPersonalView extends React.Component {
-  static propTypes = {
-    contract: PropTypes.object,
-    id: PropTypes.string,
-  };
+const ContractPersonalView = ({
+  contract,
+  id,
+}) => {
+  const dateOfBirth = get(contract, 'personal.dateOfBirth');
 
-  render() {
-    const { contract, id } = this.props;
-    const dateOfBirth = _.get(contract, 'personal.dateOfBirth');
+  return (
+    <>
+      <div id={id}>
+        <Row>
+          <Col xs={4}>
+            <KeyValue
+              label={<FormattedMessage id="ui-idm-connect.lastname" />}
+              value={get(contract, 'personal.lastName', <NoValue />)}
+            />
+          </Col>
+          <Col xs={4}>
+            <KeyValue
+              label={<FormattedMessage id="ui-idm-connect.firstname" />}
+              value={get(contract, 'personal.firstName', <NoValue />)}
+            />
+          </Col>
+          <Col xs={4}>
+            <KeyValue label={<FormattedMessage id="ui-idm-connect.dateOfBirth" />}>
+              {dateOfBirth ? <FormattedDate value={dateOfBirth} timeZone="UTC" /> : <NoValue />}
+            </KeyValue>
+          </Col>
+        </Row>
+      </div>
+    </>
+  );
+};
 
-    return (
-      <>
-        <div id={id}>
-          <Row>
-            <Col xs={4}>
-              <KeyValue
-                label={<FormattedMessage id="ui-idm-connect.lastname" />}
-                value={_.get(contract, 'personal.lastName', <NoValue />)}
-              />
-            </Col>
-            <Col xs={4}>
-              <KeyValue
-                label={<FormattedMessage id="ui-idm-connect.firstname" />}
-                value={_.get(contract, 'personal.firstName', <NoValue />)}
-              />
-            </Col>
-            <Col xs={4}>
-              <KeyValue label={<FormattedMessage id="ui-idm-connect.dateOfBirth" />}>
-                {dateOfBirth ? <FormattedDate value={dateOfBirth} timeZone="UTC" /> : <NoValue />}
-              </KeyValue>
-            </Col>
-          </Row>
-        </div>
-      </>
-    );
-  }
-}
+ContractPersonalView.propTypes = {
+  contract: PropTypes.object,
+  id: PropTypes.string,
+};
 
 export default ContractPersonalView;
