@@ -1,6 +1,5 @@
-import _ from 'lodash';
-import React from 'react';
 import PropTypes from 'prop-types';
+import { get, isEmpty } from 'lodash';
 import { Field } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
 
@@ -20,27 +19,15 @@ import {
 
 import getInitialValues from './getInitialValues';
 
-class ChangeUBNumberView extends React.Component {
-  static propTypes = {
-    handlers: PropTypes.shape({
-      onClose: PropTypes.func.isRequired,
-    }).isRequired,
-    handleSubmit: PropTypes.func.isRequired,
-    invalid: PropTypes.bool,
-    pristine: PropTypes.bool,
-    submitting: PropTypes.bool,
-    values: PropTypes.object,
-  };
-
-  getPaneFooter() {
-    const {
-      handlers: { onClose },
-      handleSubmit,
-      invalid,
-      pristine,
-      submitting
-    } = this.props;
-
+const ChangeUBNumberView = ({
+  handlers: { onClose },
+  handleSubmit,
+  invalid,
+  pristine,
+  submitting,
+  values,
+}) => {
+  const getPaneFooter = () => {
     const disabled = pristine || submitting || invalid;
 
     const startButton = (
@@ -68,21 +55,14 @@ class ChangeUBNumberView extends React.Component {
     );
 
     return <PaneFooter renderStart={startButton} renderEnd={endButton} />;
-  }
+  };
 
-  renderUbreadernumberMessage(initialUBReaderNumber, isStatusActive) {
-    const {
-      invalid,
-      pristine,
-      values,
-    } = this.props;
-
+  const renderUbreadernumberMessage = (initialUBReaderNumber, isStatusActive) => {
     const noChange = pristine || invalid;
-
     const adaptedInitialValues = getInitialValues();
-    const uniCardNumber = _.get(adaptedInitialValues, 'cardReaderNumber', <NoValue />);
+    const uniCardNumber = get(adaptedInitialValues, 'cardReaderNumber', <NoValue />);
     const libraryCardNumber = values?.UBReaderNumber ?? <NoValue />;
-    const accountState = _.get(adaptedInitialValues, 'status', <NoValue />);
+    const accountState = get(adaptedInitialValues, 'status', <NoValue />);
 
     if (!isStatusActive) {
       // Warning red: account state is not active
@@ -109,7 +89,7 @@ class ChangeUBNumberView extends React.Component {
           <FormattedMessage id="ui-idm-connect.ubreadernumber.text.updated.changeInfo" values={{ libraryCardNumber }} />
         </MessageBanner>
       );
-    } else if (!noChange && Object.keys(values).length > 0 && _.isEmpty(initialUBReaderNumber)) {
+    } else if (!noChange && Object.keys(values).length > 0 && isEmpty(initialUBReaderNumber)) {
       // Success green: value is added
       // should change the effective Card number to uni card number
       return (
@@ -128,103 +108,112 @@ class ChangeUBNumberView extends React.Component {
     } else {
       return null;
     }
-  }
+  };
 
-  renderPaneHeader = () => {
+  const renderPaneHeader = () => {
     return (
       <PaneHeader
         dismissible
-        onClose={this.props.handlers.onClose}
+        onClose={onClose}
         paneTitle={<FormattedMessage id="ui-idm-connect.ubreadernumber.edit" />}
       />
     );
   };
 
-  render() {
-    const adaptedInitialValues = getInitialValues();
-    const initialUBReaderNumber = _.get(adaptedInitialValues, 'UBReaderNumber', '');
-    const isStatusActive = _.get(adaptedInitialValues, 'status') === 'Aktives Uni-Login';
+  const adaptedInitialValues = getInitialValues();
+  const initialUBReaderNumber = get(adaptedInitialValues, 'UBReaderNumber', '');
+  const isStatusActive = get(adaptedInitialValues, 'status') === 'Aktives Uni-Login';
 
-    return (
-      <form
-        id="form-change-ub-number"
-        onSubmit={this.props.handleSubmit}
-        style={{ width: '100%' }}
+  return (
+    <form
+      id="form-change-ub-number"
+      onSubmit={handleSubmit}
+      style={{ width: '100%' }}
+    >
+      <Pane
+        data-testid="changeUBNumberView"
+        defaultWidth="50%"
+        footer={getPaneFooter()}
+        renderHeader={renderPaneHeader}
       >
-        <Pane
-          data-testid="changeUBNumberView"
-          defaultWidth="50%"
-          footer={this.getPaneFooter()}
-          renderHeader={this.renderPaneHeader}
-        >
-          <Row>
-            <Col xs={4}>
-              <KeyValue
-                label={<FormattedMessage id="ui-idm-connect.lastname" />}
-                value={_.get(adaptedInitialValues, 'personal.lastName', <NoValue />)}
-              />
-            </Col>
-            <Col xs={4}>
-              <KeyValue
-                label={<FormattedMessage id="ui-idm-connect.firstname" />}
-                value={_.get(adaptedInitialValues, 'personal.firstName', <NoValue />)}
-              />
-            </Col>
-            <Col xs={4}>
-              <KeyValue
-                label={<FormattedMessage id="ui-idm-connect.dateOfBirth" />}
-                value={_.get(adaptedInitialValues, 'personal.dateOfBirth', <NoValue />)}
-              />
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={4}>
-              <KeyValue
-                label={<FormattedMessage id="ui-idm-connect.accountState" />}
-                value={_.get(adaptedInitialValues, 'status', <NoValue />)}
-              />
-            </Col>
-            <Col xs={4}>
-              <KeyValue
-                label={<FormattedMessage id="ui-idm-connect.ULAffiliation" />}
-                value={_.get(adaptedInitialValues, 'ULAffiliation', <NoValue />)}
-              />
-            </Col>
-            <Col xs={4}>
-              <KeyValue
-                label={<FormattedMessage id="ui-idm-connect.UBRole" />}
-                value={_.get(adaptedInitialValues, 'UBRole', <NoValue />)}
-              />
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={4}>
-              <KeyValue
-                label={<FormattedMessage id="ui-idm-connect.uniLogin" />}
-                value={_.get(adaptedInitialValues, 'uniLogin', <NoValue />)}
-              />
-            </Col>
-            <Col xs={4}>
-              <KeyValue
-                label={<FormattedMessage id="ui-idm-connect.cardReaderNumber" />}
-                value={_.get(adaptedInitialValues, 'cardReaderNumber', <NoValue />)}
-              />
-            </Col>
-          </Row>
-          <Field
-            component={TextField}
-            disabled={!isStatusActive}
-            id="field-change-ub-number"
-            initialValue={initialUBReaderNumber}
-            label={<FormattedMessage id="ui-idm-connect.UBReaderNumber" />}
-            name="UBReaderNumber"
-          />
-          {this.renderUbreadernumberMessage(initialUBReaderNumber, isStatusActive)}
-        </Pane>
-      </form>
-    );
-  }
-}
+        <Row>
+          <Col xs={4}>
+            <KeyValue
+              label={<FormattedMessage id="ui-idm-connect.lastname" />}
+              value={get(adaptedInitialValues, 'personal.lastName', <NoValue />)}
+            />
+          </Col>
+          <Col xs={4}>
+            <KeyValue
+              label={<FormattedMessage id="ui-idm-connect.firstname" />}
+              value={get(adaptedInitialValues, 'personal.firstName', <NoValue />)}
+            />
+          </Col>
+          <Col xs={4}>
+            <KeyValue
+              label={<FormattedMessage id="ui-idm-connect.dateOfBirth" />}
+              value={get(adaptedInitialValues, 'personal.dateOfBirth', <NoValue />)}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={4}>
+            <KeyValue
+              label={<FormattedMessage id="ui-idm-connect.accountState" />}
+              value={get(adaptedInitialValues, 'status', <NoValue />)}
+            />
+          </Col>
+          <Col xs={4}>
+            <KeyValue
+              label={<FormattedMessage id="ui-idm-connect.ULAffiliation" />}
+              value={get(adaptedInitialValues, 'ULAffiliation', <NoValue />)}
+            />
+          </Col>
+          <Col xs={4}>
+            <KeyValue
+              label={<FormattedMessage id="ui-idm-connect.UBRole" />}
+              value={get(adaptedInitialValues, 'UBRole', <NoValue />)}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={4}>
+            <KeyValue
+              label={<FormattedMessage id="ui-idm-connect.uniLogin" />}
+              value={get(adaptedInitialValues, 'uniLogin', <NoValue />)}
+            />
+          </Col>
+          <Col xs={4}>
+            <KeyValue
+              label={<FormattedMessage id="ui-idm-connect.cardReaderNumber" />}
+              value={get(adaptedInitialValues, 'cardReaderNumber', <NoValue />)}
+            />
+          </Col>
+        </Row>
+        <Field
+          component={TextField}
+          disabled={!isStatusActive}
+          id="field-change-ub-number"
+          initialValue={initialUBReaderNumber}
+          label={<FormattedMessage id="ui-idm-connect.UBReaderNumber" />}
+          name="UBReaderNumber"
+        />
+        {renderUbreadernumberMessage(initialUBReaderNumber, isStatusActive)}
+      </Pane>
+    </form>
+  );
+};
+
+ChangeUBNumberView.propTypes = {
+  handlers: PropTypes.shape({
+    onClose: PropTypes.func.isRequired,
+  }).isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  invalid: PropTypes.bool,
+  pristine: PropTypes.bool,
+  submitting: PropTypes.bool,
+  values: PropTypes.object,
+};
 
 export default stripesFinalForm({
   subscription: {

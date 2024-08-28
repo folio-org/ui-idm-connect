@@ -1,6 +1,5 @@
-import _ from 'lodash';
-import React from 'react';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -9,28 +8,27 @@ import {
   Row,
 } from '@folio/stripes/components';
 
-class ContractCommentView extends React.Component {
-  static propTypes = {
-    contract: PropTypes.object,
-    id: PropTypes.string,
-  };
+const ContractCommentView = ({
+  contract,
+  id,
+}) => {
+  return (
+    <>
+      <div id={id}>
+        <Row>
+          <KeyValue
+            label={<FormattedMessage id="ui-idm-connect.comment" />}
+            value={get(contract, 'comment', <NoValue />)}
+          />
+        </Row>
+      </div>
+    </>
+  );
+};
 
-  render() {
-    const { contract, id } = this.props;
-
-    return (
-      <>
-        <div id={id}>
-          <Row>
-            <KeyValue
-              label={<FormattedMessage id="ui-idm-connect.comment" />}
-              value={_.get(contract, 'comment', <NoValue />)}
-            />
-          </Row>
-        </div>
-      </>
-    );
-  }
-}
+ContractCommentView.propTypes = {
+  contract: PropTypes.object,
+  id: PropTypes.string,
+};
 
 export default ContractCommentView;

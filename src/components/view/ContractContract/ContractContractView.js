@@ -1,6 +1,5 @@
-import _ from 'lodash';
-import React from 'react';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
 import {
   FormattedDate,
   FormattedMessage,
@@ -13,36 +12,36 @@ import {
   Row,
 } from '@folio/stripes/components';
 
-class ContractContractView extends React.Component {
-  static propTypes = {
-    contract: PropTypes.object,
-    id: PropTypes.string,
-  };
+const ContractContractView = ({
+  contract,
+  id,
+}) => {
+  const beginDate = get(contract, 'beginDate');
+  const endDate = get(contract, 'endDate');
 
-  render() {
-    const { contract, id } = this.props;
-    const beginDate = _.get(contract, 'beginDate');
-    const endDate = _.get(contract, 'endDate');
+  return (
+    <>
+      <div id={id}>
+        <Row>
+          <Col xs={4}>
+            <KeyValue label={<FormattedMessage id="ui-idm-connect.beginDate" />}>
+              {beginDate ? <FormattedDate value={beginDate} timeZone="UTC" /> : <NoValue />}
+            </KeyValue>
+          </Col>
+          <Col xs={5}>
+            <KeyValue label={<FormattedMessage id="ui-idm-connect.endDate" />}>
+              {endDate ? <FormattedDate value={endDate} timeZone="UTC" /> : <NoValue />}
+            </KeyValue>
+          </Col>
+        </Row>
+      </div>
+    </>
+  );
+};
 
-    return (
-      <>
-        <div id={id}>
-          <Row>
-            <Col xs={4}>
-              <KeyValue label={<FormattedMessage id="ui-idm-connect.beginDate" />}>
-                {beginDate ? <FormattedDate value={beginDate} timeZone="UTC" /> : <NoValue />}
-              </KeyValue>
-            </Col>
-            <Col xs={5}>
-              <KeyValue label={<FormattedMessage id="ui-idm-connect.endDate" />}>
-                {endDate ? <FormattedDate value={endDate} timeZone="UTC" /> : <NoValue />}
-              </KeyValue>
-            </Col>
-          </Row>
-        </div>
-      </>
-    );
-  }
-}
+ContractContractView.propTypes = {
+  contract: PropTypes.object,
+  id: PropTypes.string,
+};
 
 export default ContractContractView;

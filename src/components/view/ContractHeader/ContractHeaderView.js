@@ -1,6 +1,5 @@
-import _ from 'lodash';
-import React from 'react';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -13,43 +12,43 @@ import {
 import css from './Header.css';
 import DataLable from '../../DisplayUtils/Format';
 
-class ContractHeaderView extends React.Component {
-  static propTypes = {
-    contract: PropTypes.object,
-    id: PropTypes.string,
-  };
+const ContractHeaderView = ({
+  contract,
+  id,
+}) => {
+  const statusLabel = DataLable(get(contract, 'status', ''));
 
-  render() {
-    const { contract, id } = this.props;
-    const statusLabel = DataLable(_.get(this.props.contract, 'status', ''));
+  return (
+    <>
+      <div id={id}>
+        <Row className={css.contractHeader}>
+          <Col xs={4}>
+            <KeyValue
+              label={<FormattedMessage id="ui-idm-connect.status" />}
+              value={statusLabel}
+            />
+          </Col>
+          <Col xs={4}>
+            <KeyValue
+              label={<FormattedMessage id="ui-idm-connect.uniLogin" />}
+              value={get(contract, 'uniLogin', <NoValue />)}
+            />
+          </Col>
+          <Col xs={4}>
+            <KeyValue
+              label={<FormattedMessage id="ui-idm-connect.libraryCard" />}
+              value={get(contract, 'libraryCard', <NoValue />)}
+            />
+          </Col>
+        </Row>
+      </div>
+    </>
+  );
+};
 
-    return (
-      <>
-        <div id={id}>
-          <Row className={css.contractHeader}>
-            <Col xs={4}>
-              <KeyValue
-                label={<FormattedMessage id="ui-idm-connect.status" />}
-                value={statusLabel}
-              />
-            </Col>
-            <Col xs={4}>
-              <KeyValue
-                label={<FormattedMessage id="ui-idm-connect.uniLogin" />}
-                value={_.get(contract, 'uniLogin', <NoValue />)}
-              />
-            </Col>
-            <Col xs={4}>
-              <KeyValue
-                label={<FormattedMessage id="ui-idm-connect.libraryCard" />}
-                value={_.get(contract, 'libraryCard', <NoValue />)}
-              />
-            </Col>
-          </Row>
-        </div>
-      </>
-    );
-  }
-}
+ContractHeaderView.propTypes = {
+  contract: PropTypes.object,
+  id: PropTypes.string,
+};
 
 export default ContractHeaderView;

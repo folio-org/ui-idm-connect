@@ -1,6 +1,5 @@
-import React from 'react';
-import { cloneDeep } from 'lodash';
 import PropTypes from 'prop-types';
+import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -24,41 +23,25 @@ import ContractContractForm from './ContractContract/ContractContractForm';
 import ContractContactForm from './ContractContact/ContractContactForm';
 import ContractCommentForm from './ContractComment/ContractCommentForm';
 
-class ContractsForm extends React.Component {
-  static propTypes = {
-    disableLibraryCard: PropTypes.bool,
-    handlers: PropTypes.PropTypes.shape({
-      onClose: PropTypes.func.isRequired,
-    }),
-    handleSubmit: PropTypes.func.isRequired,
-    initialValues: PropTypes.object,
-    invalid: PropTypes.bool,
-    isEditContract: PropTypes.bool,
-    isLoading: PropTypes.bool,
-    pristine: PropTypes.bool,
-    submitting: PropTypes.bool,
-  };
+const ContractsForm = ({
+  disableLibraryCard,
+  handlers: { onClose },
+  handleSubmit,
+  initialValues = {},
+  invalid,
+  isEditContract,
+  isLoading,
+  pristine,
+  submitting,
+}) => {
+  const [accordions, setAccordions] = useState({
+    editPersonalAccordion: true,
+    editContractAccordion: true,
+    editContactAccordion: true,
+    editCommentAccordion: true,
+  });
 
-  static defaultProps = {
-    initialValues: {},
-  }
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      accordions: {
-        editPersonalAccordion: true,
-        editContractAccordion: true,
-        editContactAccordion: true,
-        editCommentAccordion: true,
-      },
-    };
-
-    this.handleExpandAll = this.handleExpandAll.bind(this);
-  }
-
-  getFirstMenu() {
+  const getFirstMenu = () => {
     return (
       <PaneMenu>
         <FormattedMessage id="ui-idm-connect.form.close">
@@ -67,23 +50,15 @@ class ContractsForm extends React.Component {
               aria-label={ariaLabel}
               icon="times"
               id="clickable-closecontractdialog"
-              onClick={this.props.handlers.onClose}
+              onClick={onClose}
             />
           )}
         </FormattedMessage>
       </PaneMenu>
     );
-  }
+  };
 
-  getPaneFooter() {
-    const {
-      handlers: { onClose },
-      handleSubmit,
-      invalid,
-      pristine,
-      submitting
-    } = this.props;
-
+  const getPaneFooter = () => {
     const disabled = pristine || submitting || invalid;
 
     const startButton = (
@@ -113,27 +88,20 @@ class ContractsForm extends React.Component {
     );
 
     return <PaneFooter renderStart={startButton} renderEnd={endButton} />;
-  }
+  };
 
-  handleExpandAll(accordions) {
-    this.setState({ accordions });
-  }
+  const handleExpandAll = (a) => {
+    setAccordions(a);
+  };
 
-  handleSectionToggle = ({ id }) => {
-    this.setState((state) => {
-      const newState = cloneDeep(state);
+  const handleSectionToggle = ({ id }) => {
+    setAccordions((prevSections) => ({ ...prevSections, [id]: !prevSections[id] }));
+  };
 
-      newState.accordions[id] = !newState.accordions[id];
-      return newState;
-    });
-  }
-
-  renderPaneHeader = () => {
-    const { initialValues, isEditContract } = this.props;
-
+  const renderPaneHeader = () => {
     const paneTitleEdit = initialValues.uniLogin ? `${initialValues.personal.lastName}, ${initialValues.personal.firstName}` : <FormattedMessage id="ui-idm-connect.edit" />;
     const paneTitleCreate = <FormattedMessage id="ui-idm-connect.searchIdm.title.new.create" />;
-    const firstMenu = this.getFirstMenu();
+    const firstMenu = getFirstMenu();
 
     return (
       <PaneHeader
@@ -143,65 +111,75 @@ class ContractsForm extends React.Component {
     );
   };
 
-  render() {
-    const { isLoading, handleSubmit } = this.props;
-    const { accordions } = this.state;
-    const footer = this.getPaneFooter();
+  const footer = getPaneFooter();
 
-    if (isLoading) return <Icon icon="spinner-ellipsis" width="10px" />;
+  if (isLoading) return <Icon icon="spinner-ellipsis" width="10px" />;
 
-    return (
-      <form
-        id="form-contract"
-        onSubmit={handleSubmit}
-      >
-        <Paneset isRoot>
-          <Pane
-            defaultWidth="100%"
-            footer={footer}
-            renderHeader={this.renderPaneHeader}
-          >
-            <div>
-              <AccordionSet>
-                <Row end="xs">
-                  <Col xs>
-                    <ExpandAllButton
-                      accordionStatus={accordions}
-                      id="clickable-expand-all"
-                      onToggle={this.handleExpandAll}
-                      setStatus={null}
-                    />
-                  </Col>
-                </Row>
-                <ContractPersonalForm
-                  accordionId="editPersonalAccordion"
-                  expanded={accordions.editPersonalAccordion}
-                  onToggle={this.handleSectionToggle}
-                />
-                <ContractContractForm
-                  accordionId="editContractAccordion"
-                  expanded={accordions.editContractAccordion}
-                  onToggle={this.handleSectionToggle}
-                  disableLibraryCard={this.props.disableLibraryCard}
-                />
-                <ContractContactForm
-                  accordionId="editContactAccordion"
-                  expanded={accordions.editContactAccordion}
-                  onToggle={this.handleSectionToggle}
-                />
-                <ContractCommentForm
-                  accordionId="editCommentAccordion"
-                  expanded={accordions.editCommentAccordion}
-                  onToggle={this.handleSectionToggle}
-                />
-              </AccordionSet>
-            </div>
-          </Pane>
-        </Paneset>
-      </form>
-    );
-  }
-}
+  return (
+    <form
+      id="form-contract"
+      onSubmit={handleSubmit}
+    >
+      <Paneset isRoot>
+        <Pane
+          defaultWidth="100%"
+          footer={footer}
+          renderHeader={renderPaneHeader}
+        >
+          <div>
+            <AccordionSet>
+              <Row end="xs">
+                <Col xs>
+                  <ExpandAllButton
+                    accordionStatus={accordions}
+                    id="clickable-expand-all"
+                    onToggle={handleExpandAll}
+                    setStatus={null}
+                  />
+                </Col>
+              </Row>
+              <ContractPersonalForm
+                accordionId="editPersonalAccordion"
+                expanded={accordions.editPersonalAccordion}
+                onToggle={handleSectionToggle}
+              />
+              <ContractContractForm
+                accordionId="editContractAccordion"
+                expanded={accordions.editContractAccordion}
+                onToggle={handleSectionToggle}
+                disableLibraryCard={disableLibraryCard}
+              />
+              <ContractContactForm
+                accordionId="editContactAccordion"
+                expanded={accordions.editContactAccordion}
+                onToggle={handleSectionToggle}
+              />
+              <ContractCommentForm
+                accordionId="editCommentAccordion"
+                expanded={accordions.editCommentAccordion}
+                onToggle={handleSectionToggle}
+              />
+            </AccordionSet>
+          </div>
+        </Pane>
+      </Paneset>
+    </form>
+  );
+};
+
+ContractsForm.propTypes = {
+  disableLibraryCard: PropTypes.bool,
+  handlers: PropTypes.PropTypes.shape({
+    onClose: PropTypes.func.isRequired,
+  }),
+  handleSubmit: PropTypes.func.isRequired,
+  initialValues: PropTypes.object,
+  invalid: PropTypes.bool,
+  isEditContract: PropTypes.bool,
+  isLoading: PropTypes.bool,
+  pristine: PropTypes.bool,
+  submitting: PropTypes.bool,
+};
 
 export default stripesFinalForm({
   // the form will reinitialize every time the initialValues prop changes
