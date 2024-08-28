@@ -108,7 +108,7 @@ const Contracts = ({
 
   // counting records of result list
   const renderResultsPaneSubtitle = (results) => {
-    if (results && results.loaded()) {
+    if (results?.loaded()) {
       const count = results ? results.totalCount() : 0;
       return <FormattedMessage id="stripes-smart-components.searchResultsCountHeader" values={{ count }} />;
     }

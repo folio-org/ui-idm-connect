@@ -46,7 +46,7 @@ const ChangeUBNumber = ({
   useEffect(() => {
     // result is empty, set record empty and noMatch false
     if (isUsersResultsEmpty) {
-      toggleRecord('', false);
+      toggleRecord('');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isUsersResultsEmpty]);
