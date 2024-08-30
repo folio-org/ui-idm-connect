@@ -51,7 +51,7 @@
     "form.validate.noDollarBackslashRequired": "Required! No $ or \\ allowed!",
     "form.validate.noDollarBackslash": "No $ or \\ allowed!",
     "form.cancel": "Cancel",
-    "edit": "Edit",
+    "edit": "Bewerken",
     "delete": "Delete",
     "delete.confirm.message": "Do you really want to delete {fullName}?",
     "new": "New",
