@@ -32,7 +32,7 @@
     "dataOption.transmission_error_edit": "Transmission error / modify",
     "accordion.personal": "Personal information",
     "accordion.contract": "Informations sur le contrat",
-    "accordion.contact": "Informations sur le contact",
+    "accordion.contact": "Informations de contact",
     "accordion.comment": "Commentaire",
     "searchIdm.title": "Search IDM",
     "searchIdm.resultCount": "{count, number} {count, plural, one {Result in IDM} other {Results in IDM}}",
