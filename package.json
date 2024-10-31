@@ -97,7 +97,8 @@
         "description": "Can view Walk-in contracts",
         "subPermissions": [
           "module.idm-connect.enabled",
-          "idmconnect.contract.get"
+          "idmconnect.contract.collection.get",
+          "idmconnect.contract.item.get"
         ],
         "visible": true
       },
@@ -106,7 +107,7 @@
         "displayName": "IDM connect: Search IDM",
         "description": "Can search IDM",
         "subPermissions": [
-          "idmconnect.searchidm.get",
+          "idmconnect.searchidm.collection.get",
           "users.collection.get"
         ],
         "visible": true
@@ -116,9 +117,9 @@
         "displayName": "IDM connect: Create Walk-in contracts",
         "description": "Can create Walk-in connect",
         "subPermissions": [
-          "idmconnect.contract.post",
-          "idmconnect.contract.transmit.get",
-          "idmconnect.searchidm.get"
+          "idmconnect.contract.item.post",
+          "idmconnect.contract.item.transmit.item.get",
+          "idmconnect.searchidm.collection.get"
         ],
         "visible": true
       },
@@ -127,9 +128,9 @@
         "displayName": "IDM connect: Edit and delete Walk-in contracts",
         "description": "Can edit and delete Walk-in contracts",
         "subPermissions": [
-          "idmconnect.contract.put",
-          "idmconnect.contract.transmit.get",
-          "idmconnect.contract.delete"
+          "idmconnect.contract.item.put",
+          "idmconnect.contract.item.transmit.item.get",
+          "idmconnect.contract.item.delete"
         ],
         "visible": true
       },
@@ -138,9 +139,9 @@
         "displayName": "IDM connect: Change card number",
         "description": "Can change card number",
         "subPermissions": [
-          "idmconnect.ubreadernumber.post",
-          "idmconnect.ubreadernumber.delete",
-          "idmconnect.searchidm.get",
+          "idmconnect.ubreadernumber.item.post",
+          "idmconnect.ubreadernumber.item.delete",
+          "idmconnect.searchidm.collection.get",
           "users.collection.get"
         ],
         "visible": true
