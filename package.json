@@ -16,13 +16,13 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.17.0",
-    "@folio/eslint-config-stripes": "^7.0.0",
+    "@folio/eslint-config-stripes": "^7.1.0",
     "@folio/jest-config-stripes": "^2.0.0",
-    "@folio/stripes": "^9.0.0",
-    "@folio/stripes-cli": "^3.0.0",
-    "@folio/stripes-components": "^12.0.0",
-    "@folio/stripes-core": "^10.0.0",
-    "@folio/stripes-smart-components": "^9.0.0",
+    "@folio/stripes": "^9.2.3",
+    "@folio/stripes-cli": "^3.2.0",
+    "@folio/stripes-components": "^12.2.3",
+    "@folio/stripes-core": "^10.2.2",
+    "@folio/stripes-smart-components": "^9.2.2",
     "@formatjs/cli": "^6.1.3",
     "eslint": "^7.32.0",
     "moment": "^2.29.4",
@@ -42,7 +42,7 @@
     "redux-form": "^8.3.0"
   },
   "peerDependencies": {
-    "@folio/stripes": "^9.0.0",
+    "@folio/stripes": "^9.2.3",
     "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -97,7 +97,8 @@
         "description": "Can view Walk-in contracts",
         "subPermissions": [
           "module.idm-connect.enabled",
-          "idmconnect.contract.get"
+          "idmconnect.contract.collection.get",
+          "idmconnect.contract.item.get"
         ],
         "visible": true
       },
@@ -106,7 +107,7 @@
         "displayName": "IDM connect: Search IDM",
         "description": "Can search IDM",
         "subPermissions": [
-          "idmconnect.searchidm.get",
+          "idmconnect.searchidm.collection.get",
           "users.collection.get"
         ],
         "visible": true
@@ -116,9 +117,9 @@
         "displayName": "IDM connect: Create Walk-in contracts",
         "description": "Can create Walk-in connect",
         "subPermissions": [
-          "idmconnect.contract.post",
-          "idmconnect.contract.transmit.get",
-          "idmconnect.searchidm.get"
+          "idmconnect.contract.item.post",
+          "idmconnect.contract.item.transmit.item.get",
+          "idmconnect.searchidm.collection.get"
         ],
         "visible": true
       },
@@ -127,9 +128,9 @@
         "displayName": "IDM connect: Edit and delete Walk-in contracts",
         "description": "Can edit and delete Walk-in contracts",
         "subPermissions": [
-          "idmconnect.contract.put",
-          "idmconnect.contract.transmit.get",
-          "idmconnect.contract.delete"
+          "idmconnect.contract.item.put",
+          "idmconnect.contract.item.transmit.item.get",
+          "idmconnect.contract.item.delete"
         ],
         "visible": true
       },
@@ -138,9 +139,9 @@
         "displayName": "IDM connect: Change card number",
         "description": "Can change card number",
         "subPermissions": [
-          "idmconnect.ubreadernumber.post",
-          "idmconnect.ubreadernumber.delete",
-          "idmconnect.searchidm.get",
+          "idmconnect.ubreadernumber.item.post",
+          "idmconnect.ubreadernumber.item.delete",
+          "idmconnect.searchidm.collection.get",
           "users.collection.get"
         ],
         "visible": true
