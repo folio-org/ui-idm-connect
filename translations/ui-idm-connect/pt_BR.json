@@ -3,7 +3,7 @@
     "status": "Status",
     "lastname": "Sobrenome",
     "firstname": "Nome",
-    "searchInputLabel": "Pesquisar",
+    "searchInputLabel": "Buscar",
     "noSourceYet": "Nenhuma fonte ainda",
     "contracts": "Contratos em andamento",
     "uniLogin": "Uni login",
@@ -34,7 +34,7 @@
     "accordion.contract": "Informações do contrato",
     "accordion.contact": "Informações de contato",
     "accordion.comment": "Comentário",
-    "searchIdm.title": "Pesquisar IDM",
+    "searchIdm.title": "Buscar IDM",
     "searchIdm.resultCount": "{count, number} {count, plural, one { Resultado no IDM } other { Resultados no IDM }}",
     "searchIdm.noResults": "Nenhum resultado no IDM",
     "searchIdm.takeContinue": "Pegar e continuar",
@@ -74,6 +74,6 @@
     "ubreadernumber.update.success": "O número do cartão da biblioteca foi atualizado com sucesso.",
     "ubreadernumber.update.error": "Ocorreu um erro ao atualizar o número do cartão da biblioteca {error}",
     "ubreadernumber.text.statusNotActive": "Sem contrato ativo. Status da conta = <strong> {accountState} </strong> . Por favor, resolva o status do contrato.",
-    "searchIdm.title.new.search": "Criar contrato de entrada 1/2: pesquisar identidade IDM existente",
+    "searchIdm.title.new.search": "Criar contrato de entrada 1/2: buscar identidade IDM existente",
     "searchIdm.title.new.create": "Criar contrato de entrada 2/2: adicionar detalhes do registro"
 }
