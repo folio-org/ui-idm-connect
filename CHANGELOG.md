@@ -1,8 +1,10 @@
 # Change history for ui-idm-connect
 
-## 2.0.0 (IN PROGRESS)
+## 2.1.0 (IN PROGRESS)
+
+## [2.0.0](https://github.com/folio-org/ui-idm-connect/releases/tag/v2.0.0)
 * Migrate react-intl to v7 ([UIIDM-59](https://folio-org.atlassian.net/browse/UIIDM-59))
 * Migrate stripes dependencies to their Sunflower versions ([UIIDM-60](https://folio-org.atlassian.net/browse/UIIDM-60))
 
-## 1.0.0
+## [1.0.0](https://github.com/folio-org/ui-idm-connect/releases/tag/v1.0.0)
 * Initial release
