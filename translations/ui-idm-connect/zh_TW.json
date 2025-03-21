@@ -27,9 +27,9 @@
     "dataOption.updated": "已更新",
     "dataOption.draft": "草案",
     "dataOption.pending": "等待中",
-    "dataOption.pending_edit": "等待/修改",
+    "dataOption.pending_edit": "等待 / 修改",
     "dataOption.transmission_error": "傳輸錯誤",
-    "dataOption.transmission_error_edit": "傳輸錯誤/修改",
+    "dataOption.transmission_error_edit": "傳輸錯誤 / 修改",
     "accordion.personal": "個人資訊",
     "accordion.contract": "聯絡資訊",
     "accordion.contact": "聯絡資訊",
@@ -74,6 +74,6 @@
     "ubreadernumber.update.success": "圖書館卡號已成功更新。",
     "ubreadernumber.update.error": "更新圖書館卡號時出錯{error}",
     "ubreadernumber.text.statusNotActive": "無有效合約。帳戶狀態 = <strong> {accountState} </strong> 。請解決合約狀態。",
-    "searchIdm.title.new.search": "建立步入式合約 1/2：搜尋現有 IDM 身份",
-    "searchIdm.title.new.create": "建立臨時合約 2/2：新增紀錄詳細資訊"
+    "searchIdm.title.new.search": "建立步入式合約 1/2 : 搜尋現有 IDM 身份",
+    "searchIdm.title.new.create": "建立臨時合約 2/2 : 新增紀錄詳細資訊"
 }

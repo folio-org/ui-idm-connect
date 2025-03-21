@@ -16,7 +16,7 @@
     "academicTitle": "学术头衔",
     "beginDate": "起始日期",
     "endDate": "失效日期",
-    "email": "电子邮件（外部）",
+    "email": "电子邮件 : 外部 ) ",
     "address": "地址",
     "street": "街道",
     "addition": "添加到地址",
@@ -74,6 +74,6 @@
     "ubreadernumber.update.success": "图书馆卡号已成功更新。",
     "ubreadernumber.update.error": "更新图书馆卡号时出错{error}",
     "ubreadernumber.text.statusNotActive": "无有效的合同。账户状态 = <strong> {accountState} </strong> 。请解决合同状态。",
-    "searchIdm.title.new.search": "创建步入式合同1/2：搜索现有 IDM 标识",
-    "searchIdm.title.new.create": "创建步入式合同 2/2：添加记录详情"
+    "searchIdm.title.new.search": "创建步入式合同1/2 : 搜索现有 IDM 标识",
+    "searchIdm.title.new.create": "创建步入式合同 2/2 : 添加记录详情"
 }
