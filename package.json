@@ -51,8 +51,7 @@
   },
   "stripes": {
     "actsAs": [
-      "app",
-      "settings"
+      "app"
     ],
     "displayName": "ui-idm-connect.meta.title",
     "route": "/idm-connect",
