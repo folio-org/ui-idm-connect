@@ -1,61 +1,48 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { useMutation } from 'react-query';
+import { v4 as uuidv4 } from 'uuid';
 
-import { stripesConnect } from '@folio/stripes/core';
+import {
+  useOkapiKy,
+  stripesConnect,
+} from '@folio/stripes/core';
 
 import ContractsForm from '../components/view/ContractsForm';
 import urls from '../components/DisplayUtils/urls';
 
-class ContractCreateRoute extends React.Component {
-  static manifest = Object.freeze({
-    contracts: {
-      type: 'okapi',
-      path: 'idm-connect/contract',
-      fetch: false,
-      shouldRefresh: () => false,
-    },
-  });
+const ContractCreateRoute = ({
+  history,
+  location,
+  // stripes,
+}) => {
+  const ky = useOkapiKy();
+  // const stripes = useStripes();
+  // const hasPerms = stripes.hasPerm('finc-config.metadata-collections.item.post');
+  const CONTRACT_API = 'idm-connect/contract';
 
-  static propTypes = {
-    history: PropTypes.shape({
-      push: PropTypes.func.isRequired,
-    }).isRequired,
-    location: PropTypes.shape({
-      search: PropTypes.string.isRequired,
-    }).isRequired,
-    mutator: PropTypes.shape({
-      contracts: PropTypes.shape({
-        POST: PropTypes.func.isRequired,
-      }).isRequired,
-    }).isRequired,
-    resources: PropTypes.shape({
-      contracts: PropTypes.object,
-    }).isRequired,
-    stripes: PropTypes.shape({
-      hasPerm: PropTypes.func.isRequired,
-      okapi: PropTypes.object.isRequired,
-    }).isRequired,
-  }
-
-  handleClose = () => {
-    this.props.history.push({
+  const handleClose = () => {
+    history.push({
       pathname: `${urls.searchIdm()}`,
       state: 'new'
     });
-  }
+  };
 
-  handleSubmit = (contract) => {
-    const { history, location, mutator } = this.props;
+  const { mutateAsync: handleSubmit } = useMutation({
+    mutationFn: (payload) => {
+      const id = uuidv4();
+      const newPayload = { ...payload, id };
 
-    mutator.contracts
-      .POST(contract)
-      .then(({ id }) => {
-        history.push(`${urls.contractView(id)}${location.search}`);
-      });
-  }
+      ky.post(CONTRACT_API, { json: newPayload })
+        .then(() => {
+          history.push(`${urls.contractView(id)}${location.search}`);
+        });
+    },
+  });
 
-  getInitialValues = () => {
+  // if (!hasPerms) return <div><FormattedMessage id="ui-finc-config.noPermission" /></div>;
+
+  const getInitialValues = () => {
     const initialValues = JSON.parse(localStorage.getItem('idmConnectNewContractInitialValues'));
     const searchValues = JSON.parse(localStorage.getItem('idmConnectNewContractSearchValues'));
 
@@ -83,20 +70,30 @@ class ContractCreateRoute extends React.Component {
         }
       };
     }
-  }
+  };
 
-  render() {
-    const adaptedInitialValues = this.getInitialValues();
+  const adaptedInitialValues = getInitialValues();
 
-    return (
-      <ContractsForm
-        handlers={{ onClose: this.handleClose }}
-        initialValues={adaptedInitialValues}
-        onSubmit={this.handleSubmit}
-        disableLibraryCard={false}
-      />
-    );
-  }
-}
+  return (
+    <ContractsForm
+      handlers={{ onClose: handleClose }}
+      initialValues={adaptedInitialValues}
+      onSubmit={handleSubmit}
+      disableLibraryCard={false}
+    />
+  );
+};
+
+ContractCreateRoute.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+  location: PropTypes.shape({
+    search: PropTypes.string.isRequired,
+  }).isRequired,
+  stripes: PropTypes.shape({
+    hasPerm: PropTypes.func.isRequired,
+  }).isRequired,
+};
 
 export default stripesConnect(ContractCreateRoute);

@@ -1,5 +1,5 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import { useContext, useState } from 'react';
 import { getFormValues } from 'redux-form';
 
 import { CalloutContext, stripesConnect } from '@folio/stripes/core';
@@ -7,36 +7,40 @@ import { CalloutContext, stripesConnect } from '@folio/stripes/core';
 import SearchIdm from '../components/view/SearchIdm/SearchIdm';
 import { handleIdmSearchClose, handleIdmSearchSubmit } from '../util/handler';
 
-class SearchIdmRoute extends React.Component {
-  static contextType = CalloutContext;
+const SearchIdmRoute = ({
+  history,
+  location,
+  stripes,
+}) => {
+  const [users, setUsers] = useState([]);
+  const [renderListOfResults, setRenderListOfResults] = useState(false);
+  const [isUsersResultsEmpty, setIsUsersResultsEmpty] = useState(false);
 
-  constructor(props) {
-    super(props);
+  const contextType = useContext(CalloutContext);
 
-    this.state = {
-      users: [],
-      renderListOfResults: false,
-      isUsersResultsEmpty: false,
-    };
-  }
+  const isCreateNewUser = location.state === 'new';
+  const formValues = getFormValues('SearchIdmForm')(stripes.store.getState()) || {};
 
-  render() {
-    const isCreateNewUser = this.props.location.state === 'new';
-    const formValues = getFormValues('SearchIdmForm')(this.props.stripes.store.getState()) || {};
-
-    return (
-      <SearchIdm
-        handlers={{ onClose: () => handleIdmSearchClose(this) }}
-        isCreateNewUser={isCreateNewUser}
-        isUsersResultsEmpty={this.state.isUsersResultsEmpty}
-        onSubmit={(e) => handleIdmSearchSubmit(this, 'SearchIdmForm', e)}
-        renderListOfResults={this.state.renderListOfResults}
-        searchValues={formValues}
-        users={this.state.users}
-      />
-    );
-  }
-}
+  return (
+    <SearchIdm
+      handlers={{ onClose: () => handleIdmSearchClose(history) }}
+      isCreateNewUser={isCreateNewUser}
+      isUsersResultsEmpty={isUsersResultsEmpty}
+      onSubmit={(e) => handleIdmSearchSubmit({
+        event: e,
+        form: 'SearchIdmForm',
+        stripes,
+        setUsers,
+        setRenderListOfResults,
+        setIsUsersResultsEmpty,
+        contextType,
+      })}
+      renderListOfResults={renderListOfResults}
+      searchValues={formValues}
+      users={users}
+    />
+  );
+};
 
 SearchIdmRoute.propTypes = {
   history: PropTypes.shape({

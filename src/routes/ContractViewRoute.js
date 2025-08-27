@@ -1,81 +1,89 @@
-import _ from 'lodash';
-import React from 'react';
 import PropTypes from 'prop-types';
+import { useMutation, useQuery } from 'react-query';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
-import { stripesConnect } from '@folio/stripes/core';
+import { stripesConnect, useOkapiKy } from '@folio/stripes/core';
 
 import urls from '../components/DisplayUtils/urls';
 import ContractView from '../components/view/ContractView';
 
-class ContractViewRoute extends React.Component {
-  static manifest = Object.freeze({
-    source: {
-      type: 'okapi',
-      path: 'idm-connect/contract/:{id}',
-      shouldRefresh: () => false,
-    },
-    query: {},
-  });
+const ContractViewRoute = ({
+  history,
+  location,
+  match: { params: { id: contractId } },
+  stripes,
+}) => {
+  const CONTRACT_API = 'idm-connect/contract';
+  const ky = useOkapiKy();
 
-  static propTypes = {
-    history: ReactRouterPropTypes.history.isRequired,
-    location: ReactRouterPropTypes.location.isRequired,
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        id: PropTypes.string.isRequired,
-      }).isRequired,
-    }).isRequired,
-    mutator: PropTypes.shape({
-      source: PropTypes.shape({
-        DELETE: PropTypes.func.isRequired,
-      }).isRequired,
-    }).isRequired,
-    resources: PropTypes.shape({
-      source: PropTypes.object,
-    }).isRequired,
-    stripes: PropTypes.shape({
-      hasPerm: PropTypes.func.isRequired,
-      okapi: PropTypes.object.isRequired,
-    }).isRequired,
+  const useContract = () => {
+    const { isLoading, data: contract = {} } = useQuery(
+      [CONTRACT_API, contractId],
+      () => ky.get(`${CONTRACT_API}/${contractId}`).json(),
+      // The query will not execute until the id exists
+      { enabled: Boolean(contractId) },
+    );
+
+    return ({
+      isLoading,
+      contract,
+    });
   };
 
-  handleClose = () => {
-    const { location } = this.props;
-    this.props.history.push(`${urls.contracts()}${location.search}`);
-  }
+  const { contract, isLoading: isContractLoading } = useContract();
 
-  handleEdit = () => {
-    const { location, match } = this.props;
-    this.props.history.push(`${urls.contractEdit(match.params.id)}${location.search}`);
-  }
+  const handleClose = () => {
+    history.push(`${urls.contracts()}${location.search}`);
+  };
 
-  handleDelete = (contract) => {
-    const { history, location, mutator } = this.props;
+  const handleEdit = () => {
+    history.push(`${urls.contractEdit(contractId)}${location.search}`);
+  };
 
-    mutator.source.DELETE({ contract }).then(() => {
-      history.push(`${urls.contracts()}${location.search}`);
-    });
-  }
+  const { mutateAsync: deleteContact } = useMutation(
+    [CONTRACT_API, 'deleteContact'],
+    () => ky.delete(CONTRACT_API)
+      .then(() => {
+        history.push(`${urls.contracts()}${location.search}`);
+      })
+  );
 
-  render() {
-    const { stripes } = this.props;
+  return (
+    <ContractView
+      canEdit={stripes.hasPerm('ui-idm-connect.edit-delete')}
+      canDelete={stripes.hasPerm('ui-idm-connect.edit-delete')}
+      handlers={{
+        onClose: handleClose,
+        onEdit: handleEdit,
+        onDelete: deleteContact,
+      }}
+      isLoading={isContractLoading}
+      record={contract}
+      stripes={stripes}
+    />
+  );
+};
 
-    return (
-      <ContractView
-        canEdit={stripes.hasPerm('ui-idm-connect.edit-delete')}
-        canDelete={stripes.hasPerm('ui-idm-connect.edit-delete')}
-        handlers={{
-          onClose: this.handleClose,
-          onEdit: this.handleEdit,
-          onDelete: this.handleDelete,
-        }}
-        isLoading={_.get(this.props.resources, 'source.isPending', true)}
-        record={_.get(this.props.resources, 'source.records', []).find(i => i.id === this.props.match.params.id)}
-        stripes={this.props.stripes}
-      />
-    );
-  }
-}
+ContractViewRoute.propTypes = {
+  history: ReactRouterPropTypes.history.isRequired,
+  location: ReactRouterPropTypes.location.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
+  mutator: PropTypes.shape({
+    source: PropTypes.shape({
+      DELETE: PropTypes.func.isRequired,
+    }).isRequired,
+  }).isRequired,
+  resources: PropTypes.shape({
+    source: PropTypes.object,
+  }).isRequired,
+  stripes: PropTypes.shape({
+    hasPerm: PropTypes.func.isRequired,
+    okapi: PropTypes.object.isRequired,
+  }).isRequired,
+};
 
 export default stripesConnect(ContractViewRoute);
