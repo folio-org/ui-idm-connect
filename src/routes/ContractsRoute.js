@@ -1,16 +1,16 @@
 import { get } from 'lodash';
 import PropTypes from 'prop-types';
 import { useRef, useEffect, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
 
 import { stripesConnect } from '@folio/stripes/core';
-import { Layout } from '@folio/stripes/components';
 import {
   makeQueryFunction,
   StripesConnectedSource,
 } from '@folio/stripes/smart-components';
 
+import NoPermissionsMessage from '../components/DisplayUtils/NoPermissionsMessage';
 import urls from '../components/DisplayUtils/urls';
+import usePrevious from '../components/hooks/usePrevious';
 import Contracts from '../components/view/Contracts';
 import filterConfig from '../components/view/filterConfigData';
 
@@ -33,30 +33,32 @@ const ContractsRoute = ({
     return new StripesConnectedSource({ resources, mutator }, stripes.logger, 'sources');
   });
 
+  const [count, setCount] = useState(source.totalCount());
+  const [records, setRecords] = useState(source.records());
+
+  const previousCount = usePrevious(count);
+  const previousRecords = usePrevious(records);
 
   useEffect(() => {
-    const oldCount = source.totalCount();
-    const oldRecords = source.records();
-    // Update source when resources or mutator change
-    source?.update({ resources, mutator }, 'sources');
+    source.update({ resources, mutator }, 'sources');
 
-    const newCount = source.totalCount();
-    const newRecords = source.records();
-
-    if (newCount === 1) {
-      if (oldCount !== 1 || (oldCount === 1 && oldRecords[0].id !== newRecords[0].id)) {
-        const record = newRecords[0];
-        history.push(`${urls.collectionView(record.id)}${location.search}`);
-      }
-    }
+    setCount(source.totalCount());
+    setRecords(source.records());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resources, mutator]);
 
+  useEffect(() => {
+    if (count === 1) {
+      if (previousCount !== 1 || (previousCount === 1 && previousRecords[0].id !== records[0].id)) {
+        const record = records[0];
+        history.push(`${urls.contractView(record.id)}${location.search}`);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [count, records]);
 
   useEffect(() => {
-    if (searchField.current) {
-      searchField.current.focus();
-    }
+    searchField.current?.focus();
   }, []);
 
   const querySetter = ({ nsValues }) => {
@@ -74,12 +76,7 @@ const ContractsRoute = ({
   };
 
   if (!hasPerms) {
-    return (
-      <Layout className="textCentered">
-        <h2><FormattedMessage id="stripes-smart-components.permissionError" /></h2>
-        <p><FormattedMessage id="stripes-smart-components.permissionsDoNotAllowAccess" /></p>
-      </Layout>
-    );
+    return <NoPermissionsMessage />;
   }
 
   return (

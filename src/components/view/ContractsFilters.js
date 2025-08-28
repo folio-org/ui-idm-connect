@@ -14,7 +14,6 @@ import filterConfig from './filterConfigData';
 const ContractsFilters = ({
   activeFilters = { status: [] },
   filterHandlers,
-  ...props
 }) => {
   const [filterState, setFilterState] = useState({ status: [] });
 
@@ -60,7 +59,6 @@ const ContractsFilters = ({
         label={<FormattedMessage id={`ui-idm-connect.${key}`} />}
         onClearFilter={() => { filterHandlers.clearGroup(key); }}
         separator={false}
-        {...props}
       >
         <CheckboxFilter
           dataOptions={filterState[key]}

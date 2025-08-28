@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { get, noop } from 'lodash';
+import { get, isEqual, noop } from 'lodash';
 import { useState } from 'react';
 import {
   withRouter,
@@ -32,6 +32,10 @@ import urls from '../DisplayUtils/urls';
 import ContractsFilters from './ContractsFilters';
 import DataLable from '../DisplayUtils/Format';
 
+const defaultFilter = { status: ['updated'] };
+const defaultSearch = { query: '' };
+const defaultSort = { sort: 'lastName' };
+
 const Contracts = ({
   children,
   contentData = {},
@@ -46,7 +50,6 @@ const Contracts = ({
   selectedRecordId,
   source,
   stripes,
-  syncToLocationSearch = true,
 }) => {
   const [filterPaneIsVisible, setFilterPaneIsVisible] = useState(true);
 
@@ -244,26 +247,25 @@ const Contracts = ({
   return (
     <div data-testid="contracts">
       <SearchAndSortQuery
-        initialFilterState={{ status: ['updated'] }}
-        initialSearchState={{ query: '' }}
-        initialSortState={{ sort: 'lastName' }}
+        initialFilterState={defaultFilter}
+        initialSearchState={defaultSearch}
+        initialSortState={defaultSort}
         queryGetter={queryGetter}
         querySetter={querySetter}
-        syncToLocationSearch={syncToLocationSearch}
+        setQueryOnMount
       >
         {
           ({
             activeFilters,
-            filterChanged,
             getFilterHandlers,
             getSearchHandlers,
             onSort,
             onSubmitSearch,
             resetAll,
-            searchChanged,
             searchValue,
           }) => {
-            const disableReset = () => !filterChanged && !searchChanged;
+            const filterChanged = !isEqual(activeFilters.state, defaultFilter);
+            const searchChanged = searchValue.query && !isEqual(searchValue, defaultSearch);
 
             return (
               <Paneset>
@@ -281,13 +283,19 @@ const Contracts = ({
                           id="contractSearchField"
                           inputRef={searchField}
                           name="query"
-                          onChange={getSearchHandlers().query}
+                          onChange={(e) => {
+                            if (e.target.value) {
+                              getSearchHandlers().query(e);
+                            } else {
+                              getSearchHandlers().reset();
+                            }
+                          }}
                           onClear={getSearchHandlers().reset}
                           value={searchValue.query}
                         />
                         <Button
                           buttonStyle="primary"
-                          disabled={!searchValue.query || searchValue.query === ''}
+                          disabled={!searchChanged}
                           fullWidth
                           id="clickable-search-contracts"
                           type="submit"
@@ -297,7 +305,7 @@ const Contracts = ({
                       </div>
                       <Button
                         buttonStyle="none"
-                        disabled={disableReset()}
+                        disabled={!(filterChanged || searchChanged)}
                         id="clickable-reset-all"
                         onClick={resetAll}
                       >
