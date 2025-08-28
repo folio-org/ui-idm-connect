@@ -103,6 +103,7 @@ ContractsRoute.manifest = Object.freeze({
     type: 'okapi',
     records: 'contracts',
     recordsRequired: '%{resultCount}',
+    resourceShouldRefresh: true,
     perRequest: 30,
     path: 'idm-connect/contract',
     GET: {

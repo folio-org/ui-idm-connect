@@ -26,6 +26,7 @@ import ContractCommentForm from './ContractComment/ContractCommentForm';
 const ContractsForm = ({
   disableLibraryCard,
   handlers: { onClose },
+  // onSubmit,
   handleSubmit,
   initialValues = {},
   invalid,
@@ -80,7 +81,6 @@ const ContractsForm = ({
         disabled={disabled}
         id="clickable-savecontract"
         marginBottom0
-        onClick={handleSubmit}
         type="submit"
       >
         <FormattedMessage id="stripes-components.saveAndClose" />
@@ -183,7 +183,7 @@ ContractsForm.propTypes = {
 
 export default stripesFinalForm({
   // the form will reinitialize every time the initialValues prop changes
-  enableReinitialize: true,
+  enableReinitialize: false,
   // set navigationCheck true for confirming changes
   navigationCheck: true,
   subscription: {

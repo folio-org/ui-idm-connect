@@ -16,7 +16,7 @@ const SearchIdmRoute = ({
   const [renderListOfResults, setRenderListOfResults] = useState(false);
   const [isUsersResultsEmpty, setIsUsersResultsEmpty] = useState(false);
 
-  const contextType = useContext(CalloutContext);
+  const callout = useContext(CalloutContext);
 
   const isCreateNewUser = location.state === 'new';
   const formValues = getFormValues('SearchIdmForm')(stripes.store.getState()) || {};
@@ -33,7 +33,7 @@ const SearchIdmRoute = ({
         setUsers,
         setRenderListOfResults,
         setIsUsersResultsEmpty,
-        contextType,
+        callout,
       })}
       renderListOfResults={renderListOfResults}
       searchValues={formValues}

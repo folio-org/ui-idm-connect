@@ -16,7 +16,7 @@ const ChangeUBNumberRoute = ({
   const [renderListOfResults, setRenderListOfResults] = useState(false);
   const [isUsersResultsEmpty, setIsUsersResultsEmpty] = useState(false);
 
-  const contextType = useContext(CalloutContext);
+  const callout = useContext(CalloutContext);
   const formValues = getFormValues('ChangeUBNumberForm')(stripes.store.getState()) || {};
 
   return (
@@ -30,7 +30,7 @@ const ChangeUBNumberRoute = ({
         setUsers,
         setRenderListOfResults,
         setIsUsersResultsEmpty,
-        contextType,
+        callout,
       })}
       renderListOfResults={renderListOfResults}
       searchValues={formValues}

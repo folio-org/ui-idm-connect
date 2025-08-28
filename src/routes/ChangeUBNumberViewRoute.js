@@ -17,7 +17,7 @@ const ChangeUBNumberViewRoute = ({
   history,
   stripes,
 }) => {
-  const contextType = useContext(CalloutContext);
+  const callout = useContext(CalloutContext);
 
   const handleClose = () => {
     // remove item
@@ -42,18 +42,18 @@ const ChangeUBNumberViewRoute = ({
           // go back for fetching the new data
           localStorage.removeItem('idmConnectChangeUBNumber');
           history.push(`${urls.contracts()}`);
-          contextType.sendCallout({
+          callout.sendCallout({
             type: 'success',
             message: <FormattedMessage id="ui-idm-connect.ubreadernumber.update.success" />,
           });
         } else {
-          contextType.sendCallout({
+          callout.sendCallout({
             type: 'error',
             message: <FormattedMessage id="ui-idm-connect.ubreadernumber.update.error" values={{ error: '' }} />,
           });
         }
       }).catch((err) => {
-        contextType.sendCallout({
+        callout.sendCallout({
           type: 'error',
           message: <FormattedMessage id="ui-idm-connect.ubreadernumber.update.error" values={{ error: err.statusText }} />,
         });

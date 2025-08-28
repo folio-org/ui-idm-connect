@@ -1,5 +1,6 @@
 import { cloneDeep } from 'lodash';
 import PropTypes from 'prop-types';
+import { useMemo } from 'react';
 import { useMutation, useQuery } from 'react-query';
 
 import { stripesConnect, useOkapiKy } from '@folio/stripes/core';
@@ -21,11 +22,9 @@ const ContractEditRoute = ({
     () => ky.get(CONTRACT_API).json()
   );
 
-  const getInitialValues = () => {
-    const initialValues = cloneDeep(contract);
-
-    return initialValues;
-  };
+  const adaptedInitialValues = useMemo(() => {
+    return cloneDeep(contract);
+  }, [contract]);
 
   const handleClose = () => {
     history.push(`${urls.contractView(match.params.id)}${location.search}`);
@@ -48,7 +47,7 @@ const ContractEditRoute = ({
   return (
     <ContractsForm
       handlers={{ onClose: handleClose }}
-      initialValues={getInitialValues()}
+      initialValues={adaptedInitialValues}
       onSubmit={handleSubmit}
       disableLibraryCard
       isEditContract

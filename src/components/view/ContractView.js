@@ -66,7 +66,7 @@ const ContractView = ({
 
   const doConfirmDelete = (confirmation) => {
     if (confirmation) {
-      handlers.onDelete();
+      handlers.onDelete(record);
     } else {
       setConfirmDelete(false);
     }

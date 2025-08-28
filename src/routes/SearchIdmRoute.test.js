@@ -1,14 +1,14 @@
-import React from 'react';
-import { screen } from '@folio/jest-config-stripes/testing-library/react';
-import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 
+import { screen } from '@folio/jest-config-stripes/testing-library/react';
+import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
+import { CalloutContext } from '@folio/stripes/core';
+
 import renderWithIntl from '../../test/jest/helpers/renderWithIntl';
 import SearchIdmRoute from './SearchIdmRoute';
-import { CalloutContextProvider } from '../../test/jest/helpers/calloutContextProvider';
 import urls from '../components/DisplayUtils/urls';
 import user from '../../test/jest/fixtures/user';
 import users from '../../test/jest/fixtures/usersWithFolioUser';
@@ -22,11 +22,11 @@ const reducers = {
 const reducer = combineReducers(reducers);
 
 let store;
-
+let sendCalloutMock;
 const historyPushMock = jest.fn();
 
-const renderSearchIdmRoute = (rerender) => renderWithIntl(
-  <CalloutContextProvider>
+const renderSearchIdmRoute = (sendCallout) => renderWithIntl(
+  <CalloutContext.Provider value={{ sendCallout }}>
     <Provider store={store}>
       <MemoryRouter>
         <SearchIdmRoute
@@ -35,14 +35,14 @@ const renderSearchIdmRoute = (rerender) => renderWithIntl(
         />
       </MemoryRouter>
     </Provider>
-  </CalloutContextProvider>,
-  rerender
+  </CalloutContext.Provider>
 );
 
 describe('When SearchIdmRoute is rendered', () => {
   beforeEach(() => {
+    sendCalloutMock = jest.fn();
     store = createStore(reducer);
-    renderSearchIdmRoute();
+    renderSearchIdmRoute(sendCalloutMock);
   });
 
   it('should display textboxes and buttons', () => {
@@ -93,14 +93,24 @@ describe('When SearchIdmRoute is rendered', () => {
       global.fetch = jest.fn((url) => (url.includes('/idm-connect/searchidm') ? resp200WithUser : resp500));
 
       await userEvent.click(screen.getByRole('button', { name: 'Search' }));
-      expect(await screen.findByText('Error getting Folio users')).toBeVisible();
+      expect(sendCalloutMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: 'error',
+          message: expect.stringContaining('Folio users'),
+        })
+      );
     });
 
     it('clicking search should display error if fetch /searchidm is not OK', async () => {
       global.fetch = jest.fn(() => resp500);
 
       await userEvent.click(screen.getByRole('button', { name: 'Search' }));
-      expect(await screen.findByText('Error getting IDM users')).toBeVisible();
+      expect(sendCalloutMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: 'error',
+          message: expect.stringContaining('IDM users'),
+        })
+      );
     });
   });
 });

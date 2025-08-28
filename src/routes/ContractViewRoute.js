@@ -42,10 +42,12 @@ const ContractViewRoute = ({
 
   const { mutateAsync: deleteContact } = useMutation(
     [CONTRACT_API, 'deleteContact'],
-    () => ky.delete(CONTRACT_API)
-      .then(() => {
+    (contractToDelete) => ky.delete(`${CONTRACT_API}/${contractToDelete.id}`),
+    {
+      onSuccess: async () => {
         history.push(`${urls.contracts()}${location.search}`);
-      })
+      }
+    }
   );
 
   return (
@@ -71,14 +73,6 @@ ContractViewRoute.propTypes = {
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,
     }).isRequired,
-  }).isRequired,
-  mutator: PropTypes.shape({
-    source: PropTypes.shape({
-      DELETE: PropTypes.func.isRequired,
-    }).isRequired,
-  }).isRequired,
-  resources: PropTypes.shape({
-    source: PropTypes.object,
   }).isRequired,
   stripes: PropTypes.shape({
     hasPerm: PropTypes.func.isRequired,
