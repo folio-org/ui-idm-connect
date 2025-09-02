@@ -1,6 +1,5 @@
-import { FormattedMessage } from 'react-intl';
 import moment from 'moment';
-
+import { FormattedMessage } from 'react-intl';
 
 const getInitialValues = () => {
   const initialValues = JSON.parse(localStorage.getItem('idmConnectChangeUBNumber'));

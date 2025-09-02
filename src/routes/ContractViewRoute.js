@@ -1,8 +1,14 @@
 import PropTypes from 'prop-types';
-import { useMutation, useQuery } from 'react-query';
+import {
+  useMutation,
+  useQuery,
+} from 'react-query';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
-import { stripesConnect, useOkapiKy } from '@folio/stripes/core';
+import {
+  stripesConnect,
+  useOkapiKy,
+} from '@folio/stripes/core';
 
 import urls from '../components/DisplayUtils/urls';
 import ContractView from '../components/view/ContractView';
@@ -21,7 +27,7 @@ const ContractViewRoute = ({
       [CONTRACT_API, contractId],
       () => ky.get(`${CONTRACT_API}/${contractId}`).json(),
       // The query will not execute until the id exists
-      { enabled: Boolean(contractId) },
+      { enabled: Boolean(contractId) }
     );
 
     return ({
@@ -46,14 +52,14 @@ const ContractViewRoute = ({
     {
       onSuccess: async () => {
         history.push(`${urls.contracts()}${location.search}`);
-      }
+      },
     }
   );
 
   return (
     <ContractView
-      canEdit={stripes.hasPerm('ui-idm-connect.edit-delete')}
       canDelete={stripes.hasPerm('ui-idm-connect.edit-delete')}
+      canEdit={stripes.hasPerm('ui-idm-connect.edit-delete')}
       handlers={{
         onClose: handleClose,
         onEdit: handleEdit,

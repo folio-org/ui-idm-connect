@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import { useContext } from 'react';
-import ReactRouterPropTypes from 'react-router-prop-types';
 import { FormattedMessage } from 'react-intl';
+import ReactRouterPropTypes from 'react-router-prop-types';
 
 import {
-  stripesConnect,
   CalloutContext,
+  stripesConnect,
 } from '@folio/stripes/core';
 
 import urls from '../components/DisplayUtils/urls';
@@ -52,13 +52,15 @@ const ChangeUBNumberViewRoute = ({
             message: <FormattedMessage id="ui-idm-connect.ubreadernumber.update.error" values={{ error: '' }} />,
           });
         }
-      }).catch((err) => {
-        callout.sendCallout({
-          type: 'error',
-          message: <FormattedMessage id="ui-idm-connect.ubreadernumber.update.error" values={{ error: err.statusText }} />,
+      })
+        .catch((err) => {
+          callout.sendCallout({
+            type: 'error',
+            message: <FormattedMessage id="ui-idm-connect.ubreadernumber.update.error" values={{ error: err.statusText }} />,
+          });
         });
-      });
     }
+
     return null;
   };
 

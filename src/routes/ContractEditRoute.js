@@ -1,13 +1,19 @@
 import { cloneDeep } from 'lodash';
 import PropTypes from 'prop-types';
 import { useMemo } from 'react';
-import { useMutation, useQuery } from 'react-query';
+import {
+  useMutation,
+  useQuery,
+} from 'react-query';
 
-import { stripesConnect, useOkapiKy } from '@folio/stripes/core';
 import { Loading } from '@folio/stripes/components';
+import {
+  stripesConnect,
+  useOkapiKy,
+} from '@folio/stripes/core';
 
-import ContractsForm from '../components/view/ContractsForm';
 import urls from '../components/DisplayUtils/urls';
+import ContractsForm from '../components/view/ContractsForm';
 
 const ContractEditRoute = ({
   history,
@@ -46,11 +52,11 @@ const ContractEditRoute = ({
 
   return (
     <ContractsForm
+      disableLibraryCard
       handlers={{ onClose: handleClose }}
       initialValues={adaptedInitialValues}
-      onSubmit={handleSubmit}
-      disableLibraryCard
       isEditContract
+      onSubmit={handleSubmit}
     />
   );
 };

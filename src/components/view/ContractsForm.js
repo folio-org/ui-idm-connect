@@ -18,15 +18,14 @@ import {
 } from '@folio/stripes/components';
 import stripesFinalForm from '@folio/stripes/final-form';
 
-import ContractPersonalForm from './ContractPersonal/ContractPersonalForm';
-import ContractContractForm from './ContractContract/ContractContractForm';
-import ContractContactForm from './ContractContact/ContractContactForm';
 import ContractCommentForm from './ContractComment/ContractCommentForm';
+import ContractContactForm from './ContractContact/ContractContactForm';
+import ContractContractForm from './ContractContract/ContractContractForm';
+import ContractPersonalForm from './ContractPersonal/ContractPersonalForm';
 
 const ContractsForm = ({
   disableLibraryCard,
   handlers: { onClose },
-  // onSubmit,
   handleSubmit,
   initialValues = {},
   invalid,
@@ -87,7 +86,7 @@ const ContractsForm = ({
       </Button>
     );
 
-    return <PaneFooter renderStart={startButton} renderEnd={endButton} />;
+    return <PaneFooter renderEnd={endButton} renderStart={startButton} />;
   };
 
   const handleExpandAll = (a) => {
@@ -145,9 +144,9 @@ const ContractsForm = ({
               />
               <ContractContractForm
                 accordionId="editContractAccordion"
+                disableLibraryCard={disableLibraryCard}
                 expanded={accordions.editContractAccordion}
                 onToggle={handleSectionToggle}
-                disableLibraryCard={disableLibraryCard}
               />
               <ContractContactForm
                 accordionId="editContactAccordion"
@@ -183,7 +182,7 @@ ContractsForm.propTypes = {
 
 export default stripesFinalForm({
   // the form will reinitialize every time the initialValues prop changes
-  enableReinitialize: false,
+  enableReinitialize: true,
   // set navigationCheck true for confirming changes
   navigationCheck: true,
   subscription: {

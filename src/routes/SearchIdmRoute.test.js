@@ -1,17 +1,20 @@
-import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { createStore, combineReducers } from 'redux';
+import { MemoryRouter } from 'react-router-dom';
+import {
+  combineReducers,
+  createStore,
+} from 'redux';
 import { reducer as formReducer } from 'redux-form';
 
 import { screen } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 import { CalloutContext } from '@folio/stripes/core';
 
-import renderWithIntl from '../../test/jest/helpers/renderWithIntl';
-import SearchIdmRoute from './SearchIdmRoute';
-import urls from '../components/DisplayUtils/urls';
 import user from '../../test/jest/fixtures/user';
 import users from '../../test/jest/fixtures/usersWithFolioUser';
+import renderWithIntl from '../../test/jest/helpers/renderWithIntl';
+import urls from '../components/DisplayUtils/urls';
+import SearchIdmRoute from './SearchIdmRoute';
 
 const { Response } = jest.requireActual('node-fetch');
 

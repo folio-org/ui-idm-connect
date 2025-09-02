@@ -70,4 +70,7 @@ const handleIdmSearchSubmit = async ({
   }
 };
 
-export { handleIdmSearchClose, handleIdmSearchSubmit };
+export {
+  handleIdmSearchClose,
+  handleIdmSearchSubmit,
+};

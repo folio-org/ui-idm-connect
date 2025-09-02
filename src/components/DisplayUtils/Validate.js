@@ -33,7 +33,6 @@ const NoDollarBackslash = value => {
   return undefined;
 };
 
-
 export {
   Required,
   RequiredMail,

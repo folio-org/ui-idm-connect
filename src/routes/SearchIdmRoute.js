@@ -1,11 +1,20 @@
 import PropTypes from 'prop-types';
-import { useContext, useState } from 'react';
+import {
+  useContext,
+  useState,
+} from 'react';
 import { getFormValues } from 'redux-form';
 
-import { CalloutContext, stripesConnect } from '@folio/stripes/core';
+import {
+  CalloutContext,
+  stripesConnect,
+} from '@folio/stripes/core';
 
 import SearchIdm from '../components/view/SearchIdm/SearchIdm';
-import { handleIdmSearchClose, handleIdmSearchSubmit } from '../util/handler';
+import {
+  handleIdmSearchClose,
+  handleIdmSearchSubmit,
+} from '../util/handler';
 
 const SearchIdmRoute = ({
   history,

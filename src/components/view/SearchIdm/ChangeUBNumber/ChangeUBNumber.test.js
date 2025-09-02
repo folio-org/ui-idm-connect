@@ -1,14 +1,17 @@
-import React from 'react';
-import { screen } from '@folio/jest-config-stripes/testing-library/react';
-import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
-import { createStore, combineReducers } from 'redux';
+import {
+  combineReducers,
+  createStore,
+} from 'redux';
 import { reducer as formReducer } from 'redux-form';
 
-import renderWithIntl from '../../../../../test/jest/helpers/renderWithIntl';
-import usersFixtures from '../../../../../test/jest/fixtures/users';
+import { screen } from '@folio/jest-config-stripes/testing-library/react';
+import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
+
 import userFixtures from '../../../../../test/jest/fixtures/user';
+import usersFixtures from '../../../../../test/jest/fixtures/users';
+import renderWithIntl from '../../../../../test/jest/helpers/renderWithIntl';
 import ChangeUBNumber from './ChangeUBNumber';
 
 const reducers = {
@@ -28,12 +31,12 @@ const renderUsers = (USERS, newUser, resultsEmpty, rerender) => renderWithIntl(
   <Provider store={store}>
     <MemoryRouter>
       <ChangeUBNumber
+        handlers={{ onClose }}
         isCreateNewUser={newUser}
         isUsersResultsEmpty={resultsEmpty}
         onSubmit={onSubmit}
-        handlers={{ onClose }}
-        users={USERS}
         renderListOfResults
+        users={USERS}
       />
     </MemoryRouter>
   </Provider>,
@@ -89,7 +92,6 @@ describe('Change ub number - with results', () => {
     expect(screen.queryAllByText('Not existing').length).toEqual(2);
   });
 });
-
 
 describe('Change ub number - trigger search', () => {
   beforeEach(() => {

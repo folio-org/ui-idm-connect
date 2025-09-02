@@ -3,7 +3,6 @@ const createOkapiHeaders = ({ tenant, token } = {}) => ({
   ...(token && { 'X-Okapi-Token': token }),
 });
 
-// TODO: re-write with ky useOkapiKy!!!
 const fetchWithDefaultOptions = (okapi = {}, path = '', requestOptions = {}) => {
   const { headers, ...rest } = requestOptions;
   const mergedRequestOptions = {

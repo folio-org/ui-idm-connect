@@ -1,5 +1,8 @@
 import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
+import {
+  useEffect,
+  useState,
+} from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -30,8 +33,8 @@ const ContractsFilters = ({
       values.forEach((key) => {
         let newValue = {};
         newValue = {
-          'value': key.cql,
-          'label': key.name,
+          value: key.cql,
+          label: key.name,
         };
         newValues.push(newValue);
       });

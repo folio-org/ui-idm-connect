@@ -1,21 +1,19 @@
+import {
+  get,
+  isEqual,
+  noop,
+} from 'lodash';
 import PropTypes from 'prop-types';
-import { get, isEqual, noop } from 'lodash';
 import { useState } from 'react';
 import {
-  withRouter,
-  Link,
-} from 'react-router-dom';
-import {
-  injectIntl,
   FormattedMessage,
+  injectIntl,
 } from 'react-intl';
-
 import {
-  CollapseFilterPaneButton,
-  ExpandFilterPaneButton,
-  SearchAndSortQuery,
-  SearchAndSortNoResultsMessage as NoResultsMessage,
-} from '@folio/stripes/smart-components';
+  Link,
+  withRouter,
+} from 'react-router-dom';
+
 import {
   Button,
   Icon,
@@ -27,10 +25,16 @@ import {
   SearchField,
 } from '@folio/stripes/components';
 import { AppIcon } from '@folio/stripes/core';
+import {
+  CollapseFilterPaneButton,
+  ExpandFilterPaneButton,
+  SearchAndSortNoResultsMessage as NoResultsMessage,
+  SearchAndSortQuery,
+} from '@folio/stripes/smart-components';
 
+import DataLable from '../DisplayUtils/Format';
 import urls from '../DisplayUtils/urls';
 import ContractsFilters from './ContractsFilters';
-import DataLable from '../DisplayUtils/Format';
 
 const defaultFilter = { status: ['updated'] };
 const defaultSearch = { query: '' };
@@ -73,12 +77,10 @@ const Contracts = ({
 
     return (
       <RowComponent
+        key={`row-${rowIndex}`}
         aria-rowindex={rowIndex + 2}
         className={rowClass}
-        data-label={[
-          rowData.name,
-        ]}
-        key={`row-${rowIndex}`}
+        data-label={[rowData.name]}
         role="row"
         {...rowProps}
       >
@@ -95,6 +97,7 @@ const Contracts = ({
   // fade in / out the filter menu
   const renderResultsFirstMenu = (filters) => {
     const filterCount = filters.string !== '' ? filters.string.split(',').length : 0;
+
     if (filterPaneIsVisible) {
       return null;
     }
@@ -124,6 +127,7 @@ const Contracts = ({
     const canSearch = stripes.hasPerm('ui-idm-connect.searchidm');
     const canChange = stripes.hasPerm('ui-idm-connect.changeubreadernumber');
     const canCreate = stripes.hasPerm('ui-idm-connect.create');
+
     if (canSearch || canCreate || canChange) {
       return (
         <>
@@ -138,7 +142,7 @@ const Contracts = ({
                   onClick={() => {
                     history.push({
                       pathname: `${urls.searchIdm()}`,
-                      state: 'search'
+                      state: 'search',
                     });
                     onToggle();
                   }}
@@ -179,7 +183,7 @@ const Contracts = ({
                   onClick={() => {
                     history.push({
                       pathname: `${urls.searchIdm()}`,
-                      state: 'new'
+                      state: 'new',
                     });
                     onToggle();
                   }}
@@ -204,9 +208,9 @@ const Contracts = ({
     return (
       <div>
         <NoResultsMessage
-          source={result}
-          searchTerm={query.query || ''}
           filterPaneIsVisible
+          searchTerm={query.query || ''}
+          source={result}
           toggleFilterPane={noop}
         />
       </div>
@@ -323,8 +327,8 @@ const Contracts = ({
                 <Pane
                   defaultWidth="fill"
                   id="pane-contract-results"
-                  padContent={false}
                   noOverflow
+                  padContent={false}
                   renderHeader={() => renderResultsPaneHeader(activeFilters, source)}
                 >
                   <MultiColumnList
@@ -378,10 +382,10 @@ Contracts.propTypes = {
   searchString: PropTypes.string,
   selectedRecordId: PropTypes.string,
   source: PropTypes.object,
-  syncToLocationSearch: PropTypes.bool,
   stripes: PropTypes.shape({
     hasPerm: PropTypes.func.isRequired,
-  })
+  }),
+  syncToLocationSearch: PropTypes.bool,
 };
 
 export default injectIntl(withRouter(Contracts));

@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import { get } from 'lodash';
+import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
@@ -18,11 +18,11 @@ import {
   Row,
 } from '@folio/stripes/components';
 
+import ContractCommentView from './ContractComment/ContractCommentView';
+import ContractContactView from './ContractContact/ContractContactView';
+import ContractContractView from './ContractContract/ContractContractView';
 import ContractHeaderView from './ContractHeader/ContractHeaderView';
 import ContractPersonalView from './ContractPersonal/ContractPersonalView';
-import ContractContractView from './ContractContract/ContractContractView';
-import ContractContactView from './ContractContact/ContractContactView';
-import ContractCommentView from './ContractComment/ContractCommentView';
 
 const ContractView = ({
   canEdit,
@@ -258,17 +258,16 @@ const ContractView = ({
 };
 
 ContractView.propTypes = {
-  canEdit: PropTypes.bool,
   canDelete: PropTypes.bool,
+  canEdit: PropTypes.bool,
   handlers: PropTypes.shape({
     onClose: PropTypes.func.isRequired,
-    onEdit: PropTypes.func,
     onDelete: PropTypes.func,
+    onEdit: PropTypes.func,
   }).isRequired,
   isLoading: PropTypes.bool,
   record: PropTypes.object,
   stripes: PropTypes.object,
 };
-
 
 export default ContractView;

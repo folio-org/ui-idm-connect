@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import { get } from 'lodash';
+import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -9,8 +9,8 @@ import {
   Row,
 } from '@folio/stripes/components';
 
-import css from './Header.css';
 import DataLable from '../../DisplayUtils/Format';
+import css from './Header.css';
 
 const ContractHeaderView = ({
   contract,

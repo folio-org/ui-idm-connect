@@ -1,31 +1,28 @@
-import PropTypes from 'prop-types';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 import { useMemo } from 'react';
 import { useMutation } from 'react-query';
 import { v4 as uuidv4 } from 'uuid';
 
 import {
-  useOkapiKy,
   stripesConnect,
+  useOkapiKy,
 } from '@folio/stripes/core';
 
-import ContractsForm from '../components/view/ContractsForm';
 import urls from '../components/DisplayUtils/urls';
+import ContractsForm from '../components/view/ContractsForm';
 
 const ContractCreateRoute = ({
   history,
   location,
-  // stripes,
 }) => {
   const ky = useOkapiKy();
-  // const stripes = useStripes();
-  // const hasPerms = stripes.hasPerm('finc-config.metadata-collections.item.post');
   const CONTRACT_API = 'idm-connect/contract';
 
   const handleClose = () => {
     history.push({
       pathname: `${urls.searchIdm()}`,
-      state: 'new'
+      state: 'new',
     });
   };
 
@@ -42,8 +39,6 @@ const ContractCreateRoute = ({
   const handleSubmit = (values) => {
     return mutateAsync(values);
   };
-
-  // if (!hasPerms) return <div><FormattedMessage id="ui-finc-config.noPermission" /></div>;
 
   const adaptedInitialValues = useMemo(() => {
     const initialValues = JSON.parse(localStorage.getItem('idmConnectNewContractInitialValues')) || {};
@@ -76,10 +71,10 @@ const ContractCreateRoute = ({
 
   return (
     <ContractsForm
+      disableLibraryCard={false}
       handlers={{ onClose: handleClose }}
       initialValues={adaptedInitialValues}
       onSubmit={handleSubmit}
-      disableLibraryCard={false}
     />
   );
 };

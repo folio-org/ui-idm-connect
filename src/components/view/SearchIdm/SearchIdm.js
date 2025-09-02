@@ -1,9 +1,11 @@
-import PropTypes from 'prop-types';
 import { get } from 'lodash';
-import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import {
+  useEffect,
+  useState,
+} from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import stripesForm from '@folio/stripes/form';
 import {
   Button,
   Card,
@@ -13,11 +15,17 @@ import {
   PaneHeader,
   Paneset,
 } from '@folio/stripes/components';
+import stripesForm from '@folio/stripes/form';
 
 import urls from '../../DisplayUtils/urls';
-import css from './SearchIdmStyles.css';
+import {
+  basicResultsFormatter,
+  basisColumns,
+  columnMapping,
+  columnWidths,
+} from './Format';
 import SearchFields from './SearchFields';
-import { basisColumns, columnMapping, columnWidths, basicResultsFormatter } from './Format';
+import css from './SearchIdmStyles.css';
 
 let newContractInitialValues = '';
 
@@ -116,7 +124,7 @@ const SearchIdm = ({
       </Button>
     );
 
-    return <PaneFooter renderStart={startButton} renderEnd={isCreateNewUser ? endButton : ''} />;
+    return <PaneFooter renderEnd={isCreateNewUser ? endButton : ''} renderStart={startButton} />;
   };
 
   const resultsFormatter = {
@@ -144,7 +152,6 @@ const SearchIdm = ({
       return (
         <>
           <Card
-            id="search-idm-results-card"
             headerStart={
               <span>
                 <FormattedMessage
@@ -153,6 +160,7 @@ const SearchIdm = ({
                 />
               </span>
             }
+            id="search-idm-results-card"
             style={{ marginTop: '60px' }}
           >
             <MultiColumnList
@@ -204,8 +212,8 @@ const SearchIdm = ({
           >
             <SearchFields
               dateOfBirth={dateOfBirth}
-              handleDateChange={handleDateChange}
               disabled={pristine || submitting || invalid}
+              handleDateChange={handleDateChange}
             />
             <>
               {renderListOfResults &&

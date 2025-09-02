@@ -1,6 +1,10 @@
 import { get } from 'lodash';
 import PropTypes from 'prop-types';
-import { useRef, useEffect, useState } from 'react';
+import {
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 import { stripesConnect } from '@folio/stripes/core';
 import {
@@ -115,7 +119,7 @@ ContractsRoute.manifest = Object.freeze({
             uniLogin: 'uniLogin',
           },
           filterConfig,
-          2,
+          2
         ),
       },
       staticFallback: { params: {} },
@@ -125,8 +129,8 @@ ContractsRoute.manifest = Object.freeze({
     initialValue: {
       query: '',
       filters: 'status.updated',
-      sort: 'lastName'
-    }
+      sort: 'lastName',
+    },
   },
   resultCount: { initialValue: INITIAL_RESULT_COUNT },
 });
@@ -145,17 +149,17 @@ ContractsRoute.propTypes = {
     }),
   }),
   mutator: PropTypes.shape({
-    sources: PropTypes.shape({
-      POST: PropTypes.func.isRequired
-    }),
     query: PropTypes.shape({
-      update: PropTypes.func
-    }).isRequired
+      update: PropTypes.func,
+    }).isRequired,
+    sources: PropTypes.shape({
+      POST: PropTypes.func.isRequired,
+    }),
   }).isRequired,
   resources: PropTypes.shape({
     sources: PropTypes.shape({
-      records: PropTypes.arrayOf(PropTypes.object)
-    })
+      records: PropTypes.arrayOf(PropTypes.object),
+    }),
   }).isRequired,
   stripes: PropTypes.shape({
     hasPerm: PropTypes.func.isRequired,
