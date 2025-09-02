@@ -249,119 +249,117 @@ const Contracts = ({
   const sortOrder = query.sort || '';
 
   return (
-    <div data-testid="contracts">
-      <SearchAndSortQuery
-        initialFilterState={defaultFilter}
-        initialSearchState={defaultSearch}
-        initialSortState={defaultSort}
-        queryGetter={queryGetter}
-        querySetter={querySetter}
-        setQueryOnMount
-      >
-        {
-          ({
-            activeFilters,
-            getFilterHandlers,
-            getSearchHandlers,
-            onSort,
-            onSubmitSearch,
-            resetAll,
-            searchValue,
-          }) => {
-            const filterChanged = !isEqual(activeFilters.state, defaultFilter);
-            const searchChanged = searchValue.query && !isEqual(searchValue, defaultSearch);
+    <SearchAndSortQuery
+      initialFilterState={defaultFilter}
+      initialSearchState={defaultSearch}
+      initialSortState={defaultSort}
+      queryGetter={queryGetter}
+      querySetter={querySetter}
+      setQueryOnMount
+    >
+      {
+        ({
+          activeFilters,
+          getFilterHandlers,
+          getSearchHandlers,
+          onSort,
+          onSubmitSearch,
+          resetAll,
+          searchValue,
+        }) => {
+          const filterChanged = !isEqual(activeFilters.state, defaultFilter);
+          const searchChanged = searchValue.query && !isEqual(searchValue, defaultSearch);
 
-            return (
-              <Paneset>
-                {filterPaneIsVisible &&
-                  <Pane
-                    defaultWidth="18%"
-                    id="pane-contract-filter"
-                    renderHeader={renderFilterPaneHeader}
-                  >
-                    <form onSubmit={onSubmitSearch}>
-                      <div>
-                        <SearchField
-                          ariaLabel={intl.formatMessage({ id: 'ui-idm-connect.searchInputLabel' })}
-                          autoFocus
-                          id="contractSearchField"
-                          inputRef={searchField}
-                          name="query"
-                          onChange={(e) => {
-                            if (e.target.value) {
-                              getSearchHandlers().query(e);
-                            } else {
-                              getSearchHandlers().reset();
-                            }
-                          }}
-                          onClear={getSearchHandlers().reset}
-                          value={searchValue.query}
-                        />
-                        <Button
-                          buttonStyle="primary"
-                          disabled={!searchChanged}
-                          fullWidth
-                          id="clickable-search-contracts"
-                          type="submit"
-                        >
-                          <FormattedMessage id="stripes-smart-components.search" />
-                        </Button>
-                      </div>
-                      <Button
-                        buttonStyle="none"
-                        disabled={!(filterChanged || searchChanged)}
-                        id="clickable-reset-all"
-                        onClick={resetAll}
-                      >
-                        <Icon icon="times-circle-solid">
-                          <FormattedMessage id="stripes-smart-components.resetAll" />
-                        </Icon>
-                      </Button>
-                      <ContractsFilters
-                        activeFilters={activeFilters.state}
-                        filterHandlers={getFilterHandlers()}
-                      />
-                    </form>
-                  </Pane>
-                }
+          return (
+            <Paneset>
+              {filterPaneIsVisible &&
                 <Pane
-                  defaultWidth="fill"
-                  id="pane-contract-results"
-                  noOverflow
-                  padContent={false}
-                  renderHeader={() => renderResultsPaneHeader(activeFilters, source)}
+                  defaultWidth="18%"
+                  id="pane-contract-filter"
+                  renderHeader={renderFilterPaneHeader}
                 >
-                  <MultiColumnList
-                    autosize
-                    columnMapping={{
-                      status: <FormattedMessage id="ui-idm-connect.status" />,
-                      lastName: <FormattedMessage id="ui-idm-connect.lastname" />,
-                      firstName: <FormattedMessage id="ui-idm-connect.firstname" />,
-                      uniLogin: <FormattedMessage id="ui-idm-connect.uniLogin" />,
-                    }}
-                    contentData={contentData}
-                    formatter={resultsFormatter}
-                    id="list-contracts"
-                    isEmptyMessage={renderIsEmptyMessage(query, source)}
-                    isSelected={({ item }) => item.id === selectedRecordId}
-                    onHeaderClick={onSort}
-                    onNeedMoreData={onNeedMoreData}
-                    onRowClick={onSelectRow}
-                    rowFormatter={rowFormatter}
-                    sortDirection={sortOrder.startsWith('-') ? 'descending' : 'ascending'}
-                    sortOrder={sortOrder.replace(/^-/, '').replace(/,.*/, '')}
-                    totalCount={count}
-                    virtualize
-                    visibleColumns={['status', 'lastName', 'firstName', 'uniLogin']}
-                  />
+                  <form onSubmit={onSubmitSearch}>
+                    <div>
+                      <SearchField
+                        ariaLabel={intl.formatMessage({ id: 'ui-idm-connect.searchInputLabel' })}
+                        autoFocus
+                        id="contractSearchField"
+                        inputRef={searchField}
+                        name="query"
+                        onChange={(e) => {
+                          if (e.target.value) {
+                            getSearchHandlers().query(e);
+                          } else {
+                            getSearchHandlers().reset();
+                          }
+                        }}
+                        onClear={getSearchHandlers().reset}
+                        value={searchValue.query}
+                      />
+                      <Button
+                        buttonStyle="primary"
+                        disabled={!searchChanged}
+                        fullWidth
+                        id="clickable-search-contracts"
+                        type="submit"
+                      >
+                        <FormattedMessage id="stripes-smart-components.search" />
+                      </Button>
+                    </div>
+                    <Button
+                      buttonStyle="none"
+                      disabled={!(filterChanged || searchChanged)}
+                      id="clickable-reset-all"
+                      onClick={resetAll}
+                    >
+                      <Icon icon="times-circle-solid">
+                        <FormattedMessage id="stripes-smart-components.resetAll" />
+                      </Icon>
+                    </Button>
+                    <ContractsFilters
+                      activeFilters={activeFilters.state}
+                      filterHandlers={getFilterHandlers()}
+                    />
+                  </form>
                 </Pane>
-                {children}
-              </Paneset>
-            );
-          }
+              }
+              <Pane
+                defaultWidth="fill"
+                id="pane-contract-results"
+                noOverflow
+                padContent={false}
+                renderHeader={() => renderResultsPaneHeader(activeFilters, source)}
+              >
+                <MultiColumnList
+                  autosize
+                  columnMapping={{
+                    status: <FormattedMessage id="ui-idm-connect.status" />,
+                    lastName: <FormattedMessage id="ui-idm-connect.lastname" />,
+                    firstName: <FormattedMessage id="ui-idm-connect.firstname" />,
+                    uniLogin: <FormattedMessage id="ui-idm-connect.uniLogin" />,
+                  }}
+                  contentData={contentData}
+                  formatter={resultsFormatter}
+                  id="list-contracts"
+                  isEmptyMessage={renderIsEmptyMessage(query, source)}
+                  isSelected={({ item }) => item.id === selectedRecordId}
+                  onHeaderClick={onSort}
+                  onNeedMoreData={onNeedMoreData}
+                  onRowClick={onSelectRow}
+                  rowFormatter={rowFormatter}
+                  sortDirection={sortOrder.startsWith('-') ? 'descending' : 'ascending'}
+                  sortOrder={sortOrder.replace(/^-/, '').replace(/,.*/, '')}
+                  totalCount={count}
+                  virtualize
+                  visibleColumns={['status', 'lastName', 'firstName', 'uniLogin']}
+                />
+              </Pane>
+              {children}
+            </Paneset>
+          );
         }
-      </SearchAndSortQuery>
-    </div>
+      }
+    </SearchAndSortQuery>
   );
 };
 

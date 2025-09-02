@@ -134,7 +134,6 @@ const ChangeUBNumberView = ({
       style={{ width: '100%' }}
     >
       <Pane
-        data-testid="changeUBNumberView"
         defaultWidth="50%"
         footer={getPaneFooter()}
         renderHeader={renderPaneHeader}
