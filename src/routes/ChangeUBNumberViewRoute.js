@@ -34,7 +34,6 @@ const ChangeUBNumberViewRoute = ({
       `/idm-connect/ubreadernumber?unilogin=${uniLogin}&UBReaderNumber=${newUBReaderNumber.UBReaderNumber}`;
 
     if (uniLogin) {
-      // TODO: re-write with ky useOkapiKy!!!
       return fetchWithDefaultOptions(stripes.okapi, fetchPath, {
         method: fetchMethod,
       }).then((response) => {
@@ -68,7 +67,6 @@ const ChangeUBNumberViewRoute = ({
     <ChangeUBNumberView
       handlers={{ onClose: handleClose }}
       onSubmit={handleSubmit}
-      stripes={stripes}
     />
   );
 };

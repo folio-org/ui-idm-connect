@@ -30,7 +30,6 @@ const ContractView = ({
   handlers,
   isLoading,
   record,
-  stripes,
 }) => {
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [accordions, setAccordions] = useState(
@@ -178,7 +177,6 @@ const ContractView = ({
         <ContractHeaderView
           contract={record}
           id="contractHeader"
-          stripes={stripes}
         />
         <Row>
           <Col xs={12}>
@@ -212,7 +210,6 @@ const ContractView = ({
             <ContractPersonalView
               contract={record}
               id="contractPersonal"
-              stripes={stripes}
             />
           </Accordion>
           <Accordion
@@ -224,7 +221,6 @@ const ContractView = ({
             <ContractContractView
               contract={record}
               id="contractContract"
-              stripes={stripes}
             />
           </Accordion>
           <Accordion
@@ -236,7 +232,6 @@ const ContractView = ({
             <ContractContactView
               contract={record}
               id="contractContact"
-              stripes={stripes}
             />
           </Accordion>
           <Accordion
@@ -248,7 +243,6 @@ const ContractView = ({
             <ContractCommentView
               contract={record}
               id="contractComment"
-              stripes={stripes}
             />
           </Accordion>
         </AccordionSet>
@@ -267,7 +261,6 @@ ContractView.propTypes = {
   }).isRequired,
   isLoading: PropTypes.bool,
   record: PropTypes.object,
-  stripes: PropTypes.object,
 };
 
 export default ContractView;

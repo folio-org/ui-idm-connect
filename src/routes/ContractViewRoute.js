@@ -67,7 +67,6 @@ const ContractViewRoute = ({
       }}
       isLoading={isContractLoading}
       record={contract}
-      stripes={stripes}
     />
   );
 };
@@ -82,7 +81,6 @@ ContractViewRoute.propTypes = {
   }).isRequired,
   stripes: PropTypes.shape({
     hasPerm: PropTypes.func.isRequired,
-    okapi: PropTypes.object.isRequired,
   }).isRequired,
 };
 

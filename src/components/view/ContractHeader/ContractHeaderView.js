@@ -19,30 +19,28 @@ const ContractHeaderView = ({
   const statusLabel = DataLable(get(contract, 'status', ''));
 
   return (
-    <>
-      <div id={id}>
-        <Row className={css.contractHeader}>
-          <Col xs={4}>
-            <KeyValue
-              label={<FormattedMessage id="ui-idm-connect.status" />}
-              value={statusLabel}
-            />
-          </Col>
-          <Col xs={4}>
-            <KeyValue
-              label={<FormattedMessage id="ui-idm-connect.uniLogin" />}
-              value={get(contract, 'uniLogin', <NoValue />)}
-            />
-          </Col>
-          <Col xs={4}>
-            <KeyValue
-              label={<FormattedMessage id="ui-idm-connect.libraryCard" />}
-              value={get(contract, 'libraryCard', <NoValue />)}
-            />
-          </Col>
-        </Row>
-      </div>
-    </>
+    <div id={id}>
+      <Row className={css.contractHeader}>
+        <Col xs={4}>
+          <KeyValue
+            label={<FormattedMessage id="ui-idm-connect.status" />}
+            value={statusLabel}
+          />
+        </Col>
+        <Col xs={4}>
+          <KeyValue
+            label={<FormattedMessage id="ui-idm-connect.uniLogin" />}
+            value={get(contract, 'uniLogin', <NoValue />)}
+          />
+        </Col>
+        <Col xs={4}>
+          <KeyValue
+            label={<FormattedMessage id="ui-idm-connect.libraryCard" />}
+            value={get(contract, 'libraryCard', <NoValue />)}
+          />
+        </Col>
+      </Row>
+    </div>
   );
 };
 

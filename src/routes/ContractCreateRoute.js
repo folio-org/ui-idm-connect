@@ -86,9 +86,6 @@ ContractCreateRoute.propTypes = {
   location: PropTypes.shape({
     search: PropTypes.string.isRequired,
   }).isRequired,
-  stripes: PropTypes.shape({
-    hasPerm: PropTypes.func.isRequired,
-  }).isRequired,
 };
 
 export default stripesConnect(ContractCreateRoute);
