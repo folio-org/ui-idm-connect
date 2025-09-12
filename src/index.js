@@ -31,8 +31,6 @@ const IdmConnect = ({
 
   return (
     <Switch>
-      {/* <Route path={`${path}/change-ubnumber/view/:unilogin`} component={ChangeUBNumberViewRoute} />
-      <Route path={`${path}/change-ubnumber`} component={ChangeUBNumberRoute} /> */}
       <Route component={ChangeUBNumberRoute} path={`${match.path}/change-ubnumber/:unilogin?`}>
         <Route component={ChangeUBNumberViewRoute} path={`${match.path}/change-ubnumber/view/:unilogin`} />
       </Route>
