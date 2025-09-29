@@ -1,10 +1,13 @@
-import React from 'react';
-import { screen } from '@folio/jest-config-stripes/testing-library/react';
-import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 import { Form } from 'react-final-form';
 import { MemoryRouter } from 'react-router-dom';
 
-import { StripesContext, useStripes } from '@folio/stripes/core';
+import { screen } from '@folio/jest-config-stripes/testing-library/react';
+import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
+import {
+  StripesContext,
+  useStripes,
+} from '@folio/stripes/core';
+
 import renderWithIntl from '../../../test/jest/helpers/renderWithIntl';
 import ContractsForm from './ContractsForm';
 
@@ -19,9 +22,9 @@ const renderContractsForm = (stripes, initVal) => renderWithIntl(
         render={() => (
           <ContractsForm
             handlers={{ onClose }}
-            onSubmit={onSubmit}
             initialValues={initVal}
             isLoading={false}
+            onSubmit={onSubmit}
             pristine
             submitting
           />
@@ -119,4 +122,3 @@ describe('Create new contract - without initial values', () => {
     expect(screen.getByRole('button', { name: 'Collapse all' })).toBeInTheDocument();
   });
 });
-

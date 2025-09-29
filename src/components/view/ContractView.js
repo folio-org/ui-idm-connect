@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import { get } from 'lodash';
+import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
@@ -18,11 +18,11 @@ import {
   Row,
 } from '@folio/stripes/components';
 
+import ContractCommentView from './ContractComment/ContractCommentView';
+import ContractContactView from './ContractContact/ContractContactView';
+import ContractContractView from './ContractContract/ContractContractView';
 import ContractHeaderView from './ContractHeader/ContractHeaderView';
 import ContractPersonalView from './ContractPersonal/ContractPersonalView';
-import ContractContractView from './ContractContract/ContractContractView';
-import ContractContactView from './ContractContact/ContractContactView';
-import ContractCommentView from './ContractComment/ContractCommentView';
 
 const ContractView = ({
   canEdit,
@@ -30,7 +30,6 @@ const ContractView = ({
   handlers,
   isLoading,
   record,
-  stripes,
 }) => {
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [accordions, setAccordions] = useState(
@@ -66,7 +65,7 @@ const ContractView = ({
 
   const doConfirmDelete = (confirmation) => {
     if (confirmation) {
-      handlers.onDelete();
+      handlers.onDelete(record);
     } else {
       setConfirmDelete(false);
     }
@@ -178,7 +177,6 @@ const ContractView = ({
         <ContractHeaderView
           contract={record}
           id="contractHeader"
-          stripes={stripes}
         />
         <Row>
           <Col xs={12}>
@@ -212,7 +210,6 @@ const ContractView = ({
             <ContractPersonalView
               contract={record}
               id="contractPersonal"
-              stripes={stripes}
             />
           </Accordion>
           <Accordion
@@ -224,7 +221,6 @@ const ContractView = ({
             <ContractContractView
               contract={record}
               id="contractContract"
-              stripes={stripes}
             />
           </Accordion>
           <Accordion
@@ -236,7 +232,6 @@ const ContractView = ({
             <ContractContactView
               contract={record}
               id="contractContact"
-              stripes={stripes}
             />
           </Accordion>
           <Accordion
@@ -248,7 +243,6 @@ const ContractView = ({
             <ContractCommentView
               contract={record}
               id="contractComment"
-              stripes={stripes}
             />
           </Accordion>
         </AccordionSet>
@@ -258,17 +252,15 @@ const ContractView = ({
 };
 
 ContractView.propTypes = {
-  canEdit: PropTypes.bool,
   canDelete: PropTypes.bool,
+  canEdit: PropTypes.bool,
   handlers: PropTypes.shape({
     onClose: PropTypes.func.isRequired,
-    onEdit: PropTypes.func,
     onDelete: PropTypes.func,
+    onEdit: PropTypes.func,
   }).isRequired,
   isLoading: PropTypes.bool,
   record: PropTypes.object,
-  stripes: PropTypes.object,
 };
-
 
 export default ContractView;

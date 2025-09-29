@@ -1,9 +1,11 @@
+import {
+  get,
+  isEmpty,
+} from 'lodash';
 import PropTypes from 'prop-types';
-import { get, isEmpty } from 'lodash';
 import { Field } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
 
-import stripesFinalForm from '@folio/stripes/final-form';
 import {
   Button,
   Col,
@@ -16,6 +18,7 @@ import {
   Row,
   TextField,
 } from '@folio/stripes/components';
+import stripesFinalForm from '@folio/stripes/final-form';
 
 import getInitialValues from './getInitialValues';
 
@@ -54,7 +57,7 @@ const ChangeUBNumberView = ({
       </Button>
     );
 
-    return <PaneFooter renderStart={startButton} renderEnd={endButton} />;
+    return <PaneFooter renderEnd={endButton} renderStart={startButton} />;
   };
 
   const renderUbreadernumberMessage = (initialUBReaderNumber, isStatusActive) => {
@@ -67,7 +70,7 @@ const ChangeUBNumberView = ({
     if (!isStatusActive) {
       // Warning red: account state is not active
       return (
-        <MessageBanner type="error" id="msg-ubreadernumber-statusNotActive">
+        <MessageBanner id="msg-ubreadernumber-statusNotActive" type="error">
           <FormattedMessage id="ui-idm-connect.ubreadernumber.text.statusNotActive" values={{ accountState }} />
         </MessageBanner>
       );
@@ -75,7 +78,7 @@ const ChangeUBNumberView = ({
       // Warning yellow: existing value is cleared
       // should change the effective Card number to uni card number
       return (
-        <MessageBanner type="warning" id="msg-ubreadernumber-cleared">
+        <MessageBanner id="msg-ubreadernumber-cleared" type="warning">
           <FormattedMessage id="ui-idm-connect.ubreadernumber.text.cleared" /><br />
           <FormattedMessage id="ui-idm-connect.ubreadernumber.text.cleared.changeInfo" values={{ uniCardNumber }} />
         </MessageBanner>
@@ -84,7 +87,7 @@ const ChangeUBNumberView = ({
       // Success green: existing value is changed
       // should change the effective Card number library card number
       return (
-        <MessageBanner type="success" id="msg-ubreadernumber-updated">
+        <MessageBanner id="msg-ubreadernumber-updated" type="success">
           <FormattedMessage id="ui-idm-connect.ubreadernumber.text.updated" /><br />
           <FormattedMessage id="ui-idm-connect.ubreadernumber.text.updated.changeInfo" values={{ libraryCardNumber }} />
         </MessageBanner>
@@ -93,7 +96,7 @@ const ChangeUBNumberView = ({
       // Success green: value is added
       // should change the effective Card number to uni card number
       return (
-        <MessageBanner type="success" id="msg-ubreadernumber-added">
+        <MessageBanner id="msg-ubreadernumber-added" type="success">
           <FormattedMessage id="ui-idm-connect.ubreadernumber.text.added" /><br />
           <FormattedMessage id="ui-idm-connect.ubreadernumber.text.added.changeInfo" values={{ libraryCardNumber }} />
         </MessageBanner>
@@ -131,7 +134,6 @@ const ChangeUBNumberView = ({
       style={{ width: '100%' }}
     >
       <Pane
-        data-testid="changeUBNumberView"
         defaultWidth="50%"
         footer={getPaneFooter()}
         renderHeader={renderPaneHeader}

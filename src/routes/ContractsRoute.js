@@ -1,172 +1,170 @@
-import _ from 'lodash';
-import React from 'react';
+import { get } from 'lodash';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import {
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 import { stripesConnect } from '@folio/stripes/core';
-import { Layout } from '@folio/stripes/components';
 import {
   makeQueryFunction,
   StripesConnectedSource,
 } from '@folio/stripes/smart-components';
 
+import NoPermissionsMessage from '../components/DisplayUtils/NoPermissionsMessage';
 import urls from '../components/DisplayUtils/urls';
+import usePrevious from '../components/hooks/usePrevious';
 import Contracts from '../components/view/Contracts';
 import filterConfig from '../components/view/filterConfigData';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
 
-class ContractsRoute extends React.Component {
-  static manifest = Object.freeze({
-    sources: {
-      type: 'okapi',
-      records: 'contracts',
-      recordsRequired: '%{resultCount}',
-      perRequest: 30,
-      path: 'idm-connect/contract',
-      GET: {
-        params: {
-          query: makeQueryFunction(
-            'cql.allRecords=1',
-            '(personal.lastName="%{query.query}*")',
-            {
-              status: 'status',
-              lastName: 'personal.lastName',
-              firstName: 'personal.firstName',
-              uniLogin: 'uniLogin',
-            },
-            filterConfig,
-            2,
-          ),
-        },
-        staticFallback: { params: {} },
-      },
-    },
-    query: {
-      initialValue: {
-        query: '',
-        filters: 'status.updated',
-        sort: 'lastName'
-      }
-    },
-    resultCount: { initialValue: INITIAL_RESULT_COUNT },
+const ContractsRoute = ({
+  children,
+  history,
+  location,
+  match,
+  mutator,
+  resources,
+  stripes,
+}) => {
+  const hasPerms = stripes.hasPerm('ui-idm-connect.view');
+  const searchField = useRef();
+  const [source] = useState(() => {
+    // Create initial source
+    return new StripesConnectedSource({ resources, mutator }, stripes.logger, 'sources');
   });
 
-  static propTypes = {
-    children: PropTypes.node,
-    history: PropTypes.shape({
-      push: PropTypes.func.isRequired,
-    }).isRequired,
-    location: PropTypes.shape({
-      search: PropTypes.string,
-    }).isRequired,
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        id: PropTypes.string,
-      }),
-    }),
-    mutator: PropTypes.shape({
-      sources: PropTypes.shape({
-        POST: PropTypes.func.isRequired
-      }),
-      query: PropTypes.shape({
-        update: PropTypes.func
-      }).isRequired
-    }).isRequired,
-    resources: PropTypes.shape({
-      sources: PropTypes.shape({
-        records: PropTypes.arrayOf(PropTypes.object)
-      })
-    }).isRequired,
-    stripes: PropTypes.shape({
-      hasPerm: PropTypes.func.isRequired,
-      logger: PropTypes.object,
-    }),
-  }
+  const [count, setCount] = useState(source.totalCount());
+  const [records, setRecords] = useState(source.records());
 
-  constructor(props) {
-    super(props);
+  const previousCount = usePrevious(count);
+  const previousRecords = usePrevious(records);
 
-    this.logger = props.stripes.logger;
-    this.searchField = React.createRef();
+  useEffect(() => {
+    source.update({ resources, mutator }, 'sources');
 
-    this.state = {
-      hasPerms: props.stripes.hasPerm('ui-idm-connect.view'),
-    };
-  }
+    setCount(source.totalCount());
+    setRecords(source.records());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [resources, mutator]);
 
-  componentDidMount() {
-    this.source = new StripesConnectedSource(this.props, this.logger, 'sources');
-
-    if (this.searchField.current) {
-      this.searchField.current.focus();
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    const newCount = this.source.totalCount();
-    const newRecords = this.source.records();
-
-    if (newCount === 1) {
-      const { history, location } = this.props;
-
-      const prevSource = new StripesConnectedSource(prevProps, this.logger, 'sources');
-      const oldCount = prevSource.totalCount();
-      const oldRecords = prevSource.records();
-
-      if (oldCount !== 1 || (oldCount === 1 && oldRecords[0].id !== newRecords[0].id)) {
-        const record = newRecords[0];
+  useEffect(() => {
+    if (count === 1) {
+      if (previousCount !== 1 || (previousCount === 1 && previousRecords[0].id !== records[0].id)) {
+        const record = records[0];
         history.push(`${urls.contractView(record.id)}${location.search}`);
       }
     }
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [count, records]);
 
-  querySetter = ({ nsValues }) => {
-    this.props.mutator.query.update(nsValues);
-  }
+  useEffect(() => {
+    searchField.current?.focus();
+  }, []);
 
-  queryGetter = () => {
-    return _.get(this.props.resources, 'query', {});
-  }
+  const querySetter = ({ nsValues }) => {
+    mutator.query.update(nsValues);
+  };
 
-  handleNeedMoreData = () => {
-    if (this.source) {
-      this.source.fetchMore(RESULT_COUNT_INCREMENT);
+  const queryGetter = () => {
+    return get(resources, 'query', {});
+  };
+
+  const handleNeedMoreData = () => {
+    if (source) {
+      source.fetchMore(RESULT_COUNT_INCREMENT);
     }
   };
 
-  render() {
-    const { location, match, children } = this.props;
-
-    if (this.source) {
-      this.source.update(this.props, 'sources');
-    }
-
-    if (!this.state.hasPerms) {
-      return (
-        <Layout className="textCentered">
-          <h2><FormattedMessage id="stripes-smart-components.permissionError" /></h2>
-          <p><FormattedMessage id="stripes-smart-components.permissionsDoNotAllowAccess" /></p>
-        </Layout>
-      );
-    }
-
-    return (
-      <Contracts
-        contentData={_.get(this.props.resources, 'sources.records', [])}
-        onNeedMoreData={this.handleNeedMoreData}
-        queryGetter={this.queryGetter}
-        querySetter={this.querySetter}
-        searchString={location.search}
-        selectedRecordId={match.params.id}
-        source={this.source}
-        stripes={this.props.stripes}
-      >
-        {children}
-      </Contracts>
-    );
+  if (!hasPerms) {
+    return <NoPermissionsMessage />;
   }
-}
+
+  return (
+    <Contracts
+      contentData={get(resources, 'sources.records', [])}
+      onNeedMoreData={handleNeedMoreData}
+      queryGetter={queryGetter}
+      querySetter={querySetter}
+      searchString={location.search}
+      selectedRecordId={match.params.id}
+      source={source}
+      stripes={stripes}
+    >
+      {children}
+    </Contracts>
+  );
+};
+
+ContractsRoute.manifest = Object.freeze({
+  sources: {
+    type: 'okapi',
+    records: 'contracts',
+    recordsRequired: '%{resultCount}',
+    resourceShouldRefresh: true,
+    perRequest: 30,
+    path: 'idm-connect/contract',
+    GET: {
+      params: {
+        query: makeQueryFunction(
+          'cql.allRecords=1',
+          '(personal.lastName="%{query.query}*")',
+          {
+            status: 'status',
+            lastName: 'personal.lastName',
+            firstName: 'personal.firstName',
+            uniLogin: 'uniLogin',
+          },
+          filterConfig,
+          2
+        ),
+      },
+      staticFallback: { params: {} },
+    },
+  },
+  query: {
+    initialValue: {
+      query: '',
+      filters: 'status.updated',
+      sort: 'lastName',
+    },
+  },
+  resultCount: { initialValue: INITIAL_RESULT_COUNT },
+});
+
+ContractsRoute.propTypes = {
+  children: PropTypes.node,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+  location: PropTypes.shape({
+    search: PropTypes.string,
+  }).isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  }),
+  mutator: PropTypes.shape({
+    query: PropTypes.shape({
+      update: PropTypes.func,
+    }).isRequired,
+    sources: PropTypes.shape({
+      POST: PropTypes.func.isRequired,
+    }),
+  }).isRequired,
+  resources: PropTypes.shape({
+    sources: PropTypes.shape({
+      records: PropTypes.arrayOf(PropTypes.object),
+    }),
+  }).isRequired,
+  stripes: PropTypes.shape({
+    hasPerm: PropTypes.func.isRequired,
+    logger: PropTypes.object,
+  }),
+};
 
 export default stripesConnect(ContractsRoute);

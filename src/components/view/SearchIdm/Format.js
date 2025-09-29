@@ -1,7 +1,9 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { FormattedMessage, FormattedDate } from 'react-intl';
 import moment from 'moment';
+import {
+  FormattedDate,
+  FormattedMessage,
+} from 'react-intl';
+import { Link } from 'react-router-dom';
 
 import urls from '../../DisplayUtils/urls';
 
@@ -40,7 +42,7 @@ const basicResultsFormatter = {
   unilogin: users => users.unilogin,
   surname: users => users.surname,
   givenname: users => users.givenname,
-  dateOfBirth: users => <FormattedDate value={moment(users.dateOfBirth).format('YYYY-MM-DD')} timeZone="UTC" />,
+  dateOfBirth: users => <FormattedDate timeZone="UTC" value={moment(users.dateOfBirth).format('YYYY-MM-DD')} />,
   accountState: users => users.accountState,
   ULAffiliation: users => users.ULAffiliation,
   cardReaderNumber: users => users.cardReaderNumber,
@@ -48,21 +50,28 @@ const basicResultsFormatter = {
   UBRole: users => (users.UBRole ? '✓' : '-'),
   FOLIOUser: users => {
     let folioUser = '';
+
     if (users.folioUsers) {
       if (users.folioUsers.totalRecords === 1) {
         const folioUserName = `${users.folioUsers.users[0].personal.lastName}, ${users.folioUsers.users[0].personal.firstName}`;
         const folioUserId = users.folioUsers.users[0].id;
-        folioUser = <Link to={{ pathname: `${urls.userView(folioUserId)}` }} target="_blank">{folioUserName}</Link>;
+        folioUser = <Link target="_blank" to={{ pathname: `${urls.userView(folioUserId)}` }}>{folioUserName}</Link>;
       } else if (users.folioUsers.totalRecords > 1) {
-        folioUser = <><FormattedMessage id="ui-idm-connect.warning" />:&nbsp;<Link to={{ pathname: `${urls.userSearch(users.unilogin)}` }} target="_blank"><FormattedMessage id="ui-idm-connect.searchIdm.multipleFolioUser" /></Link></>;
+        folioUser = <><FormattedMessage id="ui-idm-connect.warning" />:&nbsp;<Link target="_blank" to={{ pathname: `${urls.userSearch(users.unilogin)}` }}><FormattedMessage id="ui-idm-connect.searchIdm.multipleFolioUser" /></Link></>;
       } else {
         folioUser = <FormattedMessage id="ui-idm-connect.searchIdm.noFolioUser" />;
       }
     }
+
     return folioUser;
   },
 };
 
 const basisColumns = ['readerNumber', 'unilogin', 'surname', 'givenname', 'dateOfBirth', 'accountState', 'ULAffiliation', 'cardReaderNumber', 'UBReaderNumber'];
 
-export { basisColumns, columnMapping, columnWidths, basicResultsFormatter };
+export {
+  basisColumns,
+  columnMapping,
+  columnWidths,
+  basicResultsFormatter,
+};

@@ -1,32 +1,38 @@
-import React from 'react';
+import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+
 import { Settings } from '@folio/stripes/smart-components';
+
 import GeneralSettings from './general-settings';
-import SomeFeatureSettings from './some-feature-settings';
 
-/*
-  STRIPES-NEW-APP
-  Your app's settings pages are defined here.
-  The pages "general" and "some feature" are examples. Name them however you like.
-*/
-
-export default class IdmConnectSettings extends React.Component {
-  pages = [
+const IdmConnectSettings = ({
+  location,
+  match,
+  stripes,
+}) => {
+  const pages = [
     {
       route: 'general',
       label: <FormattedMessage id="ui-idm-connect.settings.general" />,
       component: GeneralSettings,
     },
-    {
-      route: 'somefeature',
-      label: <FormattedMessage id="ui-idm-connect.settings.some-feature" />,
-      component: SomeFeatureSettings,
-    },
   ];
 
-  render() {
-    return (
-      <Settings {...this.props} pages={this.pages} paneTitle="ui-idm-connect" />
-    );
-  }
-}
+  return (
+    <Settings
+      location={location}
+      match={match}
+      pages={pages}
+      paneTitle="ui-idm-connect"
+      stripes={stripes}
+    />
+  );
+};
+
+IdmConnectSettings.propTypes = {
+  location: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+  stripes: PropTypes.object.isRequired,
+};
+
+export default IdmConnectSettings;

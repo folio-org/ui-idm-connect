@@ -1,4 +1,3 @@
-import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
 const Required = value => {
@@ -33,7 +32,6 @@ const NoDollarBackslash = value => {
 
   return undefined;
 };
-
 
 export {
   Required,
