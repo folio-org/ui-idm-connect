@@ -1,11 +1,11 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import ReactRouterPropTypes from 'react-router-prop-types';
+import { useContext } from 'react';
 import { FormattedMessage } from 'react-intl';
+import ReactRouterPropTypes from 'react-router-prop-types';
 
 import {
-  stripesConnect,
   CalloutContext,
+  stripesConnect,
 } from '@folio/stripes/core';
 
 import urls from '../components/DisplayUtils/urls';
@@ -13,35 +13,19 @@ import ChangeUBNumberView from '../components/view/SearchIdm/ChangeUBNumber/Chan
 import getInitialValues from '../components/view/SearchIdm/ChangeUBNumber/getInitialValues';
 import fetchWithDefaultOptions from '../util/fetchWithDefaultOptions';
 
-class ChangeUBNumberViewRoute extends React.Component {
-  static propTypes = {
-    history: ReactRouterPropTypes.history.isRequired,
-    stripes: PropTypes.shape({
-      okapi: PropTypes.shape({
-        tenant: PropTypes.string.isRequired,
-        token: PropTypes.string.isRequired,
-        url: PropTypes.string,
-      }),
-    }).isRequired,
-  };
+const ChangeUBNumberViewRoute = ({
+  history,
+  stripes,
+}) => {
+  const callout = useContext(CalloutContext);
 
-  static contextType = CalloutContext;
-
-  sendCallout = (type, msg) => {
-    this.context.sendCallout({
-      type,
-      message: msg,
-    });
-  }
-
-  handleClose = () => {
+  const handleClose = () => {
     // remove item
     localStorage.removeItem('idmConnectChangeUBNumber');
-    this.props.history.push(`${urls.changeUBNumber()}`);
-  }
+    history.push(`${urls.changeUBNumber()}`);
+  };
 
-  handleSubmit = (newUBReaderNumber) => {
-    const { stripes: { okapi } } = this.props;
+  const handleSubmit = (newUBReaderNumber) => {
     const adaptedInitialValues = getInitialValues();
     const uniLogin = adaptedInitialValues.uniLogin;
     const fetchMethod = Object.keys(newUBReaderNumber).length === 0 ? 'DELETE' : 'POST';
@@ -50,44 +34,52 @@ class ChangeUBNumberViewRoute extends React.Component {
       `/idm-connect/ubreadernumber?unilogin=${uniLogin}&UBReaderNumber=${newUBReaderNumber.UBReaderNumber}`;
 
     if (uniLogin) {
-      return fetchWithDefaultOptions(okapi, fetchPath, {
+      return fetchWithDefaultOptions(stripes.okapi, fetchPath, {
         method: fetchMethod,
       }).then((response) => {
         if (response.ok) {
           // go back for fetching the new data
           localStorage.removeItem('idmConnectChangeUBNumber');
-          this.props.history.push(`${urls.contracts()}`);
-          this.context.sendCallout({
+          history.push(`${urls.contracts()}`);
+          callout.sendCallout({
             type: 'success',
             message: <FormattedMessage id="ui-idm-connect.ubreadernumber.update.success" />,
           });
         } else {
-          this.context.sendCallout({
+          callout.sendCallout({
             type: 'error',
             message: <FormattedMessage id="ui-idm-connect.ubreadernumber.update.error" values={{ error: '' }} />,
           });
         }
-      }).catch((err) => {
-        this.context.sendCallout({
-          type: 'error',
-          message: <FormattedMessage id="ui-idm-connect.ubreadernumber.update.error" values={{ error: err.statusText }} />,
+      })
+        .catch((err) => {
+          callout.sendCallout({
+            type: 'error',
+            message: <FormattedMessage id="ui-idm-connect.ubreadernumber.update.error" values={{ error: err.statusText }} />,
+          });
         });
-      });
     }
-    return null;
-  }
 
-  render() {
-    return (
-      <ChangeUBNumberView
-        handlers={{
-          onClose: this.handleClose,
-        }}
-        onSubmit={this.handleSubmit}
-        stripes={this.props.stripes}
-      />
-    );
-  }
-}
+    return null;
+  };
+
+  return (
+    <ChangeUBNumberView
+      handlers={{ onClose: handleClose }}
+      onSubmit={handleSubmit}
+    />
+  );
+};
+
+ChangeUBNumberViewRoute.propTypes = {
+  history: ReactRouterPropTypes.history.isRequired,
+  stripes: PropTypes.shape({
+    okapi: PropTypes.shape({
+      tenant: PropTypes.string.isRequired,
+      token: PropTypes.string.isRequired,
+      url: PropTypes.string,
+    }),
+  }).isRequired,
+};
 
 export default stripesConnect(ChangeUBNumberViewRoute);

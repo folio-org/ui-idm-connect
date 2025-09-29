@@ -1,11 +1,10 @@
-import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 
 import { screen } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 
-import renderWithIntl from '../../../../../test/jest/helpers/renderWithIntl';
 import userFixtures from '../../../../../test/jest/fixtures/user';
+import renderWithIntl from '../../../../../test/jest/helpers/renderWithIntl';
 import ChangeUBNumberView from './ChangeUBNumberView';
 import * as initialValuesModule from './getInitialValues';
 
@@ -17,9 +16,9 @@ const onSubmit = jest.fn();
 const renderUsers = (USER, rerender) => renderWithIntl(
   <MemoryRouter>
     <ChangeUBNumberView
-      onSubmit={onSubmit}
       handlers={{ onClose }}
       invalid={false}
+      onSubmit={onSubmit}
       pristine={false}
       submitting={false}
       values={USER}

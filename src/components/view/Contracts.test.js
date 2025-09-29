@@ -1,12 +1,14 @@
-import React from 'react';
-import { screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
-import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 
+import {
+  screen,
+  waitFor,
+} from '@folio/jest-config-stripes/testing-library/react';
+import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 import { useStripes } from '@folio/stripes/core';
 
-import renderWithIntl from '../../../test/jest/helpers/renderWithIntl';
 import contracts from '../../../test/jest/fixtures/contracts';
+import renderWithIntl from '../../../test/jest/helpers/renderWithIntl';
 import Contracts from './Contracts';
 
 jest.mock('react-virtualized-auto-sizer', () => ({ children }) => children({ width: 1920, height: 1080 }));
@@ -24,15 +26,15 @@ const renderContracts = (stripes, props = {}, contractsData, rerender) => render
   <MemoryRouter>
     <Contracts
       contentData={contractsData}
-      selectedRecordId=""
+      history={history}
       onNeedMoreData={jest.fn()}
+      onSearchComplete={onSearchComplete}
       queryGetter={jest.fn()}
       querySetter={jest.fn()}
       searchString="status.updated"
-      visibleColumns={['status', 'lastName', 'firstName', 'uniLogin']}
-      history={history}
-      onSearchComplete={onSearchComplete}
+      selectedRecordId=""
       stripes={stripes}
+      visibleColumns={['status', 'lastName', 'firstName', 'uniLogin']}
       {...props}
     />
   </MemoryRouter>,
@@ -52,8 +54,6 @@ describe('Contracts SASQ View', () => {
 
     renderContracts(stripes, sourceLoaded, contracts);
   });
-
-
 
   describe('check filters', () => {
     it('should be present status filter', () => {
@@ -113,7 +113,7 @@ describe('Contracts SASQ View - rerender result list', () => {
       renderWithIntlResult = renderContracts(
         stripes,
         sourcePending,
-        contracts,
+        contracts
       );
     });
 

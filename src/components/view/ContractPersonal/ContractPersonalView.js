@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import { get } from 'lodash';
+import PropTypes from 'prop-types';
 import {
   FormattedDate,
   FormattedMessage,
@@ -36,7 +36,7 @@ const ContractPersonalView = ({
           </Col>
           <Col xs={4}>
             <KeyValue label={<FormattedMessage id="ui-idm-connect.dateOfBirth" />}>
-              {dateOfBirth ? <FormattedDate value={dateOfBirth} timeZone="UTC" /> : <NoValue />}
+              {dateOfBirth ? <FormattedDate timeZone="UTC" value={dateOfBirth} /> : <NoValue />}
             </KeyValue>
           </Col>
         </Row>

@@ -1,9 +1,11 @@
 import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
-import { withRouter } from 'react-router-dom';
+import {
+  useEffect,
+  useState,
+} from 'react';
 import { FormattedMessage } from 'react-intl';
+import { withRouter } from 'react-router-dom';
 
-import stripesForm from '@folio/stripes/form';
 import {
   Button,
   Card,
@@ -13,10 +15,16 @@ import {
   PaneHeader,
   Paneset,
 } from '@folio/stripes/components';
+import stripesForm from '@folio/stripes/form';
 
 import urls from '../../../DisplayUtils/urls';
+import {
+  basicResultsFormatter,
+  basisColumns,
+  columnMapping,
+  columnWidths,
+} from '../Format';
 import SearchFields from '../SearchFields';
-import { basisColumns, columnMapping, columnWidths, basicResultsFormatter } from '../Format';
 import css from '../SearchIdmStyles.css';
 
 let newContractInitialValues = '';
@@ -84,10 +92,9 @@ const ChangeUBNumber = ({
     if (!isUsersResultsEmpty) {
       return (
         <div style={{ height: '85%' }}>
-          <Paneset nested isRoot>
+          <Paneset isRoot nested>
             <Pane defaultWidth="fill">
               <Card
-                id="search-idm-results-card"
                 headerStart={
                   <span>
                     <FormattedMessage
@@ -96,6 +103,7 @@ const ChangeUBNumber = ({
                     />
                   </span>
                 }
+                id="search-idm-results-card"
               >
                 <MultiColumnList
                   columnMapping={columnMapping}
@@ -104,9 +112,9 @@ const ChangeUBNumber = ({
                   formatter={basicResultsFormatter}
                   id="change-ubnumber-list-users"
                   interactive
-                  visibleColumns={visibleColumns}
-                  // for change number:
                   onRowClick={onRowClick}
+                  // for change number:
+                  visibleColumns={visibleColumns}
                 />
               </Card>
             </Pane>
@@ -151,8 +159,8 @@ const ChangeUBNumber = ({
             <form onSubmit={(e) => onSubmit(e)}>
               <SearchFields
                 dateOfBirth={dateOfBirth}
-                handleDateChange={handleDateChange}
                 disabled={pristine || submitting || invalid}
+                handleDateChange={handleDateChange}
               />
             </form>
           </div>

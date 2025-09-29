@@ -1,5 +1,8 @@
 import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
+import {
+  useEffect,
+  useState,
+} from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -14,7 +17,6 @@ import filterConfig from './filterConfigData';
 const ContractsFilters = ({
   activeFilters = { status: [] },
   filterHandlers,
-  ...props
 }) => {
   const [filterState, setFilterState] = useState({ status: [] });
 
@@ -31,8 +33,8 @@ const ContractsFilters = ({
       values.forEach((key) => {
         let newValue = {};
         newValue = {
-          'value': key.cql,
-          'label': key.name,
+          value: key.cql,
+          label: key.name,
         };
         newValues.push(newValue);
       });
@@ -60,7 +62,6 @@ const ContractsFilters = ({
         label={<FormattedMessage id={`ui-idm-connect.${key}`} />}
         onClearFilter={() => { filterHandlers.clearGroup(key); }}
         separator={false}
-        {...props}
       >
         <CheckboxFilter
           dataOptions={filterState[key]}

@@ -1,5 +1,3 @@
-import React from 'react';
-
 jest.mock('@folio/stripes/components', () => ({
   Badge: jest.fn((props) => (
     <span>

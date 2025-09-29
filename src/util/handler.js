@@ -1,6 +1,7 @@
+import { get } from 'lodash';
 import moment from 'moment';
 import { getFormValues } from 'redux-form';
-import _ from 'lodash';
+
 import urls from '../components/DisplayUtils/urls';
 import fetchWithDefaultOptions from './fetchWithDefaultOptions';
 
@@ -39,26 +40,37 @@ const fetchUsers = (formValues, okapi) => {
     .then((promises) => Promise.all(promises));
 };
 
-const handleIdmSearchClose = (context) => {
-  context.props.history.push(`${urls.contracts()}`);
+const handleIdmSearchClose = (history) => {
+  history.push(`${urls.contracts()}`);
 };
 
-const handleIdmSearchSubmit = (context, form, e) => {
-  e.preventDefault();
-  const formValues =
-    getFormValues(form)(context.props.stripes.store.getState()) || {};
+const handleIdmSearchSubmit = async ({
+  event,
+  form,
+  stripes,
+  setUsers,
+  setRenderListOfResults,
+  setIsUsersResultsEmpty,
+  callout,
+}) => {
+  event.preventDefault();
 
-  fetchUsers(formValues, context.props.stripes.okapi)
-    .then((result) => {
-      context.setState(() => ({
-        users: result,
-        renderListOfResults: true,
-        isUsersResultsEmpty: result.length === 0 || _.get(result[0], 'msg', '') === 'User not found',
-      }));
-    })
-    .catch((err) => {
-      context.context.sendCallout({ type: 'error', message: err.message });
-    });
+  const formValues = getFormValues(form)(stripes.store.getState()) || {};
+
+  try {
+    const result = await fetchUsers(formValues, stripes.okapi);
+
+    setUsers(result);
+    setRenderListOfResults(true);
+    setIsUsersResultsEmpty(
+      result.length === 0 || get(result[0], 'msg', '') === 'User not found'
+    );
+  } catch (err) {
+    callout.sendCallout({ type: 'error', message: err.message });
+  }
 };
 
-export { handleIdmSearchClose, handleIdmSearchSubmit };
+export {
+  handleIdmSearchClose,
+  handleIdmSearchSubmit,
+};

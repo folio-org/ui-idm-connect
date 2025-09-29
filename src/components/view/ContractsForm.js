@@ -18,10 +18,10 @@ import {
 } from '@folio/stripes/components';
 import stripesFinalForm from '@folio/stripes/final-form';
 
-import ContractPersonalForm from './ContractPersonal/ContractPersonalForm';
-import ContractContractForm from './ContractContract/ContractContractForm';
-import ContractContactForm from './ContractContact/ContractContactForm';
 import ContractCommentForm from './ContractComment/ContractCommentForm';
+import ContractContactForm from './ContractContact/ContractContactForm';
+import ContractContractForm from './ContractContract/ContractContractForm';
+import ContractPersonalForm from './ContractPersonal/ContractPersonalForm';
 
 const ContractsForm = ({
   disableLibraryCard,
@@ -80,14 +80,13 @@ const ContractsForm = ({
         disabled={disabled}
         id="clickable-savecontract"
         marginBottom0
-        onClick={handleSubmit}
         type="submit"
       >
         <FormattedMessage id="stripes-components.saveAndClose" />
       </Button>
     );
 
-    return <PaneFooter renderStart={startButton} renderEnd={endButton} />;
+    return <PaneFooter renderEnd={endButton} renderStart={startButton} />;
   };
 
   const handleExpandAll = (a) => {
@@ -145,9 +144,9 @@ const ContractsForm = ({
               />
               <ContractContractForm
                 accordionId="editContractAccordion"
+                disableLibraryCard={disableLibraryCard}
                 expanded={accordions.editContractAccordion}
                 onToggle={handleSectionToggle}
-                disableLibraryCard={disableLibraryCard}
               />
               <ContractContactForm
                 accordionId="editContactAccordion"

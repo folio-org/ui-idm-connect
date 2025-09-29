@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
+import { Field } from 'redux-form';
 
 import {
   Button,
@@ -40,7 +40,7 @@ const SearchFields = ({
           validate={Required}
         />
       </Col>
-      <Col xs={3} md={2}>
+      <Col md={2} xs={3}>
         <Field
           backendDateStandard="YYYY-MM-DD"
           component={Datepicker}

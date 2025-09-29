@@ -1,13 +1,16 @@
-import React from 'react';
-import { screen } from '@folio/jest-config-stripes/testing-library/react';
-import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
-import { StripesContext, useStripes } from '@folio/stripes/core';
 import { MemoryRouter } from 'react-router-dom';
 
-import renderWithIntl from '../../../test/jest/helpers/renderWithIntl';
-import ContractView from './ContractView';
+import { screen } from '@folio/jest-config-stripes/testing-library/react';
+import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
+import {
+  StripesContext,
+  useStripes,
+} from '@folio/stripes/core';
+
 import contractFixtures from '../../../test/jest/fixtures/contract';
 import contractWithoutDateAndStatusPending from '../../../test/jest/fixtures/contractWithoutDateAndStatusPending';
+import renderWithIntl from '../../../test/jest/helpers/renderWithIntl';
+import ContractView from './ContractView';
 
 const handlers = {
   onClose: jest.fn,
@@ -22,13 +25,13 @@ const renderContract = (stripes, contract, editPerm, deletePerm) => {
     <StripesContext.Provider value={stripes}>
       <MemoryRouter>
         <ContractView
+          canDelete={deletePerm}
+          canEdit={editPerm}
+          handleExpandAll={handleExpandAll}
           handlers={handlers}
           isLoading={false}
           record={contract}
           stripes={stripes}
-          canEdit={editPerm}
-          canDelete={deletePerm}
-          handleExpandAll={handleExpandAll}
         />
       </MemoryRouter>
     </StripesContext.Provider>
