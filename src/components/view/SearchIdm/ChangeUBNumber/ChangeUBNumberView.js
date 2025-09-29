@@ -125,7 +125,13 @@ const ChangeUBNumberView = ({
 
   const adaptedInitialValues = getInitialValues();
   const initialUBReaderNumber = get(adaptedInitialValues, 'UBReaderNumber', '');
-  const isStatusActive = get(adaptedInitialValues, 'status') === 'Aktives Uni-Login';
+  const allowedStatuses = [
+    'Aktives Uni-Login',
+    'Uni-Login ohne Vertrag (inaktiv)',
+    'Uni-Login ohne Vertrag (in Karenzzeit)',
+  ];
+
+  const isStatusActive = allowedStatuses.includes(get(adaptedInitialValues, 'status'));
 
   return (
     <form
