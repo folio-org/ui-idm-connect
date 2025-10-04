@@ -8,8 +8,8 @@
     "contracts": "Випадкові контракти",
     "uniLogin": "Uni логін",
     "accountState": "Статус рахунку",
-    "ULAffiliation": "UL affiliation",
-    "UBRole": "UB role",
+    "ULAffiliation": "Приналежність (афіліація) до UL",
+    "UBRole": "Роль UB",
     "FOLIOUser": "Користувач FOLIO",
     "libraryCard": "Номер читацького квитка",
     "dateOfBirth": "Дата народження",
@@ -59,7 +59,7 @@
     "yes": "так",
     "no": "ні",
     "readerNumber": "Активна картка",
-    "cardReaderNumber": "Uni card number",
+    "cardReaderNumber": "Номер університетської картки",
     "UBReaderNumber": "Номер читацького квитка",
     "form.close": "Закрити діалогове вікно редагування",
     "ubreadernumber.change": "Змінити номер квитка",
@@ -74,6 +74,6 @@
     "ubreadernumber.update.success": "Номер читацького квитка був успішно оновлений.",
     "ubreadernumber.update.error": "Під час оновлення номера читацького квитка сталася помилка {error}",
     "ubreadernumber.text.statusNotActive": "Активний контракт відсутній. Статус облікового запису = <strong>{accountState}</strong>. Розв'яжіть проблему зі статусом контракту, будь ласка.",
-    "searchIdm.title.new.search": "Create walk-in contract 1/2: Search for existing IDM identity",
-    "searchIdm.title.new.create": "Create walk-in contract 2/2: Add record details"
+    "searchIdm.title.new.search": "Створити договір без попередніх переговорів 1/2: Пошук наявної ідентифікації IDM",
+    "searchIdm.title.new.create": "Створити договір без попередніх переговорів 1/2: Додати деталі запису"
 }
