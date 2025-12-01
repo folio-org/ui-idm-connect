@@ -1,10 +1,8 @@
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
-import {
-  combineReducers,
-  createStore,
-} from 'redux';
+import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
+import { configureStore } from '@reduxjs/toolkit';
 
 import { screen } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
@@ -20,9 +18,7 @@ const reducers = {
 };
 
 const reducer = combineReducers(reducers);
-
-const store = createStore(reducer);
-
+let store;
 let renderWithIntlResult = {};
 
 const onClose = jest.fn();
@@ -46,6 +42,12 @@ const renderUsers = (USERS, newUser, resultsEmpty, rerender) => renderWithIntl(
 
 describe('Search IDM - without results', () => {
   beforeEach(() => {
+    store = configureStore({
+      reducer,
+      middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+        serializableCheck: false,
+      }),
+    });
     renderUsers([], false, true);
   });
 
@@ -161,6 +163,13 @@ describe('Search IDM - trigger search', () => {
 
 describe('Search IDM - select user, enter new search and create empty contract', () => {
   beforeEach(() => {
+    store = configureStore({
+      reducer,
+      middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+        serializableCheck: false,
+        immutableCheck: false,
+      }),
+    });
     renderWithIntlResult = renderUsers(usersFixtures, true, false);
   });
 

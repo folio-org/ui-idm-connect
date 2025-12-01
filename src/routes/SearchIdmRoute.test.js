@@ -1,10 +1,8 @@
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
-import {
-  combineReducers,
-  createStore,
-} from 'redux';
+import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
+import { configureStore } from '@reduxjs/toolkit';
 
 import { screen } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
@@ -44,7 +42,12 @@ const renderSearchIdmRoute = (sendCallout) => renderWithIntl(
 describe('When SearchIdmRoute is rendered', () => {
   beforeEach(() => {
     sendCalloutMock = jest.fn();
-    store = createStore(reducer);
+    store = configureStore({
+      reducer,
+      middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+        serializableCheck: false,
+      }),
+    });
     renderSearchIdmRoute(sendCalloutMock);
   });
 
