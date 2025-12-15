@@ -59,7 +59,7 @@
     "yes": "tak",
     "no": "nie",
     "readerNumber": "Aktywna karta",
-    "cardReaderNumber": "Uni card number",
+    "cardReaderNumber": "Numer karty użytkownika (Uni Card)",
     "UBReaderNumber": "Library card number",
     "form.close": "Close edit dialog",
     "ubreadernumber.change": "Change card number",
