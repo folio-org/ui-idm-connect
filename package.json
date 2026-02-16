@@ -69,8 +69,7 @@
         "permissionName": "module.idm-connect.enabled",
         "displayName": "UI: ui-idm-connect module is enabled",
         "subPermissions": [
-          "mod-settings.global.read.stripes-core.prefs.manage",
-          "mod-settings.entries.collection.get"
+          "stripes-core.settings.read"
         ],
         "visible": false
       },
@@ -79,8 +78,7 @@
         "displayName": "Settings (idm-connect): display list of settings pages",
         "subPermissions": [
           "settings.enabled",
-          "mod-settings.global.read.stripes-core.prefs.manage",
-          "mod-settings.entries.collection.get"
+          "stripes-core.settings.read"
         ],
         "visible": false
       },
