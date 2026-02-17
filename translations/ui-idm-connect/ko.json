@@ -1,8 +1,8 @@
 {
     "meta.title": "IDM connect",
     "status": "Status",
-    "lastname": "Last name",
-    "firstname": "First name",
+    "lastname": "성",
+    "firstname": "이름",
     "searchInputLabel": "Search",
     "noSourceYet": "No source yet",
     "contracts": "Walk-in contracts",
