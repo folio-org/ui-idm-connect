@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Field } from 'redux-form';
+import { Field } from 'react-final-form';
 
 import {
   Button,
@@ -14,9 +14,7 @@ import { Required } from '../../DisplayUtils/Validate';
 import css from './SearchIdmStyles.css';
 
 const SearchFields = ({
-  dateOfBirth,
   disabled,
-  handleDateChange,
 }) => {
   return (
     <Row>
@@ -47,11 +45,9 @@ const SearchFields = ({
           id="searchIdm_dateOfBirth"
           label={<FormattedMessage id="ui-idm-connect.dateOfBirth" />}
           name="dateOfBirth"
-          onChange={handleDateChange}
           required
           timeZone="UTC"
           validate={Required}
-          value={dateOfBirth}
         />
       </Col>
       <Col xs={3}>
@@ -77,9 +73,7 @@ const SearchFields = ({
 };
 
 SearchFields.propTypes = {
-  dateOfBirth: PropTypes.string,
   disabled: PropTypes.bool,
-  handleDateChange: PropTypes.func,
 };
 
 export default SearchFields;

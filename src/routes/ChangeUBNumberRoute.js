@@ -3,7 +3,6 @@ import {
   useContext,
   useState,
 } from 'react';
-import { getFormValues } from 'redux-form';
 
 import {
   CalloutContext,
@@ -26,23 +25,24 @@ const ChangeUBNumberRoute = ({
   const [isUsersResultsEmpty, setIsUsersResultsEmpty] = useState(false);
 
   const callout = useContext(CalloutContext);
-  const formValues = getFormValues('ChangeUBNumberForm')(stripes.store.getState()) || {};
+
+  const handleSubmit = async (values) => {
+    await handleIdmSearchSubmit({
+      values,
+      stripes,
+      setUsers,
+      setRenderListOfResults,
+      setIsUsersResultsEmpty,
+      callout,
+    });
+  };
 
   return (
     <ChangeUBNumber
       handlers={{ onClose: () => handleIdmSearchClose(history) }}
       isUsersResultsEmpty={isUsersResultsEmpty}
-      onSubmit={(e) => handleIdmSearchSubmit({
-        event: e,
-        form: 'ChangeUBNumberForm',
-        stripes,
-        setUsers,
-        setRenderListOfResults,
-        setIsUsersResultsEmpty,
-        callout,
-      })}
+      onSubmit={handleSubmit}
       renderListOfResults={renderListOfResults}
-      searchValues={formValues}
       users={users}
     >
       {children}
