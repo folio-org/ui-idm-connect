@@ -3,7 +3,6 @@ import {
   useContext,
   useState,
 } from 'react';
-// import { getFormValues } from 'redux-form';
 
 import {
   CalloutContext,
@@ -28,7 +27,6 @@ const SearchIdmRoute = ({
   const callout = useContext(CalloutContext);
 
   const isCreateNewUser = location.state === 'new';
-  // const formValues = getFormValues('SearchIdmForm')(stripes.store.getState()) || {};
 
   const handleSubmit = async (values) => {
     await handleIdmSearchSubmit({
@@ -48,7 +46,6 @@ const SearchIdmRoute = ({
       isUsersResultsEmpty={isUsersResultsEmpty}
       onSubmit={handleSubmit}
       renderListOfResults={renderListOfResults}
-      // searchValues={formValues}
       users={users}
     />
   );
