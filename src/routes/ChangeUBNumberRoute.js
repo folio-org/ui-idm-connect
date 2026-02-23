@@ -61,9 +61,6 @@ ChangeUBNumberRoute.propTypes = {
       token: PropTypes.string.isRequired,
       url: PropTypes.string,
     }),
-    store: PropTypes.shape({
-      getState: PropTypes.func.isRequired,
-    }),
   }).isRequired,
 };
 
