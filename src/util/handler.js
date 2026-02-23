@@ -1,6 +1,5 @@
 import { get } from 'lodash';
 import moment from 'moment';
-import { getFormValues } from 'redux-form';
 
 import urls from '../components/DisplayUtils/urls';
 import fetchWithDefaultOptions from './fetchWithDefaultOptions';
@@ -45,20 +44,15 @@ const handleIdmSearchClose = (history) => {
 };
 
 const handleIdmSearchSubmit = async ({
-  event,
-  form,
+  values,
   stripes,
   setUsers,
   setRenderListOfResults,
   setIsUsersResultsEmpty,
   callout,
 }) => {
-  event.preventDefault();
-
-  const formValues = getFormValues(form)(stripes.store.getState()) || {};
-
   try {
-    const result = await fetchUsers(formValues, stripes.okapi);
+    const result = await fetchUsers(values, stripes.okapi);
 
     setUsers(result);
     setRenderListOfResults(true);

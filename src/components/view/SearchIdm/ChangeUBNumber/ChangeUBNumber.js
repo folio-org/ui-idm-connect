@@ -1,10 +1,8 @@
 import PropTypes from 'prop-types';
-import {
-  useEffect,
-  useState,
-} from 'react';
+import { useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { withRouter } from 'react-router-dom';
+import { useFormState } from 'react-final-form';
 
 import {
   Button,
@@ -15,7 +13,7 @@ import {
   PaneHeader,
   Paneset,
 } from '@folio/stripes/components';
-import stripesForm from '@folio/stripes/form';
+import stripesFinalForm from '@folio/stripes/final-form';
 
 import urls from '../../../DisplayUtils/urls';
 import {
@@ -35,20 +33,19 @@ const ChangeUBNumber = ({
   history,
   invalid,
   isUsersResultsEmpty,
-  onSubmit,
+  handleSubmit,
   pristine,
   renderListOfResults,
-  searchValues,
   submitting,
   users,
 }) => {
-  const [dateOfBirth, setDateOfBirth] = useState('');
+  const formState = useFormState();
 
   const toggleRecord = (toggledRecord) => {
     newContractInitialValues = toggledRecord;
 
     localStorage.setItem('idmConnectNewContractInitialValues', JSON.stringify(newContractInitialValues));
-    localStorage.setItem('idmConnectNewContractSearchValues', JSON.stringify(searchValues));
+    localStorage.setItem('idmConnectNewContractSearchValues', JSON.stringify(formState.values));
   };
 
   useEffect(() => {
@@ -58,11 +55,6 @@ const ChangeUBNumber = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isUsersResultsEmpty]);
-
-  const handleDateChange = (e) => {
-    const newDate = e.target.value;
-    setDateOfBirth(newDate);
-  };
 
   const renderPaneFooter = () => {
     const startButton = (
@@ -147,31 +139,27 @@ const ChangeUBNumber = ({
   };
 
   return (
-    <>
-      <Paneset>
-        <Pane
-          defaultWidth="100%"
-          footer={renderPaneFooter()}
-          id="pane-search-idm-form"
-          renderHeader={renderPaneHeader}
-        >
-          <div className={css.addPaddingBottom}>
-            <form onSubmit={(e) => onSubmit(e)}>
-              <SearchFields
-                dateOfBirth={dateOfBirth}
-                disabled={pristine || submitting || invalid}
-                handleDateChange={handleDateChange}
-              />
-            </form>
-          </div>
-          <>
-            {renderListOfResults &&
-              renderResults()
-            }
-          </>
-        </Pane>
-      </Paneset>
-    </>
+    <Paneset>
+      <Pane
+        defaultWidth="100%"
+        footer={renderPaneFooter()}
+        id="pane-search-idm-form"
+        renderHeader={renderPaneHeader}
+      >
+        <div className={css.addPaddingBottom}>
+          <form onSubmit={handleSubmit}>
+            <SearchFields
+              disabled={pristine || submitting || invalid}
+            />
+          </form>
+        </div>
+        <>
+          {renderListOfResults &&
+            renderResults()
+          }
+        </>
+      </Pane>
+    </Paneset>
   );
 };
 
@@ -185,14 +173,18 @@ ChangeUBNumber.propTypes = {
   }).isRequired,
   invalid: PropTypes.bool,
   isUsersResultsEmpty: PropTypes.bool,
-  onSubmit: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool,
   renderListOfResults: PropTypes.bool,
-  searchValues: PropTypes.object,
   submitting: PropTypes.bool,
   users: PropTypes.arrayOf(PropTypes.object),
 };
 
-export default stripesForm({
-  form: 'ChangeUBNumberForm',
+export default stripesFinalForm({
+  subscription: {
+    values: true,
+    invalid: true,
+    pristine: true,
+    submitting: true,
+  },
 })(withRouter(ChangeUBNumber));

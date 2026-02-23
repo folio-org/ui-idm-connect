@@ -1,14 +1,8 @@
-import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
-import {
-  combineReducers,
-  createStore,
-} from 'redux';
-import { reducer as formReducer } from 'redux-form';
 
 import { screen } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
-import { CalloutContext } from '@folio/stripes/core';
+import { CalloutContext, StripesContext, useStripes } from '@folio/stripes/core';
 
 import user from '../../test/jest/fixtures/user';
 import users from '../../test/jest/fixtures/usersWithFolioUser';
@@ -18,34 +12,27 @@ import SearchIdmRoute from './SearchIdmRoute';
 
 const { Response } = jest.requireActual('node-fetch');
 
-const reducers = {
-  form: formReducer,
-};
-
-const reducer = combineReducers(reducers);
-
-let store;
 let sendCalloutMock;
 const historyPushMock = jest.fn();
 
-const renderSearchIdmRoute = (sendCallout) => renderWithIntl(
+const renderSearchIdmRoute = (STRIPES, sendCallout) => renderWithIntl(
   <CalloutContext.Provider value={{ sendCallout }}>
-    <Provider store={store}>
+    <StripesContext.Provider value={STRIPES}>
       <MemoryRouter>
         <SearchIdmRoute
           history={{ push: historyPushMock }}
           location={{ search: '', state: '' }}
         />
       </MemoryRouter>
-    </Provider>
+    </StripesContext.Provider>
   </CalloutContext.Provider>
 );
 
 describe('When SearchIdmRoute is rendered', () => {
   beforeEach(() => {
     sendCalloutMock = jest.fn();
-    store = createStore(reducer);
-    renderSearchIdmRoute(sendCalloutMock);
+    const stripes = useStripes();
+    renderSearchIdmRoute(stripes, sendCalloutMock);
   });
 
   it('should display textboxes and buttons', () => {

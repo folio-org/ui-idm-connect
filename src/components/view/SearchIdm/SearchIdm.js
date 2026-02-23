@@ -5,6 +5,7 @@ import {
   useState,
 } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { useFormState } from 'react-final-form';
 
 import {
   Button,
@@ -15,7 +16,7 @@ import {
   PaneHeader,
   Paneset,
 } from '@folio/stripes/components';
-import stripesForm from '@folio/stripes/form';
+import stripesFinalForm from '@folio/stripes/final-form';
 
 import urls from '../../DisplayUtils/urls';
 import {
@@ -34,23 +35,23 @@ const SearchIdm = ({
   invalid,
   isCreateNewUser,
   isUsersResultsEmpty,
-  onSubmit,
+  handleSubmit,
   pristine,
   renderListOfResults,
-  searchValues,
   submitting,
   users,
 }) => {
-  const [dateOfBirth, setDateOfBirth] = useState('');
   const [checkedUnilogin, setCheckedUnilogin] = useState('');
   const [noMatchButtonSelected, setNoMatchButtonSelected] = useState(false);
+
+  const formState = useFormState();
 
   const toggleRecord = (toggledRecord, noMatch) => {
     const unilogin = get(toggledRecord, 'unilogin', '');
     newContractInitialValues = toggledRecord;
 
     localStorage.setItem('idmConnectNewContractInitialValues', JSON.stringify(newContractInitialValues));
-    localStorage.setItem('idmConnectNewContractSearchValues', JSON.stringify(searchValues));
+    localStorage.setItem('idmConnectNewContractSearchValues', JSON.stringify(formState.values));
 
     setNoMatchButtonSelected(noMatch);
     setCheckedUnilogin(unilogin);
@@ -93,11 +94,6 @@ const SearchIdm = ({
         </Button>
       </div>
     );
-  };
-
-  const handleDateChange = (e) => {
-    const newDate = e.target.value;
-    setDateOfBirth(newDate);
   };
 
   const renderPaneFooter = () => {
@@ -201,29 +197,25 @@ const SearchIdm = ({
   };
 
   return (
-    <>
-      <form onSubmit={(e) => onSubmit(e)}>
-        <Paneset>
-          <Pane
-            defaultWidth="100%"
-            footer={renderPaneFooter()}
-            id="pane-search-idm-form"
-            renderHeader={renderPaneHeader}
-          >
-            <SearchFields
-              dateOfBirth={dateOfBirth}
-              disabled={pristine || submitting || invalid}
-              handleDateChange={handleDateChange}
-            />
-            <>
-              {renderListOfResults &&
-                renderResults()
-              }
-            </>
-          </Pane>
-        </Paneset>
-      </form>
-    </>
+    <form onSubmit={handleSubmit}>
+      <Paneset>
+        <Pane
+          defaultWidth="100%"
+          footer={renderPaneFooter()}
+          id="pane-search-idm-form"
+          renderHeader={renderPaneHeader}
+        >
+          <SearchFields
+            disabled={pristine || submitting || invalid}
+          />
+          <>
+            {renderListOfResults &&
+              renderResults()
+            }
+          </>
+        </Pane>
+      </Paneset>
+    </form>
   );
 };
 
@@ -234,14 +226,18 @@ SearchIdm.propTypes = {
   invalid: PropTypes.bool,
   isCreateNewUser: PropTypes.bool,
   isUsersResultsEmpty: PropTypes.bool,
-  onSubmit: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func,
   pristine: PropTypes.bool,
   renderListOfResults: PropTypes.bool,
-  searchValues: PropTypes.object,
   submitting: PropTypes.bool,
   users: PropTypes.arrayOf(PropTypes.object),
 };
 
-export default stripesForm({
-  form: 'SearchIdmForm',
+export default stripesFinalForm({
+  subscription: {
+    values: true,
+    invalid: true,
+    pristine: true,
+    submitting: true,
+  },
 })(SearchIdm);

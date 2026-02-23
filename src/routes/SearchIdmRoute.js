@@ -3,7 +3,6 @@ import {
   useContext,
   useState,
 } from 'react';
-import { getFormValues } from 'redux-form';
 
 import {
   CalloutContext,
@@ -28,24 +27,25 @@ const SearchIdmRoute = ({
   const callout = useContext(CalloutContext);
 
   const isCreateNewUser = location.state === 'new';
-  const formValues = getFormValues('SearchIdmForm')(stripes.store.getState()) || {};
+
+  const handleSubmit = async (values) => {
+    await handleIdmSearchSubmit({
+      values,
+      stripes,
+      setUsers,
+      setRenderListOfResults,
+      setIsUsersResultsEmpty,
+      callout,
+    });
+  };
 
   return (
     <SearchIdm
       handlers={{ onClose: () => handleIdmSearchClose(history) }}
       isCreateNewUser={isCreateNewUser}
       isUsersResultsEmpty={isUsersResultsEmpty}
-      onSubmit={(e) => handleIdmSearchSubmit({
-        event: e,
-        form: 'SearchIdmForm',
-        stripes,
-        setUsers,
-        setRenderListOfResults,
-        setIsUsersResultsEmpty,
-        callout,
-      })}
+      onSubmit={handleSubmit}
       renderListOfResults={renderListOfResults}
-      searchValues={formValues}
       users={users}
     />
   );
@@ -63,9 +63,6 @@ SearchIdmRoute.propTypes = {
       tenant: PropTypes.string.isRequired,
       token: PropTypes.string.isRequired,
       url: PropTypes.string,
-    }),
-    store: PropTypes.shape({
-      getState: PropTypes.func.isRequired,
     }),
   }).isRequired,
 };

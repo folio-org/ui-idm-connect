@@ -1,34 +1,22 @@
-import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
-import {
-  combineReducers,
-  createStore,
-} from 'redux';
-import { reducer as formReducer } from 'redux-form';
 
 import { screen } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
+import { StripesContext, useStripes } from '@folio/stripes/core';
 
 import userFixtures from '../../../../../test/jest/fixtures/user';
 import usersFixtures from '../../../../../test/jest/fixtures/users';
 import renderWithIntl from '../../../../../test/jest/helpers/renderWithIntl';
 import ChangeUBNumber from './ChangeUBNumber';
 
-const reducers = {
-  form: formReducer,
-};
-
-const reducer = combineReducers(reducers);
-
-const store = createStore(reducer);
-
 let renderWithIntlResult = {};
+let stripes;
 
 const onClose = jest.fn();
-const onSubmit = jest.fn(e => e.preventDefault());
+const onSubmit = jest.fn();
 
-const renderUsers = (USERS, newUser, resultsEmpty, rerender) => renderWithIntl(
-  <Provider store={store}>
+const renderUsers = (STRIPES, USERS, newUser, resultsEmpty, rerender) => renderWithIntl(
+  <StripesContext.Provider value={STRIPES}>
     <MemoryRouter>
       <ChangeUBNumber
         handlers={{ onClose }}
@@ -39,13 +27,15 @@ const renderUsers = (USERS, newUser, resultsEmpty, rerender) => renderWithIntl(
         users={USERS}
       />
     </MemoryRouter>
-  </Provider>,
+  </StripesContext.Provider>,
   rerender
 );
 
 describe('Change ub number - without results', () => {
   beforeEach(() => {
-    renderUsers([], false, true);
+    jest.clearAllMocks();
+    stripes = useStripes();
+    renderUsers(stripes, [], false, true);
   });
 
   it('should show pane title', () => {
@@ -67,7 +57,9 @@ describe('Change ub number - without results', () => {
 
 describe('Change ub number - with results', () => {
   beforeEach(() => {
-    renderUsers(usersFixtures, false, false);
+    jest.clearAllMocks();
+    stripes = useStripes();
+    renderUsers(stripes, usersFixtures, false, false);
   });
 
   it('should show results', () => {
@@ -95,7 +87,9 @@ describe('Change ub number - with results', () => {
 
 describe('Change ub number - trigger search', () => {
   beforeEach(() => {
-    renderWithIntlResult = renderUsers(usersFixtures, true, false);
+    jest.clearAllMocks();
+    stripes = useStripes();
+    renderWithIntlResult = renderUsers(stripes, usersFixtures, true, false);
   });
 
   test('enter lastname, firstname and date of birth and click search button', async () => {
@@ -112,7 +106,7 @@ describe('Change ub number - trigger search', () => {
     await userEvent.type(dateOfBirthInput, '06/12/1874');
     await userEvent.click(searchButton);
 
-    renderUsers(userFixtures, true, false, renderWithIntlResult.rerender);
+    renderUsers(stripes, userFixtures, true, false, renderWithIntlResult.rerender);
 
     expect(onSubmit).toHaveBeenCalled();
     expect(searchButton).toBeEnabled();
@@ -127,7 +121,9 @@ describe('Change ub number - trigger search', () => {
 
 describe('Change ub number - select user, enter new search and create empty contract', () => {
   beforeEach(() => {
-    renderWithIntlResult = renderUsers(usersFixtures, true, false);
+    jest.clearAllMocks();
+    stripes = useStripes();
+    renderWithIntlResult = renderUsers(stripes, usersFixtures, true, false);
   });
 
   test('enter lastname, firstname and date of birth and click search button', async () => {
@@ -142,7 +138,7 @@ describe('Change ub number - select user, enter new search and create empty cont
     await userEvent.type(dateOfBirthInput, '1874-06-12');
     await userEvent.click(searchButton);
 
-    renderUsers(userFixtures, true, false, renderWithIntlResult.rerender);
+    renderUsers(stripes, userFixtures, true, false, renderWithIntlResult.rerender);
 
     expect(onSubmit).toHaveBeenCalled();
     // expect(searchButton).toHaveProperty('disabled', true);
