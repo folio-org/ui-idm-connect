@@ -146,4 +146,10 @@ jest.mock('@folio/stripes/components', () => ({
       {children}
     </div>
   )),
+  TextArea: jest.fn(({ children, onClearField, ...rest }) => (
+    <div>
+      <textarea {...rest} />
+      {children}
+    </div>
+  )),
 }));

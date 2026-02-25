@@ -14,6 +14,15 @@ import ContractsForm from './ContractsForm';
 const onClose = jest.fn();
 const onSubmit = jest.fn();
 
+jest.mock('@folio/stripes-components/lib/TextArea/TextArea', () => {
+  return ({ _onClearField, label, id, ...props }) => (
+    <div>
+      {label && <label htmlFor={id}>{label}</label>}
+      <textarea id={id} {...props} />
+    </div>
+  );
+});
+
 const renderContractsForm = (stripes, initVal) => renderWithIntl(
   <StripesContext.Provider value={stripes}>
     <MemoryRouter>

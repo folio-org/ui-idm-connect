@@ -4,6 +4,7 @@
 * Allow changing card number on inactive users ([UIIDM-64](https://folio-org.atlassian.net/browse/UIIDM-64))
 * Include mod-settings global permissions ([UIIDM-65](https://folio-org.atlassian.net/browse/UIIDM-65))
 * Migrate redux-form to react-final-form ([UIIDM-67](https://folio-org.atlassian.net/browse/UIIDM-67))
+* Fix console errors ([UIIDM-69](https://folio-org.atlassian.net/browse/UIIDM-69))
 
 ## [2.0.0](https://github.com/folio-org/ui-idm-connect/releases/tag/v2.0.0)
 * Migrate react-intl to v7 ([UIIDM-59](https://folio-org.atlassian.net/browse/UIIDM-59))
