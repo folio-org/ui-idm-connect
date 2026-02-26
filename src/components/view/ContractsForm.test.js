@@ -14,8 +14,9 @@ import ContractsForm from './ContractsForm';
 const onClose = jest.fn();
 const onSubmit = jest.fn();
 
+// mock can be removed after https://folio-org.atlassian.net/browse/STCOM-1486 is resolved
 jest.mock('@folio/stripes-components/lib/TextArea/TextArea', () => {
-  return ({ _onClearField, label, id, ...props }) => (
+  return ({ label, id, ...props }) => (
     <div>
       {label && <label htmlFor={id}>{label}</label>}
       <textarea id={id} {...props} />
