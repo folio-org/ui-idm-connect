@@ -53,11 +53,18 @@ const basicResultsFormatter = {
 
     if (users.folioUsers) {
       if (users.folioUsers.totalRecords === 1) {
-        const folioUserName = `${users.folioUsers.users[0].personal.lastName}, ${users.folioUsers.users[0].personal.firstName}`;
+        const folioUserName =
+        `${users.folioUsers.users[0].personal.lastName}, ${users.folioUsers.users[0].personal.firstName}`;
         const folioUserId = users.folioUsers.users[0].id;
         folioUser = <Link target="_blank" to={{ pathname: `${urls.userView(folioUserId)}` }}>{folioUserName}</Link>;
       } else if (users.folioUsers.totalRecords > 1) {
-        folioUser = <><FormattedMessage id="ui-idm-connect.warning" />:&nbsp;<Link target="_blank" to={{ pathname: `${urls.userSearch(users.unilogin)}` }}><FormattedMessage id="ui-idm-connect.searchIdm.multipleFolioUser" /></Link></>;
+        folioUser =
+          <>
+            <FormattedMessage id="ui-idm-connect.warning" />:&nbsp;
+            <Link target="_blank" to={{ pathname: `${urls.userSearch(users.unilogin)}` }}>
+              <FormattedMessage id="ui-idm-connect.searchIdm.multipleFolioUser" />
+            </Link>
+          </>;
       } else {
         folioUser = <FormattedMessage id="ui-idm-connect.searchIdm.noFolioUser" />;
       }
@@ -67,7 +74,17 @@ const basicResultsFormatter = {
   },
 };
 
-const basisColumns = ['readerNumber', 'unilogin', 'surname', 'givenname', 'dateOfBirth', 'accountState', 'ULAffiliation', 'cardReaderNumber', 'UBReaderNumber'];
+const basisColumns = [
+  'readerNumber',
+  'unilogin',
+  'surname',
+  'givenname',
+  'dateOfBirth',
+  'accountState',
+  'ULAffiliation',
+  'cardReaderNumber',
+  'UBReaderNumber',
+];
 
 export {
   basisColumns,

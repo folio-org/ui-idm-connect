@@ -2,7 +2,11 @@ import { MemoryRouter } from 'react-router-dom';
 
 import { screen } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
-import { CalloutContext, StripesContext, useStripes } from '@folio/stripes/core';
+import {
+  CalloutContext,
+  StripesContext,
+  useStripes,
+} from '@folio/stripes/core';
 
 import user from '../../test/jest/fixtures/user';
 import users from '../../test/jest/fixtures/usersWithFolioUser';
@@ -57,7 +61,9 @@ describe('When SearchIdmRoute is rendered', () => {
     beforeEach(async () => {
       originalFetch = global.fetch;
       resp200WithUser = Promise.resolve(new Response(JSON.stringify(user), { status: 200, statusText: 'Ok' }));
-      resp200WithFolioUser = Promise.resolve(new Response(JSON.stringify(users[0].folioUsers), { status: 200, statusText: 'Ok' }));
+      resp200WithFolioUser = Promise.resolve(
+        new Response(JSON.stringify(users[0].folioUsers), { status: 200, statusText: 'Ok' })
+      );
       resp500 = Promise.resolve(new Response(null, { status: 500, statusText: 'Internal Server Error' }));
       await userEvent.type(screen.getByRole('textbox', { name: 'Last name' }), 'e');
       await userEvent.type(screen.getByRole('textbox', { name: 'First name' }), 'e');
@@ -73,7 +79,9 @@ describe('When SearchIdmRoute is rendered', () => {
     });
 
     it('clicking search should render result if fetches are OK', async () => {
-      global.fetch = jest.fn((url) => (url.includes('/idm-connect/searchidm') ? resp200WithUser : resp200WithFolioUser));
+      global.fetch = jest.fn(
+        (url) => (url.includes('/idm-connect/searchidm') ? resp200WithUser : resp200WithFolioUser)
+      );
 
       await userEvent.click(screen.getByRole('button', { name: 'Search' }));
       expect(await screen.findByText('Hausman, Linhart')).toBeInTheDocument();

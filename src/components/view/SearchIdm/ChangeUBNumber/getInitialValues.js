@@ -13,7 +13,9 @@ const getInitialValues = () => {
       },
       status: initialValues.accountState,
       ULAffiliation: initialValues.ULAffiliation,
-      UBRole: initialValues.UBRole ? <FormattedMessage id="ui-idm-connect.yes" /> : <FormattedMessage id="ui-idm-connect.no" />,
+      UBRole: initialValues.UBRole
+        ? <FormattedMessage id="ui-idm-connect.yes" />
+        : <FormattedMessage id="ui-idm-connect.no" />,
       uniLogin: initialValues.unilogin,
       UBReaderNumber: initialValues.UBReaderNumber,
       cardReaderNumber: initialValues.cardReaderNumber,

@@ -4,8 +4,8 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { FormattedMessage } from 'react-intl';
 import { useFormState } from 'react-final-form';
+import { FormattedMessage } from 'react-intl';
 
 import {
   Button,
@@ -126,7 +126,9 @@ const SearchIdm = ({
   const resultsFormatter = {
     ...basicResultsFormatter,
     isChecked: user => {
-      const buttonLabel = isButtonSelected(user) ? <FormattedMessage id="ui-idm-connect.searchIdm.selected" /> : <FormattedMessage id="ui-idm-connect.searchIdm.choose" />;
+      const buttonLabel = isButtonSelected(user)
+        ? <FormattedMessage id="ui-idm-connect.searchIdm.selected" />
+        : <FormattedMessage id="ui-idm-connect.searchIdm.choose" />;
       const buttonStyle = isButtonSelected(user) ? 'primary' : 'default';
 
       return (
@@ -166,7 +168,10 @@ const SearchIdm = ({
               formatter={resultsFormatter}
               id="search-idm-list-users"
               interactive={false}
-              visibleColumns={isCreateNewUser ? [...basisColumns, 'isChecked'] : [...basisColumns, 'UBRole', 'FOLIOUser']}
+              visibleColumns={isCreateNewUser
+                ? [...basisColumns, 'isChecked']
+                : [...basisColumns, 'UBRole', 'FOLIOUser']
+              }
             />
           </Card>
           {isCreateNewUser ? renderNoMatchButton() : '' }
@@ -191,7 +196,10 @@ const SearchIdm = ({
       <PaneHeader
         dismissible
         onClose={onClose}
-        paneTitle={isCreateNewUser ? <FormattedMessage id="ui-idm-connect.searchIdm.title.new.search" /> : <FormattedMessage id="ui-idm-connect.searchIdm.title" />}
+        paneTitle={isCreateNewUser
+          ? <FormattedMessage id="ui-idm-connect.searchIdm.title.new.search" />
+          : <FormattedMessage id="ui-idm-connect.searchIdm.title" />
+        }
       />
     );
   };
@@ -223,10 +231,10 @@ SearchIdm.propTypes = {
   handlers: PropTypes.shape({
     onClose: PropTypes.func.isRequired,
   }),
+  handleSubmit: PropTypes.func,
   invalid: PropTypes.bool,
   isCreateNewUser: PropTypes.bool,
   isUsersResultsEmpty: PropTypes.bool,
-  handleSubmit: PropTypes.func,
   pristine: PropTypes.bool,
   renderListOfResults: PropTypes.bool,
   submitting: PropTypes.bool,

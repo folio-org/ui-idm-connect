@@ -66,7 +66,7 @@ describe('Change ub number view - detail active user', () => {
     const saveAndCloseButton = screen.getByRole('button', { name: 'Save & close' });
 
     expect(inputChangeUbNumber).toBeEnabled();
-    expect(saveAndCloseButton).toHaveAttribute('disabled');
+    expect(saveAndCloseButton).toBeDisabled();
     expect(screen.getByText('Please make a change to the library card number.')).toBeInTheDocument();
 
     await userEvent.type(inputChangeUbNumber, '0015U0016954');
