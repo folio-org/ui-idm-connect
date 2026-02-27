@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
+import { useFormState } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
 import { withRouter } from 'react-router-dom';
-import { useFormState } from 'react-final-form';
 
 import {
   Button,
@@ -168,12 +168,12 @@ ChangeUBNumber.propTypes = {
   handlers: PropTypes.shape({
     onClose: PropTypes.func.isRequired,
   }),
+  handleSubmit: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
   invalid: PropTypes.bool,
   isUsersResultsEmpty: PropTypes.bool,
-  handleSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool,
   renderListOfResults: PropTypes.bool,
   submitting: PropTypes.bool,

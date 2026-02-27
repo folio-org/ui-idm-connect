@@ -2,7 +2,10 @@ import { MemoryRouter } from 'react-router-dom';
 
 import { screen } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
-import { StripesContext, useStripes } from '@folio/stripes/core';
+import {
+  StripesContext,
+  useStripes,
+} from '@folio/stripes/core';
 
 import userFixtures from '../../../../../test/jest/fixtures/user';
 import usersFixtures from '../../../../../test/jest/fixtures/users';

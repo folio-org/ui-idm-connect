@@ -98,7 +98,9 @@ const ContractsForm = ({
   };
 
   const renderPaneHeader = () => {
-    const paneTitleEdit = initialValues.uniLogin ? `${initialValues.personal.lastName}, ${initialValues.personal.firstName}` : <FormattedMessage id="ui-idm-connect.edit" />;
+    const paneTitleEdit = initialValues.uniLogin
+      ? `${initialValues.personal.lastName}, ${initialValues.personal.firstName}`
+      : <FormattedMessage id="ui-idm-connect.edit" />;
     const paneTitleCreate = <FormattedMessage id="ui-idm-connect.searchIdm.title.new.create" />;
     const firstMenu = getFirstMenu();
 

@@ -16,7 +16,12 @@ const fetchFolioUsers = (id, okapi) => {
 };
 
 const fetchIdmUsers = (formValues, okapi) => {
-  return fetchWithDefaultOptions(okapi, `/idm-connect/searchidm?firstName=${formValues.firstname}&lastName=${formValues.lastname}&dateOfBirth=${moment(formValues.dateOfBirth).format('YYYY-MM-DD')}`)
+  return fetchWithDefaultOptions(
+    okapi,
+    `/idm-connect/searchidm?firstName=${formValues.firstname}` +
+    `&lastName=${formValues.lastname}` +
+    `&dateOfBirth=${moment(formValues.dateOfBirth).format('YYYY-MM-DD')}`
+  )
     .then((response) => {
       if (response.ok) {
         return response.json();

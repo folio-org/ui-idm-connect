@@ -11,7 +11,10 @@ const filterConfig = [
       { name: <FormattedMessage id="ui-idm-connect.dataOption.pending" />, cql: 'pending' },
       { name: <FormattedMessage id="ui-idm-connect.dataOption.pending_edit" />, cql: 'pending_edit' },
       { name: <FormattedMessage id="ui-idm-connect.dataOption.transmission_error" />, cql: 'transmission_error' },
-      { name: <FormattedMessage id="ui-idm-connect.dataOption.transmission_error_edit" />, cql: 'transmission_error_edit' },
+      {
+        name: <FormattedMessage id="ui-idm-connect.dataOption.transmission_error_edit" />,
+        cql: 'transmission_error_edit',
+      },
     ],
   },
 ];
