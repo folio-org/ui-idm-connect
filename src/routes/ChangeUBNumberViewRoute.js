@@ -55,7 +55,10 @@ const ChangeUBNumberViewRoute = ({
         .catch((err) => {
           callout.sendCallout({
             type: 'error',
-            message: <FormattedMessage id="ui-idm-connect.ubreadernumber.update.error" values={{ error: err.statusText }} />,
+            message: <FormattedMessage
+              id="ui-idm-connect.ubreadernumber.update.error"
+              values={{ error: err.statusText }}
+            />,
           });
         });
     }

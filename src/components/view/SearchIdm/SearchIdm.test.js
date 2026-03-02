@@ -2,7 +2,10 @@ import { MemoryRouter } from 'react-router-dom';
 
 import { screen } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
-import { StripesContext, useStripes } from '@folio/stripes/core';
+import {
+  StripesContext,
+  useStripes,
+} from '@folio/stripes/core';
 
 import userFixtures from '../../../../test/jest/fixtures/user';
 import usersFixtures from '../../../../test/jest/fixtures/users';
@@ -208,6 +211,7 @@ describe('Search IDM - Create new user', () => {
     const searchButton = screen.getByRole('button', { name: 'Search' });
     const continueButton = screen.getByRole('button', { name: 'Continue' });
     expect(continueButton).toBeVisible();
+    // eslint-disable-next-line jest-dom/prefer-enabled-disabled
     expect(continueButton).toHaveAttribute('disabled'); // not a form element
 
     await userEvent.type(lastnameInput, 'Hausmann');
@@ -229,6 +233,7 @@ describe('Search IDM - Create new user', () => {
     expect(chooseButton).toBeEnabled();
 
     await userEvent.click(noMatchButton);
+    // eslint-disable-next-line jest-dom/prefer-enabled-disabled
     expect(continueButton).not.toHaveAttribute('disabled');  // not a form element
   });
 });

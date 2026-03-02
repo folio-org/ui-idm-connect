@@ -17,8 +17,20 @@ const onSearchComplete = jest.fn();
 const history = {};
 
 let renderWithIntlResult = {};
-const sourcePending = { source: { pending: jest.fn(() => true), totalCount: jest.fn(() => 0), loaded: jest.fn(() => false) } };
-const sourceLoaded = { source: { pending: jest.fn(() => false), totalCount: jest.fn(() => 1), loaded: jest.fn(() => true) } };
+const sourcePending = {
+  source: {
+    pending: jest.fn(() => true),
+    totalCount: jest.fn(() => 0),
+    loaded: jest.fn(() => false),
+  },
+};
+const sourceLoaded = {
+  source: {
+    pending: jest.fn(() => false),
+    totalCount: jest.fn(() => 1),
+    loaded: jest.fn(() => true),
+  },
+};
 
 // rerender result list for generate correct state and prevState of recordsArePending
 // trigger a new list of results: source isPending has to be TRUE first, than FALSE
@@ -198,7 +210,11 @@ describe('Contracts SASQ View - permissions', () => {
   });
 
   test('changeubreadernumber permission', () => {
-    renderContracts({ ...stripes, hasPerm: (p) => (p === 'ui-idm-connect.changeubreadernumber') }, sourceLoaded, contracts);
+    renderContracts(
+      { ...stripes, hasPerm: (p) => (p === 'ui-idm-connect.changeubreadernumber') },
+      sourceLoaded,
+      contracts
+    );
     expect(getActionMenu()).toBeVisible();
     expect(getMenuNew()).not.toBeInTheDocument();
     expect(getMenuSearch()).not.toBeInTheDocument();
