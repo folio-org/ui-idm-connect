@@ -1,6 +1,9 @@
 # Change history for ui-idm-connect
 
-## 2.1.0 (IN PROGRESS)
+## IN PROGRESS
+
+
+## [2.1.0](https://github.com/folio-org/ui-idm-connect/releases/tag/v2.1.0)
 * Allow changing card number on inactive users ([UIIDM-64](https://folio-org.atlassian.net/browse/UIIDM-64))
 * Include mod-settings global permissions ([UIIDM-65](https://folio-org.atlassian.net/browse/UIIDM-65))
 * Migrate redux-form to react-final-form ([UIIDM-67](https://folio-org.atlassian.net/browse/UIIDM-67))
