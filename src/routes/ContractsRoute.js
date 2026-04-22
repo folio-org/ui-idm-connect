@@ -6,13 +6,13 @@ import {
   useState,
 } from 'react';
 
+import { NoPermissionMessage } from '@folio/stripes-leipzig-components';
 import { stripesConnect } from '@folio/stripes/core';
 import {
   makeQueryFunction,
   StripesConnectedSource,
 } from '@folio/stripes/smart-components';
 
-import NoPermissionsMessage from '../components/DisplayUtils/NoPermissionsMessage';
 import urls from '../components/DisplayUtils/urls';
 import usePrevious from '../components/hooks/usePrevious';
 import Contracts from '../components/view/Contracts';
@@ -80,7 +80,7 @@ const ContractsRoute = ({
   };
 
   if (!hasPerms) {
-    return <NoPermissionsMessage />;
+    return <NoPermissionMessage />;
   }
 
   return (

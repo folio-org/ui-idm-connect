@@ -63,7 +63,6 @@
   "delete": "Delete",
   "delete.confirm.message": "Do you really want to delete {fullName}?",
   "new": "New",
-  "noPermission": "No permission",
   "ubreadernumber.change": "Change card number",
   "ubreadernumber.edit": "Edit library card number",
   "ubreadernumber.text.noChange": "Please make a change to the library card number.",
