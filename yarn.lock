@@ -1621,6 +1621,18 @@
     prop-types "^15.5.10"
     redux-form "^8.3.0"
 
+"@folio/stripes-leipzig-components@^1.0.0":
+  version "1.0.0"
+  resolved "https://repository.folio.org/repository/npm-folio/@folio/stripes-leipzig-components/-/stripes-leipzig-components-1.0.0.tgz#0cac9ed26d77577453e738f7f170e90d5f49ff0b"
+  integrity sha512-UpSC4GU+8AJwAhN7HTziKnlMmuEOo3yJfDuuJPSmv93OpRwutYTMbmBjo9y8GrvCgO5hQOQ8evA/hlY5e20osg==
+  dependencies:
+    final-form-arrays "^3.0.2"
+    lodash "^4.17.4"
+    luxon "^3.7.2"
+    prop-types "^15.6.0"
+    react-final-form "^6.3.5"
+    react-final-form-arrays "^3.1.1"
+
 "@folio/stripes-logger@~1.0.0":
   version "1.0.0"
   resolved "https://repository.folio.org/repository/npm-folio/@folio/stripes-logger/-/stripes-logger-1.0.0.tgz#588cdf4d27f90ce99389ccbb87a221fa6dd9e683"
@@ -8681,6 +8693,11 @@ lru-cache@^5.1.1:
   dependencies:
     yallist "^3.0.2"
 
+luxon@^3.7.2:
+  version "3.7.2"
+  resolved "https://registry.yarnpkg.com/luxon/-/luxon-3.7.2.tgz#d697e48f478553cca187a0f8436aff468e3ba0ba"
+  integrity sha512-vtEhXh/gNjI9Yg1u4jX/0YVPMvxzHuGgCm6tC5kZyb08yjGWGnqAjGJvcXbqQR2P3MyMEFnRbpcdFS6PBcLqew==
+
 lz-string@^1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/lz-string/-/lz-string-1.5.0.tgz#c1ab50f77887b712621201ba9fd4e3a6ed099941"
@@ -10114,7 +10131,7 @@ react-final-form-listeners@^1.0.3:
   dependencies:
     "@babel/runtime" "^7.12.5"
 
-react-final-form@^6.3.0, react-final-form@^6.5.9:
+react-final-form@^6.3.0, react-final-form@^6.3.5, react-final-form@^6.5.9:
   version "6.5.9"
   resolved "https://registry.yarnpkg.com/react-final-form/-/react-final-form-6.5.9.tgz#644797d4c122801b37b58a76c87761547411190b"
   integrity sha512-x3XYvozolECp3nIjly+4QqxdjSSWfcnpGEL5K8OBT6xmGrq5kBqbA6+/tOqoom9NwqIPPbxPNsOViFlbKgowbA==

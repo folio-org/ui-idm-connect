@@ -1,7 +1,7 @@
 # Change history for ui-idm-connect
 
 ## IN PROGRESS
-
+* Use NoPermissionMessage from stripes-leipzig-components ([UIIDM-71](https://folio-org.atlassian.net/browse/UIIDM-71))
 
 ## [2.1.0](https://github.com/folio-org/ui-idm-connect/releases/tag/v2.1.0)
 * Allow changing card number on inactive users ([UIIDM-64](https://folio-org.atlassian.net/browse/UIIDM-64))
