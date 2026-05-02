@@ -55,7 +55,6 @@
     "delete": "刪除",
     "delete.confirm.message": "確定刪除{fullName}嗎？",
     "new": "新增",
-    "noPermission": "沒有權限",
     "yes": "是",
     "no": "否",
     "readerNumber": "啟用卡片",

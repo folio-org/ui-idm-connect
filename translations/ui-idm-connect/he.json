@@ -55,7 +55,6 @@
     "delete": "למחוק",
     "delete.confirm.message": "Do you really want to delete {fullName}?",
     "new": "חדש",
-    "noPermission": "No permission",
     "yes": "yes",
     "no": "no",
     "readerNumber": "Active card",

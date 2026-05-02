@@ -55,7 +55,6 @@
     "delete": "Borrar",
     "delete.confirm.message": "¿De verdad quieres borrar {fullName}?",
     "new": "Nuevo",
-    "noPermission": "Sin permiso",
     "yes": "sí",
     "no": "no",
     "readerNumber": "Tarjeta activa",

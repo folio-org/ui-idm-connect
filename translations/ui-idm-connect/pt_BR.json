@@ -55,7 +55,6 @@
     "delete": "Excluir",
     "delete.confirm.message": "Você realmente deseja excluir {fullName} ?",
     "new": "Novo",
-    "noPermission": "Sem permissão",
     "yes": "sim",
     "no": "não",
     "readerNumber": "Cartão ativo",
