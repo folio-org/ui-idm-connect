@@ -55,7 +55,6 @@
     "delete": "Видалити",
     "delete.confirm.message": "Ви справді хочете видалити {fullName}?",
     "new": "Нове",
-    "noPermission": "Дозвіл відсутній",
     "yes": "так",
     "no": "ні",
     "readerNumber": "Активна картка",

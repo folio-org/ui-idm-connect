@@ -55,7 +55,6 @@
     "delete": "删除",
     "delete.confirm.message": "确定删除{fullName}？",
     "new": "新建",
-    "noPermission": "没有权限",
     "yes": "是",
     "no": "否",
     "readerNumber": "有效卡",

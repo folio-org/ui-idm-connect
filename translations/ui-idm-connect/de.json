@@ -55,7 +55,6 @@
     "delete": "Löschen",
     "delete.confirm.message": "{fullName} wirklich löschen?",
     "new": "Walk-In-Vertrag anlegen",
-    "noPermission": "Keine Berechtigung",
     "yes": "ja",
     "no": "nein",
     "readerNumber": "Aktiver Bibliotheks-ausweis",

@@ -55,7 +55,6 @@
     "delete": "Silme",
     "delete.confirm.message": "Gerçekten silmek istiyor musun {fullName}?",
     "new": "Yeni",
-    "noPermission": "İzin yok",
     "yes": "Evet.",
     "no": "Hayır",
     "readerNumber": "Aktif kart",

@@ -55,7 +55,6 @@
     "delete": "Smazat",
     "delete.confirm.message": "Opravdu chcete smazat {fullName}?",
     "new": "Nový",
-    "noPermission": "Bez povolení",
     "yes": "ano",
     "no": "ne",
     "readerNumber": "Aktivní karta",

@@ -55,7 +55,6 @@
     "delete": "Verwijderen",
     "delete.confirm.message": "Wilt u {fullName} echt verwijderen?",
     "new": "Nieuw",
-    "noPermission": "Geen toestemming",
     "yes": "Ja",
     "no": "Nee",
     "readerNumber": "Actieve pas",

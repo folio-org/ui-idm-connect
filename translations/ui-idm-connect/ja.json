@@ -55,7 +55,6 @@
     "delete": "削除",
     "delete.confirm.message": "Do you really want to delete {fullName}?",
     "new": "新規",
-    "noPermission": "許可なし",
     "yes": "はい",
     "no": "no",
     "readerNumber": "有効カード",
